@@ -7,11 +7,11 @@ import { PropsWithChildren } from 'react';
 import Wrapper from './Wrapper/Wrapper.tsx';
 
 export default function Layout({ children }: PropsWithChildren) {
-  return (
-    <MantineProvider>
-      <HeaderPublic />
-      <Wrapper>{children}</Wrapper>
-      <Footer />
-    </MantineProvider>
-  );
+	return (
+		<MantineProvider>
+			<HeaderPublic />
+			<Wrapper>{children}</Wrapper>
+			<Footer />
+		</MantineProvider>
+	);
 }

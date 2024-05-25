@@ -5,13 +5,13 @@ import '@mantine/core/styles.css';
 import './App.scss';
 
 function App() {
-  return (
-    <MantineProvider>
-      <Layout>
-        <HomePublic />
-      </Layout>
-    </MantineProvider>
-  );
+	return (
+		<MantineProvider>
+			<Layout>
+				<HomePublic />
+			</Layout>
+		</MantineProvider>
+	);
 }
 
 export default App;
