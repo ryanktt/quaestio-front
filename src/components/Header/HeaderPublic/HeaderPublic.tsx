@@ -20,7 +20,7 @@ import {
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useDisclosure } from '@mantine/hooks';
 import { IconNotification, IconCode, IconBook, IconChartPie3, IconFingerprint, IconCoin, IconChevronDown } from '@tabler/icons-react';
-import AuthModal, { IAuthType } from '@components/Auth/AuthModal';
+import AuthModal, { IAuthType } from '@components/AuthModal/AuthModal';
 import { useState } from 'react';
 import classes from './HeaderPublic.module.scss';
 
@@ -152,9 +152,9 @@ export default function HeaderMegaMenu() {
 
 					<Group visibleFrom="sm">
 						<Button onClick={onLogInClick} variant="default">
-							Log in
+							Log In
 						</Button>
-						<Button onClick={onSignUpClick}>Sign up</Button>
+						<Button onClick={onSignUpClick}>Sign Up</Button>
 					</Group>
 
 					<Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
@@ -187,8 +187,8 @@ export default function HeaderMegaMenu() {
 					<Divider my="sm" />
 
 					<Group justify="center" grow pb="xl" px="md">
-						<Button variant="default">Log in</Button>
-						<Button>Sign up</Button>
+						<Button variant="default">Log In</Button>
+						<Button>Sign Up</Button>
 					</Group>
 				</ScrollArea>
 			</Drawer>
