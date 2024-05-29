@@ -1,7 +1,6 @@
 import Auth, { IAuthParams } from '@components/Auth/Auth.tsx';
 import { Modal } from '@mantine/core';
 
-export type IAuthType = 'login' | 'signup';
 interface IAuthModalParams extends IAuthParams {
 	opened: boolean;
 	close: () => void;
@@ -10,7 +9,7 @@ interface IAuthModalParams extends IAuthParams {
 export default function AuthModal({ opened, close, type }: IAuthModalParams) {
 	return (
 		<Modal opened={opened} onClose={close} withCloseButton={false}>
-			<h3>{type === 'signup' ? 'Sign Up' : 'Log In'}</h3>
+			<h2 className="mt-0 text-center">{type === 'signup' ? 'Sign Up' : 'Log In'}</h2>
 			<Auth type={type} />
 		</Modal>
 	);

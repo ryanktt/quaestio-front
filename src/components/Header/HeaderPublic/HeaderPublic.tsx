@@ -19,9 +19,18 @@ import {
 } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useDisclosure } from '@mantine/hooks';
-import { IconNotification, IconCode, IconBook, IconChartPie3, IconFingerprint, IconCoin, IconChevronDown } from '@tabler/icons-react';
-import AuthModal, { IAuthType } from '@components/AuthModal/AuthModal';
+import {
+	IconNotification,
+	IconCode,
+	IconBook,
+	IconChartPie3,
+	IconFingerprint,
+	IconCoin,
+	IconChevronDown,
+} from '@tabler/icons-react';
+import AuthModal from '@components/AuthModal/AuthModal';
 import { useState } from 'react';
+import { IAuthTypes } from '@components/Auth/Auth';
 import classes from './HeaderPublic.module.scss';
 
 const mockdata = [
@@ -61,7 +70,7 @@ export default function HeaderMegaMenu() {
 	const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
 	const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
 	const [authOpened, { open: openAuth, close: closeAuth }] = useDisclosure(false);
-	const [authType, setAuthType] = useState<IAuthType>('signup');
+	const [authType, setAuthType] = useState<IAuthTypes>('signup');
 	const theme = useMantineTheme();
 
 	const onSignUpClick = () => {
@@ -108,7 +117,10 @@ export default function HeaderMegaMenu() {
 										<Box component="span" mr={5}>
 											Features
 										</Box>
-										<IconChevronDown style={{ width: rem(16), height: rem(16) }} color={theme.colors.blue[6]} />
+										<IconChevronDown
+											style={{ width: rem(16), height: rem(16) }}
+											color={theme.colors.blue[6]}
+										/>
 									</Center>
 								</a>
 							</HoverCard.Target>
@@ -151,17 +163,27 @@ export default function HeaderMegaMenu() {
 					</Group>
 
 					<Group visibleFrom="sm">
-						<Button onClick={onLogInClick} variant="default">
+						<Button variant="default" onClick={onLogInClick}>
 							Log In
 						</Button>
-						<Button onClick={onSignUpClick}>Sign Up</Button>
+						<Button variant="gradient" onClick={onSignUpClick}>
+							Sign Up
+						</Button>
 					</Group>
 
 					<Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
 				</Group>
 			</header>
 
-			<Drawer opened={drawerOpened} onClose={closeDrawer} size="100%" padding="md" title="Navigation" hiddenFrom="sm" zIndex={1000000}>
+			<Drawer
+				opened={drawerOpened}
+				onClose={closeDrawer}
+				size="100%"
+				padding="md"
+				title="Navigation"
+				hiddenFrom="sm"
+				zIndex={1000000}
+			>
 				<ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
 					<Divider my="sm" />
 
@@ -188,7 +210,7 @@ export default function HeaderMegaMenu() {
 
 					<Group justify="center" grow pb="xl" px="md">
 						<Button variant="default">Log In</Button>
-						<Button>Sign Up</Button>
+						<Button variant="gradient">Sign Up</Button>
 					</Group>
 				</ScrollArea>
 			</Drawer>

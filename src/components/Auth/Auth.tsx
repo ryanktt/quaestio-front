@@ -1,15 +1,21 @@
 /* eslint-disable no-nested-ternary */
-import { TextInput, Button } from '@mantine/core';
+import { TextInput, Button, Center } from '@mantine/core';
 import { hasLength, isEmail, useForm } from '@mantine/form';
 // import { useState } from 'react';
+import { useState } from 'react';
 import Password from './Password/Password.tsx';
 
-export type IAuthType = 'login' | 'signup';
+export type IAuthTypes = 'login' | 'signup';
 export interface IAuthParams {
-	type: IAuthType;
+	type: IAuthTypes;
 }
 
 export default function Auth({ type }: IAuthParams) {
+	const [password, setPassword] = useState('');
+
+	const handlePasswordChange = (password: string) => {
+		setPassword(password);
+	};
 	const form = useForm({
 		mode: 'uncontrolled',
 		initialValues: {
@@ -26,12 +32,22 @@ export default function Auth({ type }: IAuthParams) {
 
 	return (
 		<form onSubmit={form.onSubmit(() => {})}>
-			<TextInput {...form.getInputProps('name')} required label="Name" placeholder="your name" mt="md" />
-			<TextInput {...form.getInputProps('email')} required label="Email" placeholder="youremail@hotmail.com" mt="md" />
-			<Password />
-			<Button size="sm" mt="lg" type="submit" variant="gradient">
-				{type === 'signup' ? 'Sign Up' : 'Log In'}
-			</Button>
+			{type === 'signup' ? (
+				<TextInput {...form.getInputProps('name')} required label="Name" placeholder="your name" mt="sm" />
+			) : null}
+			<TextInput
+				{...form.getInputProps('email')}
+				required
+				label="Email"
+				placeholder="youremail@hotmail.com"
+				mt="sm"
+			/>
+			<Password onPasswordChange={handlePasswordChange} comfirmPassword={type === 'signup'} />
+			<Center>
+				<Button style={{ width: 1000 }} justify="center" size="sm" mt="xl" type="submit" variant="gradient">
+					{type === 'signup' ? 'Sign Up' : 'Log In'}
+				</Button>
+			</Center>
 		</form>
 	);
 }
