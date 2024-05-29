@@ -30,6 +30,7 @@ module.exports = {
 				'import/no-unresolved': 'off',
 				'jsx-a11y/anchor-is-valid': 'off',
 				'no-shadow': 'off',
+				'react/require-default-props': 'off',
 			},
 		},
 	],
