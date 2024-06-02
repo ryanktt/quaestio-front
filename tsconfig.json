@@ -28,10 +28,11 @@
 			"@utils/*": ["src/utils/*"],
 			"@scss/*": ["src/scss/*"],
 			"@hoc/*": ["src/hoc/*"],
+			"@gql/*": ["src/utils/gql/*"],
 		},
 		"baseUrl": ".",
 	},
-	"include": ["src", ".eslinrc.cjs"],
+	"include": ["src", "codegen.ts", "vite.config.ts"],
 	"exclude": ["node_modules", "dist"],
 	"references": [{ "path": "./tsconfig.node.json" }],
 }

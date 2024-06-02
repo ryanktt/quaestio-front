@@ -1,8 +1,9 @@
 /* eslint-disable no-nested-ternary */
 import { TextInput, Button, Center } from '@mantine/core';
 import { hasLength, isEmail, useForm } from '@mantine/form';
-// import { useState } from 'react';
 import { useState } from 'react';
+import { useSignUpMutation } from '@utils/generated/graphql.ts';
+import { getGraphqlErrorCode } from '@utils/graphql.ts';
 import Password from './Password/Password.tsx';
 
 export type IAuthTypes = 'login' | 'signup';
@@ -11,6 +12,8 @@ export interface IAuthParams {
 }
 
 export default function Auth({ type }: IAuthParams) {
+	const [signUp, { error: signUpError }] = useSignUpMutation();
+
 	const [password, setPassword] = useState('');
 
 	const handlePasswordChange = (password: string) => {
@@ -28,10 +31,17 @@ export default function Auth({ type }: IAuthParams) {
 		},
 	});
 
-	// const { email, name } = form.getValues();
+	const { email, name } = form.getValues();
 
 	return (
-		<form onSubmit={form.onSubmit(() => {})}>
+		<form
+			onSubmit={form.onSubmit(async () => {
+				const result = await signUp({ variables: { name, email, password } }).catch(() => {
+					console.log(getGraphqlErrorCode(signUpError));
+				});
+				console.log(result);
+			})}
+		>
 			{type === 'signup' ? (
 				<TextInput {...form.getInputProps('name')} required label="Name" placeholder="your name" mt="sm" />
 			) : null}
