@@ -8,7 +8,7 @@ interface IAuthModalParams extends IAuthParams {
 
 export default function AuthModal({ opened, close, type }: IAuthModalParams) {
 	return (
-		<Modal opened={opened} onClose={close} withCloseButton={false}>
+		<Modal centered zIndex={500} opened={opened} onClose={close} withCloseButton={false}>
 			<h2 className="mt-0 text-center">{type === 'signup' ? 'Sign Up' : 'Log In'}</h2>
 			<Auth type={type} />
 		</Modal>
