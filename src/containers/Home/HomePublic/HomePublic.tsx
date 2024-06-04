@@ -1,4 +1,5 @@
 import '@mantine/core/styles.css';
+import AuthModal from '@components/AuthModal/AuthModal';
 import style from './HomePublic.module.scss';
 
 export default function HomePublic() {
@@ -9,6 +10,7 @@ export default function HomePublic() {
 				Create and manage questionnaires easily - Queztro provides many form features that will cover you in any
 				situation.
 			</p>
+			<AuthModal />
 		</div>
 	);
 }

@@ -1,7 +1,6 @@
 import { Group, Button, Box, Burger, Drawer, ScrollArea, rem } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useDisclosure } from '@mantine/hooks';
-import AuthModal from '@components/AuthModal/AuthModal';
 import { useContext } from 'react';
 import AuthModalContext from '../../../contexts/AuthModal.context.ts';
 import classes from './HeaderPublic.module.scss';
@@ -58,7 +57,6 @@ export default function HeaderPublic() {
 					</Group>
 				</ScrollArea>
 			</Drawer>
-			<AuthModal />
 		</Box>
 	);
 }

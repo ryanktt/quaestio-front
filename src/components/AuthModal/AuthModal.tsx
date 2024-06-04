@@ -11,7 +11,14 @@ export default function AuthModal() {
 	} = useContext(AuthModalContext).state;
 
 	return (
-		<Modal centered zIndex={500} opened={opened} onClose={close} withCloseButton={false}>
+		<Modal
+			centered
+			overlayProps={{ backgroundOpacity: 0.3, blur: 2 }}
+			zIndex={500}
+			opened={opened}
+			onClose={close}
+			withCloseButton={false}
+		>
 			<h2 className="mt-0 text-center">{type === 'signup' ? 'Sign Up' : 'Log In'}</h2>
 			<Auth type={type} />
 		</Modal>
