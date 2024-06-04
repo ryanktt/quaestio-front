@@ -8,7 +8,7 @@ export default defineConfig({
 		alias: {
 			'@components': path.resolve(__dirname, './src/components/'),
 			'@constainers': path.resolve(__dirname, './src/constainers/'),
-			'@contexts': path.resolve(__dirname, './src/utils/context/'),
+			'@contexts': path.resolve(__dirname, './src/contexts/'),
 			'@gql': path.resolve(__dirname, './src/utils/gql/'),
 			'@utils': path.resolve(__dirname, './src/utils/'),
 			'@scss': path.resolve(__dirname, './src/scss/'),
