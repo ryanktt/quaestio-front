@@ -1,14 +1,10 @@
 import Auth from '@components/Auth/Auth.tsx';
+import { AuthModalContext } from '@contexts/AuthModal.context';
 import { Modal } from '@mantine/core';
 import { useContext } from 'react';
-import AuthModalContext from '../../contexts/AuthModal.context.ts';
 
 export default function AuthModal() {
-	const {
-		setAuthModalClosed: close,
-		authModalOpened: opened,
-		authModalType: type,
-	} = useContext(AuthModalContext).state;
+	const { setClosed: close, opened, type } = useContext(AuthModalContext).state;
 
 	return (
 		<Modal

@@ -1,8 +1,8 @@
 import { Group, Button, Box, Burger, Drawer, ScrollArea, rem } from '@mantine/core';
+import { AuthModalContext } from '@contexts/AuthModal.context';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
-import AuthModalContext from '../../../contexts/AuthModal.context.ts';
 import classes from './HeaderPublic.module.scss';
 
 export default function HeaderPublic() {
@@ -10,12 +10,12 @@ export default function HeaderPublic() {
 	const authModalContext = useContext(AuthModalContext);
 
 	const onSignUpClick = () => {
-		authModalContext.state.setAuthModalOpened();
-		authModalContext.dispatch({ authModalType: 'signup' });
+		authModalContext.state.setOpened();
+		authModalContext.dispatch({ type: 'signup' });
 	};
 	const onLogInClick = () => {
-		authModalContext.state.setAuthModalOpened();
-		authModalContext.dispatch({ authModalType: 'login' });
+		authModalContext.state.setOpened();
+		authModalContext.dispatch({ type: 'login' });
 	};
 
 	return (

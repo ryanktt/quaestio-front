@@ -1,0 +1,55 @@
+import React, { PropsWithChildren, createContext, useMemo, useReducer } from 'react';
+import { IAuthTypes } from '@components/Auth/Auth';
+import { useDisclosure } from '@mantine/hooks';
+
+export interface IAuthModalState {
+	setClosed: () => void;
+	setOpened: () => void;
+	opened: boolean;
+	type: IAuthTypes;
+}
+
+export type IAuthModalAction = {
+	type: IAuthTypes;
+};
+
+export interface IAuthModalContextProps {
+	state: IAuthModalState;
+	dispatch: React.Dispatch<IAuthModalAction>;
+}
+
+const initialAuthModalState: IAuthModalState = {
+	opened: false,
+	type: 'login',
+	setClosed: () => {},
+	setOpened: () => {},
+};
+
+export const AuthModalContext = createContext<IAuthModalContextProps>({
+	state: initialAuthModalState,
+	dispatch: () => {},
+});
+export const AuthModalContextConsumer = AuthModalContext.Consumer;
+
+export default function AuthModalContextProvider({ children }: PropsWithChildren) {
+	const authModalReducer = (state: IAuthModalState, action: IAuthModalAction): IAuthModalState => {
+		return { ...state, ...action };
+	};
+
+	const [state, dispatch] = useReducer(authModalReducer, initialAuthModalState);
+	const [opened, { open: setOpened, close: setClosed }] = useDisclosure(false);
+
+	const authModalContextValues = useMemo(() => {
+		return {
+			dispatch,
+			state: {
+				...state,
+				opened,
+				setOpened,
+				setClosed,
+			},
+		};
+	}, [state, opened, setOpened, setClosed]);
+
+	return <AuthModalContext.Provider value={authModalContextValues}>{children}</AuthModalContext.Provider>;
+}

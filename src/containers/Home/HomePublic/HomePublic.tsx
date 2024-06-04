@@ -1,32 +1,12 @@
 import '@mantine/core/styles.css';
+import AuthModalContextProvider from '@contexts/AuthModal.context';
 import AuthModal from '@components/AuthModal/AuthModal';
-import { useDisclosure } from '@mantine/hooks';
-import { useReducer } from 'react';
-import {
-	authModalReducer,
-	initialAuthModalState,
-	IAuthModalContextProps,
-	AuthModalContextProvider,
-} from '@contexts/AuthModal.context.ts';
 import Layout from '@hoc/Layout/Layout';
 import style from './HomePublic.module.scss';
 
 export default function HomePublic() {
-	const [authModalState, authModalDispatch] = useReducer(authModalReducer, initialAuthModalState);
-	const [authModalOpened, { open: setAuthModalOpened, close: setAuthModalClosed }] = useDisclosure(false);
-
-	const authModalContextValues: IAuthModalContextProps = {
-		dispatch: authModalDispatch,
-		state: {
-			...authModalState,
-			authModalOpened,
-			setAuthModalClosed,
-			setAuthModalOpened,
-		},
-	};
-
 	return (
-		<AuthModalContextProvider value={authModalContextValues}>
+		<AuthModalContextProvider>
 			<Layout>
 				<div className={style.HomePublic}>
 					<h1>A fully featured questionnaire platform</h1>
