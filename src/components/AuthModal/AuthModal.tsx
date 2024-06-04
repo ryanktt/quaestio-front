@@ -1,12 +1,15 @@
-import Auth, { IAuthParams } from '@components/Auth/Auth.tsx';
+import Auth from '@components/Auth/Auth.tsx';
 import { Modal } from '@mantine/core';
+import { useContext } from 'react';
+import AuthModalContext from '../../contexts/AuthModal.context.ts';
 
-interface IAuthModalParams extends IAuthParams {
-	opened: boolean;
-	close: () => void;
-}
+export default function AuthModal() {
+	const {
+		setAuthModalClosed: close,
+		authModalOpened: opened,
+		authModalType: type,
+	} = useContext(AuthModalContext).state;
 
-export default function AuthModal({ opened, close, type }: IAuthModalParams) {
 	return (
 		<Modal centered zIndex={500} opened={opened} onClose={close} withCloseButton={false}>
 			<h2 className="mt-0 text-center">{type === 'signup' ? 'Sign Up' : 'Log In'}</h2>

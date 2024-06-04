@@ -2,22 +2,21 @@ import { Group, Button, Box, Burger, Drawer, ScrollArea, rem } from '@mantine/co
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useDisclosure } from '@mantine/hooks';
 import AuthModal from '@components/AuthModal/AuthModal';
-import { useState } from 'react';
-import { IAuthTypes } from '@components/Auth/Auth';
+import { useContext } from 'react';
+import AuthModalContext from '../../../contexts/AuthModal.context.ts';
 import classes from './HeaderPublic.module.scss';
 
 export default function HeaderPublic() {
 	const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-	const [authOpened, { open: openAuth, close: closeAuth }] = useDisclosure(false);
-	const [authType, setAuthType] = useState<IAuthTypes>('signup');
+	const authModalContext = useContext(AuthModalContext);
 
 	const onSignUpClick = () => {
-		setAuthType('signup');
-		openAuth();
+		authModalContext.state.setAuthModalOpened();
+		authModalContext.dispatch({ authModalType: 'signup' });
 	};
 	const onLogInClick = () => {
-		setAuthType('login');
-		openAuth();
+		authModalContext.state.setAuthModalOpened();
+		authModalContext.dispatch({ authModalType: 'login' });
 	};
 
 	return (
@@ -59,7 +58,7 @@ export default function HeaderPublic() {
 					</Group>
 				</ScrollArea>
 			</Drawer>
-			<AuthModal type={authType} close={closeAuth} opened={authOpened} />
+			<AuthModal />
 		</Box>
 	);
 }

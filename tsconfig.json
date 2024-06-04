@@ -25,10 +25,11 @@
 		"paths": {
 			"@components/*": ["src/components/*"],
 			"@constainers/*": ["src/constainers/*"],
+			"@contexts/*": ["src/contexts/*"],
+			"@gql/*": ["src/utils/gql/*"],
 			"@utils/*": ["src/utils/*"],
 			"@scss/*": ["src/scss/*"],
 			"@hoc/*": ["src/hoc/*"],
-			"@gql/*": ["src/utils/gql/*"],
 		},
 		"baseUrl": ".",
 	},
@@ -36,3 +37,4 @@
 	"exclude": ["node_modules", "dist"],
 	"references": [{ "path": "./tsconfig.node.json" }],
 }
+ 
