@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, createContext, useMemo, useReducer } from 'react';
-import { IAuthTypes } from '@components/Auth/Auth';
 import { useDisclosure } from '@mantine/hooks';
+
+export type IAuthTypes = 'LOGIN' | 'SIGNUP';
 
 export interface IAuthModalState {
 	setClosed: () => void;

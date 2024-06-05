@@ -2,28 +2,20 @@
 import { TextInput, Button, Center } from '@mantine/core';
 import { hasLength, isEmail, useForm } from '@mantine/form';
 import { useSignInMutation, useSignUpMutation } from '@utils/generated/graphql.ts';
+import { AuthModalContext } from '@contexts/AuthModal.context.tsx';
 import { getGraphqlErrorCode } from '@utils/graphql.ts';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Password from './Password/Password.tsx';
 
-export type IAuthTypes = 'LOGIN' | 'SIGNUP';
-export interface IAuthParams {
-	type: IAuthTypes;
-}
+export default function Auth() {
+	const { type } = useContext(AuthModalContext).state;
 
-export default function Auth({ type }: IAuthParams) {
 	const [signUp, { error: signUpError }] = useSignUpMutation();
 	const [signIn, { error: signInError }] = useSignInMutation();
 	const [password, setPassword] = useState('');
-	const [email, setEmail] = useState('');
-	const [name, setName] = useState('');
 
 	const form = useForm({
-		mode: 'uncontrolled',
-		onValuesChange: (values) => {
-			setEmail(values.email);
-			setName(values.name);
-		},
+		mode: 'controlled',
 		initialValues: { email: '', name: '' },
 		validate: {
 			name: hasLength({ min: 3, max: 255 }, 'Name must be 3-255 characters long'),
@@ -31,14 +23,14 @@ export default function Auth({ type }: IAuthParams) {
 		},
 	});
 
-	const handlePasswordChange = (password: string) => {
-		setPassword(password);
-	};
-
 	useEffect(() => {
 		form.reset();
 		if (type === 'LOGIN') form.setFieldValue('name', '---');
 	}, [type]);
+
+	const handlePasswordChange = (pass: string) => {
+		setPassword(pass);
+	};
 
 	const handleFormSubmit = async () => {
 		const { email, name } = form.getValues();
@@ -55,21 +47,13 @@ export default function Auth({ type }: IAuthParams) {
 	return (
 		<form onSubmit={form.onSubmit(handleFormSubmit)}>
 			{type === 'SIGNUP' ? (
-				<TextInput
-					{...form.getInputProps('name')}
-					value={name}
-					required
-					label="Name"
-					placeholder="your name"
-					mt="sm"
-				/>
+				<TextInput {...form.getInputProps('name')} required label="Name" placeholder="your name" mt="sm" />
 			) : null}
 			<TextInput
 				{...form.getInputProps('email')}
-				value={email}
-				required
-				label="Email"
 				placeholder="youremail@hotmail.com"
+				label="Email"
+				required
 				mt="sm"
 			/>
 			<Password onPasswordChange={handlePasswordChange} comfirmPassword={type === 'SIGNUP'} />
