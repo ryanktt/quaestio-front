@@ -31,6 +31,7 @@ module.exports = {
 				'jsx-a11y/anchor-is-valid': 'off',
 				'no-shadow': 'off',
 				'react/require-default-props': 'off',
+				'react-hooks/exhaustive-deps': 'off',
 			},
 		},
 	],
