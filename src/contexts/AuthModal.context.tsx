@@ -13,19 +13,17 @@ export type IAuthModalAction = {
 	type: IAuthTypes;
 };
 
-export interface IAuthModalContextProps {
-	state: IAuthModalState;
-	dispatch: React.Dispatch<IAuthModalAction>;
-}
-
 const initialAuthModalState: IAuthModalState = {
 	opened: false,
-	type: 'login',
+	type: 'LOGIN',
 	setClosed: () => {},
 	setOpened: () => {},
 };
 
-export const AuthModalContext = createContext<IAuthModalContextProps>({
+export const AuthModalContext = createContext<{
+	state: IAuthModalState;
+	dispatch: React.Dispatch<IAuthModalAction>;
+}>({
 	state: initialAuthModalState,
 	dispatch: () => {},
 });

@@ -11,11 +11,11 @@ export default function HeaderPublic() {
 
 	const onSignUpClick = () => {
 		authModalContext.state.setOpened();
-		authModalContext.dispatch({ type: 'signup' });
+		authModalContext.dispatch({ type: 'SIGNUP' });
 	};
 	const onLogInClick = () => {
 		authModalContext.state.setOpened();
-		authModalContext.dispatch({ type: 'login' });
+		authModalContext.dispatch({ type: 'LOGIN' });
 	};
 
 	return (

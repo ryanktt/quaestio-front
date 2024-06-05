@@ -1,5 +1,6 @@
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 import { MantineProvider, createTheme } from '@mantine/core';
+import GlobalStateProvider from '@contexts/Global.context.tsx';
 import HomePublic from './containers/Home/HomePublic/HomePublic.tsx';
 import '@mantine/core/styles.css';
 import './App.scss';
@@ -16,10 +17,12 @@ function App() {
 
 	return (
 		<ApolloProvider client={client}>
-			<MantineProvider theme={theme}>
-				<HomePublic />
-				<h1 className='className="text-3xl font-bold text-center underline via-violet-200"'>teste</h1>
-			</MantineProvider>
+			<GlobalStateProvider>
+				<MantineProvider theme={theme}>
+					<HomePublic />
+					<h1 className='className="text-3xl font-bold text-center underline via-violet-200"'>teste</h1>
+				</MantineProvider>
+			</GlobalStateProvider>
 		</ApolloProvider>
 	);
 }
