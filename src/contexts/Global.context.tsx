@@ -1,10 +1,13 @@
 import React, { useReducer, createContext, PropsWithChildren, useMemo } from 'react';
 import { Admin, Session } from '@utils/generated/graphql';
 
+type ISession = Omit<Session, 'user'>;
+type IAdmin = Omit<Admin, 'self'>;
+
 export interface IGlobalState {
 	auth: {
-		user?: Admin;
-		session?: Session;
+		user?: IAdmin;
+		session?: ISession;
 		isLoggedIn: boolean;
 	};
 	theme: {
@@ -24,8 +27,8 @@ interface ILightModeAction {
 interface ILoginAction {
 	type: 'LOGIN';
 	auth: {
-		session: Session;
-		user: Admin;
+		session: ISession;
+		user: IAdmin;
 	};
 }
 

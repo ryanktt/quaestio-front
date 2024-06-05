@@ -15,6 +15,23 @@ export const LOG_IN_MUTATION = gql`
 	mutation SignIn($email: String!, $password: String!) {
 		publicSignIn(email: $email, password: $password) {
 			authToken
+			session {
+				_id
+				ip
+				active
+				userAgent
+				expiresAt
+				updatedAt
+				createdAt
+			}
+			user {
+				_id
+				email
+				name
+				role
+				createdAt
+				updatedAt
+			}
 		}
 	}
 `;
