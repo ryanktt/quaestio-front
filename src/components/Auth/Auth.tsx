@@ -1,9 +1,9 @@
 /* eslint-disable no-nested-ternary */
 import { TextInput, Button, Center } from '@mantine/core';
 import { hasLength, isEmail, useForm } from '@mantine/form';
-import { useState } from 'react';
 import { useSignInMutation, useSignUpMutation } from '@utils/generated/graphql.ts';
 import { getGraphqlErrorCode } from '@utils/graphql.ts';
+import { useEffect, useState } from 'react';
 import Password from './Password/Password.tsx';
 
 export type IAuthTypes = 'LOGIN' | 'SIGNUP';
@@ -15,12 +15,16 @@ export default function Auth({ type }: IAuthParams) {
 	const [signUp, { error: signUpError }] = useSignUpMutation();
 	const [signIn, { error: signInError }] = useSignInMutation();
 	const [password, setPassword] = useState('');
+	const [email, setEmail] = useState('');
+	const [name, setName] = useState('');
+
 	const form = useForm({
 		mode: 'uncontrolled',
-		initialValues: {
-			name: '',
-			email: '',
+		onValuesChange: (values) => {
+			setEmail(values.email);
+			setName(values.name);
 		},
+		initialValues: { email: '', name: '' },
 		validate: {
 			name: hasLength({ min: 3, max: 255 }, 'Name must be 3-255 characters long'),
 			email: isEmail('Invalid email'),
@@ -31,13 +35,13 @@ export default function Auth({ type }: IAuthParams) {
 		setPassword(password);
 	};
 
-	const { email, name } = form.getValues();
-
-	if (type === 'LOGIN') {
-		form.setFieldValue('name', '---');
-	}
+	useEffect(() => {
+		form.reset();
+		if (type === 'LOGIN') form.setFieldValue('name', '---');
+	}, [type]);
 
 	const handleFormSubmit = async () => {
+		const { email, name } = form.getValues();
 		if (type === 'SIGNUP') {
 			await signUp({ variables: { name, email, password } }).catch(() => {
 				console.log(getGraphqlErrorCode(signUpError));
@@ -51,10 +55,18 @@ export default function Auth({ type }: IAuthParams) {
 	return (
 		<form onSubmit={form.onSubmit(handleFormSubmit)}>
 			{type === 'SIGNUP' ? (
-				<TextInput {...form.getInputProps('name')} required label="Name" placeholder="your name" mt="sm" />
+				<TextInput
+					{...form.getInputProps('name')}
+					value={name}
+					required
+					label="Name"
+					placeholder="your name"
+					mt="sm"
+				/>
 			) : null}
 			<TextInput
 				{...form.getInputProps('email')}
+				value={email}
 				required
 				label="Email"
 				placeholder="youremail@hotmail.com"
