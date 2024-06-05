@@ -1,17 +1,20 @@
 /* eslint-disable no-nested-ternary */
-import { TextInput, Button, Center, Group, Anchor } from '@mantine/core';
+import { TextInput, Button, Center } from '@mantine/core';
 import { hasLength, isEmail, useForm } from '@mantine/form';
 import { useState } from 'react';
 import { useSignInMutation, useSignUpMutation } from '@utils/generated/graphql.ts';
 import { getGraphqlErrorCode } from '@utils/graphql.ts';
 import Password from './Password/Password.tsx';
 
-export type IAuthTypes = 'login' | 'signup';
+export type IAuthTypes = 'LOGIN' | 'SIGNUP';
 export interface IAuthParams {
 	type: IAuthTypes;
 }
 
 export default function Auth({ type }: IAuthParams) {
+	const [signUp, { error: signUpError }] = useSignUpMutation();
+	const [signIn, { error: signInError }] = useSignInMutation();
+	const [password, setPassword] = useState('');
 	const form = useForm({
 		mode: 'uncontrolled',
 		initialValues: {
@@ -23,7 +26,6 @@ export default function Auth({ type }: IAuthParams) {
 			email: isEmail('Invalid email'),
 		},
 	});
-	const [password, setPassword] = useState('');
 
 	const handlePasswordChange = (password: string) => {
 		setPassword(password);
@@ -31,16 +33,12 @@ export default function Auth({ type }: IAuthParams) {
 
 	const { email, name } = form.getValues();
 
-	const [signUp, { error: signUpError }] = useSignUpMutation();
-	const [signIn, { error: signInError }] = useSignInMutation();
-
-	// sets a simple string, so that name passes form val on login
-	if (type === 'login') {
+	if (type === 'LOGIN') {
 		form.setFieldValue('name', '---');
 	}
 
 	const handleFormSubmit = async () => {
-		if (type === 'signup') {
+		if (type === 'SIGNUP') {
 			await signUp({ variables: { name, email, password } }).catch(() => {
 				console.log(getGraphqlErrorCode(signUpError));
 			});
@@ -52,26 +50,7 @@ export default function Auth({ type }: IAuthParams) {
 
 	return (
 		<form onSubmit={form.onSubmit(handleFormSubmit)}>
-			<Group fz={14} m={0} justify="center">
-				<p className="text-gray-500 m-0">
-					{type === 'signup' ? (
-						<>
-							Already have an account?{' '}
-							<Anchor fw="bold" fz={15}>
-								Log in
-							</Anchor>
-						</>
-					) : (
-						<>
-							Does not have an account?{' '}
-							<Anchor fw="bold" fz={15}>
-								Sign up
-							</Anchor>
-						</>
-					)}
-				</p>
-			</Group>
-			{type === 'signup' ? (
+			{type === 'SIGNUP' ? (
 				<TextInput {...form.getInputProps('name')} required label="Name" placeholder="your name" mt="sm" />
 			) : null}
 			<TextInput
@@ -81,10 +60,10 @@ export default function Auth({ type }: IAuthParams) {
 				placeholder="youremail@hotmail.com"
 				mt="sm"
 			/>
-			<Password onPasswordChange={handlePasswordChange} comfirmPassword={type === 'signup'} />
+			<Password onPasswordChange={handlePasswordChange} comfirmPassword={type === 'SIGNUP'} />
 			<Center>
 				<Button style={{ width: '100%' }} justify="center" size="sm" mt="xl" type="submit" variant="gradient">
-					{type === 'signup' ? 'Sign Up' : 'Log In'}
+					{type === 'SIGNUP' ? 'Sign Up' : 'Log In'}
 				</Button>
 			</Center>
 		</form>
