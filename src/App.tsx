@@ -20,7 +20,6 @@ function App() {
 			<GlobalStateProvider>
 				<MantineProvider theme={theme}>
 					<HomePublic />
-					<h1 className='className="text-3xl font-bold text-center underline via-violet-200"'>teste</h1>
 				</MantineProvider>
 			</GlobalStateProvider>
 		</ApolloProvider>

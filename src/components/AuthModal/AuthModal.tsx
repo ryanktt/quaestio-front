@@ -36,7 +36,7 @@ export default function AuthModal() {
 					)}
 				</p>
 			</Group>
-			<Auth type={type} />
+			<Auth />
 		</Modal>
 	);
 }
