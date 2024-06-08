@@ -21,7 +21,7 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@components': path.resolve(__dirname, './src/components/'),
-			'@constainers': path.resolve(__dirname, './src/constainers/'),
+			'@containers': path.resolve(__dirname, './src/containers/'),
 			'@contexts': path.resolve(__dirname, './src/contexts/'),
 			'@gql': path.resolve(__dirname, './src/utils/gql/'),
 			'@utils': path.resolve(__dirname, './src/utils/'),

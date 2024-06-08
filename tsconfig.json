@@ -5,6 +5,7 @@
 		"lib": ["ES2020", "DOM", "DOM.Iterable"],
 		"module": "ESNext",
 		"skipLibCheck": true,
+		"importHelpers": true,
 
 		/* Bundler mode */
 		"moduleResolution": "bundler",
@@ -24,7 +25,7 @@
 		/* Path alias */
 		"paths": {
 			"@components/*": ["src/components/*"],
-			"@constainers/*": ["src/constainers/*"],
+			"@containers/*": ["src/containers/*"],
 			"@contexts/*": ["src/contexts/*"],
 			"@gql/*": ["src/utils/gql/*"],
 			"@utils/*": ["src/utils/*"],
