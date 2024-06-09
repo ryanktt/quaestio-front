@@ -1,8 +1,8 @@
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
-import { MantineProvider, createTheme } from '@mantine/core';
 import GlobalStateProvider from '@contexts/Global.context.tsx';
-import HomePublic from './containers/Home/HomePublic/HomePublic.tsx';
+import Layout from '@hoc/Layout/Layout.tsx';
 import '@mantine/core/styles.css';
+import Router from './Router.tsx';
 import './App.scss';
 
 const client = new ApolloClient({
@@ -11,16 +11,12 @@ const client = new ApolloClient({
 });
 
 function App() {
-	const theme = createTheme({
-		defaultGradient: { from: 'indigo.9', to: 'violet.5', deg: 25 },
-	});
-
 	return (
 		<ApolloProvider client={client}>
 			<GlobalStateProvider>
-				<MantineProvider theme={theme}>
-					<HomePublic />
-				</MantineProvider>
+				<Layout>
+					<Router />
+				</Layout>
 			</GlobalStateProvider>
 		</ApolloProvider>
 	);
