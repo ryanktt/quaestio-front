@@ -1,0 +1,44 @@
+import { IGlobalAction, IGlobalState } from './Global.types.ts';
+
+const globalReducer = (state: IGlobalState, action: IGlobalAction): IGlobalState => {
+	switch (action.type) {
+		case 'LOGIN':
+			return {
+				...state,
+				auth: {
+					...state.auth,
+					session: action.auth.session,
+					user: action.auth.user,
+					isLoggedIn: true,
+				},
+			};
+		case 'LOGOUT':
+			return {
+				...state,
+				auth: {
+					...state.auth,
+					isLoggedIn: false,
+				},
+			};
+		case 'LIGHT_MODE':
+			return {
+				...state,
+				theme: {
+					...state.theme,
+					light: true,
+				},
+			};
+		case 'DARK_MODE':
+			return {
+				...state,
+				theme: {
+					...state.theme,
+					light: false,
+				},
+			};
+		default:
+			return state;
+	}
+};
+
+export default globalReducer;

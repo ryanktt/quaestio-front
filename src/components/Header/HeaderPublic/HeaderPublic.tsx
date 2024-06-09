@@ -1,5 +1,5 @@
 import { Group, Button, Box, Burger, Drawer, ScrollArea, rem } from '@mantine/core';
-import { AuthModalContext } from '@contexts/AuthModal.context';
+import { AuthModalContext } from '@contexts/AuthModal.context.tsx';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
@@ -7,15 +7,15 @@ import classes from './HeaderPublic.module.scss';
 
 export default function HeaderPublic() {
 	const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-	const authModalContext = useContext(AuthModalContext);
+	const authModalState = useContext(AuthModalContext).state;
 
 	const onSignUpClick = () => {
-		authModalContext.state.setOpened();
-		authModalContext.dispatch({ type: 'SIGNUP' });
+		authModalState.setOpened();
+		authModalState.setType('SIGNUP');
 	};
 	const onLogInClick = () => {
-		authModalContext.state.setOpened();
-		authModalContext.dispatch({ type: 'LOGIN' });
+		authModalState.setOpened();
+		authModalState.setType('LOGIN');
 	};
 
 	return (

@@ -4,10 +4,11 @@ import { useDisclosure } from '@mantine/hooks';
 export type IAuthTypes = 'LOGIN' | 'SIGNUP';
 
 export interface IAuthModalState {
-	setClosed: () => void;
-	setOpened: () => void;
-	opened: boolean;
 	type: IAuthTypes;
+	opened: boolean;
+	setType: (type: IAuthTypes) => void;
+	setOpened: () => void;
+	setClosed: () => void;
 }
 
 export type IAuthModalAction = {
@@ -19,6 +20,7 @@ const initialAuthModalState: IAuthModalState = {
 	type: 'LOGIN',
 	setClosed: () => {},
 	setOpened: () => {},
+	setType: () => {},
 };
 
 export const AuthModalContext = createContext<{
@@ -44,6 +46,9 @@ export default function AuthModalContextProvider({ children }: PropsWithChildren
 			state: {
 				...state,
 				opened,
+				setType: (type: IAuthTypes) => {
+					dispatch({ type });
+				},
 				setOpened,
 				setClosed,
 			},

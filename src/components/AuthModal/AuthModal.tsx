@@ -5,7 +5,7 @@ import { useContext } from 'react';
 
 export default function AuthModal() {
 	const authModalContext = useContext(AuthModalContext);
-	const { setClosed: close, opened, type } = authModalContext.state;
+	const { setType, setClosed: close, opened, type } = authModalContext.state;
 
 	return (
 		<Modal
@@ -22,14 +22,14 @@ export default function AuthModal() {
 					{type === 'SIGNUP' ? (
 						<>
 							Already have an account?{' '}
-							<Anchor fw="bold" fz={15} onClick={() => authModalContext.dispatch({ type: 'LOGIN' })}>
+							<Anchor fw="bold" fz={15} onClick={() => setType('LOGIN')}>
 								Log in
 							</Anchor>
 						</>
 					) : (
 						<>
 							Does not have an account?{' '}
-							<Anchor fw="bold" fz={15} onClick={() => authModalContext.dispatch({ type: 'SIGNUP' })}>
+							<Anchor fw="bold" fz={15} onClick={() => setType('SIGNUP')}>
 								Sign up
 							</Anchor>
 						</>

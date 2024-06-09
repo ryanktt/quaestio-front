@@ -1,10 +1,10 @@
 import { useSignInMutation, useSignUpMutation } from '@utils/generated/graphql.ts';
-import { AuthModalContext } from '@contexts/AuthModal.context.tsx';
 import { TextInput, Button, Center } from '@mantine/core';
 import { hasLength, isEmail, useForm } from '@mantine/form';
 import { getGraphqlErrorCode } from '@utils/graphql.ts';
 import { useContext, useEffect, useState } from 'react';
-import { GlobalContext } from '@contexts/Global.context.tsx';
+import { AuthModalContext } from '@contexts/AuthModal.context.tsx';
+import { GlobalContext } from '@contexts/Global/Global.context.tsx';
 import Password from './Password/Password.tsx';
 
 export default function Auth() {
@@ -45,7 +45,7 @@ export default function Auth() {
 	useEffect(() => {
 		if (!logInData) return;
 		const { session, user } = logInData.publicSignIn;
-		globalContext.dispatch({ type: 'LOGIN', auth: { session, user } });
+		globalContext.state.login(user, session);
 	}, [logInData]);
 
 	useEffect(() => {

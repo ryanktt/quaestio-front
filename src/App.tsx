@@ -1,5 +1,5 @@
+import GlobalContextProvider from '@contexts/Global/Global.context.tsx';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
-import GlobalStateProvider from '@contexts/Global.context.tsx';
 import Layout from '@hoc/Layout/Layout.tsx';
 import '@mantine/core/styles.css';
 import Router from './Router.tsx';
@@ -13,11 +13,11 @@ const client = new ApolloClient({
 function App() {
 	return (
 		<ApolloProvider client={client}>
-			<GlobalStateProvider>
+			<GlobalContextProvider>
 				<Layout>
 					<Router />
 				</Layout>
-			</GlobalStateProvider>
+			</GlobalContextProvider>
 		</ApolloProvider>
 	);
 }
