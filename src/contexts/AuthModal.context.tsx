@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, createContext, useMemo, useReducer } from 'react';
+import { Dispatch, PropsWithChildren, createContext, useMemo, useReducer } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 
 export type IAuthTypes = 'LOGIN' | 'SIGNUP';
@@ -25,7 +25,7 @@ const initialAuthModalState: IAuthModalState = {
 
 export const AuthModalContext = createContext<{
 	state: IAuthModalState;
-	dispatch: React.Dispatch<IAuthModalAction>;
+	dispatch: Dispatch<IAuthModalAction>;
 }>({
 	state: initialAuthModalState,
 	dispatch: () => {},
