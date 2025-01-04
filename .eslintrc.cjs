@@ -1,7 +1,7 @@
 module.exports = {
 	root: true,
 	env: { browser: true, es2020: true },
-	ignorePatterns: ['dist', '*.cjs', '*.js', 'src/utils/generated/*', 'vite.config.ts'],
+	ignorePatterns: ['dist', '*.cjs', '*.js', 'src/utils/generated/*', 'vite.config.ts', '*.d.ts'],
 	parser: '@typescript-eslint/parser',
 	plugins: ['react-refresh', 'prettier'],
 	parserOptions: {
