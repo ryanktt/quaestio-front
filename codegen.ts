@@ -6,7 +6,7 @@ dotenv.config();
 const config: CodegenConfig = {
 	overwrite: true,
 	schema: import.meta.env.VITE_GRAPHQL_ENDPOINT,
-	documents: 'src/**/*.tsx',
+	documents: 'src/**/*.ts',
 	generates: {
 		'src/utils/generated/graphql.ts': {
 			// preset: 'client',
