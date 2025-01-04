@@ -30,12 +30,15 @@ export default function AlertItem({ alert }: { alert: IAlert }) {
 
 	useEffect(() => {
 		setVisible(true);
+	}, []);
+
+	useEffect(() => {
 		if (alert.timeout) {
 			setTimeout(() => {
 				closeAlert();
 			}, alert.timeout);
 		}
-	}, []);
+	}, [alert]);
 
 	return (
 		<Notification
@@ -47,7 +50,7 @@ export default function AlertItem({ alert }: { alert: IAlert }) {
 			role="alert"
 			withCloseButton
 			withBorder
-			title={alert.type.charAt(0).toUpperCase() + alert.type.slice(1)}
+			title={alert.title}
 			onClose={closeAlert}
 		>
 			{alert.message}

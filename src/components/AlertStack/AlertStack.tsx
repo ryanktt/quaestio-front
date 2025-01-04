@@ -33,7 +33,6 @@ export default function AlertStack() {
 					position: 'fixed',
 					top: '95%',
 					left: '50%',
-
 					transform: 'translate(-50%, -50%)',
 					zIndex: 1000,
 				}}
@@ -42,7 +41,6 @@ export default function AlertStack() {
 					style={{
 						gap: '10px',
 						width: 'max-content',
-						overflow: 'hidden',
 						transition: 'ease-in-out 0.2s',
 						display: 'flex',
 						position: 'fixed',
