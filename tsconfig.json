@@ -34,7 +34,7 @@
 		},
 		"baseUrl": "."
 	},
-	"include": ["src", "codegen.ts", "vite.config.ts"],
+	"include": ["src", "codegen.ts", "vite.config.ts", "declarations.d.ts"],
 	"exclude": ["node_modules", "dist"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }
