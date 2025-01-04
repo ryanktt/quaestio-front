@@ -1,17 +1,15 @@
 import { Dispatch, PropsWithChildren, createContext, useMemo, useReducer } from 'react';
-import { IAdmin, IAsyncNotification, IGlobalAction, IGlobalState, INotification, ISession } from './Global.types.ts';
+import { IAdmin, IGlobalAction, IGlobalState, ISession } from './Global.types.ts';
 import globalReducer from './Global.reducer.ts';
 
 const initialGlobalState = {
 	auth: { isLoggedIn: false },
 	theme: { light: true },
-	notifications: [],
+	alerts: [],
 	login: () => {},
 	logout: () => {},
 	setLightMode: () => {},
 	setDarkMode: () => {},
-	setNotification: () => {},
-	setAsyncNotification: () => {},
 };
 
 export const GlobalContext = createContext<{
@@ -40,12 +38,6 @@ export default function GlobalContextProvider({ children }: PropsWithChildren & 
 				},
 				setDarkMode: () => {
 					dispatch({ type: 'DARK_MODE' });
-				},
-				setNotification: (notification: INotification) => {
-					dispatch({ type: 'NOTIFICATION', notification });
-				},
-				setAsyncNotification: (notification: IAsyncNotification) => {
-					dispatch({ type: 'ASYNC_NOTIFICATION', notification });
 				},
 			},
 		}),

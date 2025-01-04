@@ -1,5 +1,5 @@
 import { createState } from 'state-pool';
-import { NotificationContext } from '@contexts/Notification/Notification.context';
+import { AlertContext } from '@contexts/Alert/Alert.context';
 import { ApolloProvider, ApolloClient, InMemoryCache, Observable, ApolloLink, HttpLink, from } from '@apollo/client';
 import { PropsWithChildren, useContext, useMemo } from 'react';
 import { getGraphqlErrorCode } from '@utils/graphql.ts';
@@ -64,7 +64,7 @@ const client = new ApolloClient({
 });
 
 function ApolloClientProvider({ children }: PropsWithChildren) {
-	const notificationState = useContext(NotificationContext).state;
+	const alertState = useContext(AlertContext).state;
 	const [apolloRequest] = apolloRequestCtxState.useState();
 
 	useMemo(() => {
@@ -77,11 +77,11 @@ function ApolloClientProvider({ children }: PropsWithChildren) {
 		} = apolloRequest as { requestId: string; loading: boolean; errorCode: string };
 
 		if (requestLoading) {
-			notificationState.setNotification({ id: requestId, type: 'LOADING' });
+			alertState.setAlert({ id: requestId, type: 'LOADING' });
 		} else if (requestErrorCode) {
-			notificationState.setNotification({ id: requestId, type: 'ERROR', errorCode: requestErrorCode });
+			alertState.setAlert({ id: requestId, type: 'ERROR', errorCode: requestErrorCode });
 		} else {
-			notificationState.setNotification({ id: requestId, type: 'SUCCESS', errorCode: requestErrorCode });
+			alertState.setAlert({ id: requestId, type: 'SUCCESS', errorCode: requestErrorCode });
 		}
 	}, [apolloRequest]);
 

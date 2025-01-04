@@ -6,6 +6,7 @@ import HeaderPublic from '@components/Header/HeaderPublic/HeaderPublic.tsx';
 import { MantineProvider, createTheme } from '@mantine/core';
 import AuthModalContextProvider from '@contexts/AuthModal.context.tsx';
 import AuthModal from '@components/AuthModal/AuthModal.tsx';
+import AlertContextProvider from '@contexts/Alert/Alert.context.tsx';
 import Wrapper from './Wrapper/Wrapper.tsx';
 
 export default function Layout({ children }: PropsWithChildren) {
@@ -14,13 +15,15 @@ export default function Layout({ children }: PropsWithChildren) {
 	});
 
 	return (
-		<AuthModalContextProvider>
-			<MantineProvider theme={theme}>
-				<HeaderPublic />
-				<Wrapper>{children}</Wrapper>
-				<Footer />
-				<AuthModal />
-			</MantineProvider>
-		</AuthModalContextProvider>
+		<AlertContextProvider>
+			<AuthModalContextProvider>
+				<MantineProvider theme={theme}>
+					<HeaderPublic />
+					<Wrapper>{children}</Wrapper>
+					<Footer />
+					<AuthModal />
+				</MantineProvider>
+			</AuthModalContextProvider>
+		</AlertContextProvider>
 	);
 }
