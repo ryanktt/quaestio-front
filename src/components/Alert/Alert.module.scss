@@ -1,0 +1,22 @@
+.alert {
+	opacity: 1;
+	transition: ease-in-out 0.2s;
+	transform: translateY(0);
+	button {
+		opacity: 0;
+		transition: ease-in-out 0.1s;
+	}
+}
+
+.alert-hidden {
+	opacity: 0;
+	transform: translateY(50%);
+	button {
+		opacity: 0;
+	}
+}
+.alert:hover {
+	button {
+		opacity: 1;
+	}
+}
