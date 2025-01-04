@@ -30,12 +30,11 @@
 			"@gql/*": ["src/utils/gql/*"],
 			"@utils/*": ["src/utils/*"],
 			"@scss/*": ["src/scss/*"],
-			"@hoc/*": ["src/hoc/*"],
+			"@hoc/*": ["src/hoc/*"]
 		},
-		"baseUrl": ".",
+		"baseUrl": "."
 	},
 	"include": ["src", "codegen.ts", "vite.config.ts"],
 	"exclude": ["node_modules", "dist"],
-	"references": [{ "path": "./tsconfig.node.json" }],
+	"references": [{ "path": "./tsconfig.node.json" }]
 }
- 
