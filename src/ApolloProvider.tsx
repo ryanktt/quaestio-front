@@ -74,14 +74,33 @@ function ApolloClientProvider({ children }: PropsWithChildren) {
 			errorCode: requestErrorCode,
 			loading: requestLoading,
 			requestId,
-		} = apolloRequest as { requestId: string; loading: boolean; errorCode: string };
+		} = apolloRequest as { requestId: string; loading: boolean; errorCode?: string };
 
+		const timeout = 2000;
 		if (requestLoading) {
-			alertState.setAlert({ id: requestId, type: 'LOADING' });
+			alertState.setAlert({
+				id: requestId,
+				timeout: 5000,
+				type: 'LOADING',
+				title: 'Loading',
+				message: `Please Wait`,
+			});
 		} else if (requestErrorCode) {
-			alertState.setAlert({ id: requestId, type: 'ERROR', errorCode: requestErrorCode });
+			alertState.setAlert({
+				id: requestId,
+				type: 'ERROR',
+				title: 'Error',
+				message: `Error Code: ${requestErrorCode}`,
+				timeout,
+			});
 		} else {
-			alertState.setAlert({ id: requestId, type: 'SUCCESS', errorCode: requestErrorCode });
+			alertState.setAlert({
+				id: requestId,
+				type: 'SUCCESS',
+				title: 'Success',
+				message: 'You request has been successfully sent',
+				timeout,
+			});
 		}
 	}, [apolloRequest]);
 
