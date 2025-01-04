@@ -6,7 +6,7 @@ import classes from './Alert.module.scss';
 
 export default function AlertItem({ alert }: { alert: IAlert }) {
 	const { unsetAlert } = useContext(AlertContext).state;
-	const [visible, setVisible] = useState(true);
+	const [visible, setVisible] = useState(false);
 
 	const getAlertColor = (type: IAlertTypes): string => {
 		switch (type) {
@@ -22,13 +22,14 @@ export default function AlertItem({ alert }: { alert: IAlert }) {
 	};
 
 	const closeAlert = () => {
-		setVisible(true);
+		setVisible(false);
 		setTimeout(() => {
 			unsetAlert(alert.id);
-		}, 10);
+		}, 200);
 	};
 
 	useEffect(() => {
+		setVisible(true);
 		if (alert.timeout) {
 			setTimeout(() => {
 				closeAlert();

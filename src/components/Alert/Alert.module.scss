@@ -2,6 +2,7 @@
 	opacity: 1;
 	transition: ease-in-out 0.2s;
 	transform: translateY(0);
+	visibility: visible;
 	button {
 		opacity: 0;
 		transition: ease-in-out 0.1s;
@@ -11,6 +12,7 @@
 .alert-hidden {
 	opacity: 0;
 	transform: translateY(50%);
+	visibility: hidden;
 	button {
 		opacity: 0;
 	}
