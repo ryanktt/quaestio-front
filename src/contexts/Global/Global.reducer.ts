@@ -17,7 +17,6 @@ const globalReducer = (state: IGlobalState, action: IGlobalAction): IGlobalState
 			return {
 				...state,
 				auth: {
-					...state.auth,
 					isLoggedIn: false,
 				},
 			};
