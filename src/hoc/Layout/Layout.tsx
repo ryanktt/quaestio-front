@@ -6,7 +6,7 @@ import HeaderPublic from '@components/Header/HeaderPublic/HeaderPublic.tsx';
 import { MantineProvider, createTheme } from '@mantine/core';
 import AuthModalContextProvider from '@contexts/AuthModal.context.tsx';
 import AuthModal from '@components/AuthModal/AuthModal.tsx';
-import Wrapper from './Wrapper/Wrapper.tsx';
+import AlertStack from '@components/AlertStack/AlertStack.tsx';
 
 export default function Layout({ children }: PropsWithChildren) {
 	const theme = createTheme({
@@ -16,8 +16,9 @@ export default function Layout({ children }: PropsWithChildren) {
 	return (
 		<AuthModalContextProvider>
 			<MantineProvider theme={theme}>
+				<AlertStack />
 				<HeaderPublic />
-				<Wrapper>{children}</Wrapper>
+				{children}
 				<Footer />
 				<AuthModal />
 			</MantineProvider>

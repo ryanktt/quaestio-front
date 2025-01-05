@@ -1,11 +1,10 @@
-import AlertStack from '@components/AlertStack/AlertStack.tsx';
+import { useContext } from 'react';
+import { GlobalContext } from '@contexts/Global/Global.context.tsx';
 import HomePublic from './HomePublic/HomePublic.tsx';
+import HomeAdmin from './HomeAdmin/HomeAdmin.tsx';
 
 export default function Home() {
-	return (
-		<>
-			<AlertStack />
-			<HomePublic />
-		</>
-	);
+	const { isLoggedIn } = useContext(GlobalContext).state.auth;
+
+	return isLoggedIn ? <HomeAdmin /> : <HomePublic />;
 }
