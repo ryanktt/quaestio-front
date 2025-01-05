@@ -1,6 +1,8 @@
 import { createState } from 'state-pool';
 import { AlertContext } from '@contexts/Alert/Alert.context';
 import { ApolloProvider, ApolloClient, InMemoryCache, Observable, ApolloLink, HttpLink, from } from '@apollo/client';
+import { setContext } from 'apollo-link-context';
+import { Cookies } from 'react-cookie';
 import { PropsWithChildren, useContext, useMemo } from 'react';
 import { getGraphqlErrorCode } from '@utils/graphql.ts';
 import { onError } from '@apollo/client/link/error';
@@ -44,6 +46,13 @@ const afterware = new ApolloLink((operation, forward) => {
 	});
 });
 
+const headerLink = setContext((_, previousContext) => ({
+	headers: {
+		...previousContext.headers,
+		auth: new Cookies().get('authData')?.authToken,
+	},
+})) as unknown as ApolloLink;
+
 const client = new ApolloClient({
 	cache: new InMemoryCache(),
 	link: from([
@@ -59,7 +68,7 @@ const client = new ApolloClient({
 		}),
 		middleware,
 		afterware,
-		new HttpLink({ uri: import.meta.env.VITE_GRAPHQL_ENDPOINT }),
+		headerLink.concat(new HttpLink({ uri: import.meta.env.VITE_GRAPHQL_ENDPOINT })),
 	]),
 });
 
