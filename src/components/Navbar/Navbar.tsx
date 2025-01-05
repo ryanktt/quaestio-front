@@ -65,7 +65,7 @@ export default function Navbar() {
 
 	return (
 		<nav className={classes.navbar}>
-			<div className={classes.navbarMain}>
+			<div className={classes['navbar-main']}>
 				<Stack justify="center" gap={0}>
 					{links}
 				</Stack>
