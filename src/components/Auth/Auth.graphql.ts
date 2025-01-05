@@ -49,3 +49,11 @@ export const LOG_IN_MUTATION = gql`
 		}
 	}
 `;
+
+export const LOG_OUT_MUTATION = gql`
+	mutation signOut {
+		publicSignOut {
+			status
+		}
+	}
+`;
