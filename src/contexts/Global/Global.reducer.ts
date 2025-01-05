@@ -8,6 +8,7 @@ const globalReducer = (state: IGlobalState, action: IGlobalAction): IGlobalState
 				auth: {
 					...state.auth,
 					session: action.auth.session,
+					token: action.auth.token,
 					user: action.auth.user,
 					isLoggedIn: true,
 				},

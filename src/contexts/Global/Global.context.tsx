@@ -1,5 +1,6 @@
-import { Dispatch, PropsWithChildren, createContext, useMemo, useReducer } from 'react';
-import { IAdmin, IGlobalAction, IGlobalState, ISession } from './Global.types.ts';
+import { Dispatch, PropsWithChildren, createContext, useEffect, useMemo, useReducer } from 'react';
+import { useCookies } from 'react-cookie';
+import { IAdmin, IAuthData, IGlobalAction, IGlobalState, ISession } from './Global.types.ts';
 import globalReducer from './Global.reducer.ts';
 
 const initialGlobalState = {
@@ -22,14 +23,23 @@ export const GlobalContext = createContext<{
 
 export default function GlobalContextProvider({ children }: PropsWithChildren & {}) {
 	const [state, dispatch] = useReducer(globalReducer, initialGlobalState);
+	const [cookies] = useCookies(['authData']);
+	const { authData } = cookies;
+
+	useEffect(() => {
+		if (authData) {
+			const { authToken: token, session, user } = authData as IAuthData;
+			dispatch({ type: 'LOGIN', auth: { session, user, token } });
+		}
+	}, [authData]);
 
 	const value = useMemo(
 		() => ({
 			dispatch,
 			state: {
 				...state,
-				login: (user: IAdmin, session: ISession) => {
-					dispatch({ type: 'LOGIN', auth: { session, user } });
+				login: (user: IAdmin, session: ISession, token: string) => {
+					dispatch({ type: 'LOGIN', auth: { session, user, token } });
 				},
 				logout: () => {
 					dispatch({ type: 'LOGOUT' });

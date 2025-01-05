@@ -1,18 +1,22 @@
 import { useSignInMutation, useSignUpMutation } from '@utils/generated/graphql.ts';
 import { TextInput, Button, Center } from '@mantine/core';
 import { hasLength, isEmail, useForm } from '@mantine/form';
-import { getGraphqlErrorCode } from '@utils/graphql.ts';
 import { useContext, useEffect, useState } from 'react';
 import { AuthModalContext } from '@contexts/AuthModal.context.tsx';
 import { GlobalContext } from '@contexts/Global/Global.context.tsx';
+import { useCookies } from 'react-cookie';
+import { IAuthData } from '@contexts/Global/Global.types.ts';
 import Password from './Password/Password.tsx';
 
 export default function Auth() {
 	const globalContext = useContext(GlobalContext);
 	const { type } = useContext(AuthModalContext).state;
 
-	const [signUp, { error: signUpError }] = useSignUpMutation();
-	const [logIn, { error: logInError, data: logInData }] = useSignInMutation();
+	const [, setCookie] = useCookies(['authData']);
+
+	const [signUpMutation, { data: signUpData }] = useSignUpMutation();
+	const [logInMutation, { data: logInData }] = useSignInMutation();
+
 	const [password, setPassword] = useState('');
 
 	const form = useForm({
@@ -30,33 +34,40 @@ export default function Auth() {
 
 	const handleFormSubmit = async () => {
 		const { email, name } = form.getValues();
-		if (type === 'SIGNUP') {
-			await signUp({ variables: { name, email, password } });
+		if (type === 'LOGIN') {
+			await logInMutation({ variables: { email, password } });
+		} else {
+			await signUpMutation({ variables: { name, email, password } });
 		}
-		await logIn({ variables: { email, password } });
 	};
 
 	useEffect(() => {
 		form.reset();
-		// Assigns generic valid value to name so validation does't fail on login
 		if (type === 'LOGIN') form.setFieldValue('name', '---');
 	}, [type]);
 
+	const authenticateUser = (authResponse: IAuthData) => {
+		const { session, user, authToken } = authResponse;
+
+		setCookie('authData', authResponse, {
+			path: '/',
+			httpOnly: import.meta.env.VITE_MODE === 'production',
+			expires: new Date(session.expiresAt),
+			sameSite: 'strict',
+			secure: true,
+		});
+		globalContext.state.login(user, session, authToken);
+	};
+
 	useEffect(() => {
 		if (!logInData) return;
-		const { session, user } = logInData.publicSignIn;
-		globalContext.state.login(user, session);
+		authenticateUser(logInData.publicSignIn);
 	}, [logInData]);
 
 	useEffect(() => {
-		if (!logInError) return;
-		console.log(getGraphqlErrorCode(logInError));
-	}, [logInError]);
-
-	useEffect(() => {
-		if (!signUpError) return;
-		console.log(getGraphqlErrorCode(signUpError));
-	}, [signUpError]);
+		if (!signUpData) return;
+		authenticateUser(signUpData.publicSignUp);
+	}, [signUpData]);
 
 	return (
 		<form onSubmit={form.onSubmit(handleFormSubmit)}>

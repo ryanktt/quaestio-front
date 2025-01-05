@@ -1,19 +1,21 @@
-import { Admin, Session } from '@utils/generated/graphql';
+import { Admin, Session, SignInMutation, SignUpMutation } from '@utils/generated/graphql';
 
 export type ISession = Omit<Session, 'user'>;
 export type IAdmin = Omit<Admin, 'self'>;
+export type IAuthData = SignUpMutation['publicSignUp'] | SignInMutation['publicSignIn'];
 
 export interface IGlobalState {
 	auth: {
-		user?: IAdmin;
-		session?: ISession;
 		isLoggedIn: boolean;
+		user?: IAdmin;
+		token?: string;
+		session?: ISession;
 	};
 	theme: {
 		light: boolean;
 	};
 
-	login: (user: IAdmin, session: ISession) => void;
+	login: (user: IAdmin, session: ISession, token: string) => void;
 	logout: () => void;
 	setLightMode: () => void;
 	setDarkMode: () => void;
@@ -32,6 +34,7 @@ export interface ILoginAction {
 	type: 'LOGIN';
 	auth: {
 		session: ISession;
+		token: string;
 		user: IAdmin;
 	};
 }
