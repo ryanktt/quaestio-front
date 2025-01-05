@@ -7,11 +7,16 @@ const config: CodegenConfig = {
 	overwrite: true,
 	schema: import.meta.env.VITE_GRAPHQL_ENDPOINT,
 	documents: 'src/**/*.ts',
+	watch: import.meta.env.VITE_MODE === 'development',
 	generates: {
 		'src/utils/generated/graphql.ts': {
-			// preset: 'client',
 			plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
-			config: { withHooks: true },
+			config: {
+				withHooks: true,
+				scalars: {
+					DateTime: 'Date',
+				},
+			},
 		},
 	},
 };
