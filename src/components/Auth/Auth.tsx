@@ -10,12 +10,12 @@ import Password from './Password/Password.tsx';
 
 export default function Auth() {
 	const globalContext = useContext(GlobalContext);
-	const { type } = useContext(AuthModalContext).state;
+	const { type, setClosed: setModalClosed } = useContext(AuthModalContext).state;
 
 	const [, setCookie] = useCookies(['authData']);
 
-	const [signUpMutation, { data: signUpData }] = useSignUpMutation();
-	const [logInMutation, { data: logInData }] = useSignInMutation();
+	const [signupMutation, { data: signupData, reset: resetSignup }] = useSignUpMutation();
+	const [loginMutation, { data: loginData, reset: resetLogin }] = useSignInMutation();
 
 	const [password, setPassword] = useState('');
 
@@ -35,10 +35,11 @@ export default function Auth() {
 	const handleFormSubmit = async () => {
 		const { email, name } = form.getValues();
 		if (type === 'LOGIN') {
-			await logInMutation({ variables: { email, password } });
+			await loginMutation({ variables: { email, password } });
 		} else {
-			await signUpMutation({ variables: { name, email, password } });
+			await signupMutation({ variables: { name, email, password } });
 		}
+		setModalClosed();
 	};
 
 	useEffect(() => {
@@ -60,14 +61,16 @@ export default function Auth() {
 	};
 
 	useEffect(() => {
-		if (!logInData) return;
-		authenticateUser(logInData.publicSignIn);
-	}, [logInData]);
+		if (!loginData) return;
+		authenticateUser(loginData.publicSignIn);
+		resetLogin();
+	}, [loginData]);
 
 	useEffect(() => {
-		if (!signUpData) return;
-		authenticateUser(signUpData.publicSignUp);
-	}, [signUpData]);
+		if (!signupData) return;
+		authenticateUser(signupData.publicSignUp);
+		resetSignup();
+	}, [signupData]);
 
 	return (
 		<form onSubmit={form.onSubmit(handleFormSubmit)}>
