@@ -38,8 +38,6 @@ const CREATE_SURVEY_MUTATION = gql`
 					wrongAnswerFeedback
 					rightAnswerFeedback
 					randomizeOptions
-					wrongAnswerFeedback
-					rightAnswerFeedback
 				}
 				... on QuestionMultipleChoice {
 					options {
@@ -50,8 +48,6 @@ const CREATE_SURVEY_MUTATION = gql`
 					wrongAnswerFeedback
 					rightAnswerFeedback
 					randomizeOptions
-					wrongAnswerFeedback
-					rightAnswerFeedback
 				}
 				... on QuestionTrueOrFalse {
 					options {
@@ -59,8 +55,6 @@ const CREATE_SURVEY_MUTATION = gql`
 						correct
 						feedbackAfterSubmit
 					}
-					wrongAnswerFeedback
-					rightAnswerFeedback
 					wrongAnswerFeedback
 					rightAnswerFeedback
 				}
