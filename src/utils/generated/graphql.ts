@@ -875,8 +875,6 @@ export const CreateSurveyDocument = gql`
         wrongAnswerFeedback
         rightAnswerFeedback
         randomizeOptions
-        wrongAnswerFeedback
-        rightAnswerFeedback
       }
       ... on QuestionMultipleChoice {
         options {
@@ -887,8 +885,6 @@ export const CreateSurveyDocument = gql`
         wrongAnswerFeedback
         rightAnswerFeedback
         randomizeOptions
-        wrongAnswerFeedback
-        rightAnswerFeedback
       }
       ... on QuestionTrueOrFalse {
         options {
@@ -896,8 +892,6 @@ export const CreateSurveyDocument = gql`
           correct
           feedbackAfterSubmit
         }
-        wrongAnswerFeedback
-        rightAnswerFeedback
         wrongAnswerFeedback
         rightAnswerFeedback
       }

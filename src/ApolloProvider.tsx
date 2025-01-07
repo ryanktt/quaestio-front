@@ -8,7 +8,6 @@ import { getGraphqlErrorCode } from '@utils/graphql.ts';
 import { onError } from '@apollo/client/link/error';
 import '@mantine/core/styles.css';
 import { nanoid } from 'nanoid';
-import './App.scss';
 
 interface RequestContext {
 	requestId: string;
