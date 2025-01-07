@@ -4,10 +4,10 @@ import { hasLength, useForm } from '@mantine/form';
 import { QuestionnaireType } from '@utils/generated/graphql';
 import { useState } from 'react';
 
-export default function QuestionnaireForm() {
+export default function QuestionnaireUpsert() {
 	const theme = useMantineTheme();
 	const form = useForm({
-		mode: 'controlled',
+		mode: 'uncontrolled',
 		initialValues: { title: '', description: '', requireEmail: false, requireName: false, questions: [] },
 		validate: {
 			title: hasLength({ min: 3, max: 255 }, 'Title must be 3-255 characters long'),
