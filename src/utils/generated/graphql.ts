@@ -160,6 +160,7 @@ export type Mutation = {
 
 
 export type MutationAdminCreateQuestionnaireExamArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
   maxRetryAmount?: InputMaybe<Scalars['Float']['input']>;
   passingGradePercent?: InputMaybe<Scalars['Float']['input']>;
   questions: Array<QuestionDiscriminatorInput>;
@@ -172,6 +173,7 @@ export type MutationAdminCreateQuestionnaireExamArgs = {
 
 
 export type MutationAdminCreateQuestionnaireQuizArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
   questions: Array<QuestionDiscriminatorInput>;
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
   requireName?: InputMaybe<Scalars['Boolean']['input']>;
@@ -180,6 +182,7 @@ export type MutationAdminCreateQuestionnaireQuizArgs = {
 
 
 export type MutationAdminCreateQuestionnaireSurveyArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
   questions: Array<QuestionDiscriminatorInput>;
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
   requireName?: InputMaybe<Scalars['Boolean']['input']>;
@@ -188,6 +191,7 @@ export type MutationAdminCreateQuestionnaireSurveyArgs = {
 
 
 export type MutationAdminUpdateQuestionnaireExamArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
   maxRetryAmount?: InputMaybe<Scalars['Float']['input']>;
   passingGradePercent?: InputMaybe<Scalars['Float']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
@@ -201,6 +205,7 @@ export type MutationAdminUpdateQuestionnaireExamArgs = {
 
 
 export type MutationAdminUpdateQuestionnaireQuizArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
   questionnaireId: Scalars['String']['input'];
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
@@ -210,6 +215,7 @@ export type MutationAdminUpdateQuestionnaireQuizArgs = {
 
 
 export type MutationAdminUpdateQuestionnaireSurveyArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
   questionnaireId: Scalars['String']['input'];
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
@@ -508,6 +514,7 @@ export enum QuestionType {
 export type Questionnaire = {
   _id: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
+  description: Scalars['String']['output'];
   latest: Scalars['Boolean']['output'];
   metrics: QuestionnaireMetrics;
   questions: Array<Question>;
@@ -524,6 +531,7 @@ export type QuestionnaireExam = Questionnaire & SchemaBaseInterface & {
   __typename?: 'QuestionnaireExam';
   _id: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
+  description: Scalars['String']['output'];
   latest: Scalars['Boolean']['output'];
   maxRetryAmount?: Maybe<Scalars['Float']['output']>;
   metrics: QuestionnaireMetrics;
@@ -559,6 +567,7 @@ export type QuestionnaireQuiz = Questionnaire & SchemaBaseInterface & {
   __typename?: 'QuestionnaireQuiz';
   _id: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
+  description: Scalars['String']['output'];
   latest: Scalars['Boolean']['output'];
   metrics: QuestionnaireMetrics;
   questions: Array<Question>;
@@ -575,6 +584,7 @@ export type QuestionnaireSurvey = Questionnaire & SchemaBaseInterface & {
   __typename?: 'QuestionnaireSurvey';
   _id: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
+  description: Scalars['String']['output'];
   latest: Scalars['Boolean']['output'];
   metrics: QuestionnaireMetrics;
   questions: Array<Question>;
@@ -588,9 +598,9 @@ export type QuestionnaireSurvey = Questionnaire & SchemaBaseInterface & {
 };
 
 export enum QuestionnaireType {
-  QuestionnaireExam = 'QuestionnaireExam',
-  QuestionnaireQuiz = 'QuestionnaireQuiz',
-  QuestionnaireSurvey = 'QuestionnaireSurvey'
+  Exam = 'Exam',
+  Quiz = 'Quiz',
+  Survey = 'Survey'
 }
 
 export type Respondent = SchemaBaseInterface & User & {
@@ -685,6 +695,17 @@ export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type SignOutMutation = { __typename?: 'Mutation', publicSignOut: { __typename?: 'SignOutResponse', status: string } };
+
+export type CreateSurveyMutationVariables = Exact<{
+  title: Scalars['String']['input'];
+  requireEmail: Scalars['Boolean']['input'];
+  requireName: Scalars['Boolean']['input'];
+  questions: Array<QuestionDiscriminatorInput> | QuestionDiscriminatorInput;
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type CreateSurveyMutation = { __typename?: 'Mutation', adminCreateQuestionnaireSurvey: { __typename?: 'QuestionnaireSurvey', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title: string, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title: string, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', feedbackAfterSubmit?: string | null, _id: string, showCorrectAnswer: boolean, title: string, weight?: number | null, required: boolean, description?: string | null } | { __typename?: 'QuestionTrueOrFalse', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, _id: string, showCorrectAnswer: boolean, title: string, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } };
 
 
 export const SignUpDocument = gql`
@@ -822,3 +843,100 @@ export function useSignOutMutation(baseOptions?: Apollo.MutationHookOptions<Sign
 export type SignOutMutationHookResult = ReturnType<typeof useSignOutMutation>;
 export type SignOutMutationResult = Apollo.MutationResult<SignOutMutation>;
 export type SignOutMutationOptions = Apollo.BaseMutationOptions<SignOutMutation, SignOutMutationVariables>;
+export const CreateSurveyDocument = gql`
+    mutation CreateSurvey($title: String!, $requireEmail: Boolean!, $requireName: Boolean!, $questions: [QuestionDiscriminatorInput!]!, $description: String) {
+  adminCreateQuestionnaireSurvey(
+    title: $title
+    requireEmail: $requireEmail
+    requireName: $requireName
+    questions: $questions
+    description: $description
+  ) {
+    _id
+    sharedId
+    type
+    requireEmail
+    requireName
+    title
+    description
+    questions {
+      _id
+      showCorrectAnswer
+      title
+      weight
+      required
+      description
+      ... on QuestionSingleChoice {
+        options {
+          title
+          correct
+          feedbackAfterSubmit
+        }
+        wrongAnswerFeedback
+        rightAnswerFeedback
+        randomizeOptions
+        wrongAnswerFeedback
+        rightAnswerFeedback
+      }
+      ... on QuestionMultipleChoice {
+        options {
+          title
+          correct
+          feedbackAfterSubmit
+        }
+        wrongAnswerFeedback
+        rightAnswerFeedback
+        randomizeOptions
+        wrongAnswerFeedback
+        rightAnswerFeedback
+      }
+      ... on QuestionTrueOrFalse {
+        options {
+          title
+          correct
+          feedbackAfterSubmit
+        }
+        wrongAnswerFeedback
+        rightAnswerFeedback
+        wrongAnswerFeedback
+        rightAnswerFeedback
+      }
+      ... on QuestionText {
+        feedbackAfterSubmit
+      }
+    }
+    createdAt
+    updatedAt
+  }
+}
+    `;
+export type CreateSurveyMutationFn = Apollo.MutationFunction<CreateSurveyMutation, CreateSurveyMutationVariables>;
+
+/**
+ * __useCreateSurveyMutation__
+ *
+ * To run a mutation, you first call `useCreateSurveyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSurveyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSurveyMutation, { data, loading, error }] = useCreateSurveyMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      requireEmail: // value for 'requireEmail'
+ *      requireName: // value for 'requireName'
+ *      questions: // value for 'questions'
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useCreateSurveyMutation(baseOptions?: Apollo.MutationHookOptions<CreateSurveyMutation, CreateSurveyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateSurveyMutation, CreateSurveyMutationVariables>(CreateSurveyDocument, options);
+      }
+export type CreateSurveyMutationHookResult = ReturnType<typeof useCreateSurveyMutation>;
+export type CreateSurveyMutationResult = Apollo.MutationResult<CreateSurveyMutation>;
+export type CreateSurveyMutationOptions = Apollo.BaseMutationOptions<CreateSurveyMutation, CreateSurveyMutationVariables>;
