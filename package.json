@@ -19,6 +19,7 @@
 		"@mantinex/mantine-logo": "1.0.1",
 		"@parcel/watcher": "^2.5.0",
 		"@tabler/icons-react": "3.5.0",
+		"apollo-link-context": "^1.0.20",
 		"graphql": "16.8.1",
 		"joi": "^17.13.3",
 		"nanoid": "^5.0.9",
