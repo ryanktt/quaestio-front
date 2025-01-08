@@ -1,0 +1,20 @@
+.item {
+	background-color: $white;
+	margin-bottom: var(--mantine-spacing-sm);
+}
+
+.itemDragging {
+	box-shadow: $shadowSm;
+}
+
+.icon {
+	color: $gray7;
+	margin: $spacingSm;
+}
+
+.draggable {
+	border-radius: $radiusMd;
+	border: 1px solid $gray4;
+	display: flex;
+	align-items: center;
+}
