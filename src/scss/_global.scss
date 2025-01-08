@@ -1,0 +1,11 @@
+* {
+	&:focus {
+		border-color: $indigo5;
+	}
+}
+
+label {
+	span {
+		color: $violet9 !important;
+	}
+}

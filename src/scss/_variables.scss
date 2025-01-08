@@ -1,3 +1,5 @@
+// --- Colors
+
 $violet0: var(--mantine-color-violet-0);
 $violet1: var(--mantine-color-violet-1);
 $violet2: var(--mantine-color-violet-2);
@@ -35,14 +37,6 @@ $white: var(--mantine-color-white);
 
 $black: var(--mantine-color-black);
 
-* {
-	&:focus {
-		border-color: $indigo5;
-	}
-}
-
-label {
-	span {
-		color: $violet9 !important;
-	}
-}
+// --- Shaping and Spacing
+$radiusMd: var(--mantine-radius-sm);
+$radiusSm: var(--mantine-radius-sm);

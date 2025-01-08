@@ -1,5 +1,4 @@
 import '@mantine/core/styles.css';
-import './Layout.module.scss';
 import Footer from '@components/Footer/Footer.tsx';
 import { PropsWithChildren } from 'react';
 import HeaderPublic from '@components/Header/HeaderPublic/HeaderPublic.tsx';
