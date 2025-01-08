@@ -2,7 +2,7 @@ import '@mantine/core/styles.css';
 import Navbar from '@components/Navbar/Navbar';
 import { Box, Container } from '@mantine/core';
 import Toolbar from '@components/Toolbar/Toolbar';
-import QuestionnaireUpsert from '@components/Questionnaire/QuestionnaireUpsert/QuestionnaireUpsert';
+import NewQuestionnaire from '@components/Questionnaire/NewQuestionnaire';
 
 export default function HomeAdmin() {
 	return (
@@ -10,7 +10,7 @@ export default function HomeAdmin() {
 			<Navbar />
 			<Box w="100%" display="flex" style={{ flexDirection: 'column', gap: '10px' }}>
 				<Toolbar />
-				<QuestionnaireUpsert />
+				<NewQuestionnaire />
 			</Box>
 		</Container>
 	);

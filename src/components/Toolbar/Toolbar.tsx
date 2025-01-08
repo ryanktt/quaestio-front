@@ -36,7 +36,7 @@ function ToolbarSearch({ onClick }: { onClick?: () => void }) {
 				<Box onClick={onClick} className={classes['toolbar-icon']}>
 					<IconSearch size={16} stroke={2} />
 				</Box>
-				<Input className={classes['search-input']} placeholder="Search for questionnaires" variant="filled" />
+				<Input className={classes['search-input']} placeholder="Search for questionnaires" variant="default" />
 			</Box>
 		</div>
 	);
