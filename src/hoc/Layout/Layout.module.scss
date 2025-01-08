@@ -1,2 +1,11 @@
-@import '../../scss/typography.scss';
-@import '../../scss/global.scss';
+* {
+	&:focus {
+		border-color: var(--mantine-color-indigo-5);
+	}
+}
+
+label {
+	span {
+		color: var(--mantine-color-black) !important;
+	}
+}
