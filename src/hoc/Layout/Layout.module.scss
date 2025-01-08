@@ -1,11 +1,48 @@
+$violet0: var(--mantine-color-violet-0);
+$violet1: var(--mantine-color-violet-1);
+$violet2: var(--mantine-color-violet-2);
+$violet3: var(--mantine-color-violet-3);
+$violet4: var(--mantine-color-violet-4);
+$violet5: var(--mantine-color-violet-5);
+$violet6: var(--mantine-color-violet-6);
+$violet7: var(--mantine-color-violet-7);
+$violet8: var(--mantine-color-violet-8);
+$violet9: var(--mantine-color-violet-9);
+
+$indigo0: var(--mantine-color-indigo-0);
+$indigo1: var(--mantine-color-indigo-1);
+$indigo2: var(--mantine-color-indigo-2);
+$indigo3: var(--mantine-color-indigo-3);
+$indigo4: var(--mantine-color-indigo-4);
+$indigo5: var(--mantine-color-indigo-5);
+$indigo6: var(--mantine-color-indigo-6);
+$indigo7: var(--mantine-color-indigo-7);
+$indigo8: var(--mantine-color-indigo-8);
+$indigo9: var(--mantine-color-indigo-9);
+
+$gray0: var(--mantine-color-gray-0);
+$gray1: var(--mantine-color-gray-1);
+$gray2: var(--mantine-color-gray-2);
+$gray3: var(--mantine-color-gray-3);
+$gray4: var(--mantine-color-gray-4);
+$gray5: var(--mantine-color-gray-5);
+$gray6: var(--mantine-color-gray-6);
+$gray7: var(--mantine-color-gray-7);
+$gray8: var(--mantine-color-gray-8);
+$gray9: var(--mantine-color-gray-9);
+
+$white: var(--mantine-color-white);
+
+$black: var(--mantine-color-black);
+
 * {
 	&:focus {
-		border-color: var(--mantine-color-indigo-5);
+		border-color: $indigo5;
 	}
 }
 
 label {
 	span {
-		color: var(--mantine-color-black) !important;
+		color: $violet9 !important;
 	}
 }
