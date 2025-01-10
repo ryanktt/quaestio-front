@@ -37,6 +37,12 @@ $white: var(--mantine-color-white);
 
 $black: var(--mantine-color-black);
 
+$gradient: linear-gradient(25deg, $indigo9, $violet5);
+
 // --- Shaping and Spacing
 $radiusMd: var(--mantine-radius-sm);
 $radiusSm: var(--mantine-radius-sm);
+$spacingSm: var(--mantine-spacing-sm);
+$spacingMd: var(--mantine-spacing-md);
+$shadowSm: var(--mantine-shadow-sm);
+$shadowXs: var(--mantine-shadow-xs);
