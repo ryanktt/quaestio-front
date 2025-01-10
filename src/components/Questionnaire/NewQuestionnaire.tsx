@@ -22,7 +22,7 @@ export default function Questionnaire() {
 		initialValues: {
 			type: null,
 			title: '',
-			description: null,
+			description: '',
 			requireEmail: false,
 			requireName: false,
 			questions: [],
@@ -36,15 +36,15 @@ export default function Questionnaire() {
 
 	return (
 		<Box
-			p="20px"
+			p={theme.spacing.lg}
 			style={{
 				border: '1px solid',
-				borderColor: theme.colors.gray[4],
-				borderRadius: theme.radius.md,
+				borderColor: theme.colors.gray[3],
+				borderRadius: theme.radius.lg,
 			}}
 		>
 			<Center>
-				<Title mb={10} size={20}>
+				<Title c={theme.colors.indigo[8]} mb={10} size={20}>
 					New {type ?? 'Questionnaire'}
 				</Title>
 			</Center>
@@ -54,7 +54,7 @@ export default function Questionnaire() {
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
-					gap: '15px',
+					gap: theme.spacing.md,
 				}}
 			>
 				<Select
@@ -94,10 +94,13 @@ export default function Questionnaire() {
 					color={theme.colors.indigo[6]}
 					label="Require user name"
 				/>
-				<Text>Questions</Text>
+				<Text fw="600" mt={theme.spacing.sm} c={theme.colors.indigo[7]}>
+					Questions
+				</Text>
 				<Button
 					style={{ padding: '0 8px', color: theme.colors.indigo[7], borderColor: theme.colors.indigo[7] }}
-					variant="outline"
+					variant="subtle"
+					c={theme.colors.indigo[7]}
 					radius="sm"
 					w="50%"
 					size="sm"
