@@ -7,7 +7,7 @@ import { PropsWithChildren, useContext, useMemo } from 'react';
 import { getGraphqlErrorCode } from '@utils/graphql.ts';
 import { onError } from '@apollo/client/link/error';
 import '@mantine/core/styles.css';
-import { nanoid } from 'nanoid';
+import { nanoid } from 'nanoid/non-secure';
 
 interface RequestContext {
 	requestId: string;

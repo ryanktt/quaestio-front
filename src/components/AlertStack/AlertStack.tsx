@@ -1,7 +1,7 @@
 import { Button, Center, Stack } from '@mantine/core';
 import { useContext } from 'react';
 import AlertItem from '@components/Alert/Alert';
-import { nanoid } from 'nanoid';
+import { nanoid } from 'nanoid/non-secure';
 import { AlertContext } from '@contexts/Alert/Alert.context';
 
 export default function AlertStack() {
