@@ -1,6 +1,6 @@
 import '@mantine/core/styles.css';
 import { Box, Input, Tooltip, UnstyledButton } from '@mantine/core';
-import { IconFileAnalytics, IconFiles, IconHome2, IconPlus, IconSearch } from '@tabler/icons-react';
+import { IconFileAnalytics, IconFilePlus, IconFiles, IconHome2, IconSearch } from '@tabler/icons-react';
 import { useState } from 'react';
 import classes from './Toolbar.module.scss';
 
@@ -12,7 +12,7 @@ interface SectionNavProps {
 }
 
 const sectionNavData = [
-	{ icon: IconPlus, label: 'Create Questionnaire' },
+	{ icon: IconFilePlus, label: 'Create Questionnaire' },
 	{ icon: IconFiles, label: 'Questionnaire List' },
 	{ icon: IconFileAnalytics, label: 'Analytics' },
 ];
@@ -22,7 +22,7 @@ function ToolbarItem({ icon: Icon, label, active, onClick }: SectionNavProps) {
 		<div className={classes['toolbar-item']}>
 			<Tooltip label={label} position="top" transitionProps={{ duration: 0 }}>
 				<UnstyledButton onClick={onClick} className={classes['toolbar-icon']} data-active={active || undefined}>
-					<Icon size={18} stroke={2} />
+					<Icon size={20} stroke={2} />
 				</UnstyledButton>
 			</Tooltip>
 		</div>
@@ -31,13 +31,11 @@ function ToolbarItem({ icon: Icon, label, active, onClick }: SectionNavProps) {
 
 function ToolbarSearch({ onClick }: { onClick?: () => void }) {
 	return (
-		<div className={`${classes['toolbar-item']} ${classes['toolbar-search']}`}>
-			<Box style={{ display: 'flex', alignItems: 'center' }}>
-				<Box onClick={onClick} className={classes['toolbar-icon']}>
-					<IconSearch size={16} stroke={2} />
-				</Box>
-				<Input className={classes['search-input']} placeholder="Search for questionnaires" variant="default" />
+		<div className={`${classes['toolbar-search']}`}>
+			<Box onClick={onClick} className={classes['toolbar-icon']}>
+				<IconSearch size={16} stroke={2} />
 			</Box>
+			<Input className={classes['search-input']} placeholder="Search for questionnaires" variant="default" />
 		</div>
 	);
 }
@@ -50,10 +48,9 @@ export default function Toolbar() {
 	));
 
 	return (
-		<Box className={classes.toolbar}>
-			<Box className={classes['toolbar-items']}>
-				{[<ToolbarSearch key="toolbar-search" />, ...sectionsNavItems]}
-			</Box>
-		</Box>
+		<div className={classes.toolbar}>
+			<ToolbarSearch key="toolbar-search" />
+			<div className={classes['toolbar-items']}>{sectionsNavItems}</div>
+		</div>
 	);
 }

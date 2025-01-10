@@ -1,59 +1,56 @@
 .toolbar {
-	border-radius: var(--mantine-radius-md);
 	width: 100%;
+	gap: $spacingMd;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .toolbar-items {
+	border-radius: $radiusMd;
+	background-color: $violet7;
+	padding: $spacingXs;
 	display: flex;
-	border-color: var(--mantine-color-gray-4);
-	border-style: solid;
-	border-width: 1px;
-	border-radius: var(--mantine-radius-md);
-	overflow: hidden;
-}
-
-.toolbar-items > .toolbar-item + .toolbar-item {
-	border-left: 1px solid var(--mantine-color-violet-1);
+	gap: $spacingXs;
 }
 
 .search-input {
 	width: 100%;
-	margin-right: 10px;
-
-	&:focus-within {
-		input {
-			border: 1px solid var(--mantine-color-violet-filled);
-		}
+	input {
+		border: 0px hidden;
 	}
 }
 
 .toolbar-item {
 	cursor: pointer;
-	background-color: var(--mantine-color-white);
-	.toolbar-icon {
-		color: var(--mantine-color-violet-9);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: var(--mantine-spacing-md);
-	}
 }
 
-.toolbar-item:hover {
-	background-color: var(--mantine-color-violet-filled);
-	.toolbar-icon {
-		color: var(--mantine-color-white);
+.toolbar-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: $radiusMd;
+	padding: $spacingSm;
+	color: $violet1;
+	&:hover {
+		background-color: $violetDark;
 	}
 }
 
 .toolbar-search {
+	display: flex;
+	align-items: center;
+	padding: 3px;
 	width: 100%;
-}
-
-.toolbar-search:hover {
-	cursor: default;
-	.toolbar-icon {
-		color: var(--mantine-color-violet-9);
+	border: 1px solid $violet8;
+	border-radius: $radiusMd;
+	&:hover {
+		cursor: default;
 	}
-	background-color: var(--mantine-color-white);
+	.toolbar-icon {
+		color: $violet7;
+		&:hover {
+			background-color: $white;
+		}
+	}
 }

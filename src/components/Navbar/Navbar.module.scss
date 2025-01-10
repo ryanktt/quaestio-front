@@ -1,11 +1,11 @@
 .navbar {
 	width: 80px;
 	height: 500px;
-	border-radius: var(--mantine-radius-md);
-	padding: var(--mantine-spacing-md);
+	border-radius: $radiusMd;
+	padding: $spacingMd;
 	display: flex;
 	flex-direction: column;
-	background-color: var(--mantine-color-violet-filled);
+	background: $gradient;
 }
 
 .navbar-main {
@@ -15,22 +15,22 @@
 .link {
 	width: 50px;
 	height: 50px;
-	border-radius: var(--mantine-radius-md);
+	border-radius: $radiusMd;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	color: var(--mantine-color-white);
+	color: $white;
 
 	&:hover {
-		background-color: var(--mantine-color-violet-9);
+		background-color: $violetDark;
 	}
 
 	&[data-active] {
 		&,
 		&:hover {
-			box-shadow: var(--mantine-shadow-sm);
-			background-color: var(--mantine-color-white);
-			color: var(--mantine-color-violet-6);
+			box-shadow: $shadowSm;
+			background-color: $white;
+			color: $violet6;
 		}
 	}
 }

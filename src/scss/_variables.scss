@@ -10,6 +10,7 @@ $violet6: var(--mantine-color-violet-6);
 $violet7: var(--mantine-color-violet-7);
 $violet8: var(--mantine-color-violet-8);
 $violet9: var(--mantine-color-violet-9);
+$violetDark: #38289f;
 
 $indigo0: var(--mantine-color-indigo-0);
 $indigo1: var(--mantine-color-indigo-1);
@@ -33,16 +34,31 @@ $gray7: var(--mantine-color-gray-7);
 $gray8: var(--mantine-color-gray-8);
 $gray9: var(--mantine-color-gray-9);
 
+$dark: var(--mantine-color-dark);
+$dark0: var(--mantine-color-dark-0);
+$dark1: var(--mantine-color-dark-1);
+$dark2: var(--mantine-color-dark-2);
+$dark3: var(--mantine-color-dark-3);
+$dark4: var(--mantine-color-dark-4);
+$dark5: var(--mantine-color-dark-5);
+$dark6: var(--mantine-color-dark-6);
+$dark7: var(--mantine-color-dark-7);
+$dark8: var(--mantine-color-dark-8);
+$dark9: var(--mantine-color-dark-9);
+
 $white: var(--mantine-color-white);
 
 $black: var(--mantine-color-black);
 
-$gradient: linear-gradient(25deg, $indigo9, $violet5);
+$gradient: linear-gradient(25deg, $indigo9 0%, $violet7 100%);
 
 // --- Shaping and Spacing
 $radiusMd: var(--mantine-radius-md);
 $radiusSm: var(--mantine-radius-sm);
+$radiusLg: var(--mantine-radius-lg);
+$spacingXs: var(--mantine-spacing-xs);
 $spacingSm: var(--mantine-spacing-sm);
 $spacingMd: var(--mantine-spacing-md);
+$spacingXl: var(--mantine-spacing-xl);
 $shadowSm: var(--mantine-shadow-sm);
 $shadowXs: var(--mantine-shadow-xs);
