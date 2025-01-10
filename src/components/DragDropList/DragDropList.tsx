@@ -1,21 +1,35 @@
 import { nanoid } from 'nanoid/non-secure';
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
-import { useListState } from '@mantine/hooks';
-import { ComponentType } from 'react';
+import { ComponentType, useEffect, useState } from 'react';
 import cx from 'clsx';
 import { IconGripVertical } from '@tabler/icons-react';
 import classes from './DragDropList.module.scss';
 
 export default function DragDropList<P extends Object>({
-	itemComponent: ItemComponent,
-	onDragUpdate,
+	itemsComponent: ItemsComponent,
 	itemPropsList,
+	onReorder,
 }: {
-	itemComponent: ComponentType<P>;
+	itemsComponent: ComponentType<P>;
 	itemPropsList: P[];
-	onDragUpdate?: () => void;
+	onReorder: (state: P[]) => void;
 }) {
-	const [state, handlers] = useListState([...itemPropsList]);
+	const [state, setState] = useState([...itemPropsList]);
+
+	useEffect(() => {
+		setState(itemPropsList);
+	}, [itemPropsList]);
+
+	const handleReorder = ({ from, to }: { from: number; to: number }) => {
+		setState(() => {
+			const newState = [...state];
+			const [movedItem] = newState.splice(from, 1);
+			newState.splice(to, 0, movedItem);
+
+			onReorder(newState);
+			return newState;
+		});
+	};
 
 	const items = state.map((itemProps, index) => {
 		const key = nanoid();
@@ -31,7 +45,7 @@ export default function DragDropList<P extends Object>({
 					>
 						<div className={classes.draggable}>
 							<IconGripVertical className={classes.icon} size={18} stroke={1.5} />
-							<ItemComponent {...itemProps} />
+							<ItemsComponent {...itemProps} />
 						</div>
 					</div>
 				)}
@@ -41,14 +55,13 @@ export default function DragDropList<P extends Object>({
 
 	return (
 		<DragDropContext
-			onDragUpdate={onDragUpdate}
-			onDragEnd={({ destination, source }) =>
-				handlers.reorder({ from: source.index, to: destination?.index || 0 })
-			}
+			onDragEnd={({ destination, source }) => {
+				handleReorder({ from: source.index, to: destination?.index || 0 });
+			}}
 		>
 			<Droppable droppableId="dnd-list" direction="vertical">
 				{(provided) => (
-					<div {...provided.droppableProps} ref={provided.innerRef}>
+					<div className={classes.items} {...provided.droppableProps} ref={provided.innerRef}>
 						{items}
 						{provided.placeholder}
 					</div>
