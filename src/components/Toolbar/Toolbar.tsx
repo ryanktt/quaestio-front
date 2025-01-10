@@ -42,7 +42,7 @@ function ToolbarSearch({ onClick }: { onClick?: () => void }) {
 	);
 }
 
-export default function Main() {
+export default function Toolbar() {
 	const [active, setActive] = useState(2);
 
 	const sectionsNavItems = sectionNavData.map((link, index) => (
@@ -51,7 +51,9 @@ export default function Main() {
 
 	return (
 		<Box className={classes.toolbar}>
-			<Box className={classes['toolbar-items']}>{[<ToolbarSearch />, ...sectionsNavItems]}</Box>
+			<Box className={classes['toolbar-items']}>
+				{[<ToolbarSearch key="toolbar-search" />, ...sectionsNavItems]}
+			</Box>
 		</Box>
 	);
 }
