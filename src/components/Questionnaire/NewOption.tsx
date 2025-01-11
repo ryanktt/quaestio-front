@@ -34,12 +34,12 @@ export default function NewOption({
 	});
 
 	return (
-		<div style={{ margin: '15px 10px' }}>
+		<div style={{ margin: '15px 0' }}>
 			<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
 				<div />
 				<div>
 					<Tooltip label="Cancel">
-						<Button mr={theme.spacing.sm} variant="gradient-red" size="xs" p="0 10px" onClick={onCancel}>
+						<Button mr={theme.spacing.xs} variant="gradient-red" size="xs" p="0 10px" onClick={onCancel}>
 							<IconX size={18} />
 						</Button>
 					</Tooltip>

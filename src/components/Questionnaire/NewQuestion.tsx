@@ -94,11 +94,11 @@ export default function QuestionUpsert({
 				<div />
 				<div>
 					<Tooltip label="Cancel">
-						<Button mr={theme.spacing.sm} variant="gradient-red" size="xs" p="0 10px" onClick={onCancel}>
+						<Button mr={theme.spacing.xs} variant="gradient-red" size="xs" p="0 10px" onClick={onCancel}>
 							<IconX size={18} />
 						</Button>
 					</Tooltip>
-					<Tooltip label="Add Option">
+					<Tooltip label="Add Question">
 						<Button
 							variant="gradient-teal"
 							p="0 10px"
