@@ -1,0 +1,30 @@
+button {
+	&[data-variant='gradient'] {
+		background: $gradient;
+		color: $white;
+		border: 0;
+
+		&:hover {
+			background: linear-gradient(50deg, $indigo8, $violet8);
+		}
+	}
+
+	&[data-variant='gradient-teal'] {
+		background: linear-gradient(90deg, $teal5 1%, #04d3b1 100%);
+		color: $white;
+		border: 0;
+		&:hover {
+			background: linear-gradient(90deg, $teal6 1%, #04cbaa 100%);
+		}
+	}
+
+	&[data-variant='gradient-red'] {
+		background: linear-gradient(25deg, $pink6, $red5);
+		color: $white;
+		border: 0;
+
+		&:hover {
+			background: linear-gradient(25deg, $pink7, $red6);
+		}
+	}
+}
