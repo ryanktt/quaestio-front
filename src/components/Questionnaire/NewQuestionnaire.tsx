@@ -45,7 +45,7 @@ export default function Questionnaire() {
 	});
 	const { type, questions } = form.getValues();
 
-	const [newQuestionOpen, setNewQuestionOpen] = useState(true);
+	const [newQuestionOpen, setNewQuestionOpen] = useState(false);
 
 	const handleReorderedQuestions = (reorderedQuestions: { id: string }[]) => {
 		const updatedQuestions = reorderedQuestions
@@ -73,13 +73,14 @@ export default function Questionnaire() {
 
 	const questionsProps = questions.map<IQuestionnaireListItemProps>((question, i) => ({
 		id: question.id,
-		badge: `Q.${i + 1}`,
+		badge: `Question ${i + 1}`,
 		description: question.description,
 	}));
 	return (
 		<Box
 			p={theme.spacing.lg}
 			style={{
+				boxShadow: theme.shadows.sm,
 				border: '1px solid',
 				borderColor: theme.colors.gray[3],
 				borderRadius: theme.radius.lg,
@@ -109,6 +110,7 @@ export default function Questionnaire() {
 				<TextInput
 					{...form.getInputProps('title')}
 					label="Title"
+					disabled={!type}
 					required
 					placeholder={`The ${type ?? 'Questionnaire'} title`}
 					inputWrapperOrder={['label', 'error', 'input']}
@@ -117,6 +119,7 @@ export default function Questionnaire() {
 					{...form.getInputProps('description')}
 					label="Description"
 					resize="vertical"
+					disabled={!type}
 					placeholder={`The ${type ?? 'Questionnaire'} description`}
 					inputWrapperOrder={['label', 'error', 'input']}
 				/>
@@ -124,12 +127,14 @@ export default function Questionnaire() {
 					{...form.getInputProps('requireEmail')}
 					defaultChecked={false}
 					color={theme.colors.indigo[6]}
+					disabled={!type}
 					label="Require user email"
 				/>
 				<Checkbox
 					{...form.getInputProps('requireName')}
 					defaultChecked={false}
 					color={theme.colors.indigo[6]}
+					disabled={!type}
 					label="Require user name"
 				/>
 				<Text fw="600" mt={theme.spacing.sm} c={theme.colors.indigo[7]}>
@@ -146,8 +151,7 @@ export default function Questionnaire() {
 					</div>
 				) : null}
 				<Button
-					style={{ padding: '0 8px', color: theme.colors.indigo[7], borderColor: theme.colors.indigo[7] }}
-					c={theme.colors.indigo[7]}
+					color={theme.colors.indigo[7]}
 					variant="outline"
 					radius="sm"
 					w="50%"
@@ -156,6 +160,7 @@ export default function Questionnaire() {
 						setNewQuestionOpen(true);
 					}}
 					size="sm"
+					disabled={!type}
 				>
 					New Question
 				</Button>
@@ -163,7 +168,15 @@ export default function Questionnaire() {
 					<NewQuestion onCancel={() => setNewQuestionOpen(false)} onNewQuestion={setQuestion} />
 				) : null}
 				<Center style={{ gap: '10px' }}>
-					<Button w="100%" justify="center" size="sm" mt="xl" type="submit" variant="gradient">
+					<Button
+						disabled={!type}
+						w="100%"
+						justify="center"
+						size="sm"
+						mt="xl"
+						type="submit"
+						variant="gradient"
+					>
 						Create {type ?? 'Questionnaire'}
 					</Button>
 				</Center>

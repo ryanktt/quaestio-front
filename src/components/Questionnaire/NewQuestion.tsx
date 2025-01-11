@@ -1,7 +1,7 @@
 import { QuestionType } from '@utils/generated/graphql.ts';
-import { Button, Checkbox, Select, Text, Textarea, useMantineTheme } from '@mantine/core';
+import { Button, Checkbox, Select, Text, Textarea, Tooltip, useMantineTheme } from '@mantine/core';
 import DragDropList from '@components/DragDropList/DragDropList.tsx';
-import { useForm } from '@mantine/form';
+import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { useState } from 'react';
@@ -40,9 +40,12 @@ export default function QuestionUpsert({
 			randomizeOptions: false,
 			options: [],
 		},
+		validate: {
+			description: hasLength({ min: 3, max: 255 }, 'Description must be 3-255 characters long'),
+		},
 	});
 
-	const { options } = form.getValues();
+	const { type, options } = form.getValues();
 
 	const getType = (val: (typeof typeValues)[number] | string | null) => {
 		if (val === 'Single Choice') return QuestionType.SingleChoice;
@@ -81,40 +84,34 @@ export default function QuestionUpsert({
 
 	const optionsProps = options.map<IQuestionnaireListItemProps>((option, i) => ({
 		id: option.id,
-		badge: `O.${i + 1}`,
+		badge: `Option ${i + 1}`,
 		description: option.title,
 	}));
 
 	return (
-		<div>
+		<div style={{ margin: '15px 0' }}>
 			<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
 				<div />
 				<div>
-					<Button
-						style={{ color: theme.colors.pink[6], borderColor: theme.colors.pink[3] }}
-						mr={theme.spacing.sm}
-						variant="outline"
-						size="sm"
-						p="0 10px"
-						onClick={onCancel}
-					>
-						<IconX />
-					</Button>
-					<Button
-						style={{ color: theme.colors.teal[6], borderColor: theme.colors.teal[3] }}
-						variant="default"
-						p="0 10px"
-						styles={{ root: { '&:hover': { backgroundColor: theme.colors.teal[9] } } }}
-						size="sm"
-						onClick={() => {
-							if (!form.validate().hasErrors) {
-								onNewQuestion(form.getValues());
-							}
-						}}
-					>
-						<p style={{ marginRight: theme.spacing.sm }}>Add Question</p>
-						<IconCheck />
-					</Button>
+					<Tooltip label="Cancel">
+						<Button mr={theme.spacing.sm} variant="gradient-red" size="xs" p="0 10px" onClick={onCancel}>
+							<IconX size={18} />
+						</Button>
+					</Tooltip>
+					<Tooltip label="Add Option">
+						<Button
+							variant="gradient-teal"
+							p="0 10px"
+							size="xs"
+							onClick={() => {
+								if (!form.validate().hasErrors) {
+									onNewQuestion(form.getValues());
+								}
+							}}
+						>
+							<IconCheck size={18} />
+						</Button>
+					</Tooltip>
 				</div>
 			</div>
 			<div
@@ -137,6 +134,7 @@ export default function QuestionUpsert({
 					label="Question description"
 					resize="vertical"
 					error={form.errors.description}
+					disabled={!type}
 					required
 					placeholder="The question description"
 					inputWrapperOrder={['label', 'error', 'input']}
@@ -145,6 +143,7 @@ export default function QuestionUpsert({
 					{...form.getInputProps('rightAnswerFeedback')}
 					label="Correct Answer Feedback"
 					resize="vertical"
+					disabled={!type}
 					placeholder="Nice one!! :)"
 					inputWrapperOrder={['label', 'error', 'input']}
 				/>
@@ -152,12 +151,14 @@ export default function QuestionUpsert({
 					{...form.getInputProps('wrongAnswerFeedback')}
 					label="Wrong answer feedback"
 					resize="vertical"
+					disabled={!type}
 					placeholder="Too bad :("
 					inputWrapperOrder={['label', 'error', 'input']}
 				/>
 				<Checkbox
 					{...form.getInputProps('randomizeOptions')}
 					defaultChecked={false}
+					disabled={!type}
 					color={theme.colors.indigo[6]}
 					label="Randomize options"
 				/>
@@ -165,20 +166,6 @@ export default function QuestionUpsert({
 					Options
 				</Text>
 
-				<Button
-					style={{ padding: '0 8px', color: theme.colors.indigo[7], borderColor: theme.colors.indigo[7] }}
-					w="50%"
-					c={theme.colors.indigo[7]}
-					variant="outline"
-					radius="sm"
-					display={newOptionOpen ? 'none' : 'block'}
-					onClick={() => {
-						setNewOptionOpen(true);
-					}}
-					size="sm"
-				>
-					New Option
-				</Button>
 				{optionsProps.length ? (
 					<DragDropList
 						onReorder={handleReorderedOptions}
@@ -187,7 +174,22 @@ export default function QuestionUpsert({
 					/>
 				) : null}
 
-				{newOptionOpen ? <NewOption onCancel={() => setNewOptionOpen} onNewOption={setOption} /> : null}
+				<Button
+					w="50%"
+					color={theme.colors.indigo[7]}
+					variant="outline"
+					radius="sm"
+					display={newOptionOpen ? 'none' : 'block'}
+					disabled={!type}
+					onClick={() => {
+						setNewOptionOpen(true);
+					}}
+					size="sm"
+				>
+					New Option
+				</Button>
+
+				{newOptionOpen ? <NewOption onCancel={() => setNewOptionOpen(false)} onNewOption={setOption} /> : null}
 			</div>
 		</div>
 	);

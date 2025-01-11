@@ -1,4 +1,4 @@
-import { Button, Checkbox, Textarea, useMantineTheme } from '@mantine/core';
+import { Button, Checkbox, Textarea, Tooltip, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
 import { IconCheck, IconX } from '@tabler/icons-react';
@@ -34,35 +34,29 @@ export default function NewOption({
 	});
 
 	return (
-		<div>
+		<div style={{ margin: '15px 10px' }}>
 			<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
 				<div />
 				<div>
-					<Button
-						style={{ color: theme.colors.pink[6], borderColor: theme.colors.pink[3] }}
-						mr={theme.spacing.sm}
-						variant="outline"
-						size="sm"
-						p="0 10px"
-						onClick={onCancel}
-					>
-						<IconX />
-					</Button>
-					<Button
-						style={{ color: theme.colors.teal[6], borderColor: theme.colors.teal[3] }}
-						variant="default"
-						p="0 10px"
-						styles={{ root: { '&:hover': { backgroundColor: theme.colors.teal[9] } } }}
-						size="sm"
-						onClick={() => {
-							if (!form.validate().hasErrors) {
-								onNewOption(form.getValues());
-							}
-						}}
-					>
-						<p style={{ marginRight: theme.spacing.sm }}>New Option</p>
-						<IconCheck />
-					</Button>
+					<Tooltip label="Cancel">
+						<Button mr={theme.spacing.sm} variant="gradient-red" size="xs" p="0 10px" onClick={onCancel}>
+							<IconX size={18} />
+						</Button>
+					</Tooltip>
+					<Tooltip label="Add Option">
+						<Button
+							variant="gradient-teal"
+							p="0 10px"
+							size="xs"
+							onClick={() => {
+								if (!form.validate().hasErrors) {
+									onNewOption(form.getValues());
+								}
+							}}
+						>
+							<IconCheck size={18} />
+						</Button>
+					</Tooltip>
 				</div>
 			</div>
 			<div

@@ -3,6 +3,11 @@
 	background-color: $white;
 }
 
+.item,
+.draggable {
+	border-radius: $radiusMd;
+}
+
 .itemDragging {
 	box-shadow: $shadowSm;
 }
@@ -13,8 +18,9 @@
 }
 
 .draggable {
-	border-radius: $radiusMd;
 	border: 1px solid $gray4;
 	display: flex;
 	align-items: center;
+	overflow: hidden;
+	background-color: white;
 }

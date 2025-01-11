@@ -21,7 +21,7 @@ export default function QuestionnaireListItem({ badge, description, id }: IQuest
 			}}
 		>
 			<div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-				<Badge variant="light" color={theme.colors.indigo[9]} radius="sm" size="md" h="100%">
+				<Badge variant="light" color={theme.colors.indigo[9]} size="sm">
 					{badge}
 				</Badge>
 				<Text c={theme.colors.gray[6]} size="sm">
@@ -30,12 +30,12 @@ export default function QuestionnaireListItem({ badge, description, id }: IQuest
 			</div>
 			<div style={{ display: 'flex' }}>
 				<Tooltip label="Edit Option">
-					<Button variant="subtle" size="md" color={theme.colors.indigo[8]} p="0 15px">
+					<Button variant="subtle" size="md" color={theme.colors.indigo[9]} p="0 15px">
 						<IconEdit size={18} />
 					</Button>
 				</Tooltip>
 				<Tooltip label="Delete Option">
-					<Button variant="subtle" size="md" color={theme.colors.pink[9]} p="0 15px">
+					<Button variant="subtle" size="md" color={theme.colors.indigo[9]} p="0 15px">
 						<IconTrash size={18} />
 					</Button>
 				</Tooltip>
