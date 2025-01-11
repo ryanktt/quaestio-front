@@ -13,6 +13,7 @@ import { Stack, Tooltip, UnstyledButton } from '@mantine/core';
 import { useSignOutMutation } from '@utils/generated/graphql';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import { useCookies } from 'react-cookie';
+import { AuthModalContext } from '@contexts/AuthModal.context';
 import classes from './Navbar.module.scss';
 
 interface NavbarLinkProps {
@@ -44,12 +45,18 @@ const mockdata = [
 
 export default function Navbar() {
 	const globalContext = useContext(GlobalContext);
+	const authModalContext = useContext(AuthModalContext);
 	const [logoutMutation, { data: logoutData, reset: resetLogout }] = useSignOutMutation();
 	const [, , removeCookies] = useCookies(['authData']);
 
 	const onLogout = async () => {
 		await logoutMutation();
 	};
+
+	const onChangeAccount = () => {
+		authModalContext.state.setOpened();
+	};
+
 	useEffect(() => {
 		if (!logoutData) return;
 		globalContext.state.logout();
@@ -71,7 +78,7 @@ export default function Navbar() {
 				</Stack>
 			</div>
 			<Stack justify="center" gap={0}>
-				<NavbarLink icon={IconSwitchHorizontal} label="Change account" />
+				<NavbarLink icon={IconSwitchHorizontal} onClick={onChangeAccount} label="Change account" />
 				<NavbarLink icon={IconLogout} onClick={onLogout} label="Logout" />
 			</Stack>
 		</nav>
