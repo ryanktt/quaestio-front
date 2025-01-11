@@ -4,7 +4,7 @@ import { IconEdit, IconTrash } from '@tabler/icons-react';
 export interface IQuestionnaireListItemProps {
 	id: string;
 	badge: string;
-	description: string;
+	description?: string;
 }
 
 export default function QuestionnaireListItem({ badge, description, id }: IQuestionnaireListItemProps) {

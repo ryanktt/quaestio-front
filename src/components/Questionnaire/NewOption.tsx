@@ -1,6 +1,7 @@
 import { Button, Checkbox, Textarea, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
+import { IconCheck, IconX } from '@tabler/icons-react';
 import { nanoid } from 'nanoid/non-secure';
 
 export interface INewOptionProps {
@@ -10,7 +11,13 @@ export interface INewOptionProps {
 	correct: boolean | '';
 }
 
-export default function NewOption({ onNewOption }: { onNewOption: (opt: INewOptionProps) => void }) {
+export default function NewOption({
+	onNewOption,
+	onCancel,
+}: {
+	onNewOption: (opt: INewOptionProps) => void;
+	onCancel: () => void;
+}) {
 	const theme = useMantineTheme();
 	const form = useForm<INewOptionProps>({
 		mode: 'uncontrolled',
@@ -28,6 +35,36 @@ export default function NewOption({ onNewOption }: { onNewOption: (opt: INewOpti
 
 	return (
 		<div>
+			<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+				<div />
+				<div>
+					<Button
+						style={{ color: theme.colors.pink[6], borderColor: theme.colors.pink[3] }}
+						mr={theme.spacing.sm}
+						variant="outline"
+						size="sm"
+						p="0 10px"
+						onClick={onCancel}
+					>
+						<IconX />
+					</Button>
+					<Button
+						style={{ color: theme.colors.teal[6], borderColor: theme.colors.teal[3] }}
+						variant="default"
+						p="0 10px"
+						styles={{ root: { '&:hover': { backgroundColor: theme.colors.teal[9] } } }}
+						size="sm"
+						onClick={() => {
+							if (!form.validate().hasErrors) {
+								onNewOption(form.getValues());
+							}
+						}}
+					>
+						<p style={{ marginRight: theme.spacing.sm }}>New Option</p>
+						<IconCheck />
+					</Button>
+				</div>
+			</div>
 			<div
 				style={{
 					display: 'flex',
@@ -37,10 +74,10 @@ export default function NewOption({ onNewOption }: { onNewOption: (opt: INewOpti
 			>
 				<Textarea
 					{...form.getInputProps('title')}
-					label="Option title"
+					label="Option description"
 					required
 					resize="vertical"
-					placeholder="The option title"
+					placeholder="The option description"
 					error={form.errors.title}
 					inputWrapperOrder={['label', 'error', 'input']}
 				/>
@@ -53,20 +90,6 @@ export default function NewOption({ onNewOption }: { onNewOption: (opt: INewOpti
 					inputWrapperOrder={['label', 'error', 'input']}
 				/>
 				<Checkbox {...form.getInputProps('correct')} color={theme.colors.indigo[6]} label="Correct option" />
-				<Button
-					w="50%"
-					style={{ color: theme.colors.indigo[7], borderColor: theme.colors.indigo[7] }}
-					variant="outline"
-					size="sm"
-					mt="md"
-					onClick={() => {
-						if (!form.validate().hasErrors) {
-							onNewOption(form.getValues());
-						}
-					}}
-				>
-					Add Option
-				</Button>
 			</div>
 		</div>
 	);

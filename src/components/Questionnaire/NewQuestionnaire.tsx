@@ -13,11 +13,23 @@ import {
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
 import { QuestionnaireType } from '@utils/generated/graphql';
-import NewQuestion from './NewQuestion.tsx';
+import { useState } from 'react';
+import DragDropList from '@components/DragDropList/DragDropList.tsx';
+import NewQuestion, { INewQuestionProps } from './NewQuestion.tsx';
+import QuestionnaireListItem, { IQuestionnaireListItemProps } from './QuestionnaireListItem.tsx';
+
+export interface INewQuestionnaireProps {
+	type: QuestionnaireType | null;
+	title: string;
+	description: string;
+	requireEmail: boolean;
+	requireName: boolean;
+	questions: INewQuestionProps[];
+}
 
 export default function Questionnaire() {
 	const theme = useMantineTheme();
-	const form = useForm({
+	const form = useForm<INewQuestionnaireProps>({
 		mode: 'controlled',
 		initialValues: {
 			type: null,
@@ -31,9 +43,39 @@ export default function Questionnaire() {
 			title: hasLength({ min: 3, max: 255 }, 'Title must be 3-255 characters long'),
 		},
 	});
+	const { type, questions } = form.getValues();
 
-	const { type } = form.getValues();
+	const [newQuestionOpen, setNewQuestionOpen] = useState(true);
 
+	const handleReorderedQuestions = (reorderedQuestions: { id: string }[]) => {
+		const updatedQuestions = reorderedQuestions
+			.map(({ id }) => questions.find((opt) => opt.id === id))
+			.filter((opt): opt is INewQuestionProps => !!opt);
+
+		form.setFieldValue('questions', updatedQuestions);
+	};
+
+	const setQuestion = (newOpt: INewQuestionProps) => {
+		let foundQuestion;
+		const updatedQuestions = form.getValues().questions.map((opt) => {
+			if (opt.id === newOpt.id) {
+				foundQuestion = true;
+				return newOpt;
+			}
+			return opt;
+		});
+
+		if (!foundQuestion) updatedQuestions.push(newOpt);
+
+		form.setFieldValue('questions', updatedQuestions);
+		setNewQuestionOpen(false);
+	};
+
+	const questionsProps = questions.map<IQuestionnaireListItemProps>((question, i) => ({
+		id: question.id,
+		badge: `Q.${i + 1}`,
+		description: question.description,
+	}));
 	return (
 		<Box
 			p={theme.spacing.lg}
@@ -68,7 +110,6 @@ export default function Questionnaire() {
 					{...form.getInputProps('title')}
 					label="Title"
 					required
-					disabled={!type}
 					placeholder={`The ${type ?? 'Questionnaire'} title`}
 					inputWrapperOrder={['label', 'error', 'input']}
 				/>
@@ -76,20 +117,17 @@ export default function Questionnaire() {
 					{...form.getInputProps('description')}
 					label="Description"
 					resize="vertical"
-					disabled={!type}
 					placeholder={`The ${type ?? 'Questionnaire'} description`}
 					inputWrapperOrder={['label', 'error', 'input']}
 				/>
 				<Checkbox
 					{...form.getInputProps('requireEmail')}
 					defaultChecked={false}
-					disabled={!type}
 					color={theme.colors.indigo[6]}
 					label="Require user email"
 				/>
 				<Checkbox
 					{...form.getInputProps('requireName')}
-					disabled={!type}
 					defaultChecked={false}
 					color={theme.colors.indigo[6]}
 					label="Require user name"
@@ -97,18 +135,33 @@ export default function Questionnaire() {
 				<Text fw="600" mt={theme.spacing.sm} c={theme.colors.indigo[7]}>
 					Questions
 				</Text>
+
+				{questionsProps.length ? (
+					<div>
+						<DragDropList
+							onReorder={handleReorderedQuestions}
+							itemsComponent={QuestionnaireListItem}
+							itemPropsList={questionsProps}
+						/>
+					</div>
+				) : null}
 				<Button
 					style={{ padding: '0 8px', color: theme.colors.indigo[7], borderColor: theme.colors.indigo[7] }}
-					variant="subtle"
 					c={theme.colors.indigo[7]}
+					variant="outline"
 					radius="sm"
 					w="50%"
+					display={newQuestionOpen ? 'none' : 'block'}
+					onClick={() => {
+						setNewQuestionOpen(true);
+					}}
 					size="sm"
 				>
 					New Question
 				</Button>
-
-				<NewQuestion />
+				{newQuestionOpen ? (
+					<NewQuestion onCancel={() => setNewQuestionOpen(false)} onNewQuestion={setQuestion} />
+				) : null}
 				<Center style={{ gap: '10px' }}>
 					<Button w="100%" justify="center" size="sm" mt="xl" type="submit" variant="gradient">
 						Create {type ?? 'Questionnaire'}
