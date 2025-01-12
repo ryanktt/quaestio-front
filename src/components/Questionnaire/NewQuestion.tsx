@@ -16,6 +16,7 @@ export interface INewQuestionProps {
 	wrongAnswerFeedback: string;
 	rightAnswerFeedback: string;
 	randomizeOptions: boolean;
+	showCorrectAnswer: boolean;
 	options: INewOptionProps[];
 }
 
@@ -37,6 +38,7 @@ export default function QuestionUpsert({
 			description: '',
 			wrongAnswerFeedback: '',
 			rightAnswerFeedback: '',
+			showCorrectAnswer: false,
 			randomizeOptions: false,
 			options: [],
 		},
@@ -118,7 +120,7 @@ export default function QuestionUpsert({
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
-					gap: '12px',
+					gap: theme.spacing.md,
 				}}
 			>
 				<Select
@@ -154,6 +156,13 @@ export default function QuestionUpsert({
 					disabled={!type}
 					placeholder="Too bad :("
 					inputWrapperOrder={['label', 'error', 'input']}
+				/>
+				<Checkbox
+					{...form.getInputProps('showCorrectAnswer')}
+					defaultChecked={false}
+					disabled={!type}
+					color={theme.colors.indigo[6]}
+					label="Show correct answer"
 				/>
 				<Checkbox
 					{...form.getInputProps('randomizeOptions')}
