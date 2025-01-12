@@ -54,6 +54,7 @@ export default function Navbar() {
 	};
 
 	const onChangeAccount = () => {
+		authModalContext.state.setType('LOGIN');
 		authModalContext.state.setOpened();
 	};
 
