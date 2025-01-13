@@ -1,13 +1,11 @@
-import { QuestionType } from '@utils/generated/graphql.ts';
 import { Button, Checkbox, Select, Text, Textarea, Tooltip, useMantineTheme } from '@mantine/core';
 import DragDropList from '@components/DragDropList/DragDropList.tsx';
+import { QuestionType } from '@utils/generated/graphql.ts';
+import { IconCheck, IconX } from '@tabler/icons-react';
 import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
-import { IconCheck, IconX } from '@tabler/icons-react';
-import { useState } from 'react';
-import NewOption, { INewOptionProps } from './NewOption.tsx';
+import OptionListItem, { IOptionProps, IUpsertOptionProps } from './UpsertOption.tsx';
 import '@mantine/core/styles.css';
-import QuestionnaireListItem, { IQuestionnaireListItemProps } from './QuestionnaireListItem.tsx';
 
 export interface INewQuestionProps {
 	id: string;
@@ -19,7 +17,7 @@ export interface INewQuestionProps {
 	randomizeOptions: boolean;
 	feedbackAfterSubmit: string;
 	showCorrectAnswer: boolean;
-	options: INewOptionProps[];
+	options: IOptionProps[];
 }
 
 export default function QuestionUpsert({
@@ -32,7 +30,6 @@ export default function QuestionUpsert({
 	const typeValues = ['Single Choice', 'Multiple Choice', 'True or False', 'Text'] as const;
 	const theme = useMantineTheme();
 
-	const [newOptionOpen, setNewOptionOpen] = useState(false);
 	const form = useForm<INewQuestionProps>({
 		initialValues: {
 			id: nanoid(),
@@ -51,7 +48,7 @@ export default function QuestionUpsert({
 		},
 	});
 
-	const { type, options } = form.getValues();
+	const { type } = form.getValues();
 
 	const getType = (val: (typeof typeValues)[number] | string | null) => {
 		if (val === 'Single Choice') return QuestionType.SingleChoice;
@@ -65,34 +62,45 @@ export default function QuestionUpsert({
 		form.setFieldValue('type', getType(val));
 	};
 
-	const handleReorderedOptions = (reorderedOptions: { id: string }[]) => {
+	const handleReorderedOptions = (reorderedOptions: IUpsertOptionProps[]) => {
 		const updatedOptions = reorderedOptions
-			.map(({ id }) => options.find((opt) => opt.id === id))
-			.filter((opt): opt is INewOptionProps => !!opt);
+			.map(({ option }) => form.getValues().options.find((opt) => opt.id === option?.id))
+			.filter((opt): opt is IOptionProps => !!opt);
 
 		form.setFieldValue('options', updatedOptions);
 	};
 
-	const setOption = (newOpt: INewOptionProps) => {
+	const setOption = (upsertedOpt: IOptionProps) => {
 		let foundOption;
 		const updatedOptions = form.getValues().options.map((opt) => {
-			if (opt.id === newOpt.id) {
+			if (opt.id === upsertedOpt.id) {
 				foundOption = true;
-				return newOpt;
+				return upsertedOpt;
 			}
 			return opt;
 		});
 
-		if (!foundOption) updatedOptions.push(newOpt);
+		if (!foundOption) updatedOptions.push(upsertedOpt);
 
 		form.setFieldValue('options', updatedOptions);
-		setNewOptionOpen(false);
 	};
 
-	const optionsProps = options.map<IQuestionnaireListItemProps>((option, i) => ({
-		id: option.id,
+	const deleteOption = (optionId: string) => {
+		const { options } = form.getValues();
+		const index = options.findIndex((opt) => opt.id === optionId);
+		if (index !== -1) {
+			const updatedOptions = [...options];
+			updatedOptions.splice(index, 1);
+
+			form.setFieldValue('options', updatedOptions);
+		}
+	};
+
+	const optionsProps = form.getValues().options.map<IUpsertOptionProps>((option, i) => ({
 		badge: `Option ${i + 1}`,
-		description: option.title,
+		onDelete: deleteOption,
+		onSet: setOption,
+		option,
 	}));
 
 	return (
@@ -217,29 +225,12 @@ export default function QuestionUpsert({
 						{optionsProps.length ? (
 							<DragDropList
 								onReorder={handleReorderedOptions}
-								itemsComponent={QuestionnaireListItem}
+								itemsComponent={OptionListItem}
 								itemPropsList={optionsProps}
 							/>
 						) : null}
 
-						<Button
-							w="50%"
-							color={theme.colors.indigo[7]}
-							variant="outline"
-							radius="sm"
-							display={newOptionOpen ? 'none' : 'block'}
-							disabled={!type}
-							onClick={() => {
-								setNewOptionOpen(true);
-							}}
-							size="sm"
-						>
-							New Option
-						</Button>
-
-						{newOptionOpen ? (
-							<NewOption onCancel={() => setNewOptionOpen(false)} onNewOption={setOption} />
-						) : null}
+						<OptionListItem badge="New Option" method="ADD" draggable={false} onSet={setOption} />
 					</>
 				) : null}
 			</div>

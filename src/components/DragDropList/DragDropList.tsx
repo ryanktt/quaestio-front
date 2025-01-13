@@ -2,7 +2,6 @@ import { nanoid } from 'nanoid/non-secure';
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 import { ComponentType, useEffect, useState } from 'react';
 import cx from 'clsx';
-import { IconGripVertical } from '@tabler/icons-react';
 import classes from './DragDropList.module.scss';
 
 export default function DragDropList<P extends Object>({
@@ -43,10 +42,7 @@ export default function DragDropList<P extends Object>({
 						{...provided.dragHandleProps}
 						ref={provided.innerRef}
 					>
-						<div className={classes.draggable}>
-							<IconGripVertical className={classes.icon} size={18} stroke={1.5} />
-							<ItemsComponent {...itemProps} />
-						</div>
+						<ItemsComponent {...itemProps} />
 					</div>
 				)}
 			</Draggable>
