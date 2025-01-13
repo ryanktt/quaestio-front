@@ -13,9 +13,11 @@ export interface INewQuestionProps {
 	id: string;
 	type: QuestionType | null;
 	description: string;
+	required: boolean;
 	wrongAnswerFeedback: string;
 	rightAnswerFeedback: string;
 	randomizeOptions: boolean;
+	feedbackAfterSubmit: string;
 	showCorrectAnswer: boolean;
 	options: INewOptionProps[];
 }
@@ -38,8 +40,10 @@ export default function QuestionUpsert({
 			description: '',
 			wrongAnswerFeedback: '',
 			rightAnswerFeedback: '',
+			feedbackAfterSubmit: '',
 			showCorrectAnswer: false,
 			randomizeOptions: false,
+			required: false,
 			options: [],
 		},
 		validate: {
@@ -57,6 +61,7 @@ export default function QuestionUpsert({
 	};
 
 	const handleTypeChange = (val: string | null) => {
+		form.reset();
 		form.setFieldValue('type', getType(val));
 	};
 
@@ -141,64 +146,102 @@ export default function QuestionUpsert({
 					placeholder="The question description"
 					inputWrapperOrder={['label', 'error', 'input']}
 				/>
-				<Textarea
-					{...form.getInputProps('rightAnswerFeedback')}
-					label="Correct Answer Feedback"
-					resize="vertical"
-					disabled={!type}
-					placeholder="Nice one!! :)"
-					inputWrapperOrder={['label', 'error', 'input']}
-				/>
-				<Textarea
-					{...form.getInputProps('wrongAnswerFeedback')}
-					label="Wrong answer feedback"
-					resize="vertical"
-					disabled={!type}
-					placeholder="Too bad :("
-					inputWrapperOrder={['label', 'error', 'input']}
-				/>
-				<Checkbox
-					{...form.getInputProps('showCorrectAnswer')}
-					defaultChecked={false}
-					disabled={!type}
-					color={theme.colors.indigo[6]}
-					label="Show correct answer"
-				/>
-				<Checkbox
-					{...form.getInputProps('randomizeOptions')}
-					defaultChecked={false}
-					disabled={!type}
-					color={theme.colors.indigo[6]}
-					label="Randomize options"
-				/>
-				<Text fw="600" mt={theme.spacing.sm} c={theme.colors.indigo[7]}>
-					Options
-				</Text>
 
-				{optionsProps.length ? (
-					<DragDropList
-						onReorder={handleReorderedOptions}
-						itemsComponent={QuestionnaireListItem}
-						itemPropsList={optionsProps}
+				{type === QuestionType.MultipleChoice ||
+				type === QuestionType.SingleChoice ||
+				type === QuestionType.TrueOrFalse ? (
+					<>
+						<Textarea
+							{...form.getInputProps('rightAnswerFeedback')}
+							label="Correct Answer Feedback"
+							resize="vertical"
+							disabled={!type}
+							placeholder="Nice one!! :)"
+							inputWrapperOrder={['label', 'error', 'input']}
+						/>
+						<Textarea
+							{...form.getInputProps('wrongAnswerFeedback')}
+							label="Wrong answer feedback"
+							resize="vertical"
+							disabled={!type}
+							placeholder="Too bad :("
+							inputWrapperOrder={['label', 'error', 'input']}
+						/>
+						<Checkbox
+							{...form.getInputProps('showCorrectAnswer')}
+							defaultChecked={false}
+							disabled={!type}
+							color={theme.colors.indigo[6]}
+							label="Show correct answer"
+						/>
+					</>
+				) : null}
+
+				{type === QuestionType.Text ? (
+					<Textarea
+						{...form.getInputProps('feedbackAfterSubmit')}
+						resize="vertical"
+						disabled={!type}
+						placeholder="Hope you got it! The answer is..."
+						inputWrapperOrder={['label', 'error', 'input']}
+						label="Feedback after submit"
 					/>
 				) : null}
 
-				<Button
-					w="50%"
-					color={theme.colors.indigo[7]}
-					variant="outline"
-					radius="sm"
-					display={newOptionOpen ? 'none' : 'block'}
+				<Checkbox
+					{...form.getInputProps('required')}
+					defaultChecked={false}
 					disabled={!type}
-					onClick={() => {
-						setNewOptionOpen(true);
-					}}
-					size="sm"
-				>
-					New Option
-				</Button>
+					color={theme.colors.indigo[6]}
+					label="Require answer"
+				/>
 
-				{newOptionOpen ? <NewOption onCancel={() => setNewOptionOpen(false)} onNewOption={setOption} /> : null}
+				{type === QuestionType.MultipleChoice || type === QuestionType.SingleChoice ? (
+					<Checkbox
+						{...form.getInputProps('randomizeOptions')}
+						defaultChecked={false}
+						disabled={!type}
+						color={theme.colors.indigo[6]}
+						label="Randomize options"
+					/>
+				) : null}
+
+				{type === QuestionType.MultipleChoice ||
+				type === QuestionType.SingleChoice ||
+				type === QuestionType.TrueOrFalse ? (
+					<>
+						<Text fw="600" mt={theme.spacing.sm} c={theme.colors.indigo[7]}>
+							Options
+						</Text>
+
+						{optionsProps.length ? (
+							<DragDropList
+								onReorder={handleReorderedOptions}
+								itemsComponent={QuestionnaireListItem}
+								itemPropsList={optionsProps}
+							/>
+						) : null}
+
+						<Button
+							w="50%"
+							color={theme.colors.indigo[7]}
+							variant="outline"
+							radius="sm"
+							display={newOptionOpen ? 'none' : 'block'}
+							disabled={!type}
+							onClick={() => {
+								setNewOptionOpen(true);
+							}}
+							size="sm"
+						>
+							New Option
+						</Button>
+
+						{newOptionOpen ? (
+							<NewOption onCancel={() => setNewOptionOpen(false)} onNewOption={setOption} />
+						) : null}
+					</>
+				) : null}
 			</div>
 		</div>
 	);
