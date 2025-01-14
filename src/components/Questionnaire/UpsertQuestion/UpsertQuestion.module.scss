@@ -1,0 +1,39 @@
+.dragIcon {
+	color: $indigo0;
+	margin: $spacingSm;
+}
+
+.toolbar {
+	border-radius: $radiusMd;
+	border: 1px solid $indigo0;
+	border-bottom: 2px solid $indigo3;
+	display: flex;
+	background: $indigo8;
+	align-items: center;
+	overflow: hidden;
+}
+
+.item {
+	border-radius: $radiusMd;
+	background-color: $gray0;
+}
+
+.toolbarContent {
+	width: 100%;
+	justify-content: space-between;
+	align-content: center;
+	display: flex;
+}
+
+.badge {
+	color: $indigo9;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	border-radius: $radiusMd;
+	border-bottom: 2px solid $gray4;
+	gap: $spacingMd;
+	padding: $spacingLg $spacingMd;
+}
