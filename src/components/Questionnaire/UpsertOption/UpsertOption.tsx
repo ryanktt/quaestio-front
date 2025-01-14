@@ -3,6 +3,7 @@ import { IconCheck, IconEdit, IconGripVertical, IconPlus, IconTrash, IconX } fro
 import { ChangeEvent, useState } from 'react';
 import { nanoid } from 'nanoid/non-secure';
 import { hasLength, useForm } from '@mantine/form';
+import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
 import classes from './UpsertOption.module.scss';
 
 type IMethod = 'ADD' | 'EDIT';
@@ -60,8 +61,8 @@ export default function UpsertOption({
 		setChanged(true);
 	};
 
-	const getInputProps = (item: keyof IOptionProps) => ({
-		...form.getInputProps(item),
+	const getInputProps = (item: keyof IOptionProps, inputType: GetInputPropsType = 'input') => ({
+		...form.getInputProps(item, { type: inputType }),
 		onChange: (e: ChangeEvent) => handleChange(e, item),
 	});
 
@@ -176,7 +177,11 @@ export default function UpsertOption({
 						error={form.errors.feedbackAfterSubmit}
 						inputWrapperOrder={['label', 'error', 'input']}
 					/>
-					<Checkbox {...getInputProps('correct')} color={theme.colors.indigo[6]} label="Correct option" />
+					<Checkbox
+						{...getInputProps('correct', 'checkbox')}
+						color={theme.colors.indigo[6]}
+						label="Correct option"
+					/>
 				</div>
 			) : null}
 		</div>
