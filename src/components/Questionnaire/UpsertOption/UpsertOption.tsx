@@ -3,7 +3,7 @@ import { IconCheck, IconEdit, IconGripVertical, IconPlus, IconTrash, IconX } fro
 import { ChangeEvent, useState } from 'react';
 import { nanoid } from 'nanoid/non-secure';
 import { hasLength, useForm } from '@mantine/form';
-import classes from './Questionnaire.module.scss';
+import classes from './UpsertOption.module.scss';
 
 type IMethod = 'ADD' | 'EDIT';
 
@@ -39,6 +39,8 @@ export default function UpsertOption({
 	onSet = () => {},
 }: IUpsertOptionProps) {
 	const theme = useMantineTheme();
+
+	const buttonStyleProps = { variant: 'subtle', size: 'md', color: theme.colors.indigo[9] };
 	const form = useForm<IOptionProps>({
 		mode: 'uncontrolled',
 		initialValues: optionProp,
@@ -53,10 +55,15 @@ export default function UpsertOption({
 
 	const getOption = (): IOptionProps => form.getValues();
 
-	const handleChanged = (e: ChangeEvent, item: keyof IOptionProps) => {
+	const handleChange = (e: ChangeEvent, item: keyof IOptionProps) => {
 		form.getInputProps(item).onChange(e);
 		setChanged(true);
 	};
+
+	const getInputProps = (item: keyof IOptionProps) => ({
+		...form.getInputProps(item),
+		onChange: (e: ChangeEvent) => handleChange(e, item),
+	});
 
 	const closeItem = () => {
 		setOpen(false);
@@ -80,13 +87,13 @@ export default function UpsertOption({
 			return (
 				<>
 					<Tooltip label="Cancel">
-						<Button onClick={closeItem} variant="subtle" size="md" color={theme.colors.pink[9]}>
+						<Button onClick={closeItem} {...buttonStyleProps}>
 							<IconX size={18} />
 						</Button>
 					</Tooltip>
 					{isChanged ? (
 						<Tooltip label="Save">
-							<Button onClick={setItem} variant="subtle" size="md" color={theme.colors.cyan[9]}>
+							<Button onClick={setItem} {...buttonStyleProps}>
 								<IconCheck size={18} />
 							</Button>
 						</Tooltip>
@@ -97,7 +104,7 @@ export default function UpsertOption({
 		if (method === 'ADD') {
 			return (
 				<Tooltip label="Add Option">
-					<Button onClick={() => setOpen(true)} variant="subtle" size="md" color={theme.colors.indigo[9]}>
+					<Button onClick={() => setOpen(true)} {...buttonStyleProps}>
 						<IconPlus size={18} />
 					</Button>
 				</Tooltip>
@@ -117,7 +124,7 @@ export default function UpsertOption({
 						</Button>
 					</Tooltip>
 					<Tooltip label="Edit Option">
-						<Button onClick={() => setOpen(true)} variant="subtle" size="md" color={theme.colors.indigo[9]}>
+						<Button onClick={() => setOpen(true)} {...buttonStyleProps}>
 							<IconEdit size={18} />
 						</Button>
 					</Tooltip>
@@ -128,23 +135,21 @@ export default function UpsertOption({
 	};
 
 	return (
-		<div style={{ border: '1px solid', borderColor: theme.colors.gray[3], borderRadius: theme.radius.md }}>
-			<div className={classes.draggable}>
-				{draggable ? <IconGripVertical className={classes.icon} size={18} stroke={1.5} /> : null}
-				<div
-					key={getOption().id}
-					style={{
-						width: '100%',
-						justifyContent: 'space-between',
-						alignContent: 'center',
-						display: 'flex',
-					}}
-				>
-					<div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-						<Badge variant="light" color={theme.colors.indigo[9]} size="md" ml={10}>
+		<div className={classes.item}>
+			<div className={classes.toolbar}>
+				{draggable ? <IconGripVertical className={classes.dragIcon} size={18} stroke={1.5} /> : null}
+				<div key={getOption().id} className={classes.toolbarContent}>
+					<div
+						style={{
+							alignItems: 'center',
+							display: 'flex',
+							gap: '15px',
+						}}
+					>
+						<Badge variant="light" className={classes.badge} ml={!draggable ? 10 : 0}>
 							{badge}
 						</Badge>
-						<Text c={theme.colors.gray[6]} size="sm">
+						<Text truncate="end" c={theme.colors.gray[6]} size="sm">
 							{optionProp.title}
 						</Text>
 					</div>
@@ -153,41 +158,25 @@ export default function UpsertOption({
 			</div>
 
 			{isOpen ? (
-				<div style={{ padding: theme.spacing.sm, backgroundColor: theme.colors.gray[0] }}>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							gap: theme.spacing.md,
-							margin: '15px 0',
-						}}
-					>
-						<Textarea
-							{...form.getInputProps('title')}
-							onChange={(e) => handleChanged(e, 'title')}
-							label="Option description"
-							required
-							resize="vertical"
-							placeholder="The option description"
-							error={form.errors.title}
-							inputWrapperOrder={['label', 'error', 'input']}
-						/>
-						<Textarea
-							{...form.getInputProps('feedbackAfterSubmit')}
-							onChange={(e) => handleChanged(e, 'feedbackAfterSubmit')}
-							label="Option feedback"
-							resize="vertical"
-							placeholder="Feedback for this option"
-							error={form.errors.feedbackAfterSubmit}
-							inputWrapperOrder={['label', 'error', 'input']}
-						/>
-						<Checkbox
-							{...form.getInputProps('correct')}
-							onChange={(e) => handleChanged(e, 'correct')}
-							color={theme.colors.indigo[6]}
-							label="Correct option"
-						/>
-					</div>
+				<div className={classes.form}>
+					<Textarea
+						{...getInputProps('title')}
+						label="Option description"
+						required
+						resize="vertical"
+						placeholder="The option description"
+						error={form.errors.title}
+						inputWrapperOrder={['label', 'error', 'input']}
+					/>
+					<Textarea
+						{...getInputProps('feedbackAfterSubmit')}
+						label="Option feedback"
+						resize="vertical"
+						placeholder="Feedback for this option"
+						error={form.errors.feedbackAfterSubmit}
+						inputWrapperOrder={['label', 'error', 'input']}
+					/>
+					<Checkbox {...getInputProps('correct')} color={theme.colors.indigo[6]} label="Correct option" />
 				</div>
 			) : null}
 		</div>
