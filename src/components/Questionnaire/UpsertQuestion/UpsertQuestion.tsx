@@ -80,11 +80,11 @@ export default function UpsertQuestion({
 	};
 
 	const getTextByType = () => {
-		if (!type) return null;
 		if (type === QuestionType.SingleChoice) return 'Single Choice';
 		if (type === QuestionType.MultipleChoice) return 'Multiple Choice';
 		if (type === QuestionType.TrueOrFalse) return 'True or False';
-		return QuestionType.Text;
+		if (type === QuestionType.Text) return 'Text';
+		return null;
 	};
 
 	const handleTypeChange = (val: string | null) => {
