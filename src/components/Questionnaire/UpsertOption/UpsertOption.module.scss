@@ -1,16 +1,15 @@
 .dragIcon {
 	color: $gray7;
 	margin: $spacingSm;
+	flex-shrink: 0;
 }
 
 .toolbar {
 	border-radius: $radiusMd;
 	border: 1px solid $indigo0;
 	border-bottom: 2px solid $indigo3;
-	display: flex;
-	align-items: center;
-	overflow: hidden;
-	background-color: white;
+	display: inline-flex;
+	width: 100%;
 }
 
 .item {
@@ -18,7 +17,8 @@
 	background-color: $white;
 }
 
-.toolbarContent {
+.toolbarElements {
+	min-width: 0;
 	width: 100%;
 	justify-content: space-between;
 	align-content: center;
@@ -27,6 +27,28 @@
 
 .badge {
 	color: $indigo9;
+	flex-shrink: 0;
+}
+
+.toolbarContent {
+	min-width: 0;
+	align-items: center;
+	gap: $spacingMd;
+	display: flex;
+}
+
+.toolbarDescription {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: $gray7;
+}
+
+.toolbarButtons {
+	width: 100px;
+	display: flex;
+	justify-content: end;
+	white-space: nowrap;
 }
 
 .form {

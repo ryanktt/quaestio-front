@@ -41,7 +41,7 @@ export default function UpsertOption({
 }: IUpsertOptionProps) {
 	const theme = useMantineTheme();
 
-	const buttonStyleProps = { variant: 'subtle', size: 'md', color: theme.colors.indigo[9] };
+	const buttonStyleProps = { variant: 'subtle', size: 'md', color: theme.colors.indigo[9], p: '0 15px' };
 	const form = useForm<IOptionProps>({
 		mode: 'uncontrolled',
 		initialValues: optionProp,
@@ -115,12 +115,7 @@ export default function UpsertOption({
 			return (
 				<>
 					<Tooltip label="Delete Option">
-						<Button
-							onClick={() => onDelete(getOption().id)}
-							variant="subtle"
-							size="md"
-							color={theme.colors.indigo[9]}
-						>
+						<Button onClick={() => onDelete(getOption().id)} {...buttonStyleProps}>
 							<IconTrash size={18} />
 						</Button>
 					</Tooltip>
@@ -139,22 +134,16 @@ export default function UpsertOption({
 		<div className={classes.item}>
 			<div className={classes.toolbar}>
 				{draggable ? <IconGripVertical className={classes.dragIcon} size={18} stroke={1.5} /> : null}
-				<div key={getOption().id} className={classes.toolbarContent}>
-					<div
-						style={{
-							alignItems: 'center',
-							display: 'flex',
-							gap: '15px',
-						}}
-					>
+				<div key={getOption().id} className={classes.toolbarElements}>
+					<div className={classes.toolbarContent}>
 						<Badge variant="light" className={classes.badge} ml={!draggable ? 10 : 0}>
 							{badge}
 						</Badge>
-						<Text truncate="end" c={theme.colors.gray[6]} size="sm">
+						<Text className={classes.toolbarDescription} size="sm">
 							{optionProp.title}
 						</Text>
 					</div>
-					<div style={{ display: 'flex' }}>{getItemButtons()}</div>
+					<div className={classes.toolbarButtons}>{getItemButtons()}</div>
 				</div>
 			</div>
 
