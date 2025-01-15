@@ -55,7 +55,7 @@ export default function UpsertQuestion({
 	onSet = () => {},
 }: IUpsertQuestionProps) {
 	const theme = useMantineTheme();
-	const buttonStyleProps = { variant: 'subtle', size: 'md', color: theme.colors.indigo[0] };
+	const buttonStyleProps = { variant: 'subtle', size: 'md', color: theme.colors.indigo[0], p: '0 15px' };
 	const primaryColor = theme.colors.indigo[6];
 
 	const typeValues = ['Single Choice', 'Multiple Choice', 'True or False', 'Text'] as const;
@@ -195,12 +195,7 @@ export default function UpsertQuestion({
 			return (
 				<>
 					<Tooltip label="Delete Option">
-						<Button
-							onClick={() => onDelete(getQuestion().id)}
-							variant="subtle"
-							size="md"
-							color={theme.colors.indigo[0]}
-						>
+						<Button onClick={() => onDelete(getQuestion().id)} {...buttonStyleProps}>
 							<IconTrash size={18} />
 						</Button>
 					</Tooltip>
@@ -219,16 +214,16 @@ export default function UpsertQuestion({
 		<div className={classes.item}>
 			<div className={classes.toolbar}>
 				{draggable ? <IconGripVertical className={classes.dragIcon} size={18} stroke={1.5} /> : null}
-				<div className={classes.toolbarContent}>
-					<div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+				<div className={classes.toolbarElements}>
+					<div className={classes.toolbarContent}>
 						<Badge variant="white" className={classes.badge} size="md" ml={!draggable ? 10 : 0}>
 							{badge}
 						</Badge>
-						<Text c={theme.colors.gray[2]} size="sm">
+						<Text className={classes.toolbarDescription} size="sm">
 							{questionProp.description}
 						</Text>
 					</div>
-					<div style={{ display: 'flex' }}>{getItemButtons()}</div>
+					<div className={classes.toolbarButtons}>{getItemButtons()}</div>
 				</div>
 			</div>
 
