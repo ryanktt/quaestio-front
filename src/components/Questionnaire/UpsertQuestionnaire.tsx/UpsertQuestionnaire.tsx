@@ -2,7 +2,9 @@ import { Button, Center, Checkbox, Select, Text, TextInput, Textarea, Title, use
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
 import DragDropList from '@components/DragDropList/DragDropList.tsx';
-import { QuestionnaireType } from '@utils/generated/graphql.ts';
+import { CreateSurveyMutationVariables, QuestionnaireType, useCreateSurveyMutation } from '@utils/generated/graphql.ts';
+import { useEffect } from 'react';
+import { convertPropsToGqlVars } from '@utils/graphql.ts';
 import UpsertQuestion, { IQuestionProps, IUpsertQuestionProps } from '../UpsertQuestion/UpsertQuestion.tsx';
 
 export interface IUpsertQuestionnaireProps {
@@ -73,6 +75,21 @@ export default function UpsertQuestionnaire() {
 		onSet: setQuestion,
 	}));
 
+	const [surveyMutation, { data: surveyData, reset: resetSurvey }] = useCreateSurveyMutation();
+
+	const handleQuestionnaireCreation = async () => {
+		const props = convertPropsToGqlVars(form.getValues());
+
+		if (type === QuestionnaireType.Survey) {
+			await surveyMutation({ variables: props as CreateSurveyMutationVariables });
+		}
+	};
+
+	useEffect(() => {
+		if (!surveyData) return;
+		resetSurvey();
+	}, [surveyData]);
+
 	return (
 		<div
 			style={{
@@ -91,7 +108,7 @@ export default function UpsertQuestionnaire() {
 			</Center>
 
 			<form
-				onSubmit={form.onSubmit(() => {})}
+				onSubmit={form.onSubmit(handleQuestionnaireCreation)}
 				style={{
 					display: 'flex',
 					flexDirection: 'column',

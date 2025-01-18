@@ -48,7 +48,7 @@ const afterware = new ApolloLink((operation, forward) => {
 const headerLink = setContext((_, previousContext) => ({
 	headers: {
 		...previousContext.headers,
-		auth: new Cookies().get('authData')?.authToken,
+		Auth: new Cookies().get('authData')?.authToken,
 	},
 })) as unknown as ApolloLink;
 
