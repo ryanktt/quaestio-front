@@ -9,7 +9,7 @@ const config: CodegenConfig = {
 	documents: 'src/**/*.ts',
 	watch: import.meta.env.VITE_MODE === 'development',
 	generates: {
-		'src/utils/generated/graphql.ts': {
+		'src/generated/graphql.ts': {
 			plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
 			config: {
 				withHooks: true,

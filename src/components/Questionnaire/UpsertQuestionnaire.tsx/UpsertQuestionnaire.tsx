@@ -2,7 +2,7 @@ import { Button, Center, Checkbox, Select, Text, TextInput, Textarea, Title, use
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
 import DragDropList from '@components/DragDropList/DragDropList.tsx';
-import { CreateSurveyMutationVariables, QuestionnaireType, useCreateSurveyMutation } from '@utils/generated/graphql.ts';
+import { CreateSurveyMutationVariables, QuestionnaireType, useCreateSurveyMutation } from 'src/generated/graphql.ts';
 import { useEffect } from 'react';
 import { convertPropsToGqlVars } from '@utils/graphql.ts';
 import UpsertQuestion, { IQuestionProps, IUpsertQuestionProps } from '../UpsertQuestion/UpsertQuestion.tsx';

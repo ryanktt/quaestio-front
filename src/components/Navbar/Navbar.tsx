@@ -10,7 +10,7 @@ import {
 	IconUser,
 } from '@tabler/icons-react';
 import { Stack, Tooltip, UnstyledButton } from '@mantine/core';
-import { useSignOutMutation } from '@utils/generated/graphql';
+import { useSignOutMutation } from 'src/generated/graphql';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import { useCookies } from 'react-cookie';
 import { AuthModalContext } from '@contexts/AuthModal.context';

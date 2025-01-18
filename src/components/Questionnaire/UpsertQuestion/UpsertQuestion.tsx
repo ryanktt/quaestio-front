@@ -3,7 +3,7 @@ import { IconCheck, IconEdit, IconGripVertical, IconPlus, IconTrash, IconX } fro
 import { ChangeEvent, useState } from 'react';
 import { nanoid } from 'nanoid/non-secure';
 import { hasLength, useForm } from '@mantine/form';
-import { QuestionType } from '@utils/generated/graphql';
+import { QuestionType } from 'src/generated/graphql.ts';
 import DragDropList from '@components/DragDropList/DragDropList';
 import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
 import classes from './UpsertQuestion.module.scss';

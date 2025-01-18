@@ -1,4 +1,4 @@
-import { useSignInMutation, useSignUpMutation } from '@utils/generated/graphql.ts';
+import { useSignInMutation, useSignUpMutation } from 'src/generated/graphql.ts';
 import { TextInput, Button, Center } from '@mantine/core';
 import { hasLength, isEmail, useForm } from '@mantine/form';
 import { useContext, useEffect, useState } from 'react';
