@@ -81,6 +81,7 @@ export default function Auth() {
 				{...form.getInputProps('email')}
 				placeholder="youremail@hotmail.com"
 				label="Email"
+				type="email"
 				required
 				mt="sm"
 			/>
