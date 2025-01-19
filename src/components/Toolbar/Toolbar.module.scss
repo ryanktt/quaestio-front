@@ -35,6 +35,14 @@
 	&:hover {
 		background-color: $violetDark;
 	}
+	&[data-active] {
+		&,
+		&:hover {
+			box-shadow: $shadowSm;
+			background-color: $white;
+			color: $violet6;
+		}
+	}
 }
 
 .toolbar-search {

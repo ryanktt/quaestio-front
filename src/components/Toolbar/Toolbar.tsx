@@ -1,23 +1,23 @@
 import '@mantine/core/styles.css';
 import { Box, Input, Tooltip, UnstyledButton } from '@mantine/core';
-import { IconFileAnalytics, IconFilePlus, IconFiles, IconHome2, IconSearch } from '@tabler/icons-react';
+import { IconFilePlus, IconFiles, IconHome2, IconSearch } from '@tabler/icons-react';
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import classes from './Toolbar.module.scss';
 
-interface SectionNavProps {
+interface ToolbarNavProps {
 	icon: typeof IconHome2;
 	label: string;
 	active?: boolean;
 	onClick?: () => void;
 }
 
-const sectionNavData = [
-	{ icon: IconFilePlus, label: 'Create Questionnaire' },
-	{ icon: IconFiles, label: 'Questionnaire List' },
-	{ icon: IconFileAnalytics, label: 'Analytics' },
+const toolbarNavData = [
+	{ icon: IconFilePlus, label: 'Create Questionnaire', path: '/create-questionnaire' },
+	{ icon: IconFiles, label: 'Questionnaire List', path: '/questionnaire-list' },
 ];
 
-function ToolbarItem({ icon: Icon, label, active, onClick }: SectionNavProps) {
+function ToolbarItem({ icon: Icon, label, active, onClick }: ToolbarNavProps) {
 	return (
 		<div className={classes['toolbar-item']}>
 			<Tooltip label={label} position="top" transitionProps={{ duration: 0 }}>
@@ -41,10 +41,16 @@ function ToolbarSearch({ onClick }: { onClick?: () => void }) {
 }
 
 export default function Toolbar() {
-	const [active, setActive] = useState(2);
+	const location = useLocation();
+	const navigate = useNavigate();
 
-	const sectionsNavItems = sectionNavData.map((link, index) => (
-		<ToolbarItem {...link} key={link.label} active={index === active} onClick={() => setActive(index)} />
+	const sectionsNavItems = toolbarNavData.map((link) => (
+		<ToolbarItem
+			{...link}
+			key={link.label}
+			active={location.pathname === link.path}
+			onClick={() => navigate(link.path)}
+		/>
 	));
 
 	return (
