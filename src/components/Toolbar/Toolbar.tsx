@@ -1,7 +1,6 @@
 import '@mantine/core/styles.css';
 import { Box, Input, Tooltip, UnstyledButton } from '@mantine/core';
 import { IconFilePlus, IconFiles, IconHome2, IconSearch } from '@tabler/icons-react';
-import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import classes from './Toolbar.module.scss';
 
