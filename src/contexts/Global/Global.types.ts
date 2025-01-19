@@ -1,4 +1,4 @@
-import { Admin, Session, SignInMutation, SignUpMutation } from 'src/generated/graphql';
+import { Admin, Session, SignInMutation, SignUpMutation } from '@gened/graphql';
 
 export type ISession = Omit<Session, 'user'>;
 export type IAdmin = Omit<Admin, 'self'>;

@@ -42,7 +42,7 @@ export default defineConfig({
 			'@components': path.resolve(__dirname, './src/components/'),
 			'@containers': path.resolve(__dirname, './src/containers/'),
 			'@contexts': path.resolve(__dirname, './src/contexts/'),
-			'@gql': path.resolve(__dirname, './src/utils/gql/'),
+			'@gened': path.resolve(__dirname, './src/generated/'),
 			'@utils': path.resolve(__dirname, './src/utils/'),
 			'@scss': path.resolve(__dirname, './src/scss/'),
 			'@hoc': path.resolve(__dirname, './src/hoc/'),

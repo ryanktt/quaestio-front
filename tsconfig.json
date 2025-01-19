@@ -27,7 +27,7 @@
 			"@components/*": ["src/components/*"],
 			"@containers/*": ["src/containers/*"],
 			"@contexts/*": ["src/contexts/*"],
-			"@gql/*": ["src/utils/gql/*"],
+			"@gened/*": ["src/generated/*"],
 			"@utils/*": ["src/utils/*"],
 			"@scss/*": ["src/scss/*"],
 			"@hoc/*": ["src/hoc/*"]
