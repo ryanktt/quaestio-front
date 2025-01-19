@@ -6,16 +6,16 @@
 
 .toolbar {
 	border-radius: $radiusMd;
-	border: 1px solid $indigo0;
 	border-bottom: 2px solid $indigo3;
 	display: flex;
-	background: $indigo8;
+	background: $indigo7;
 	width: 100%;
 }
 
 .item {
 	border-radius: $radiusMd;
 	background-color: $gray0;
+	border: 2px solid $gray2;
 }
 
 .toolbarElements {
@@ -57,7 +57,6 @@
 	display: flex;
 	flex-direction: column;
 	border-radius: $radiusMd;
-	border-bottom: 2px solid $gray4;
 	gap: $spacingMd;
 	padding: $spacingLg $spacingMd;
 }

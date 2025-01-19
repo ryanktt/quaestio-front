@@ -87,7 +87,7 @@ export default function UpsertQuestionnaire() {
 				padding: theme.spacing.lg,
 				boxShadow: theme.shadows.sm,
 				width: '100%',
-				border: '1px solid',
+				border: '2px solid',
 				borderColor: theme.colors.gray[2],
 				borderRadius: theme.radius.lg,
 			}}

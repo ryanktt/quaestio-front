@@ -173,7 +173,7 @@ export default function UpsertQuestion({
 						</Button>
 					</Tooltip>
 					{isChanged ? (
-						<Tooltip label="Save">
+						<Tooltip label="Save Changes">
 							<Button onClick={setItem} {...buttonStyleProps}>
 								<IconCheck size={18} />
 							</Button>
