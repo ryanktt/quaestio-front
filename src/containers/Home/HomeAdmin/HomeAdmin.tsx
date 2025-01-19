@@ -1,5 +1,5 @@
 import Navbar from '@components/Navbar/Navbar';
-import UpsertQuestionnaire from '@components/Questionnaire/UpsertQuestionnaire.tsx/UpsertQuestionnaire';
+import UpsertQuestionnaire from '@components/Questionnaire/UpsertQuestionnaire/UpsertQuestionnaire';
 import Toolbar from '@components/Toolbar/Toolbar';
 import { Box, Container, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
