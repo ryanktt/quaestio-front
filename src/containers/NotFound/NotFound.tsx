@@ -13,7 +13,7 @@ export default function NotFound() {
 			</Text>
 			<Group justify="center">
 				<Link to="/">
-					<Button variant="subtle" size="md">
+					<Button variant="subtle-violet" size="md">
 						Take me back to home page
 					</Button>
 				</Link>
