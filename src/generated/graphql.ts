@@ -191,7 +191,6 @@ export type MutationAdminCreateQuestionnaireSurveyArgs = {
 
 
 export type MutationAdminUpdateQuestionnaireExamArgs = {
-  description?: InputMaybe<Scalars['String']['input']>;
   maxRetryAmount?: InputMaybe<Scalars['Float']['input']>;
   passingGradePercent?: InputMaybe<Scalars['Float']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
@@ -205,7 +204,6 @@ export type MutationAdminUpdateQuestionnaireExamArgs = {
 
 
 export type MutationAdminUpdateQuestionnaireQuizArgs = {
-  description?: InputMaybe<Scalars['String']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
   questionnaireId: Scalars['String']['input'];
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
@@ -215,7 +213,6 @@ export type MutationAdminUpdateQuestionnaireQuizArgs = {
 
 
 export type MutationAdminUpdateQuestionnaireSurveyArgs = {
-  description?: InputMaybe<Scalars['String']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
   questionnaireId: Scalars['String']['input'];
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
@@ -308,7 +305,7 @@ export type Question = {
   description?: Maybe<Scalars['String']['output']>;
   required: Scalars['Boolean']['output'];
   showCorrectAnswer: Scalars['Boolean']['output'];
-  title: Scalars['String']['output'];
+  title?: Maybe<Scalars['String']['output']>;
   type: QuestionType;
   updatedAt: Scalars['DateTime']['output'];
   weight?: Maybe<Scalars['Int']['output']>;
@@ -353,7 +350,7 @@ export type QuestionMultipleChoice = Question & {
   required: Scalars['Boolean']['output'];
   rightAnswerFeedback?: Maybe<Scalars['String']['output']>;
   showCorrectAnswer: Scalars['Boolean']['output'];
-  title: Scalars['String']['output'];
+  title?: Maybe<Scalars['String']['output']>;
   type: QuestionType;
   updatedAt: Scalars['DateTime']['output'];
   weight?: Maybe<Scalars['Int']['output']>;
@@ -367,7 +364,7 @@ export type QuestionMultipleChoiceInput = {
   required?: InputMaybe<Scalars['Boolean']['input']>;
   rightAnswerFeedback?: InputMaybe<Scalars['String']['input']>;
   showCorrectAnswer?: InputMaybe<Scalars['Boolean']['input']>;
-  title: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
   type: QuestionType;
   weight?: InputMaybe<Scalars['Int']['input']>;
   wrongAnswerFeedback?: InputMaybe<Scalars['String']['input']>;
@@ -396,7 +393,7 @@ export type QuestionSingleChoice = Question & {
   required: Scalars['Boolean']['output'];
   rightAnswerFeedback?: Maybe<Scalars['String']['output']>;
   showCorrectAnswer: Scalars['Boolean']['output'];
-  title: Scalars['String']['output'];
+  title?: Maybe<Scalars['String']['output']>;
   type: QuestionType;
   updatedAt: Scalars['DateTime']['output'];
   weight?: Maybe<Scalars['Int']['output']>;
@@ -410,7 +407,7 @@ export type QuestionSingleChoiceInput = {
   required?: InputMaybe<Scalars['Boolean']['input']>;
   rightAnswerFeedback?: InputMaybe<Scalars['String']['input']>;
   showCorrectAnswer?: InputMaybe<Scalars['Boolean']['input']>;
-  title: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
   type: QuestionType;
   weight?: InputMaybe<Scalars['Int']['input']>;
   wrongAnswerFeedback?: InputMaybe<Scalars['String']['input']>;
@@ -437,7 +434,7 @@ export type QuestionText = Question & {
   feedbackAfterSubmit?: Maybe<Scalars['String']['output']>;
   required: Scalars['Boolean']['output'];
   showCorrectAnswer: Scalars['Boolean']['output'];
-  title: Scalars['String']['output'];
+  title?: Maybe<Scalars['String']['output']>;
   type: QuestionType;
   updatedAt: Scalars['DateTime']['output'];
   weight?: Maybe<Scalars['Int']['output']>;
@@ -448,7 +445,7 @@ export type QuestionTextInput = {
   feedbackAfterSubmit?: InputMaybe<Scalars['String']['input']>;
   required?: InputMaybe<Scalars['Boolean']['input']>;
   showCorrectAnswer?: InputMaybe<Scalars['Boolean']['input']>;
-  title: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
   type: QuestionType;
   weight?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -472,7 +469,7 @@ export type QuestionTrueOrFalse = Question & {
   required: Scalars['Boolean']['output'];
   rightAnswerFeedback?: Maybe<Scalars['String']['output']>;
   showCorrectAnswer: Scalars['Boolean']['output'];
-  title: Scalars['String']['output'];
+  title?: Maybe<Scalars['String']['output']>;
   type: QuestionType;
   updatedAt: Scalars['DateTime']['output'];
   weight?: Maybe<Scalars['Int']['output']>;
@@ -485,7 +482,7 @@ export type QuestionTrueOrFalseInput = {
   required?: InputMaybe<Scalars['Boolean']['input']>;
   rightAnswerFeedback?: InputMaybe<Scalars['String']['input']>;
   showCorrectAnswer?: InputMaybe<Scalars['Boolean']['input']>;
-  title: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
   type: QuestionType;
   weight?: InputMaybe<Scalars['Int']['input']>;
   wrongAnswerFeedback?: InputMaybe<Scalars['String']['input']>;
@@ -598,9 +595,9 @@ export type QuestionnaireSurvey = Questionnaire & SchemaBaseInterface & {
 };
 
 export enum QuestionnaireType {
-  Exam = 'Exam',
-  Quiz = 'Quiz',
-  Survey = 'Survey'
+  QuestionnaireExam = 'QuestionnaireExam',
+  QuestionnaireQuiz = 'QuestionnaireQuiz',
+  QuestionnaireSurvey = 'QuestionnaireSurvey'
 }
 
 export type Respondent = SchemaBaseInterface & User & {
@@ -705,7 +702,7 @@ export type CreateSurveyMutationVariables = Exact<{
 }>;
 
 
-export type CreateSurveyMutation = { __typename?: 'Mutation', adminCreateQuestionnaireSurvey: { __typename?: 'QuestionnaireSurvey', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title: string, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title: string, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', feedbackAfterSubmit?: string | null, _id: string, showCorrectAnswer: boolean, title: string, weight?: number | null, required: boolean, description?: string | null } | { __typename?: 'QuestionTrueOrFalse', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, _id: string, showCorrectAnswer: boolean, title: string, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } };
+export type CreateSurveyMutation = { __typename?: 'Mutation', adminCreateQuestionnaireSurvey: { __typename?: 'QuestionnaireSurvey', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', feedbackAfterSubmit?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null } | { __typename?: 'QuestionTrueOrFalse', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } };
 
 
 export const SignUpDocument = gql`
