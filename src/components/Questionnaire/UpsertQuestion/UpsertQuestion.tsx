@@ -184,7 +184,7 @@ export default function UpsertQuestion({
 		}
 		if (method === 'ADD') {
 			return (
-				<Tooltip label="Add Option">
+				<Tooltip label="Add Question">
 					<Button onClick={() => setOpen(true)} {...buttonStyleProps}>
 						<IconPlus size={18} />
 					</Button>
