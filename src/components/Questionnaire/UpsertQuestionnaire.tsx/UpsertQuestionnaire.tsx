@@ -4,9 +4,9 @@ import { hasLength, useForm } from '@mantine/form';
 import DragDropList from '@components/DragDropList/DragDropList.tsx';
 import { useCreateSurveyMutation } from '@gened/graphql.ts';
 import { useEffect } from 'react';
-import UpsertQuestion, { IQuestionProps, IUpsertQuestionProps } from '../UpsertQuestion/UpsertQuestion.tsx';
+import UpsertQuestion, { IQuestionProps, IUpsertQuestionProps } from './UpsertQuestion/UpsertQuestion.tsx';
 import { buildCreateSurveyGqlVarsFromProps } from './UpsertQuestionnaire.aux.ts';
-import { EQuestionnaireType, IUpsertQuestionnaireProps } from './UpsertQuestionnaire.types.ts';
+import { EQuestionnaireType, IUpsertQuestionnaireProps } from './UpsertQuestionnaire.interface.ts';
 
 export default function UpsertQuestionnaire() {
 	const theme = useMantineTheme();

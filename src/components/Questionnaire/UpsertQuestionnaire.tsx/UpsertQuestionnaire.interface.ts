@@ -1,4 +1,4 @@
-import { IQuestionProps } from '../UpsertQuestion/UpsertQuestion.tsx';
+import { IQuestionProps } from './UpsertQuestion/UpsertQuestion.tsx';
 
 export enum EQuestionnaireType {
 	Survey = 'Survey',
