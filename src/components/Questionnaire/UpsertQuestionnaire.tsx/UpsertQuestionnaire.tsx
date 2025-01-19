@@ -94,7 +94,7 @@ export default function UpsertQuestionnaire() {
 		>
 			<Center>
 				<Title c={theme.colors.indigo[8]} mb={10} size={20}>
-					New {type ?? 'Questionnaire'}
+					{type ?? 'Questionnaire'}
 				</Title>
 			</Center>
 
@@ -157,15 +157,7 @@ export default function UpsertQuestionnaire() {
 
 				<UpsertQuestion badge="New Question" method="ADD" draggable={false} onSet={setQuestion} />
 				<Center style={{ gap: '10px' }}>
-					<Button
-						disabled={!type}
-						w="100%"
-						justify="center"
-						size="sm"
-						mt="xl"
-						type="submit"
-						variant="gradient"
-					>
+					<Button disabled={!type} w="100%" size="sm" mt="xl" type="submit" variant="gradient">
 						Create {type ?? 'Questionnaire'}
 					</Button>
 				</Center>
