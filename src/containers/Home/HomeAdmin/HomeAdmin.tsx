@@ -1,10 +1,10 @@
 import Navbar from '@components/Navbar/Navbar';
-import UpsertQuestionnaire from '@components/Questionnaire/UpsertQuestionnaire/UpsertQuestionnaire';
 import Toolbar from '@components/Toolbar/Toolbar';
 import { Box, Container, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
+import { PropsWithChildren } from 'react';
 
-export default function HomeAdmin() {
+export default function HomeAdmin({ children }: PropsWithChildren) {
 	const theme = useMantineTheme();
 
 	return (
@@ -23,7 +23,7 @@ export default function HomeAdmin() {
 						borderRadius: theme.radius.lg,
 					}}
 				>
-					<UpsertQuestionnaire />
+					{children}
 				</div>
 			</Box>
 		</Container>

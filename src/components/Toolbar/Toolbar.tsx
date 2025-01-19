@@ -12,8 +12,8 @@ interface ToolbarNavProps {
 }
 
 const toolbarNavData = [
-	{ icon: IconFilePlus, label: 'Create Questionnaire', path: '/create-questionnaire' },
-	{ icon: IconFiles, label: 'Questionnaire List', path: '/questionnaire-list' },
+	{ icon: IconFilePlus, label: 'Create Questionnaire', path: '/board/questionnaire/create' },
+	{ icon: IconFiles, label: 'Questionnaire List', path: '/board/questionnaires' },
 ];
 
 function ToolbarItem({ icon: Icon, label, active, onClick }: ToolbarNavProps) {
