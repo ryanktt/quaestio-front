@@ -2,19 +2,11 @@ import { Button, Center, Checkbox, Select, Text, TextInput, Textarea, Title, use
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
 import DragDropList from '@components/DragDropList/DragDropList.tsx';
-import { CreateSurveyMutationVariables, QuestionnaireType, useCreateSurveyMutation } from '@gened/graphql.ts';
+import { useCreateSurveyMutation } from '@gened/graphql.ts';
 import { useEffect } from 'react';
-import { convertPropsToGqlVars } from '@utils/graphql.ts';
 import UpsertQuestion, { IQuestionProps, IUpsertQuestionProps } from '../UpsertQuestion/UpsertQuestion.tsx';
-
-export interface IUpsertQuestionnaireProps {
-	type: QuestionnaireType | null;
-	title: string;
-	description: string;
-	requireEmail: boolean;
-	requireName: boolean;
-	questions: IQuestionProps[];
-}
+import { buildCreateSurveyGqlVarsFromProps } from './UpsertQuestionnaire.aux.ts';
+import { EQuestionnaireType, IUpsertQuestionnaireProps } from './UpsertQuestionnaire.types.ts';
 
 export default function UpsertQuestionnaire() {
 	const theme = useMantineTheme();
@@ -78,10 +70,9 @@ export default function UpsertQuestionnaire() {
 	const [surveyMutation, { data: surveyData, reset: resetSurvey }] = useCreateSurveyMutation();
 
 	const handleQuestionnaireCreation = async () => {
-		const props = convertPropsToGqlVars(form.getValues());
-
-		if (type === QuestionnaireType.Survey) {
-			await surveyMutation({ variables: props as CreateSurveyMutationVariables });
+		const props = form.getValues();
+		if (type === EQuestionnaireType.Survey) {
+			await surveyMutation({ variables: buildCreateSurveyGqlVarsFromProps(props) });
 		}
 	};
 
@@ -120,7 +111,7 @@ export default function UpsertQuestionnaire() {
 					maw={300}
 					label="Questionnaire type"
 					placeholder="Select the questionnaire type"
-					data={[QuestionnaireType.Exam, QuestionnaireType.Quiz, QuestionnaireType.Survey]}
+					data={[EQuestionnaireType.Exam, EQuestionnaireType.Quiz, EQuestionnaireType.Survey]}
 				/>
 				<TextInput
 					{...form.getInputProps('title')}
