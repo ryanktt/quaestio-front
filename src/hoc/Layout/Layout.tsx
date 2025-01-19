@@ -10,6 +10,8 @@ import classes from './Layout.module.scss';
 export default function Layout({ children }: PropsWithChildren) {
 	const theme = createTheme({
 		defaultGradient: { from: 'indigo.8', to: 'violet.6', deg: 50 },
+		fontFamily: 'Montserrat, sans-serif',
+		fontFamilyMonospace: 'Fira Code, monospace',
 		components: {
 			Button: Button.extend({ classNames: classes }),
 		},
