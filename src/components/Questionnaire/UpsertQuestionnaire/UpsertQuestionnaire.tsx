@@ -82,7 +82,16 @@ export default function UpsertQuestionnaire() {
 	}, [surveyData]);
 
 	return (
-		<div>
+		<div
+			style={{
+				padding: theme.spacing.lg,
+				boxShadow: theme.shadows.sm,
+				width: '100%',
+				border: '2px solid',
+				borderColor: theme.colors.gray[2],
+				borderRadius: theme.radius.lg,
+			}}
+		>
 			<Center>
 				<Title c={theme.colors.indigo[8]} mb={10} size={20}>
 					{type ?? 'Questionnaire'}
