@@ -60,8 +60,8 @@ export default function Navbar() {
 
 	useEffect(() => {
 		if (!logoutData) return;
-		globalContext.state.logout();
 		removeCookies('authData');
+		globalContext.state.logout();
 		resetLogout();
 	}, [logoutData]);
 

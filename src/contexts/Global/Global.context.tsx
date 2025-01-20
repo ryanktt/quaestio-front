@@ -1,5 +1,5 @@
 import { Dispatch, PropsWithChildren, createContext, useEffect, useMemo, useReducer } from 'react';
-import { useCookies } from 'react-cookie';
+import { CookiesProvider, useCookies } from 'react-cookie';
 import { IAdmin, IAuthData, IGlobalAction, IGlobalState, ISession } from './Global.types.ts';
 import globalReducer from './Global.reducer.ts';
 
@@ -54,5 +54,9 @@ export default function GlobalContextProvider({ children }: PropsWithChildren & 
 		}),
 		[dispatch, state],
 	);
-	return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;
+	return (
+		<GlobalContext.Provider value={value}>
+			<CookiesProvider defaultSetOptions={{ path: '/' }}>{children}</CookiesProvider>
+		</GlobalContext.Provider>
+	);
 }
