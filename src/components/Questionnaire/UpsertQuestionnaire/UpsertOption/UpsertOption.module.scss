@@ -36,6 +36,8 @@
 	align-items: center;
 	gap: $spacingMd;
 	display: flex;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 .toolbarDescription {

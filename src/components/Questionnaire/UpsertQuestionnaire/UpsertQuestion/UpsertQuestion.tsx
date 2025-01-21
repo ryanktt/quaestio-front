@@ -1,4 +1,4 @@
-import { Badge, Button, Checkbox, Select, Text, Textarea, Tooltip, useMantineTheme } from '@mantine/core';
+import { Badge, Button, Checkbox, InputLabel, Select, Text, Textarea, Tooltip, useMantineTheme } from '@mantine/core';
 import { IconCheck, IconEdit, IconGripVertical, IconPlus, IconTrash, IconX } from '@tabler/icons-react';
 import { ChangeEvent, useState } from 'react';
 import { nanoid } from 'nanoid/non-secure';
@@ -309,9 +309,7 @@ export default function UpsertQuestion({
 					type === QuestionType.SingleChoice ||
 					type === QuestionType.TrueOrFalse ? (
 						<>
-							<Text fw="600" mt={theme.spacing.sm} c={theme.colors.indigo[7]}>
-								Options
-							</Text>
+							<InputLabel>Options</InputLabel>
 
 							{optionsProps.length ? (
 								<DragDropList

@@ -31,9 +31,9 @@
 	justify-content: center;
 	border-radius: $radiusMd;
 	padding: $spacingSm;
-	color: $violet1;
+	color: $white;
 	&:hover {
-		background-color: $violetDark;
+		background-color: $darken;
 	}
 	&[data-active] {
 		&,

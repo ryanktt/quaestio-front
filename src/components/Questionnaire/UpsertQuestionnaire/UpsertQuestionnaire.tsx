@@ -1,4 +1,14 @@
-import { Button, Center, Checkbox, Select, Text, TextInput, Textarea, Title, useMantineTheme } from '@mantine/core';
+import {
+	Button,
+	Center,
+	Checkbox,
+	Select,
+	InputLabel,
+	TextInput,
+	Textarea,
+	Title,
+	useMantineTheme,
+} from '@mantine/core';
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
 import DragDropList from '@components/DragDropList/DragDropList.tsx';
@@ -87,14 +97,14 @@ export default function UpsertQuestionnaire() {
 				padding: theme.spacing.lg,
 				boxShadow: theme.shadows.sm,
 				width: '100%',
-				border: '2px solid',
-				borderColor: theme.colors.gray[2],
+				border: '1px solid',
+				borderColor: theme.colors.gray[4],
 				borderRadius: theme.radius.lg,
 			}}
 		>
 			<Center>
-				<Title c={theme.colors.indigo[8]} mb={10} size={20}>
-					{type ?? 'Questionnaire'}
+				<Title mb={theme.spacing.lg} size={15}>
+					{type ?? 'Questionnaire'} Creation
 				</Title>
 			</Center>
 
@@ -141,9 +151,8 @@ export default function UpsertQuestionnaire() {
 					disabled={!type}
 					label="Require user name"
 				/>
-				<Text fw="600" mt={theme.spacing.sm} c={theme.colors.indigo[7]}>
-					Questions
-				</Text>
+
+				<InputLabel>Questions</InputLabel>
 
 				{questionsProps.length ? (
 					<div>
