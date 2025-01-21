@@ -103,7 +103,7 @@ export default function UpsertQuestionnaire() {
 			}}
 		>
 			<Center>
-				<Title mb={theme.spacing.lg} size={15}>
+				<Title mb={theme.spacing.lg} size={16}>
 					{type ?? 'Questionnaire'} Creation
 				</Title>
 			</Center>

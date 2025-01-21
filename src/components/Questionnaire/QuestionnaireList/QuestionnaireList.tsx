@@ -47,6 +47,7 @@ function ID({ children: id }: PropsWithChildren) {
 	const theme = useMantineTheme();
 	return (
 		<MantineNavLink
+			p={0}
 			component={Link}
 			style={{ borderRadius: theme.radius.sm }}
 			c={theme.colors.indigo[9]}
