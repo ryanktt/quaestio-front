@@ -6,12 +6,12 @@
 	justify-content: space-between;
 }
 
-.toolbar-items {
+.items {
 	border-radius: $radiusMd;
-	background-color: $violet7;
-	padding: $spacingXs;
 	display: flex;
-	gap: $spacingXs;
+	background-color: $violet6;
+	padding: $spacingXs;
+	box-shadow: $shadowSm;
 }
 
 .search-input {
@@ -21,31 +21,37 @@
 	}
 }
 
-.toolbar-item {
+.item {
 	cursor: pointer;
 }
 
-.toolbar-icon {
+.icon {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	border-radius: $radiusMd;
 	padding: $spacingSm;
-	color: $white;
+	color: $violet8;
+}
+
+.itemIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: $spacingMd;
+	border-radius: $radiusMd;
+	color: $violet1;
 	&:hover {
 		background-color: $darken;
 	}
+
 	&[data-active] {
-		&,
-		&:hover {
-			box-shadow: $shadowSm;
-			background-color: $white;
-			color: $violet6;
-		}
+		background-color: $white;
+		color: $violet9;
 	}
 }
 
-.toolbar-search {
+.search {
 	display: flex;
 	align-items: center;
 	padding: 3px;
@@ -54,11 +60,5 @@
 	border-radius: $radiusMd;
 	&:hover {
 		cursor: default;
-	}
-	.toolbar-icon {
-		color: $violet7;
-		&:hover {
-			background-color: $white;
-		}
 	}
 }

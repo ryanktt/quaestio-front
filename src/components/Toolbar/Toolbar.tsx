@@ -18,9 +18,9 @@ const toolbarNavData = [
 
 function ToolbarItem({ icon: Icon, label, active, onClick }: ToolbarNavProps) {
 	return (
-		<div className={classes['toolbar-item']}>
+		<div className={classes.item}>
 			<Tooltip label={label} position="top" transitionProps={{ duration: 0 }}>
-				<UnstyledButton onClick={onClick} className={classes['toolbar-icon']} data-active={active || undefined}>
+				<UnstyledButton onClick={onClick} className={classes.itemIcon} data-active={active || undefined}>
 					<Icon size={20} stroke={2} />
 				</UnstyledButton>
 			</Tooltip>
@@ -30,8 +30,8 @@ function ToolbarItem({ icon: Icon, label, active, onClick }: ToolbarNavProps) {
 
 function ToolbarSearch({ onClick }: { onClick?: () => void }) {
 	return (
-		<div className={`${classes['toolbar-search']}`}>
-			<Box onClick={onClick} className={classes['toolbar-icon']}>
+		<div className={`${classes.search}`}>
+			<Box onClick={onClick} className={classes.icon}>
 				<IconSearch size={16} stroke={2} />
 			</Box>
 			<Input className={classes['search-input']} placeholder="Search for questionnaires" variant="default" />
@@ -54,8 +54,8 @@ export default function Toolbar() {
 
 	return (
 		<div className={classes.toolbar}>
-			<ToolbarSearch key="toolbar-search" />
-			<div className={classes['toolbar-items']}>{sectionsNavItems}</div>
+			<ToolbarSearch key="search" />
+			<div className={classes.items}>{sectionsNavItems}</div>
 		</div>
 	);
 }
