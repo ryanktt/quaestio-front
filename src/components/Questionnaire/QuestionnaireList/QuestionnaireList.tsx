@@ -2,6 +2,7 @@ import { Badge, Box, Text as MantineText, useMantineTheme, NavLink as MantineNav
 import { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
 import { IconCheck, IconEye, IconHome2 } from '@tabler/icons-react';
+import { QuestionnaireType } from '@gened/graphql';
 import styles from './QuestionnaireList.module.scss';
 
 function Column({ children, gridFr }: PropsWithChildren & { gridFr?: string }) {
@@ -27,9 +28,31 @@ function Header({ label, icon: Icon }: { label: string; icon?: typeof IconHome2 
 	);
 }
 
+function Type({ type }: { type: QuestionnaireType }) {
+	const theme = useMantineTheme();
+
+	const getTextFromQuestionnaireType = (qType: QuestionnaireType) => {
+		if (qType === QuestionnaireType.QuestionnaireSurvey) return 'Survey';
+		if (qType === QuestionnaireType.QuestionnaireExam) return 'Exam';
+		if (qType === QuestionnaireType.QuestionnaireQuiz) return 'Quiz';
+		return '';
+	};
+
+	const txtType = getTextFromQuestionnaireType(type);
+
+	let badgeVariant = 'filled-pink';
+	if (txtType === 'Quiz') badgeVariant = 'filled-violet';
+	if (txtType === 'Exam') badgeVariant = 'filled-cyan';
+	return (
+		<Badge variant={badgeVariant} radius={theme.radius.sm}>
+			{getTextFromQuestionnaireType(type)}
+		</Badge>
+	);
+}
+
 function Status({ active }: { active?: boolean }) {
 	return (
-		<Badge variant="dot" size="lg" className={`${styles.status} ${active ? styles.active : ''}`}>
+		<Badge variant="dot" className={`${styles.status} ${active ? styles.active : ''}`}>
 			{active ? 'Active' : 'Unactive'}
 		</Badge>
 	);
@@ -63,22 +86,21 @@ export default function QuestionnaireList() {
 			<Box className={styles.list}>
 				<Column>
 					<ColumnItem>
-						<Header label="Status" />
+						<Header label="Type" />
 					</ColumnItem>
 					<ColumnItem>
-						<Status />
+						<Type type={QuestionnaireType.QuestionnaireSurvey} />
 					</ColumnItem>
 					<ColumnItem>
-						<Status active />
+						<Type type={QuestionnaireType.QuestionnaireQuiz} />
 					</ColumnItem>
 					<ColumnItem>
-						<Status active />
+						<Type type={QuestionnaireType.QuestionnaireExam} />
 					</ColumnItem>
 					<ColumnItem>
-						<Status active />
+						<Type type={QuestionnaireType.QuestionnaireSurvey} />
 					</ColumnItem>
 				</Column>
-
 				<Column gridFr="2">
 					<ColumnItem>
 						<Header label="Title" />
@@ -94,6 +116,23 @@ export default function QuestionnaireList() {
 					</ColumnItem>
 					<ColumnItem>
 						<Text>Um título bom pra teste um novo mundo</Text>
+					</ColumnItem>
+				</Column>
+				<Column>
+					<ColumnItem>
+						<Header label="Status" />
+					</ColumnItem>
+					<ColumnItem>
+						<Status />
+					</ColumnItem>
+					<ColumnItem>
+						<Status active />
+					</ColumnItem>
+					<ColumnItem>
+						<Status active />
+					</ColumnItem>
+					<ColumnItem>
+						<Status active />
 					</ColumnItem>
 				</Column>
 				<Column>
