@@ -103,7 +103,7 @@ export default function UpsertQuestionnaire() {
 			}}
 		>
 			<Center>
-				<Title mb={theme.spacing.xl} c="indigo.8" size={19}>
+				<Title mb={theme.spacing.xl} size={19}>
 					{type ?? 'Questionnaire'} Creation
 				</Title>
 			</Center>
