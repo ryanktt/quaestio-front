@@ -4,7 +4,8 @@ import { PropsWithChildren } from 'react';
 import { Button, MantineProvider, createTheme } from '@mantine/core';
 import AuthModal from '@components/AuthModal/AuthModal.tsx';
 import AlertStack from '@components/AlertStack/AlertStack.tsx';
-import classes from './Layout.module.scss';
+import buttonStyles from './LayoutStyles/Button.module.scss';
+import badgeStyles from './LayoutStyles/Badge.module.scss';
 
 export default function Layout({ children }: PropsWithChildren) {
 	const theme = createTheme({
@@ -12,7 +13,8 @@ export default function Layout({ children }: PropsWithChildren) {
 		fontFamily: 'Montserrat, sans-serif',
 		fontFamilyMonospace: 'Fira Code, monospace',
 		components: {
-			Button: Button.extend({ classNames: classes }),
+			Button: Button.extend({ classNames: buttonStyles }),
+			Badge: Button.extend({ classNames: badgeStyles }),
 		},
 	});
 

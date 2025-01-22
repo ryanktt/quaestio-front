@@ -1,0 +1,16 @@
+div {
+	&[data-variant='filled-violet'] {
+		background-color: $violet6;
+		color: $white;
+	}
+
+	&[data-variant='filled-cyan'] {
+		background-color: $cyan6;
+		color: $white;
+	}
+
+	&[data-variant='filled-pink'] {
+		background-color: $pink6;
+		color: $white;
+	}
+}
