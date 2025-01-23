@@ -120,6 +120,7 @@ export default function UpsertQuestionnaire() {
 					{...form.getInputProps('type')}
 					maw={300}
 					label="Questionnaire type"
+					required
 					placeholder="Select the questionnaire type"
 					data={[EQuestionnaireType.Exam, EQuestionnaireType.Quiz, EQuestionnaireType.Survey]}
 				/>

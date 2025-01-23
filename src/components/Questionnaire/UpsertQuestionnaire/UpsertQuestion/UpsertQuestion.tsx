@@ -234,6 +234,7 @@ export default function UpsertQuestion({
 						onChange={handleTypeChange}
 						value={getTextByType()}
 						maw={300}
+						required
 						label="Question type"
 						placeholder="Select the question type"
 						data={typeValues}
