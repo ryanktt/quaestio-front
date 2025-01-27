@@ -2,7 +2,7 @@ import { Badge, Box, Text as MantineText, useMantineTheme, NavLink as MantineNav
 import { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
 import { IconCheck, IconEye, IconHome2 } from '@tabler/icons-react';
-import { QuestionnaireType } from '@gened/graphql';
+import { QuestionnaireType, useFetchQuestionnairesSuspenseQuery } from '@gened/graphql';
 import styles from './QuestionnaireList.module.scss';
 
 function Column({ children, gridFr }: PropsWithChildren & { gridFr?: string }) {
@@ -30,7 +30,6 @@ function Header({ label, icon: Icon }: { label: string; icon?: typeof IconHome2 
 
 function Type({ type }: { type: QuestionnaireType }) {
 	const theme = useMantineTheme();
-
 	const getTextFromQuestionnaireType = (qType: QuestionnaireType) => {
 		if (qType === QuestionnaireType.QuestionnaireSurvey) return 'Survey';
 		if (qType === QuestionnaireType.QuestionnaireExam) return 'Exam';
@@ -80,7 +79,39 @@ function ID({ children: id }: PropsWithChildren) {
 	);
 }
 
+interface QuestionnaireListData {
+	sharedIds: string[];
+	types: QuestionnaireType[];
+	titles: string[];
+	statuses: boolean[];
+	views: number[];
+	entries: number[];
+}
+
 export default function QuestionnaireList() {
+	const { data } = useFetchQuestionnairesSuspenseQuery();
+
+	const { entries, sharedIds, statuses, titles, types, views } =
+		data.adminFetchQuestionnaires.reduce<QuestionnaireListData>(
+			(state, questionnaire) => {
+				state.sharedIds.push(questionnaire.sharedId);
+				state.types.push(questionnaire.type);
+				state.statuses.push(questionnaire.active);
+				state.titles.push(questionnaire.title);
+				state.entries.push(0);
+				state.views.push(0);
+				return state;
+			},
+			{
+				sharedIds: [],
+				statuses: [],
+				entries: [],
+				titles: [],
+				types: [],
+				views: [],
+			},
+		);
+
 	return (
 		<div>
 			<Box className={styles.list}>
@@ -88,104 +119,62 @@ export default function QuestionnaireList() {
 					<ColumnItem>
 						<Header label="Type" />
 					</ColumnItem>
-					<ColumnItem>
-						<Type type={QuestionnaireType.QuestionnaireSurvey} />
-					</ColumnItem>
-					<ColumnItem>
-						<Type type={QuestionnaireType.QuestionnaireQuiz} />
-					</ColumnItem>
-					<ColumnItem>
-						<Type type={QuestionnaireType.QuestionnaireExam} />
-					</ColumnItem>
-					<ColumnItem>
-						<Type type={QuestionnaireType.QuestionnaireSurvey} />
-					</ColumnItem>
+					{types.map((type) => (
+						<ColumnItem>
+							<Type type={type} />
+						</ColumnItem>
+					))}
 				</Column>
 				<Column gridFr="2">
 					<ColumnItem>
 						<Header label="Title" />
 					</ColumnItem>
-					<ColumnItem>
-						<Text>Um título bom pra teste um novo mundo</Text>
-					</ColumnItem>
-					<ColumnItem>
-						<Text>Um título bom pra teste um novo mundo</Text>
-					</ColumnItem>
-					<ColumnItem>
-						<Text>Um título bom pra teste um novo mundo</Text>
-					</ColumnItem>
-					<ColumnItem>
-						<Text>Um título bom pra teste um novo mundo</Text>
-					</ColumnItem>
+					{titles.map((title) => (
+						<ColumnItem>
+							<Text>{title}</Text>
+						</ColumnItem>
+					))}
 				</Column>
 				<Column>
 					<ColumnItem>
 						<Header label="Status" />
 					</ColumnItem>
-					<ColumnItem>
-						<Status />
-					</ColumnItem>
-					<ColumnItem>
-						<Status active />
-					</ColumnItem>
-					<ColumnItem>
-						<Status active />
-					</ColumnItem>
-					<ColumnItem>
-						<Status active />
-					</ColumnItem>
+					{statuses.map((status) => (
+						<ColumnItem>
+							<Status active={status} />
+						</ColumnItem>
+					))}
 				</Column>
 				<Column>
 					<ColumnItem>
 						<Header label="ID" />
 					</ColumnItem>
-					<ColumnItem>
-						<ID>X12345YYY</ID>
-					</ColumnItem>
-					<ColumnItem>
-						<ID>X12345YYY</ID>
-					</ColumnItem>
-					<ColumnItem>
-						<ID>X12345YYY</ID>
-					</ColumnItem>
-					<ColumnItem>
-						<ID>X12345YYY</ID>
-					</ColumnItem>
+					{sharedIds.map((id) => (
+						<ColumnItem>
+							<ID>{id}</ID>
+						</ColumnItem>
+					))}
 				</Column>
 
 				<Column>
 					<ColumnItem>
 						<Header label="Views" icon={IconEye} />
 					</ColumnItem>
-					<ColumnItem>
-						<Text>100</Text>
-					</ColumnItem>
-					<ColumnItem>
-						<Text>100</Text>
-					</ColumnItem>
-					<ColumnItem>
-						<Text>100</Text>
-					</ColumnItem>
-					<ColumnItem>
-						<Text>100</Text>
-					</ColumnItem>
+					{views.map((vCount) => (
+						<ColumnItem>
+							<Text>{vCount}</Text>
+						</ColumnItem>
+					))}
 				</Column>
 				<Column>
 					<ColumnItem>
 						<Header label="Entries" icon={IconCheck} />
 					</ColumnItem>
-					<ColumnItem>
-						<Text>10</Text>
-					</ColumnItem>
-					<ColumnItem>
-						<Text>10</Text>
-					</ColumnItem>
-					<ColumnItem>
-						<Text>10</Text>
-					</ColumnItem>
-					<ColumnItem>
-						<Text>10</Text>
-					</ColumnItem>
+					{entries.map((eCount) => (
+						<ColumnItem>
+							<Text>{eCount}</Text>
+						</ColumnItem>
+					))}
 				</Column>
 			</Box>
 		</div>
