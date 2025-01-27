@@ -12,24 +12,19 @@ import {
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
 import DragDropList from '@components/DragDropList/DragDropList.tsx';
-import { useCreateSurveyMutation } from '@gened/graphql.ts';
-import { useEffect } from 'react';
 import UpsertQuestion, { IQuestionProps, IUpsertQuestionProps } from './UpsertQuestion/UpsertQuestion.tsx';
-import { buildCreateSurveyGqlVarsFromProps } from './UpsertQuestionnaire.aux.ts';
-import { EQuestionnaireType, IUpsertQuestionnaireProps } from './UpsertQuestionnaire.interface.ts';
+import { buildUpsertQuestionnaireProps } from './UpsertQuestionnaire.aux.ts';
+import {
+	EQuestionnaireType,
+	IUpsertQuestionnaireMethods,
+	IUpsertQuestionnaireProps,
+} from './UpsertQuestionnaire.interface.ts';
 
-export default function UpsertQuestionnaire() {
+export default function UpsertQuestionnaire({ method = 'ADD', questionnaire, onSubmit }: IUpsertQuestionnaireMethods) {
 	const theme = useMantineTheme();
 	const form = useForm<IUpsertQuestionnaireProps>({
 		mode: 'controlled',
-		initialValues: {
-			type: null,
-			title: '',
-			description: '',
-			requireEmail: false,
-			requireName: false,
-			questions: [],
-		},
+		initialValues: buildUpsertQuestionnaireProps(questionnaire),
 		validate: {
 			title: hasLength({ min: 3, max: 255 }, 'Title must be 3-255 characters long'),
 		},
@@ -77,20 +72,6 @@ export default function UpsertQuestionnaire() {
 		onSet: setQuestion,
 	}));
 
-	const [surveyMutation, { data: surveyData, reset: resetSurvey }] = useCreateSurveyMutation();
-
-	const handleQuestionnaireCreation = async () => {
-		const props = form.getValues();
-		if (type === EQuestionnaireType.Survey) {
-			await surveyMutation({ variables: buildCreateSurveyGqlVarsFromProps(props) });
-		}
-	};
-
-	useEffect(() => {
-		if (!surveyData) return;
-		resetSurvey();
-	}, [surveyData]);
-
 	return (
 		<div
 			style={{
@@ -104,12 +85,12 @@ export default function UpsertQuestionnaire() {
 		>
 			<Center>
 				<Title mb={theme.spacing.xl} size={19}>
-					{type ?? 'Questionnaire'} Creation
+					{method === 'ADD' ? 'New' : 'Edit'} {type ?? 'Questionnaire'}
 				</Title>
 			</Center>
 
 			<form
-				onSubmit={form.onSubmit(handleQuestionnaireCreation)}
+				onSubmit={form.onSubmit(onSubmit)}
 				style={{
 					display: 'flex',
 					flexDirection: 'column',

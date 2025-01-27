@@ -36,9 +36,7 @@ function Type({ type }: { type: QuestionnaireType }) {
 		if (qType === QuestionnaireType.QuestionnaireQuiz) return 'Quiz';
 		return '';
 	};
-
 	const txtType = getTextFromQuestionnaireType(type);
-
 	let badgeVariant = 'filled-pink';
 	if (txtType === 'Quiz') badgeVariant = 'filled-violet';
 	if (txtType === 'Exam') badgeVariant = 'filled-cyan';

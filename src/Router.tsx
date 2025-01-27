@@ -4,9 +4,9 @@ import HomePublic from '@containers/Home/HomePublic/HomePublic';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import HomeAdmin from '@containers/Home/HomeAdmin/HomeAdmin';
 
-const QuestionnaireList = React.lazy(() => import('@components/Questionnaire/QuestionnaireList/QuestionnaireList'));
-const UpsertQuestionnaire = React.lazy(
-	() => import('@components/Questionnaire/UpsertQuestionnaire/UpsertQuestionnaire'),
+const QuestionnaireList = React.lazy(() => import('@containers/Questionnaire/QuestionnaireList/QuestionnaireList'));
+const CreateQuestionnaire = React.lazy(
+	() => import('@containers/Questionnaire/CreateQuestionnaire/CreateQuestionnaire'),
 );
 const NotFound = React.lazy(() => import('@containers/NotFound/NotFound'));
 
@@ -22,7 +22,7 @@ function Router() {
 						element={
 							<Routes>
 								<Route path="/questionnaires" element={<QuestionnaireList />} />
-								<Route path="/questionnaire/create" element={<UpsertQuestionnaire />} />
+								<Route path="/questionnaire/create" element={<CreateQuestionnaire />} />
 							</Routes>
 						}
 					/>
