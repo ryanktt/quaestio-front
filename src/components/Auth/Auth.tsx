@@ -6,6 +6,7 @@ import { AuthModalContext } from '@contexts/AuthModal.context.tsx';
 import { GlobalContext } from '@contexts/Global/Global.context.tsx';
 import { useCookies } from 'react-cookie';
 import { IAuthData } from '@contexts/Global/Global.types.ts';
+import { useNavigate } from 'react-router-dom';
 import Password from './Password/Password.tsx';
 
 export default function Auth() {
@@ -18,6 +19,7 @@ export default function Auth() {
 	const [loginMutation, { data: loginData, reset: resetLogin }] = useSignInMutation();
 
 	const [password, setPassword] = useState('');
+	const navigate = useNavigate();
 
 	const form = useForm({
 		mode: 'controlled',
@@ -58,6 +60,7 @@ export default function Auth() {
 			secure: true,
 		});
 		globalContext.state.login(user, session, authToken);
+		navigate('/board/questionnaires');
 	};
 
 	useEffect(() => {

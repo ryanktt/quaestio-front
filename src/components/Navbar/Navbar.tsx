@@ -14,6 +14,7 @@ import { useSignOutMutation } from '@gened/graphql';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import { useCookies } from 'react-cookie';
 import { AuthModalContext } from '@contexts/AuthModal.context';
+import { useNavigate } from 'react-router-dom';
 import classes from './Navbar.module.scss';
 
 interface NavbarLinkProps {
@@ -48,9 +49,11 @@ export default function Navbar() {
 	const authModalContext = useContext(AuthModalContext);
 	const [logoutMutation, { data: logoutData, reset: resetLogout }] = useSignOutMutation();
 	const [, , removeCookies] = useCookies(['authData']);
+	const navigate = useNavigate();
 
 	const onLogout = async () => {
 		await logoutMutation();
+		navigate('/');
 	};
 
 	const onChangeAccount = () => {

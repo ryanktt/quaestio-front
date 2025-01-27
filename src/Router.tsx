@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import HomePublic from '@containers/Home/HomePublic/HomePublic';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import HomeAdmin from '@containers/Home/HomeAdmin/HomeAdmin';
@@ -12,12 +12,6 @@ const NotFound = React.lazy(() => import('@containers/NotFound/NotFound'));
 
 function Router() {
 	const { isLoggedIn } = useContext(GlobalContext).state.auth;
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		if (isLoggedIn) navigate('/board/questionnaires');
-		else navigate('/');
-	}, [isLoggedIn]);
 
 	return isLoggedIn ? (
 		<HomeAdmin>
