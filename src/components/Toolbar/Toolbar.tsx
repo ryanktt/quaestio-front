@@ -1,6 +1,6 @@
 import '@mantine/core/styles.css';
 import { Box, Input, Tooltip, UnstyledButton } from '@mantine/core';
-import { IconFilePlus, IconFiles, IconHome2, IconSearch } from '@tabler/icons-react';
+import { IconFilePlus, IconHome2, IconList, IconSearch } from '@tabler/icons-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import classes from './Toolbar.module.scss';
 
@@ -13,7 +13,7 @@ interface ToolbarNavProps {
 
 const toolbarNavData = [
 	{ icon: IconFilePlus, label: 'Create Questionnaire', path: '/board/questionnaire/create' },
-	{ icon: IconFiles, label: 'Questionnaire List', path: '/board/questionnaires' },
+	{ icon: IconList, label: 'Questionnaire List', path: '/board/questionnaires' },
 ];
 
 function ToolbarItem({ icon: Icon, label, active, onClick }: ToolbarNavProps) {
