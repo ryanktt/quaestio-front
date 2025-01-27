@@ -13,4 +13,24 @@ div {
 		background-color: $pink6;
 		color: $white;
 	}
+
+	&[data-variant='light-teal'] {
+		background-color: $teal0;
+		color: $teal7;
+	}
+
+	&[data-variant='light-blue'] {
+		background-color: $blue0;
+		color: $blue7;
+	}
+
+	&[data-variant='light-grape'] {
+		background-color: $grape0;
+		color: $grape7;
+	}
+
+	&[data-variant='light-orange'] {
+		background-color: $orange0;
+		color: $orange7;
+	}
 }

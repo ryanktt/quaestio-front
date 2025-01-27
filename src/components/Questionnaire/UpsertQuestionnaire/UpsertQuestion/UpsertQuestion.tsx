@@ -87,6 +87,14 @@ export default function UpsertQuestion({
 		return null;
 	};
 
+	const getBadgeVariantByType = () => {
+		if (type === QuestionType.SingleChoice) return 'light-teal';
+		if (type === QuestionType.MultipleChoice) return 'light-grape';
+		if (type === QuestionType.TrueOrFalse) return 'light-blue';
+		if (type === QuestionType.Text) return 'light-orange';
+		return '';
+	};
+
 	const handleTypeChange = (val: string | null) => {
 		form.reset();
 		form.setFieldValue('type', getTypeByText(val));
@@ -216,9 +224,15 @@ export default function UpsertQuestion({
 				{draggable ? <IconGripVertical className={classes.dragIcon} size={18} stroke={1.5} /> : null}
 				<div className={classes.toolbarElements}>
 					<div className={classes.toolbarContent}>
-						<Badge variant="white" className={classes.badge} size="md" ml={!draggable ? 10 : 0}>
+						<Badge variant="light" className={classes.badge} size="md" ml={!draggable ? 10 : 0}>
 							{badge}
 						</Badge>
+
+						{method === 'EDIT' ? (
+							<Badge tt="none" variant={getBadgeVariantByType()} c={getBadgeVariantByType()}>
+								{getTextByType()}
+							</Badge>
+						) : null}
 						<Text className={classes.toolbarDescription} size="sm">
 							{questionProp.description}
 						</Text>
