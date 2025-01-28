@@ -1,0 +1,75 @@
+.dragIcon {
+	color: $indigo9;
+	margin: $spacingSm;
+	flex-shrink: 0;
+}
+
+.item {
+	border-radius: $radiusMd;
+	border: 1px solid $indigo0;
+	background-color: $indigo0;
+	overflow: hidden;
+	box-shadow: $shadowXs;
+}
+
+.toolbar {
+	background-color: $white;
+	min-width: 0;
+	width: 100%;
+	justify-content: space-between;
+	align-content: center;
+	display: flex;
+	z-index: 1000;
+}
+
+.badge {
+	color: $indigo9;
+	flex-shrink: 0;
+}
+
+.toolbarContent {
+	min-width: 0;
+	align-items: center;
+	gap: $spacingSm;
+	display: flex;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.toolbarDescription {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: $gray7;
+}
+
+.toolbarButtons {
+	width: 100px;
+	display: flex;
+	justify-content: end;
+	white-space: nowrap;
+	button {
+		border-radius: 0;
+	}
+}
+
+.content {
+	transition: ease-in-out 0.3s;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	max-height: 0;
+	z-index: 100;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	padding: $spacingMd;
+	gap: $spacingSm;
+}
+
+.content.open {
+	max-height: 300px;
+}
