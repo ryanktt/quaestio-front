@@ -192,6 +192,7 @@ export default function QuestionAccordionForm({
 			method={method}
 			label={questionProp.description}
 			showSaveOption={isChanged}
+			variant="filled"
 			onSave={saveItem}
 			onClose={closeItem}
 			onDelete={deleteItem}

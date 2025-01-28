@@ -12,7 +12,7 @@ export default function HomeAdmin({ children }: PropsWithChildren) {
 					Queztro
 				</Title>
 			</Center>
-			<Container style={{ display: 'flex' }}>
+			<Container display="flex">
 				<Box pos="relative" w={0} h={0}>
 					<Navbar />
 				</Box>

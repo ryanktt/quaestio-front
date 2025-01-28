@@ -13,6 +13,7 @@ export interface IAccordionFormItemProps {
 	onClose?: () => void;
 	onSave?: () => { preventClose?: boolean };
 	showSaveOption: boolean;
+	variant?: 'subtle' | 'filled';
 	enableOpen?: boolean;
 }
 
@@ -26,14 +27,15 @@ export default function AccordionFormItem({
 	onClose = () => {},
 	onSave = () => ({ preventClose: false }),
 	enableOpen = true,
+	variant = 'subtle',
 	showSaveOption,
 }: PropsWithChildren & IAccordionFormItemProps) {
 	const theme = useMantineTheme();
 
 	const buttonStyleProps = {
+		color: variant === 'subtle' ? theme.colors.indigo[7] : theme.white,
 		variant: 'subtle',
 		size: 'md',
-		color: theme.colors.indigo[7],
 		p: '0 15px',
 	};
 
@@ -69,7 +71,7 @@ export default function AccordionFormItem({
 		}
 		if (method === 'ADD') {
 			return (
-				<Tooltip label="Add Option">
+				<Tooltip label={`Add ${type}`}>
 					<Button onClick={() => setOpen(true)} disabled={!enableOpen} {...buttonStyleProps}>
 						<IconPlus size={18} />
 					</Button>
@@ -96,11 +98,15 @@ export default function AccordionFormItem({
 	};
 
 	return (
-		<div className={styles.item}>
+		<div className={`${styles.item} ${styles[variant]} }`}>
 			<div className={styles.toolbar}>
 				<div className={styles.toolbarContent}>
 					{method === 'EDIT' ? <IconGripVertical className={styles.dragIcon} size={18} stroke={1.5} /> : null}
-					<Badge variant="light" className={styles.badge} ml={method === 'ADD' ? 10 : 0}>
+					<Badge
+						variant={variant === 'subtle' ? 'light' : 'filled'}
+						className={styles.badge}
+						ml={method === 'ADD' ? 10 : 0}
+					>
 						{badge}
 					</Badge>
 					<Text className={styles.toolbarDescription} size="sm">

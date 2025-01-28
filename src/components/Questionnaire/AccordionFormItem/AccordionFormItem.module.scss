@@ -1,20 +1,55 @@
-.dragIcon {
-	color: $indigo9;
-	margin: $spacingSm;
-	flex-shrink: 0;
-}
-
 .item {
 	border-radius: $radiusMd;
-	border: 1px solid $indigo0;
-	background-color: $indigo0;
 	overflow: hidden;
 	box-shadow: $shadowXs;
 	height: max-content;
 }
 
+.item.add {
+	width: 50%;
+}
+
+.item.filled {
+	border: 1px solid $gray4;
+	.toolbar {
+		background: linear-gradient(180deg, $indigo6 0%, $indigo6 40%, $indigo6);
+	}
+	.badge {
+		color: $white;
+		background-color: $indigo9;
+	}
+	.toolbarDescription {
+		color: $indigo0;
+	}
+	.dragIcon {
+		color: $indigo0;
+	}
+}
+
+.item.subtle {
+	border: 1px solid $indigo2;
+	background-color: $indigo0;
+	.toolbar {
+		background: $white;
+	}
+	.badge {
+		color: $indigo9;
+		background-color: $indigo1;
+	}
+	.toolbarDescription {
+		color: $gray7;
+	}
+	.dragIcon {
+		color: $indigo8;
+	}
+}
+
+.dragIcon {
+	margin: $spacingSm;
+	flex-shrink: 0;
+}
+
 .toolbar {
-	background-color: $white;
 	min-width: 0;
 	width: 100%;
 	justify-content: space-between;
@@ -24,7 +59,6 @@
 }
 
 .badge {
-	color: $indigo9;
 	flex-shrink: 0;
 	margin-right: $spacingSm;
 }
@@ -41,7 +75,6 @@
 	min-width: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	color: $gray7;
 }
 
 .toolbarButtons {

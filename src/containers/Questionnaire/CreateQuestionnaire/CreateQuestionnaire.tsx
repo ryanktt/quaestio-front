@@ -6,8 +6,8 @@ import {
 	EQuestionnaireType,
 	IUpsertQuestionnaireProps,
 } from '@components/Questionnaire/UpsertQuestionnaire/UpsertQuestionnaire.interface.ts';
-import UpsertQuestionnaire from '../../../components/Questionnaire/UpsertQuestionnaire/UpsertQuestionnaire.tsx';
-import { buildCreateSurveyGqlVarsFromProps } from '../../../components/Questionnaire/UpsertQuestionnaire/UpsertQuestionnaire.aux.ts';
+import UpsertQuestionnaire from '@components/Questionnaire/UpsertQuestionnaire/UpsertQuestionnaire.tsx';
+import { buildCreateSurveyGqlVarsFromProps } from '@components/Questionnaire/UpsertQuestionnaire/UpsertQuestionnaire.aux.ts';
 
 export default function CreateQuestionnaire() {
 	const [surveyMutation, { data: surveyData, reset: resetSurvey }] = useCreateSurveyMutation();
