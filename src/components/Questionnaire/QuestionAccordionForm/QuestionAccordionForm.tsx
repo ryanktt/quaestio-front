@@ -171,11 +171,13 @@ export default function QuestionAccordionForm({
 		}, 500);
 	};
 
-	const saveItem = () => {
+	const saveItem = (): { preventClose?: boolean } => {
 		if (!form.validate().hasErrors) {
 			onSave(getQuestion());
 			closeItem();
+			return { preventClose: false };
 		}
+		return { preventClose: true };
 	};
 
 	const deleteItem = () => {

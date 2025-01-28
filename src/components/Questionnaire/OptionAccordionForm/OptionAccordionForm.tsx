@@ -78,11 +78,13 @@ export default function OptionAccordionForm({
 		}
 	};
 
-	const saveItem = () => {
+	const saveItem = (): { preventClose?: boolean } => {
 		if (!form.validate().hasErrors) {
 			onSave(getOption());
 			closeItem();
+			return { preventClose: false };
 		}
+		return { preventClose: true };
 	};
 
 	const deleteItem = () => {
