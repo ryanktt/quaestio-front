@@ -18,4 +18,13 @@ button {
 			color: $violet6;
 		}
 	}
+
+	&[data-variant='subtle'] {
+		&:disabled {
+			span {
+				color: $gray3;
+			}
+			background-color: transparent;
+		}
+	}
 }
