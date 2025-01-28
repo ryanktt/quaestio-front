@@ -26,12 +26,12 @@
 .badge {
 	color: $indigo9;
 	flex-shrink: 0;
+	margin-right: $spacingSm;
 }
 
 .toolbarContent {
 	min-width: 0;
 	align-items: center;
-	gap: $spacingSm;
 	display: flex;
 	white-space: nowrap;
 	overflow: hidden;
@@ -50,31 +50,28 @@
 	justify-content: end;
 	white-space: nowrap;
 	button {
-		transition: ease-in-out 0.5;
 		border-radius: 0;
-		&:disabled {
-			color: $indigo5;
-		}
 	}
 }
 
 .content {
-	position: relative;
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-rows: 0fr;
 	overflow: hidden;
-	z-index: 100;
-	transition: ease-in-out 0.3s;
-	max-height: 0;
+	transition: grid-template-rows 0.3s;
 }
 
 .form {
+	min-height: 0;
+}
+
+.formContent {
 	display: flex;
 	flex-direction: column;
-	padding: $spacingMd;
 	gap: $spacingMd;
+	padding: $spacingMd;
 }
 
 .content.open {
-	max-height: var(--max-content-height);
+	grid-template-rows: 1fr;
 }

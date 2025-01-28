@@ -1,7 +1,7 @@
 import { Badge, Button, Text, Tooltip, useMantineTheme } from '@mantine/core';
 import { IconCheck, IconEdit, IconGripVertical, IconPlus, IconTrash, IconX } from '@tabler/icons-react';
-import { CSSProperties, LegacyRef, PropsWithChildren, useLayoutEffect, useRef, useState } from 'react';
-import classes from './AccordionFormItem.module.scss';
+import { PropsWithChildren, useState } from 'react';
+import styles from './AccordionFormItem.module.scss';
 
 export interface IAccordionFormItemProps {
 	badge: string;
@@ -10,8 +10,8 @@ export interface IAccordionFormItemProps {
 	method?: 'ADD' | 'EDIT';
 	draggable?: boolean;
 	onDelete?: () => void;
-	onSave?: () => void;
 	onClose?: () => void;
+	onSave?: () => { preventClose?: boolean };
 	showSaveOption: boolean;
 	enableOpen?: boolean;
 }
@@ -23,18 +23,12 @@ export default function AccordionFormItem({
 	type,
 	children,
 	onDelete = () => {},
-	onSave = () => {},
 	onClose = () => {},
+	onSave = () => ({ preventClose: false }),
 	enableOpen = true,
 	showSaveOption,
 }: PropsWithChildren & IAccordionFormItemProps) {
 	const theme = useMantineTheme();
-	const [contentHeight, setContentHeight] = useState(0);
-	const contentRef = useRef<{ clientHeight: number }>(null);
-
-	useLayoutEffect(() => {
-		setContentHeight(contentRef?.current?.clientHeight || 0);
-	});
 
 	const buttonStyleProps = {
 		variant: 'subtle',
@@ -45,13 +39,13 @@ export default function AccordionFormItem({
 
 	const [isOpen, setOpen] = useState(false);
 	const closeItem = () => {
-		setOpen(false);
 		onClose();
+		setOpen(false);
 	};
 
 	const saveItem = () => {
-		onSave();
-		closeItem();
+		const { preventClose } = onSave();
+		if (!preventClose) closeItem();
 	};
 
 	const getItemButtons = () => {
@@ -102,28 +96,23 @@ export default function AccordionFormItem({
 	};
 
 	return (
-		<div className={classes.item}>
-			<div className={classes.toolbar}>
-				<div className={classes.toolbarContent}>
-					{method === 'EDIT' ? (
-						<IconGripVertical className={classes.dragIcon} size={18} stroke={1.5} />
-					) : null}
-					<Badge variant="light" className={classes.badge} ml={method === 'ADD' ? 10 : 0}>
+		<div className={styles.item}>
+			<div className={styles.toolbar}>
+				<div className={styles.toolbarContent}>
+					{method === 'EDIT' ? <IconGripVertical className={styles.dragIcon} size={18} stroke={1.5} /> : null}
+					<Badge variant="light" className={styles.badge} ml={method === 'ADD' ? 10 : 0}>
 						{badge}
 					</Badge>
-					<Text className={classes.toolbarDescription} size="sm">
+					<Text className={styles.toolbarDescription} size="sm">
 						{label}
 					</Text>
 				</div>
-				<div className={classes.toolbarButtons}>{getItemButtons()}</div>
+				<div className={styles.toolbarButtons}>{getItemButtons()}</div>
 			</div>
 
-			<div
-				className={`${classes.content} ${isOpen ? classes.open : ''}`}
-				style={{ '--max-content-height': `${contentHeight + 300}px` } as CSSProperties}
-			>
-				<div ref={contentRef as LegacyRef<HTMLDivElement>} className={classes.form}>
-					{children}
+			<div className={`${styles.content} ${isOpen ? styles.open : ''}`}>
+				<div className={styles.form}>
+					<div className={styles.formContent}>{children}</div>
 				</div>
 			</div>
 		</div>
