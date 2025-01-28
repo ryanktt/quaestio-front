@@ -1,8 +1,9 @@
-import { nanoid } from 'nanoid/non-secure';
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
 import { ComponentType, useEffect, useState } from 'react';
 import cx from 'clsx';
 import classes from './DragDropList.module.scss';
+
+export type IDragDrogItemProps<T> = T & { draggable?: boolean; key: string };
 
 export default function DragDropList<P extends Object>({
 	itemsComponent: ItemsComponent,
@@ -10,7 +11,7 @@ export default function DragDropList<P extends Object>({
 	onReorder,
 }: {
 	itemsComponent: ComponentType<P>;
-	itemPropsList: P[];
+	itemPropsList: IDragDrogItemProps<P>[];
 	onReorder: (state: P[]) => void;
 }) {
 	const [state, setState] = useState([...itemPropsList]);
@@ -31,10 +32,13 @@ export default function DragDropList<P extends Object>({
 	};
 
 	const items = state.map((itemProps, index) => {
-		const key = nanoid();
-
 		return (
-			<Draggable key={key} index={index} draggableId={key}>
+			<Draggable
+				key={itemProps.key}
+				index={index}
+				draggableId={itemProps.key}
+				isDragDisabled={!itemProps.draggable}
+			>
 				{(provided, snapshot) => (
 					<div
 						className={cx(classes.item, { [classes.itemDragging]: snapshot.isDragging })}
