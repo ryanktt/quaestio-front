@@ -12,13 +12,15 @@ export interface IOptionProps {
 	correct: boolean | '';
 }
 
-export interface IUpsertOptionProps {
+export interface IOptionAccordionFormProps {
 	badge: string;
 	option?: IOptionProps;
 	method?: 'ADD' | 'EDIT';
-	draggable?: boolean;
+	enableOpen?: boolean;
 	onDelete?: (optionId: string) => void;
 	onSave?: (option: IOptionProps) => void;
+	onStartEdit?: () => void;
+	onFinishEdit?: () => void;
 }
 
 const initialProps: IOptionProps = {
@@ -30,12 +32,14 @@ const initialProps: IOptionProps = {
 
 export default function OptionAccordionForm({
 	option: optionProp = initialProps,
-	draggable = true,
 	method = 'EDIT',
 	badge,
+	enableOpen = true,
 	onDelete = () => {},
 	onSave = () => {},
-}: IUpsertOptionProps) {
+	onStartEdit = () => {},
+	onFinishEdit = () => {},
+}: IOptionAccordionFormProps) {
 	const theme = useMantineTheme();
 	const form = useForm<IOptionProps>({
 		mode: 'controlled',
@@ -47,12 +51,15 @@ export default function OptionAccordionForm({
 	});
 
 	const [isChanged, setChanged] = useState(false);
+	const [draggable, setDraggable] = useState(true);
 
 	const getOption = (): IOptionProps => form.getValues();
 
 	const handleChange = (e: ChangeEvent, item: keyof IOptionProps) => {
 		form.getInputProps(item).onChange(e);
 		setChanged(true);
+		setDraggable(false);
+		onStartEdit();
 	};
 
 	const getInputProps = (item: keyof IOptionProps, inputType: GetInputPropsType = 'input') => ({
@@ -62,10 +69,13 @@ export default function OptionAccordionForm({
 
 	const closeItem = () => {
 		setChanged(false);
-		if (method === 'ADD') {
-			form.setValues({ ...optionProp, id: nanoid() });
-		}
+		setDraggable(true);
+		onFinishEdit();
 		form.reset();
+		if (method === 'ADD') {
+			form.setInitialValues({ ...initialProps, id: nanoid() });
+			form.reset();
+		}
 	};
 
 	const saveItem = () => {
@@ -86,6 +96,7 @@ export default function OptionAccordionForm({
 			draggable={draggable}
 			method={method}
 			label={optionProp.title}
+			enableOpen={enableOpen}
 			showSaveOption={isChanged}
 			onSave={saveItem}
 			onClose={closeItem}

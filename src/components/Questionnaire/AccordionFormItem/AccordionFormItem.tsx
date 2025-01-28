@@ -1,6 +1,6 @@
 import { Badge, Button, Text, Tooltip, useMantineTheme } from '@mantine/core';
 import { IconCheck, IconEdit, IconGripVertical, IconPlus, IconTrash, IconX } from '@tabler/icons-react';
-import { PropsWithChildren, useState } from 'react';
+import { CSSProperties, LegacyRef, PropsWithChildren, useLayoutEffect, useRef, useState } from 'react';
 import classes from './AccordionFormItem.module.scss';
 
 export interface IAccordionFormItemProps {
@@ -13,10 +13,10 @@ export interface IAccordionFormItemProps {
 	onSave?: () => void;
 	onClose?: () => void;
 	showSaveOption: boolean;
+	enableOpen?: boolean;
 }
 
 export default function AccordionFormItem({
-	draggable = true,
 	label,
 	method = 'EDIT',
 	badge,
@@ -25,14 +25,25 @@ export default function AccordionFormItem({
 	onDelete = () => {},
 	onSave = () => {},
 	onClose = () => {},
+	enableOpen = true,
 	showSaveOption,
 }: PropsWithChildren & IAccordionFormItemProps) {
 	const theme = useMantineTheme();
+	const [contentHeight, setContentHeight] = useState(0);
+	const contentRef = useRef<{ clientHeight: number }>(null);
 
-	const buttonStyleProps = { variant: 'subtle', size: 'md', color: theme.colors.indigo[7], p: '0 15px' };
+	useLayoutEffect(() => {
+		setContentHeight(contentRef?.current?.clientHeight || 0);
+	});
+
+	const buttonStyleProps = {
+		variant: 'subtle',
+		size: 'md',
+		color: theme.colors.indigo[7],
+		p: '0 15px',
+	};
 
 	const [isOpen, setOpen] = useState(false);
-
 	const closeItem = () => {
 		setOpen(false);
 		onClose();
@@ -65,7 +76,7 @@ export default function AccordionFormItem({
 		if (method === 'ADD') {
 			return (
 				<Tooltip label="Add Option">
-					<Button onClick={() => setOpen(true)} {...buttonStyleProps}>
+					<Button onClick={() => setOpen(true)} disabled={!enableOpen} {...buttonStyleProps}>
 						<IconPlus size={18} />
 					</Button>
 				</Tooltip>
@@ -75,12 +86,12 @@ export default function AccordionFormItem({
 			return (
 				<>
 					<Tooltip label={`Delete ${type}`}>
-						<Button onClick={onDelete} {...buttonStyleProps}>
+						<Button onClick={onDelete} disabled={!enableOpen} {...buttonStyleProps}>
 							<IconTrash size={18} stroke={1.7} />
 						</Button>
 					</Tooltip>
 					<Tooltip label={`Edit ${type}`}>
-						<Button onClick={() => setOpen(true)} {...buttonStyleProps}>
+						<Button onClick={() => setOpen(true)} disabled={!enableOpen} {...buttonStyleProps}>
 							<IconEdit size={18} stroke={1.7} />
 						</Button>
 					</Tooltip>
@@ -94,8 +105,10 @@ export default function AccordionFormItem({
 		<div className={classes.item}>
 			<div className={classes.toolbar}>
 				<div className={classes.toolbarContent}>
-					{draggable ? <IconGripVertical className={classes.dragIcon} size={18} stroke={1.5} /> : null}
-					<Badge variant="light" className={classes.badge} ml={!draggable ? 10 : 0}>
+					{method === 'EDIT' ? (
+						<IconGripVertical className={classes.dragIcon} size={18} stroke={1.5} />
+					) : null}
+					<Badge variant="light" className={classes.badge} ml={method === 'ADD' ? 10 : 0}>
 						{badge}
 					</Badge>
 					<Text className={classes.toolbarDescription} size="sm">
@@ -105,8 +118,13 @@ export default function AccordionFormItem({
 				<div className={classes.toolbarButtons}>{getItemButtons()}</div>
 			</div>
 
-			<div className={`${classes.content} ${isOpen ? classes.open : ''}`}>
-				<div className={classes.form}>{children}</div>
+			<div
+				className={`${classes.content} ${isOpen ? classes.open : ''}`}
+				style={{ '--max-content-height': `${contentHeight + 300}px` } as CSSProperties}
+			>
+				<div ref={contentRef as LegacyRef<HTMLDivElement>} className={classes.form}>
+					{children}
+				</div>
 			</div>
 		</div>
 	);
