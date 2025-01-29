@@ -1,6 +1,14 @@
 import { Badge, Button, Text, Tooltip, useMantineTheme } from '@mantine/core';
-import { IconCheck, IconEdit, IconGripVertical, IconPlus, IconTrash, IconX } from '@tabler/icons-react';
-import { PropsWithChildren, useState } from 'react';
+import {
+	IconCheck,
+	IconChevronDown,
+	IconChevronUp,
+	IconGripVertical,
+	IconPlus,
+	IconTrash,
+	IconX,
+} from '@tabler/icons-react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import styles from './AccordionFormItem.module.scss';
 
 export interface IAccordionFormItemProps {
@@ -12,9 +20,11 @@ export interface IAccordionFormItemProps {
 	onDelete?: () => void;
 	onClose?: () => void;
 	onSave?: () => { preventClose?: boolean };
-	showSaveOption: boolean;
+	isEditing: boolean;
+	toolbarComponents?: React.ReactNode[];
 	variant?: 'subtle' | 'filled';
-	enableOpen?: boolean;
+	enableToolbarOptions?: boolean;
+	setOpen?: () => boolean | undefined;
 }
 
 export default function AccordionFormItem({
@@ -26,9 +36,11 @@ export default function AccordionFormItem({
 	onDelete = () => {},
 	onClose = () => {},
 	onSave = () => ({ preventClose: false }),
-	enableOpen = true,
+	enableToolbarOptions = true,
+	setOpen: setOpenProp = () => undefined,
 	variant = 'subtle',
-	showSaveOption,
+	isEditing,
+	toolbarComponents = [],
 }: PropsWithChildren & IAccordionFormItemProps) {
 	const theme = useMantineTheme();
 
@@ -39,7 +51,8 @@ export default function AccordionFormItem({
 		p: '0 15px',
 	};
 
-	const [isOpen, setOpen] = useState(false);
+	const [isOpen, setOpen] = useState(setOpenProp() ?? false);
+
 	const closeItem = () => {
 		onClose();
 		setOpen(false);
@@ -50,29 +63,38 @@ export default function AccordionFormItem({
 		if (!preventClose) closeItem();
 	};
 
+	useEffect(() => {
+		setOpen(setOpenProp() ?? isOpen);
+	}, [setOpenProp]);
+
 	const getItemButtons = () => {
 		if (isOpen) {
-			return (
+			return isEditing ? (
 				<>
-					<Tooltip label="Cancel">
+					<Tooltip label="Cancel Changes ">
 						<Button onClick={closeItem} {...buttonStyleProps}>
 							<IconX size={18} />
 						</Button>
 					</Tooltip>
-					{showSaveOption ? (
-						<Tooltip label="Save Changes">
-							<Button onClick={saveItem} {...buttonStyleProps}>
-								<IconCheck size={18} />
-							</Button>
-						</Tooltip>
-					) : null}
+
+					<Tooltip label="Save Changes">
+						<Button onClick={saveItem} {...buttonStyleProps}>
+							<IconCheck size={18} />
+						</Button>
+					</Tooltip>
 				</>
+			) : (
+				<Tooltip label="Hide">
+					<Button onClick={closeItem} {...buttonStyleProps}>
+						<IconChevronUp size={18} />
+					</Button>
+				</Tooltip>
 			);
 		}
 		if (method === 'ADD') {
 			return (
 				<Tooltip label={`Add ${type}`}>
-					<Button onClick={() => setOpen(true)} disabled={!enableOpen} {...buttonStyleProps}>
+					<Button onClick={() => setOpen(true)} disabled={!enableToolbarOptions} {...buttonStyleProps}>
 						<IconPlus size={18} />
 					</Button>
 				</Tooltip>
@@ -82,13 +104,13 @@ export default function AccordionFormItem({
 			return (
 				<>
 					<Tooltip label={`Delete ${type}`}>
-						<Button onClick={onDelete} disabled={!enableOpen} {...buttonStyleProps}>
-							<IconTrash size={18} stroke={1.7} />
+						<Button onClick={onDelete} disabled={!enableToolbarOptions} {...buttonStyleProps}>
+							<IconTrash size={17} stroke={1.7} />
 						</Button>
 					</Tooltip>
-					<Tooltip label={`Edit ${type}`}>
-						<Button onClick={() => setOpen(true)} disabled={!enableOpen} {...buttonStyleProps}>
-							<IconEdit size={18} stroke={1.7} />
+					<Tooltip label={`Show ${type}`}>
+						<Button onClick={() => setOpen(true)} disabled={!enableToolbarOptions} {...buttonStyleProps}>
+							<IconChevronDown size={18} />
 						</Button>
 					</Tooltip>
 				</>
@@ -101,7 +123,11 @@ export default function AccordionFormItem({
 		<div className={`${styles.item} ${styles[variant]} }`}>
 			<div className={styles.toolbar}>
 				<div className={styles.toolbarContent}>
-					{method === 'EDIT' ? <IconGripVertical className={styles.dragIcon} size={18} stroke={1.5} /> : null}
+					{method === 'EDIT' ? (
+						<div className={styles.dragIcon}>
+							<IconGripVertical size={18} stroke={1.5} />
+						</div>
+					) : null}
 					<Badge
 						variant={variant === 'subtle' ? 'light' : 'filled'}
 						className={styles.badge}
@@ -109,6 +135,11 @@ export default function AccordionFormItem({
 					>
 						{badge}
 					</Badge>
+					{toolbarComponents.length ? (
+						<div style={{ margin: '0 10px', display: 'flex', alignItems: 'center' }}>
+							{...toolbarComponents}
+						</div>
+					) : null}
 					<Text className={styles.toolbarDescription} size="sm">
 						{label}
 					</Text>

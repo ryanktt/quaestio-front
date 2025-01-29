@@ -12,7 +12,7 @@
 .item.filled {
 	border: 1px solid $gray4;
 	.toolbar {
-		background: linear-gradient(180deg, $indigo6 0%, $indigo6 40%, $indigo6);
+		background: linear-gradient(0deg, $indigo7 0%, 40%, $indigo6 100%);
 	}
 	.badge {
 		color: $white;
@@ -27,10 +27,13 @@
 }
 
 .item.subtle {
-	border: 1px solid $indigo2;
+	border: 1px solid $gray4;
+	border-radius: $radiusSm;
 	background-color: $indigo0;
+
 	.toolbar {
 		background: $white;
+		background: linear-gradient(0deg, $gray0 20%, 40%, $white 100%);
 	}
 	.badge {
 		color: $indigo9;
@@ -40,12 +43,14 @@
 		color: $gray7;
 	}
 	.dragIcon {
-		color: $indigo8;
+		color: $indigo9;
 	}
 }
 
 .dragIcon {
-	margin: $spacingSm;
+	display: flex;
+	align-items: center;
+	padding: $spacingXs;
 	flex-shrink: 0;
 }
 
@@ -100,6 +105,7 @@
 
 .formContent {
 	display: flex;
+	border-top: 1px solid $gray4;
 	flex-direction: column;
 	gap: $spacingMd;
 	padding: $spacingMd;

@@ -1,5 +1,5 @@
-import { Checkbox, InputLabel, Select, Textarea, useMantineTheme } from '@mantine/core';
-import { ChangeEvent, useState } from 'react';
+import { Badge, Box, Checkbox, InputLabel, Select, Textarea, useMantineTheme } from '@mantine/core';
+import { useState } from 'react';
 import { nanoid } from 'nanoid/non-secure';
 import { hasLength, useForm } from '@mantine/form';
 import { QuestionType } from '@gened/graphql.ts';
@@ -31,8 +31,12 @@ export interface IQuestionAccordionFormProps {
 	question?: IQuestionProps;
 	method?: IMethod;
 	draggable?: boolean;
+	enableToolbarOptions?: boolean;
+	setOpen?: () => boolean | undefined;
 	onDelete?: (optionId: string) => void;
 	onSave?: (option: IQuestionProps) => void;
+	onStartEdit?: (option: IQuestionProps) => void;
+	onFinishEdit?: (option: IQuestionProps) => void;
 }
 
 const initialProps: IQuestionProps = {
@@ -53,8 +57,12 @@ export default function QuestionAccordionForm({
 	draggable = true,
 	method = 'EDIT',
 	badge,
+	enableToolbarOptions = true,
+	setOpen = () => undefined,
 	onDelete = () => {},
 	onSave = () => {},
+	onStartEdit = () => {},
+	onFinishEdit = () => {},
 }: IQuestionAccordionFormProps) {
 	const theme = useMantineTheme();
 	const primaryColor = theme.colors.indigo[6];
@@ -68,7 +76,7 @@ export default function QuestionAccordionForm({
 		},
 	});
 	const [isChanged, setChanged] = useState(false);
-	const [isEditingOption, setIsEditingOption] = useState(false);
+	const [onEditOptionId, setOnEditOptionId] = useState<string | null>(null);
 
 	const { type } = form.getValues();
 	const getQuestion = (): IQuestionProps => form.getValues();
@@ -80,25 +88,20 @@ export default function QuestionAccordionForm({
 		return QuestionType.Text;
 	};
 
-	const getTextByType = () => {
-		if (type === QuestionType.SingleChoice) return 'Single Choice';
-		if (type === QuestionType.MultipleChoice) return 'Multiple Choice';
-		if (type === QuestionType.TrueOrFalse) return 'True or False';
-		if (type === QuestionType.Text) return 'Text';
+	const getTextByType = (t: QuestionType) => {
+		if (t === QuestionType.SingleChoice) return 'Single Choice';
+		if (t === QuestionType.MultipleChoice) return 'Multiple Choice';
+		if (t === QuestionType.TrueOrFalse) return 'True or False';
+		if (t === QuestionType.Text) return 'Text';
 		return null;
 	};
 
-	// const getBadgeVariantByType = () => {
-	// 	if (type === QuestionType.SingleChoice) return 'light-teal';
-	// 	if (type === QuestionType.MultipleChoice) return 'light-grape';
-	// 	if (type === QuestionType.TrueOrFalse) return 'light-blue';
-	// 	if (type === QuestionType.Text) return 'light-orange';
-	// 	return '';
-	// };
-
-	const handleTypeChange = (val: string | null) => {
-		form.reset();
-		form.setFieldValue('type', getTypeByText(val));
+	const getBadgeVariantByType = (t: QuestionType) => {
+		if (t === QuestionType.SingleChoice) return 'light-teal';
+		if (t === QuestionType.MultipleChoice) return 'light-grape';
+		if (t === QuestionType.TrueOrFalse) return 'light-blue';
+		if (t === QuestionType.Text) return 'light-orange';
+		return '';
 	};
 
 	const handleReorderedOptions = (reorderedOptions: IOptionAccordionFormProps[]) => {
@@ -144,31 +147,36 @@ export default function QuestionAccordionForm({
 		onDelete: deleteOption,
 		key: option.id,
 		onSave: setOption,
-		draggable: !isEditingOption,
-		enableOpen: !isEditingOption,
-		onStartEdit: () => setIsEditingOption(true),
-		onFinishEdit: () => setIsEditingOption(false),
+		draggable: !onEditOptionId,
+		enableToolbarOptions: !onEditOptionId,
+		setOpen: () => onEditOptionId === option.id,
+		onStartEdit: (opt) => setOnEditOptionId(opt.id),
+		onFinishEdit: () => setOnEditOptionId(null),
 	}));
 
-	const handleChange = (e: ChangeEvent, name: keyof IQuestionProps) => {
-		form.getInputProps(name).onChange(e);
+	const handleChange = (e: unknown, eName: keyof IQuestionProps) => {
+		const formInputProps = form.getInputProps(eName);
+		let value: unknown = e;
+		if (eName === 'type') value = getTypeByText(String(e));
+
+		formInputProps.onChange(value);
+
 		setChanged(true);
+		onStartEdit(getQuestion());
 	};
 
 	const getInputProps = (name: keyof IQuestionProps, inputType: GetInputPropsType = 'input') => ({
 		...form.getInputProps(name, { type: inputType }),
-		onChange: (e: ChangeEvent) => handleChange(e, name),
+		onChange: (e: unknown) => handleChange(e, name),
 	});
 
 	const closeItem = () => {
 		setChanged(false);
-		setTimeout(() => {
-			form.reset();
-			if (method === 'ADD') {
-				form.setInitialValues({ ...initialProps, id: nanoid() });
-				form.reset();
-			}
-		}, 500);
+		if (method === 'ADD') {
+			form.setInitialValues({ ...initialProps, id: nanoid() });
+		}
+		form.reset();
+		onFinishEdit(getQuestion());
 	};
 
 	const saveItem = (): { preventClose?: boolean } => {
@@ -184,25 +192,40 @@ export default function QuestionAccordionForm({
 		onDelete(form.getValues().id);
 	};
 
+	const questionTypeBadge =
+		method === 'EDIT' && questionProp.type ? (
+			<Box display="flex" w={120} style={{ alignItems: 'center', justifyContent: 'start' }}>
+				<Badge size="sm" radius="sm" variant={getBadgeVariantByType(questionProp.type)}>
+					{getTextByType(questionProp.type)}
+				</Badge>
+			</Box>
+		) : undefined;
+
+	const validateInput = method === 'EDIT' || isChanged;
+
 	return (
 		<AccordionFormItem
+			key={questionProp.id}
 			badge={badge}
-			type="Question"
-			draggable={draggable}
-			method={method}
+			toolbarComponents={questionTypeBadge ? [questionTypeBadge] : undefined}
 			label={questionProp.description}
-			showSaveOption={isChanged}
+			isEditing={isChanged}
+			draggable={draggable}
+			enableToolbarOptions={enableToolbarOptions}
 			variant="filled"
+			type="Question"
+			method={method}
+			setOpen={setOpen}
 			onSave={saveItem}
 			onClose={closeItem}
 			onDelete={deleteItem}
 		>
 			<Select
 				variant="default"
-				onChange={handleTypeChange}
-				value={getTextByType()}
+				{...getInputProps('type')}
+				value={type ? getTextByType(type) : ''}
 				maw={300}
-				required
+				required={validateInput}
 				label="Question type"
 				placeholder="Select the question type"
 				data={typeValues}
@@ -211,9 +234,9 @@ export default function QuestionAccordionForm({
 				{...getInputProps('description')}
 				label="Question description"
 				resize="vertical"
-				error={form.errors.description}
+				error={validateInput ? form.errors.description : null}
 				disabled={!type}
-				required
+				required={validateInput}
 				placeholder="The question description"
 				inputWrapperOrder={['label', 'error', 'input']}
 			/>
@@ -292,9 +315,9 @@ export default function QuestionAccordionForm({
 						badge="New Option"
 						method="ADD"
 						onSave={setOption}
-						enableOpen={!isEditingOption}
-						onStartEdit={() => setIsEditingOption(true)}
-						onFinishEdit={() => setIsEditingOption(false)}
+						enableToolbarOptions={!onEditOptionId}
+						onStartEdit={(opt) => setOnEditOptionId(opt.id)}
+						onFinishEdit={() => setOnEditOptionId(null)}
 					/>
 				</>
 			) : null}

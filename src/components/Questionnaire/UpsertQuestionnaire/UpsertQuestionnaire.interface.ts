@@ -1,5 +1,5 @@
 import { QuestionnaireExam, QuestionnaireQuiz, QuestionnaireSurvey } from '@gened/graphql.ts';
-import { IQuestionProps } from './UpsertQuestion/UpsertQuestion.tsx';
+import { IQuestionProps } from '../QuestionAccordionForm/QuestionAccordionForm.tsx';
 
 export enum EQuestionnaireType {
 	Survey = 'Survey',

@@ -16,11 +16,12 @@ export interface IOptionAccordionFormProps {
 	badge: string;
 	option?: IOptionProps;
 	method?: 'ADD' | 'EDIT';
-	enableOpen?: boolean;
+	enableToolbarOptions?: boolean;
+	setOpen?: () => boolean | undefined;
 	onDelete?: (optionId: string) => void;
 	onSave?: (option: IOptionProps) => void;
-	onStartEdit?: () => void;
-	onFinishEdit?: () => void;
+	onStartEdit?: (option: IOptionProps) => void;
+	onFinishEdit?: (option: IOptionProps) => void;
 }
 
 const initialProps: IOptionProps = {
@@ -34,7 +35,8 @@ export default function OptionAccordionForm({
 	option: optionProp = initialProps,
 	method = 'EDIT',
 	badge,
-	enableOpen = true,
+	enableToolbarOptions = true,
+	setOpen = () => undefined,
 	onDelete = () => {},
 	onSave = () => {},
 	onStartEdit = () => {},
@@ -51,15 +53,12 @@ export default function OptionAccordionForm({
 	});
 
 	const [isChanged, setChanged] = useState(false);
-	const [draggable, setDraggable] = useState(true);
-
 	const getOption = (): IOptionProps => form.getValues();
 
 	const handleChange = (e: ChangeEvent, item: keyof IOptionProps) => {
 		form.getInputProps(item).onChange(e);
 		setChanged(true);
-		setDraggable(false);
-		onStartEdit();
+		onStartEdit(getOption());
 	};
 
 	const getInputProps = (item: keyof IOptionProps, inputType: GetInputPropsType = 'input') => ({
@@ -69,8 +68,7 @@ export default function OptionAccordionForm({
 
 	const closeItem = () => {
 		setChanged(false);
-		setDraggable(true);
-		onFinishEdit();
+		onFinishEdit(getOption());
 		form.reset();
 		if (method === 'ADD') {
 			form.setInitialValues({ ...initialProps, id: nanoid() });
@@ -93,13 +91,14 @@ export default function OptionAccordionForm({
 
 	return (
 		<AccordionFormItem
+			key={optionProp.id}
 			badge={badge}
 			type="Option"
-			draggable={draggable}
 			method={method}
 			label={optionProp.title}
-			enableOpen={enableOpen}
-			showSaveOption={isChanged}
+			enableToolbarOptions={enableToolbarOptions}
+			isEditing={isChanged}
+			setOpen={setOpen}
 			onSave={saveItem}
 			onClose={closeItem}
 			onDelete={deleteItem}
@@ -107,10 +106,10 @@ export default function OptionAccordionForm({
 			<Textarea
 				{...getInputProps('title')}
 				label="Option description"
-				required
+				required={!(method === 'ADD')}
 				resize="vertical"
 				placeholder="The option description"
-				error={form.errors.title}
+				error={method === 'ADD' ? null : form.errors.title}
 				inputWrapperOrder={['label', 'error', 'input']}
 			/>
 			<Textarea
@@ -118,7 +117,7 @@ export default function OptionAccordionForm({
 				label="Option feedback"
 				resize="vertical"
 				placeholder="Feedback for this option"
-				error={form.errors.feedbackAfterSubmit}
+				error={method === 'ADD' ? null : form.errors.title}
 				inputWrapperOrder={['label', 'error', 'input']}
 			/>
 			<Checkbox {...getInputProps('correct', 'checkbox')} color={theme.colors.indigo[6]} label="Correct option" />

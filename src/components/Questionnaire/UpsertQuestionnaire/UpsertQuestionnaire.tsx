@@ -11,14 +11,18 @@ import {
 } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
-import DragDropList from '@components/DragDropList/DragDropList.tsx';
-import UpsertQuestion, { IQuestionProps, IUpsertQuestionProps } from './UpsertQuestion/UpsertQuestion.tsx';
+import DragDropList, { IDragDrogItemProps } from '@components/DragDropList/DragDropList.tsx';
+import { useState } from 'react';
 import { buildUpsertQuestionnaireProps } from './UpsertQuestionnaire.aux.ts';
 import {
 	EQuestionnaireType,
 	IUpsertQuestionnaireMethods,
 	IUpsertQuestionnaireProps,
 } from './UpsertQuestionnaire.interface.ts';
+import QuestionAccordionForm, {
+	IQuestionAccordionFormProps,
+	IQuestionProps,
+} from '../QuestionAccordionForm/QuestionAccordionForm.tsx';
 
 export default function UpsertQuestionnaire({ method = 'ADD', questionnaire, onSubmit }: IUpsertQuestionnaireMethods) {
 	const theme = useMantineTheme();
@@ -27,11 +31,13 @@ export default function UpsertQuestionnaire({ method = 'ADD', questionnaire, onS
 		initialValues: buildUpsertQuestionnaireProps(questionnaire),
 		validate: {
 			title: hasLength({ min: 3, max: 255 }, 'Title must be 3-255 characters long'),
+			description: hasLength({ min: 3 }, 'Description must be at least 3 characters long'),
 		},
 	});
 	const { type } = form.getValues();
+	const [onEditQuestionId, setOnEditQuestionId] = useState<string | null>(null);
 
-	const handleReorderedQuestions = (reorderedQuestions: IUpsertQuestionProps[]) => {
+	const handleReorderedQuestions = (reorderedQuestions: IQuestionAccordionFormProps[]) => {
 		const { questions } = form.getValues();
 		const updatedQuestions = reorderedQuestions
 			.map(({ question }) => questions.find((q) => q.id === question?.id))
@@ -65,18 +71,26 @@ export default function UpsertQuestionnaire({ method = 'ADD', questionnaire, onS
 		}
 	};
 
-	const questionsProps = form.getValues().questions.map<IUpsertQuestionProps>((question, i) => ({
-		question,
-		badge: `Question ${i + 1}`,
-		onDelete: deleteQuestion,
-		onSet: setQuestion,
-	}));
+	const questionsProps = form
+		.getValues()
+		.questions.map<IDragDrogItemProps<IQuestionAccordionFormProps>>((question, i) => ({
+			question,
+			key: question.id,
+			badge: `Question ${i + 1}`,
+			onDelete: deleteQuestion,
+			onSave: setQuestion,
+			draggable: !onEditQuestionId,
+			enableToolbarOptions: !onEditQuestionId,
+			setOpen: () => onEditQuestionId === question.id,
+			onStartEdit: (opt) => setOnEditQuestionId(opt.id),
+			onFinishEdit: () => setOnEditQuestionId(null),
+		}));
 
 	return (
 		<div
 			style={{
 				padding: theme.spacing.lg,
-				boxShadow: theme.shadows.sm,
+				boxShadow: theme.shadows.md,
 				width: '100%',
 				border: '1px solid',
 				borderColor: theme.colors.gray[4],
@@ -117,6 +131,7 @@ export default function UpsertQuestionnaire({ method = 'ADD', questionnaire, onS
 					{...form.getInputProps('description')}
 					label="Description"
 					resize="vertical"
+					required
 					disabled={!type}
 					placeholder={`The ${type ?? 'Questionnaire'} description`}
 					inputWrapperOrder={['label', 'error', 'input']}
@@ -140,15 +155,24 @@ export default function UpsertQuestionnaire({ method = 'ADD', questionnaire, onS
 					<div>
 						<DragDropList
 							onReorder={handleReorderedQuestions}
-							itemsComponent={UpsertQuestion}
+							itemsComponent={QuestionAccordionForm}
 							itemPropsList={questionsProps}
 						/>
 					</div>
 				) : null}
 
-				<UpsertQuestion badge="New Question" method="ADD" draggable={false} onSet={setQuestion} />
+				<QuestionAccordionForm
+					badge="New Question"
+					method="ADD"
+					draggable={false}
+					onSave={setQuestion}
+					enableToolbarOptions={!onEditQuestionId}
+					setOpen={() => (!questionsProps.length ? true : undefined)}
+					onStartEdit={(opt) => setOnEditQuestionId(opt.id)}
+					onFinishEdit={() => setOnEditQuestionId(null)}
+				/>
 				<Center style={{ gap: '10px' }}>
-					<Button disabled={!type} w="100%" size="sm" mt="xl" type="submit" variant="gradient">
+					<Button disabled={!type} w="80%" size="sm" mt="xl" type="submit" variant="gradient">
 						Create {type ?? 'Questionnaire'}
 					</Button>
 				</Center>
