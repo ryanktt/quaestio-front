@@ -19,5 +19,9 @@ export const convertPropsToGqlVars = <T>(props: unknown): T => {
 		) as T;
 	}
 
+	if (props && typeof props === 'string') {
+		return props.trim() as T;
+	}
+
 	return props as T;
 };
