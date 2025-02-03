@@ -1,5 +1,5 @@
 import { QuestionnaireExam, QuestionnaireQuiz, QuestionnaireSurvey } from '@gened/graphql.ts';
-import { IQuestionProps } from '../QuestionAccordionForm/QuestionAccordionForm.tsx';
+import { IQuestionProps } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 
 export enum EQuestionnaireType {
 	Survey = 'Survey',
@@ -7,7 +7,7 @@ export enum EQuestionnaireType {
 	Quiz = 'Quiz',
 }
 
-export interface IUpsertQuestionnaireProps {
+export interface ICreateQuestionnaireProps {
 	type: EQuestionnaireType | null;
 	title: string;
 	description: string;
@@ -18,8 +18,7 @@ export interface IUpsertQuestionnaireProps {
 
 export type QuestionnaireTypes = QuestionnaireExam | QuestionnaireSurvey | QuestionnaireQuiz;
 
-export type IUpsertQuestionnaireMethods = {
-	method?: 'ADD' | 'EDIT';
+export type ICreateQuestionnaireMethods = {
 	questionnaire?: QuestionnaireTypes;
-	onSubmit: (props: IUpsertQuestionnaireProps) => void;
+	onSubmit: (props: ICreateQuestionnaireProps) => void;
 };

@@ -11,13 +11,3 @@ import {
 export type QuestionnaireTypes = QuestionnaireExam | QuestionnaireSurvey | QuestionnaireQuiz;
 
 export type QuestionTypes = QuestionMultipleChoice | QuestionSingleChoice | QuestionTrueOrFalse | QuestionText;
-
-export type IUpsertQuestionnaireMethods =
-	| {
-			method: 'ADD';
-			questionnaireProps?: QuestionnaireTypes;
-	  }
-	| {
-			method: 'EDIT';
-			questionnaireProps: QuestionnaireTypes;
-	  };

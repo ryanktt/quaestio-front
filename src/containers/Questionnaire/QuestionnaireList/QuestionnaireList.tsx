@@ -57,7 +57,7 @@ function Status({ active }: { active?: boolean }) {
 
 function Text({ children }: PropsWithChildren) {
 	return (
-		<MantineText size="15px" truncate>
+		<MantineText size="15px" m="xs">
 			{children}
 		</MantineText>
 	);

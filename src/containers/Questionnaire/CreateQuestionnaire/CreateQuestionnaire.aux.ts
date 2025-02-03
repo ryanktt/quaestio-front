@@ -11,10 +11,10 @@ import {
 } from '@gened/graphql';
 import { getObjSelectedFields } from '@utils/objects';
 import { convertPropsToGqlVars } from '@utils/graphql';
-import { EQuestionnaireType, IUpsertQuestionnaireProps, QuestionnaireTypes } from './UpsertQuestionnaire.interface.ts';
-import { QuestionTypes } from '../Questionnaire.interface.ts';
-import { IQuestionProps } from '../QuestionAccordionForm/QuestionAccordionForm.tsx';
-import { IOptionProps } from '../OptionAccordionForm/OptionAccordionForm.tsx';
+import { QuestionTypes } from '@components/Questionnaire/Questionnaire.interface.ts';
+import { IQuestionProps } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
+import { IOptionProps } from '@components/Questionnaire/OptionAccordionForm/OptionAccordionForm.tsx';
+import { EQuestionnaireType, ICreateQuestionnaireProps, QuestionnaireTypes } from './CreateQuestionnaire.interface.ts';
 
 type IQuestionInputTypes =
 	| QuestionMultipleChoiceInput
@@ -83,7 +83,7 @@ export const buildQuestionDiscriminatorsFromProps = (questionsProps: IQuestionPr
 	return questionsProps.map(buildQuestionDiscriminatorFromProps);
 };
 
-export const buildCreateSurveyGqlVarsFromProps = (props: IUpsertQuestionnaireProps): CreateSurveyMutationVariables => {
+export const buildCreateSurveyGqlVarsFromProps = (props: ICreateQuestionnaireProps): CreateSurveyMutationVariables => {
 	return convertPropsToGqlVars({
 		...props,
 		questions: buildQuestionDiscriminatorsFromProps(props.questions),
@@ -91,7 +91,7 @@ export const buildCreateSurveyGqlVarsFromProps = (props: IUpsertQuestionnairePro
 	}) as CreateSurveyMutationVariables;
 };
 
-export const buildUpsertQuestionnaireProps = (questionnaire?: QuestionnaireTypes): IUpsertQuestionnaireProps => {
+export const buildQuestionnaireFormProps = (questionnaire?: QuestionnaireTypes): ICreateQuestionnaireProps => {
 	if (!questionnaire) {
 		return {
 			type: null,
