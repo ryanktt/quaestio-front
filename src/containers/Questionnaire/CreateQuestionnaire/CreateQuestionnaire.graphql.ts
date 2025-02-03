@@ -41,4 +41,5 @@ export const UPDATE_SURVEY = gql(`
 		}
 	}
 `);
+
 export default { CREATE_SURVEY };

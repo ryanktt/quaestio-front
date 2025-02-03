@@ -2,7 +2,9 @@
 	"editor.formatOnSave": true,
 	"files.autoSave": "off",
 	"editor.codeActionsOnSave": {
-		"source.fixAll.eslint": "explicit"
+		"source.fixAll.eslint": "explicit",
+		"source.organizeImports": "explicit",
+		"source.addMissingImports": "explicit"
 	},
 	"eslint.validate": ["typescript"],
 	"typescript.tsdk": "node_modules/typescript/lib",
@@ -17,5 +19,5 @@
 	},
 	"files.associations": {
 		"*.css": "tailwindcss"
-	},
+	}
 }
