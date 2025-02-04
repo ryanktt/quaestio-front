@@ -1,46 +1,72 @@
 import { gql } from '@apollo/client';
 
 export const QUESTION_FRAGMENT = gql(`	
-    fragment QuestionFragment on Question {
+    fragment QuestionSingleChoiceFragment on QuestionSingleChoice {
         _id
+        type
         showCorrectAnswer
         title
         weight
         required
         description
-        ... on QuestionSingleChoice {
-            options {
-                title
-                correct
-                feedbackAfterSubmit
-            }
-            wrongAnswerFeedback
-            rightAnswerFeedback
-            randomizeOptions
-        }
-        ... on QuestionMultipleChoice {
-            options {
-                title
-                correct
-                feedbackAfterSubmit
-            }
-            wrongAnswerFeedback
-            rightAnswerFeedback
-            randomizeOptions
-        }
-        ... on QuestionTrueOrFalse {
-            options {
-                title
-                correct
-                feedbackAfterSubmit
-            }
-            wrongAnswerFeedback
-            rightAnswerFeedback
-        }
-        ... on QuestionText {
+        options {
+            _id
+            title
+            correct
             feedbackAfterSubmit
         }
+        wrongAnswerFeedback
+        rightAnswerFeedback
+        randomizeOptions
+        
     }
+    fragment QuestionMultipleChoiceFragment on QuestionMultipleChoice {
+        _id
+        type
+        showCorrectAnswer
+        title
+        weight
+        required
+        description
+        options {
+            _id
+            title
+            correct
+            feedbackAfterSubmit
+        }
+        wrongAnswerFeedback
+        rightAnswerFeedback
+        randomizeOptions
+        
+    }
+    fragment QuestionTrueOrFalseFragment on QuestionTrueOrFalse {
+        _id
+        type
+        showCorrectAnswer
+        title
+        weight
+        required
+        description
+        options {
+            _id
+            title
+            correct
+            feedbackAfterSubmit
+        }
+        wrongAnswerFeedback
+        rightAnswerFeedback
+    }
+    fragment QuestionTextFragment on QuestionText {
+        _id
+        type
+        showCorrectAnswer
+        title
+        weight
+        required
+        description
+        feedbackAfterSubmit
+    }
+    
 `);
 
 export const SURVEY_FRAGMENT = gql(`
@@ -54,7 +80,19 @@ export const SURVEY_FRAGMENT = gql(`
         description
         active
         questions {
-            ...QuestionFragment
+            type
+            ... on QuestionSingleChoice {
+                ...QuestionSingleChoiceFragment
+            }
+            ... on QuestionMultipleChoice {
+                ...QuestionMultipleChoiceFragment
+            }
+            ... on QuestionTrueOrFalse {
+                ...QuestionTrueOrFalseFragment
+            }
+            ... on QuestionText {
+                ...QuestionTextFragment
+            }
         }
         createdAt
         updatedAt
@@ -72,7 +110,18 @@ export const QUIZ_FRAGMENT = gql(`
         description
         active
         questions {
-            ...QuestionFragment
+            ... on QuestionSingleChoice {
+                ...QuestionSingleChoiceFragment
+            }
+            ... on QuestionMultipleChoice {
+                ...QuestionMultipleChoiceFragment
+            }
+            ... on QuestionTrueOrFalse {
+                ...QuestionTrueOrFalseFragment
+            }
+            ... on QuestionText {
+                ...QuestionTextFragment
+            }
         }
         createdAt
         updatedAt
@@ -90,7 +139,18 @@ export const EXAM_FRAGMENT = gql(`
         description
         active
         questions {
-            ...QuestionFragment
+            ... on QuestionSingleChoice {
+                ...QuestionSingleChoiceFragment
+            }
+            ... on QuestionMultipleChoice {
+                ...QuestionMultipleChoiceFragment
+            }
+            ... on QuestionTrueOrFalse {
+                ...QuestionTrueOrFalseFragment
+            }
+            ... on QuestionText {
+                ...QuestionTextFragment
+            }
         }
         createdAt
         updatedAt
