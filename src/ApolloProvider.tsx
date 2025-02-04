@@ -1,13 +1,13 @@
-import { createState } from 'state-pool';
-import { AlertContext } from '@contexts/Alert/Alert.context';
-import { ApolloProvider, ApolloClient, InMemoryCache, Observable, ApolloLink, HttpLink, from } from '@apollo/client';
-import { setContext } from 'apollo-link-context';
-import { Cookies } from 'react-cookie';
-import { PropsWithChildren, useContext, useMemo } from 'react';
-import { getGraphqlErrorCode } from '@utils/graphql.ts';
+import { ApolloClient, ApolloLink, ApolloProvider, HttpLink, InMemoryCache, Observable, from } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
+import { AlertContext } from '@contexts/Alert/Alert.context';
 import '@mantine/core/styles.css';
+import { getGraphqlErrorCode } from '@utils/graphql.ts';
+import { setContext } from 'apollo-link-context';
 import { nanoid } from 'nanoid/non-secure';
+import { PropsWithChildren, useContext, useMemo } from 'react';
+import { Cookies } from 'react-cookie';
+import { createState } from 'state-pool';
 
 interface RequestContext {
 	requestId: string;
@@ -53,6 +53,7 @@ const headerLink = setContext((_, previousContext) => ({
 })) as unknown as ApolloLink;
 
 const client = new ApolloClient({
+	defaultOptions: { watchQuery: { fetchPolicy: 'cache-and-network' } },
 	cache: new InMemoryCache(),
 	link: from([
 		onError((error) => {
