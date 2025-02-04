@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import HomeAdmin from '@containers/Home/HomeAdmin/HomeAdmin';
 import HomePublic from '@containers/Home/HomePublic/HomePublic';
 import { GlobalContext } from '@contexts/Global/Global.context';
-import HomeAdmin from '@containers/Home/HomeAdmin/HomeAdmin';
+import React, { useContext } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 const QuestionnaireList = React.lazy(() => import('@containers/Questionnaire/QuestionnaireList/QuestionnaireList'));
 const CreateQuestionnaire = React.lazy(
 	() => import('@containers/Questionnaire/CreateQuestionnaire/CreateQuestionnaire'),
 );
+const EditQuestionnaire = React.lazy(() => import('@containers/Questionnaire/EditQuestionnaire/EditQuestionnaire'));
 const NotFound = React.lazy(() => import('@containers/NotFound/NotFound'));
 
 function Router() {
@@ -23,6 +24,7 @@ function Router() {
 							<Routes>
 								<Route path="/questionnaires" element={<QuestionnaireList />} />
 								<Route path="/questionnaire/create" element={<CreateQuestionnaire />} />
+								<Route path="/questionnaire/edit/:sharedId" element={<EditQuestionnaire />} />
 							</Routes>
 						}
 					/>
