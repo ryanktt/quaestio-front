@@ -5,10 +5,19 @@ import {
 	IQuestionnaireFormProps,
 } from '@components/Questionnaire/QuestionnaireForm/QuestionnaireForm.interface.ts';
 import QuestionnaireForm from '@components/Questionnaire/QuestionnaireForm/QuestionnaireForm.tsx';
-import { useCreateSurveyMutation } from '@gened/graphql.ts';
+import { CreateSurveyMutationVariables, useCreateSurveyMutation } from '@gened/graphql.ts';
 import '@mantine/core/styles.css';
+import { convertPropsToGqlVars } from '@utils/graphql.ts';
 import { useEffect } from 'react';
-import { buildCreateSurveyGqlVarsFromProps } from './CreateQuestionnaire.aux.ts';
+import { buildQuestionDiscriminatorsFromProps } from '../Questionnaire.aux.ts';
+
+const buildCreateSurveyGqlVarsFromProps = (props: IQuestionnaireFormProps): CreateSurveyMutationVariables => {
+	return convertPropsToGqlVars({
+		...props,
+		questions: buildQuestionDiscriminatorsFromProps(props.questions),
+		type: undefined,
+	}) as CreateSurveyMutationVariables;
+};
 
 export default function CreateQuestionnaire() {
 	const [surveyMutation, { data: surveyData, reset: resetSurvey }] = useCreateSurveyMutation();

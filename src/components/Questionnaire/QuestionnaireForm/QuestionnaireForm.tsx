@@ -1,10 +1,15 @@
 /* eslint-disable react/prop-types */
+import DragDropList, { IDragDrogItemProps } from '@components/DragDropList/DragDropList.tsx';
+import QuestionAccordionForm, {
+	IQuestionAccordionFormProps,
+	IQuestionProps,
+} from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import {
 	Button,
 	Center,
 	Checkbox,
-	Select,
 	InputLabel,
+	Select,
 	TextInput,
 	Textarea,
 	Title,
@@ -12,25 +17,22 @@ import {
 } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
-import DragDropList, { IDragDrogItemProps } from '@components/DragDropList/DragDropList.tsx';
 import { useState } from 'react';
-import QuestionAccordionForm, {
-	IQuestionAccordionFormProps,
-	IQuestionProps,
-} from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import { EQuestionnaireType, IQuestionnaireFormProps } from './QuestionnaireForm.interface.ts';
 
 export default function QuestionnaireForm({
 	onSubmit,
+	formProps,
 	title,
 }: {
 	onSubmit: (p: IQuestionnaireFormProps) => Promise<void>;
+	formProps?: IQuestionnaireFormProps;
 	title: string;
 }) {
 	const theme = useMantineTheme();
 	const form = useForm<IQuestionnaireFormProps>({
 		mode: 'controlled',
-		initialValues: {
+		initialValues: formProps || {
 			type: null,
 			title: '',
 			description: '',

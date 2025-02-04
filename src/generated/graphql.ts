@@ -192,6 +192,7 @@ export type MutationAdminCreateQuestionnaireSurveyArgs = {
 
 export type MutationAdminUpdateQuestionnaireExamArgs = {
   active?: InputMaybe<Scalars['Boolean']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
   maxRetryAmount?: InputMaybe<Scalars['Float']['input']>;
   passingGradePercent?: InputMaybe<Scalars['Float']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
@@ -206,6 +207,7 @@ export type MutationAdminUpdateQuestionnaireExamArgs = {
 
 export type MutationAdminUpdateQuestionnaireQuizArgs = {
   active?: InputMaybe<Scalars['Boolean']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
   questionnaireId: Scalars['String']['input'];
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
@@ -216,6 +218,7 @@ export type MutationAdminUpdateQuestionnaireQuizArgs = {
 
 export type MutationAdminUpdateQuestionnaireSurveyArgs = {
   active?: InputMaybe<Scalars['Boolean']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
   questionnaireId: Scalars['String']['input'];
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
@@ -700,22 +703,6 @@ export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type SignOutMutation = { __typename?: 'Mutation', publicSignOut: { __typename?: 'SignOutResponse', status: string } };
 
-type QuestionFragment_QuestionMultipleChoice_Fragment = { __typename?: 'QuestionMultipleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> };
-
-type QuestionFragment_QuestionSingleChoice_Fragment = { __typename?: 'QuestionSingleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> };
-
-type QuestionFragment_QuestionText_Fragment = { __typename?: 'QuestionText', feedbackAfterSubmit?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null };
-
-type QuestionFragment_QuestionTrueOrFalse_Fragment = { __typename?: 'QuestionTrueOrFalse', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> };
-
-export type QuestionFragmentFragment = QuestionFragment_QuestionMultipleChoice_Fragment | QuestionFragment_QuestionSingleChoice_Fragment | QuestionFragment_QuestionText_Fragment | QuestionFragment_QuestionTrueOrFalse_Fragment;
-
-export type SurveyFragmentFragment = { __typename?: 'QuestionnaireSurvey', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', feedbackAfterSubmit?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null } | { __typename?: 'QuestionTrueOrFalse', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> };
-
-export type QuizFragmentFragment = { __typename?: 'QuestionnaireQuiz', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', feedbackAfterSubmit?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null } | { __typename?: 'QuestionTrueOrFalse', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> };
-
-export type ExamFragmentFragment = { __typename?: 'QuestionnaireExam', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, timeLimit?: number | null, maxRetryAmount?: number | null, randomizeQuestions: boolean, questions: Array<{ __typename?: 'QuestionMultipleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', feedbackAfterSubmit?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null } | { __typename?: 'QuestionTrueOrFalse', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> };
-
 export type CreateSurveyMutationVariables = Exact<{
   title: Scalars['String']['input'];
   requireEmail: Scalars['Boolean']['input'];
@@ -725,53 +712,116 @@ export type CreateSurveyMutationVariables = Exact<{
 }>;
 
 
-export type CreateSurveyMutation = { __typename?: 'Mutation', adminCreateQuestionnaireSurvey: { __typename?: 'QuestionnaireSurvey', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', feedbackAfterSubmit?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null } | { __typename?: 'QuestionTrueOrFalse', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } };
+export type CreateSurveyMutation = { __typename?: 'Mutation', adminCreateQuestionnaireSurvey: { __typename?: 'QuestionnaireSurvey', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } };
+
+export type UpdateSurveyMutationVariables = Exact<{
+  questionnaireId: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  questionMethods?: InputMaybe<Array<QuestionMethodInput> | QuestionMethodInput>;
+  requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
+  requireName?: InputMaybe<Scalars['Boolean']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateSurveyMutation = { __typename?: 'Mutation', adminUpdateQuestionnaireSurvey: { __typename?: 'QuestionnaireSurvey', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } };
+
+export type FetchQuestionnaireQueryVariables = Exact<{
+  questionnaireId?: InputMaybe<Scalars['String']['input']>;
+  questionnaireSharedId?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type FetchQuestionnaireQuery = { __typename?: 'Query', adminFetchQuestionnaire?: { __typename?: 'QuestionnaireExam', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, timeLimit?: number | null, maxRetryAmount?: number | null, randomizeQuestions: boolean, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } | { __typename?: 'QuestionnaireQuiz', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } | { __typename?: 'QuestionnaireSurvey', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } | null };
+
+export type QuestionSingleChoiceFragmentFragment = { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> };
+
+export type QuestionMultipleChoiceFragmentFragment = { __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> };
+
+export type QuestionTrueOrFalseFragmentFragment = { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> };
+
+export type QuestionTextFragmentFragment = { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null };
+
+export type SurveyFragmentFragment = { __typename?: 'QuestionnaireSurvey', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> };
+
+export type QuizFragmentFragment = { __typename?: 'QuestionnaireQuiz', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> };
+
+export type ExamFragmentFragment = { __typename?: 'QuestionnaireExam', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, timeLimit?: number | null, maxRetryAmount?: number | null, randomizeQuestions: boolean, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> };
 
 export type FetchQuestionnairesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchQuestionnairesQuery = { __typename?: 'Query', adminFetchQuestionnaires: Array<{ __typename?: 'QuestionnaireExam', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, timeLimit?: number | null, maxRetryAmount?: number | null, randomizeQuestions: boolean, questions: Array<{ __typename?: 'QuestionMultipleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', feedbackAfterSubmit?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null } | { __typename?: 'QuestionTrueOrFalse', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } | { __typename?: 'QuestionnaireQuiz', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', feedbackAfterSubmit?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null } | { __typename?: 'QuestionTrueOrFalse', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } | { __typename?: 'QuestionnaireSurvey', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', feedbackAfterSubmit?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null } | { __typename?: 'QuestionTrueOrFalse', wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, options: Array<{ __typename?: 'Option', title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> }> };
+export type FetchQuestionnairesQuery = { __typename?: 'Query', adminFetchQuestionnaires: Array<{ __typename?: 'QuestionnaireExam', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, timeLimit?: number | null, maxRetryAmount?: number | null, randomizeQuestions: boolean, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } | { __typename?: 'QuestionnaireQuiz', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } | { __typename?: 'QuestionnaireSurvey', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> }> };
 
-export const QuestionFragmentFragmentDoc = gql`
-    fragment QuestionFragment on Question {
+export const QuestionSingleChoiceFragmentFragmentDoc = gql`
+    fragment QuestionSingleChoiceFragment on QuestionSingleChoice {
   _id
+  type
   showCorrectAnswer
   title
   weight
   required
   description
-  ... on QuestionSingleChoice {
-    options {
-      title
-      correct
-      feedbackAfterSubmit
-    }
-    wrongAnswerFeedback
-    rightAnswerFeedback
-    randomizeOptions
-  }
-  ... on QuestionMultipleChoice {
-    options {
-      title
-      correct
-      feedbackAfterSubmit
-    }
-    wrongAnswerFeedback
-    rightAnswerFeedback
-    randomizeOptions
-  }
-  ... on QuestionTrueOrFalse {
-    options {
-      title
-      correct
-      feedbackAfterSubmit
-    }
-    wrongAnswerFeedback
-    rightAnswerFeedback
-  }
-  ... on QuestionText {
+  options {
+    _id
+    title
+    correct
     feedbackAfterSubmit
   }
+  wrongAnswerFeedback
+  rightAnswerFeedback
+  randomizeOptions
+}
+    `;
+export const QuestionMultipleChoiceFragmentFragmentDoc = gql`
+    fragment QuestionMultipleChoiceFragment on QuestionMultipleChoice {
+  _id
+  type
+  showCorrectAnswer
+  title
+  weight
+  required
+  description
+  options {
+    _id
+    title
+    correct
+    feedbackAfterSubmit
+  }
+  wrongAnswerFeedback
+  rightAnswerFeedback
+  randomizeOptions
+}
+    `;
+export const QuestionTrueOrFalseFragmentFragmentDoc = gql`
+    fragment QuestionTrueOrFalseFragment on QuestionTrueOrFalse {
+  _id
+  type
+  showCorrectAnswer
+  title
+  weight
+  required
+  description
+  options {
+    _id
+    title
+    correct
+    feedbackAfterSubmit
+  }
+  wrongAnswerFeedback
+  rightAnswerFeedback
+}
+    `;
+export const QuestionTextFragmentFragmentDoc = gql`
+    fragment QuestionTextFragment on QuestionText {
+  _id
+  type
+  showCorrectAnswer
+  title
+  weight
+  required
+  description
+  feedbackAfterSubmit
 }
     `;
 export const SurveyFragmentFragmentDoc = gql`
@@ -785,12 +835,27 @@ export const SurveyFragmentFragmentDoc = gql`
   description
   active
   questions {
-    ...QuestionFragment
+    type
+    ... on QuestionSingleChoice {
+      ...QuestionSingleChoiceFragment
+    }
+    ... on QuestionMultipleChoice {
+      ...QuestionMultipleChoiceFragment
+    }
+    ... on QuestionTrueOrFalse {
+      ...QuestionTrueOrFalseFragment
+    }
+    ... on QuestionText {
+      ...QuestionTextFragment
+    }
   }
   createdAt
   updatedAt
 }
-    ${QuestionFragmentFragmentDoc}`;
+    ${QuestionSingleChoiceFragmentFragmentDoc}
+${QuestionMultipleChoiceFragmentFragmentDoc}
+${QuestionTrueOrFalseFragmentFragmentDoc}
+${QuestionTextFragmentFragmentDoc}`;
 export const QuizFragmentFragmentDoc = gql`
     fragment QuizFragment on QuestionnaireQuiz {
   _id
@@ -802,12 +867,26 @@ export const QuizFragmentFragmentDoc = gql`
   description
   active
   questions {
-    ...QuestionFragment
+    ... on QuestionSingleChoice {
+      ...QuestionSingleChoiceFragment
+    }
+    ... on QuestionMultipleChoice {
+      ...QuestionMultipleChoiceFragment
+    }
+    ... on QuestionTrueOrFalse {
+      ...QuestionTrueOrFalseFragment
+    }
+    ... on QuestionText {
+      ...QuestionTextFragment
+    }
   }
   createdAt
   updatedAt
 }
-    ${QuestionFragmentFragmentDoc}`;
+    ${QuestionSingleChoiceFragmentFragmentDoc}
+${QuestionMultipleChoiceFragmentFragmentDoc}
+${QuestionTrueOrFalseFragmentFragmentDoc}
+${QuestionTextFragmentFragmentDoc}`;
 export const ExamFragmentFragmentDoc = gql`
     fragment ExamFragment on QuestionnaireExam {
   _id
@@ -819,7 +898,18 @@ export const ExamFragmentFragmentDoc = gql`
   description
   active
   questions {
-    ...QuestionFragment
+    ... on QuestionSingleChoice {
+      ...QuestionSingleChoiceFragment
+    }
+    ... on QuestionMultipleChoice {
+      ...QuestionMultipleChoiceFragment
+    }
+    ... on QuestionTrueOrFalse {
+      ...QuestionTrueOrFalseFragment
+    }
+    ... on QuestionText {
+      ...QuestionTextFragment
+    }
   }
   createdAt
   updatedAt
@@ -827,7 +917,10 @@ export const ExamFragmentFragmentDoc = gql`
   maxRetryAmount
   randomizeQuestions
 }
-    ${QuestionFragmentFragmentDoc}`;
+    ${QuestionSingleChoiceFragmentFragmentDoc}
+${QuestionMultipleChoiceFragmentFragmentDoc}
+${QuestionTrueOrFalseFragmentFragmentDoc}
+${QuestionTextFragmentFragmentDoc}`;
 export const SignUpDocument = gql`
     mutation SignUp($name: String!, $email: String!, $password: String!) {
   publicSignUp(name: $name, email: $email, password: $password) {
@@ -1006,6 +1099,105 @@ export function useCreateSurveyMutation(baseOptions?: Apollo.MutationHookOptions
 export type CreateSurveyMutationHookResult = ReturnType<typeof useCreateSurveyMutation>;
 export type CreateSurveyMutationResult = Apollo.MutationResult<CreateSurveyMutation>;
 export type CreateSurveyMutationOptions = Apollo.BaseMutationOptions<CreateSurveyMutation, CreateSurveyMutationVariables>;
+export const UpdateSurveyDocument = gql`
+    mutation UpdateSurvey($questionnaireId: String!, $title: String, $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String) {
+  adminUpdateQuestionnaireSurvey(
+    questionnaireId: $questionnaireId
+    title: $title
+    questionMethods: $questionMethods
+    requireEmail: $requireEmail
+    requireName: $requireName
+    description: $description
+  ) {
+    ...SurveyFragment
+  }
+}
+    ${SurveyFragmentFragmentDoc}`;
+export type UpdateSurveyMutationFn = Apollo.MutationFunction<UpdateSurveyMutation, UpdateSurveyMutationVariables>;
+
+/**
+ * __useUpdateSurveyMutation__
+ *
+ * To run a mutation, you first call `useUpdateSurveyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSurveyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSurveyMutation, { data, loading, error }] = useUpdateSurveyMutation({
+ *   variables: {
+ *      questionnaireId: // value for 'questionnaireId'
+ *      title: // value for 'title'
+ *      questionMethods: // value for 'questionMethods'
+ *      requireEmail: // value for 'requireEmail'
+ *      requireName: // value for 'requireName'
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useUpdateSurveyMutation(baseOptions?: Apollo.MutationHookOptions<UpdateSurveyMutation, UpdateSurveyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateSurveyMutation, UpdateSurveyMutationVariables>(UpdateSurveyDocument, options);
+      }
+export type UpdateSurveyMutationHookResult = ReturnType<typeof useUpdateSurveyMutation>;
+export type UpdateSurveyMutationResult = Apollo.MutationResult<UpdateSurveyMutation>;
+export type UpdateSurveyMutationOptions = Apollo.BaseMutationOptions<UpdateSurveyMutation, UpdateSurveyMutationVariables>;
+export const FetchQuestionnaireDocument = gql`
+    query FetchQuestionnaire($questionnaireId: String, $questionnaireSharedId: String) {
+  adminFetchQuestionnaire(
+    questionnaireId: $questionnaireId
+    questionnaireSharedId: $questionnaireSharedId
+  ) {
+    ... on QuestionnaireSurvey {
+      ...SurveyFragment
+    }
+    ... on QuestionnaireExam {
+      ...ExamFragment
+    }
+    ... on QuestionnaireQuiz {
+      ...QuizFragment
+    }
+  }
+}
+    ${SurveyFragmentFragmentDoc}
+${ExamFragmentFragmentDoc}
+${QuizFragmentFragmentDoc}`;
+
+/**
+ * __useFetchQuestionnaireQuery__
+ *
+ * To run a query within a React component, call `useFetchQuestionnaireQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchQuestionnaireQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchQuestionnaireQuery({
+ *   variables: {
+ *      questionnaireId: // value for 'questionnaireId'
+ *      questionnaireSharedId: // value for 'questionnaireSharedId'
+ *   },
+ * });
+ */
+export function useFetchQuestionnaireQuery(baseOptions?: Apollo.QueryHookOptions<FetchQuestionnaireQuery, FetchQuestionnaireQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchQuestionnaireQuery, FetchQuestionnaireQueryVariables>(FetchQuestionnaireDocument, options);
+      }
+export function useFetchQuestionnaireLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchQuestionnaireQuery, FetchQuestionnaireQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchQuestionnaireQuery, FetchQuestionnaireQueryVariables>(FetchQuestionnaireDocument, options);
+        }
+export function useFetchQuestionnaireSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FetchQuestionnaireQuery, FetchQuestionnaireQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchQuestionnaireQuery, FetchQuestionnaireQueryVariables>(FetchQuestionnaireDocument, options);
+        }
+export type FetchQuestionnaireQueryHookResult = ReturnType<typeof useFetchQuestionnaireQuery>;
+export type FetchQuestionnaireLazyQueryHookResult = ReturnType<typeof useFetchQuestionnaireLazyQuery>;
+export type FetchQuestionnaireSuspenseQueryHookResult = ReturnType<typeof useFetchQuestionnaireSuspenseQuery>;
+export type FetchQuestionnaireQueryResult = Apollo.QueryResult<FetchQuestionnaireQuery, FetchQuestionnaireQueryVariables>;
 export const FetchQuestionnairesDocument = gql`
     query FetchQuestionnaires {
   adminFetchQuestionnaires {
