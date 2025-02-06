@@ -1,5 +1,5 @@
-import '@mantine/core/styles.css';
 import { Box, Input, Tooltip, UnstyledButton } from '@mantine/core';
+import '@mantine/core/styles.css';
 import { IconFilePlus, IconHome2, IconList, IconSearch } from '@tabler/icons-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import classes from './Toolbar.module.scss';
@@ -19,7 +19,7 @@ const toolbarNavData = [
 function ToolbarItem({ icon: Icon, label, active, onClick }: ToolbarNavProps) {
 	return (
 		<div className={classes.item}>
-			<Tooltip label={label} position="top" transitionProps={{ duration: 0 }}>
+			<Tooltip label={label} position="top">
 				<UnstyledButton onClick={onClick} className={classes.itemIcon} data-active={active || undefined}>
 					<Icon size={20} stroke={2} />
 				</UnstyledButton>

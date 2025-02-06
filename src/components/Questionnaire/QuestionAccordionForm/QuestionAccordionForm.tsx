@@ -1,15 +1,15 @@
-import { Badge, Box, Checkbox, InputLabel, Select, Textarea, useMantineTheme } from '@mantine/core';
-import { useState } from 'react';
-import { nanoid } from 'nanoid/non-secure';
-import { hasLength, useForm } from '@mantine/form';
-import { QuestionType } from '@gened/graphql.ts';
 import DragDropList, { IDragDrogItemProps } from '@components/DragDropList/DragDropList';
+import { QuestionType } from '@gened/graphql.ts';
+import { Badge, Box, Checkbox, InputLabel, Select, Textarea, useMantineTheme } from '@mantine/core';
+import { hasLength, useForm } from '@mantine/form';
+import { nanoid } from 'nanoid/non-secure';
 import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
-import OptionAccordionForm, {
-	IOptionProps,
-	IOptionAccordionFormProps,
-} from '../OptionAccordionForm/OptionAccordionForm.tsx';
+import { useState } from 'react';
 import AccordionFormItem from '../AccordionFormItem/AccordionFormItem.tsx';
+import OptionAccordionForm, {
+	IOptionAccordionFormProps,
+	IOptionProps,
+} from '../OptionAccordionForm/OptionAccordionForm.tsx';
 
 type IMethod = 'ADD' | 'EDIT';
 
@@ -234,6 +234,9 @@ export default function QuestionAccordionForm({
 				{...getInputProps('description')}
 				label="Question description"
 				resize="vertical"
+				minRows={4}
+				maxRows={6}
+				autosize
 				error={validateInput ? form.errors.description : null}
 				disabled={!type}
 				required={validateInput}

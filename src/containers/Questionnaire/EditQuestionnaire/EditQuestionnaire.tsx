@@ -18,8 +18,12 @@ import { buildQuestionnaireFormProps } from './EditQuestionnaire.aux.ts';
 export default function EditQuestionnaire() {
 	const params = useParams() as { sharedId: string };
 
-	const { data } = useFetchQuestionnaireSuspenseQuery({ variables: { questionnaireSharedId: params.sharedId } });
+	const { data: fetchQuestRes } = useFetchQuestionnaireSuspenseQuery({
+		variables: { questionnaireSharedId: params.sharedId },
+	});
+
 	const [surveyMutation, { data: surveyData, reset: resetSurvey }] = useUpdateSurveyMutation();
+	const questionnaire = fetchQuestRes.adminFetchQuestionnaire as QuestionnaireTypes;
 
 	const handleQuestionnaireUpdate = async (props: IQuestionnaireFormProps) => {
 		const { type } = props;
@@ -33,10 +37,9 @@ export default function EditQuestionnaire() {
 		resetSurvey();
 	}, [surveyData]);
 
-	const questionnaire = data.adminFetchQuestionnaire;
 	return (
 		<QuestionnaireForm
-			formProps={buildQuestionnaireFormProps(questionnaire as QuestionnaireTypes)}
+			formProps={buildQuestionnaireFormProps(questionnaire)}
 			onSubmit={handleQuestionnaireUpdate}
 			title="Edit Questionnaire"
 		/>

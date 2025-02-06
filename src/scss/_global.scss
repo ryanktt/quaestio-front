@@ -4,4 +4,25 @@ label {
 	span {
 		color: $violet9 !important;
 	}
+	font-weight: 600 !important;
+	color: $gray8 !important;
+}
+
+input,
+textarea {
+	font-size: 15 !important;
+	font-weight: 500;
+
+	&:focus {
+		border-color: $indigo7;
+	}
+}
+
+input,
+textarea {
+	color: $gray7 !important;
+}
+
+body {
+	background: linear-gradient(0deg, $violet0, $white);
 }

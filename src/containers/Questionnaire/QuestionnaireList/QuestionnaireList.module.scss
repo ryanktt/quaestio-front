@@ -39,7 +39,7 @@
 	min-width: 0;
 
 	&:first-child {
-		background-color: $gray1;
+		background: linear-gradient(0deg, $gray1 20%, 60%, $gray0 100%);
 		border-top: none;
 	}
 	.columnItemWrapper {

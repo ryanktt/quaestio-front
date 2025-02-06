@@ -103,6 +103,7 @@ export default function QuestionnaireForm({
 				padding: theme.spacing.lg,
 				boxShadow: theme.shadows.md,
 				width: '100%',
+				backgroundColor: theme.white,
 				border: '1px solid',
 				borderColor: theme.colors.gray[4],
 				borderRadius: theme.radius.lg,
@@ -142,6 +143,9 @@ export default function QuestionnaireForm({
 					{...form.getInputProps('description')}
 					label="Description"
 					resize="vertical"
+					minRows={4}
+					maxRows={6}
+					autosize
 					required
 					disabled={!type}
 					placeholder={`The ${type ?? 'Questionnaire'} description`}
@@ -184,7 +188,7 @@ export default function QuestionnaireForm({
 				/>
 				<Center style={{ gap: '10px' }}>
 					<Button disabled={!type} w="80%" size="sm" mt="xl" type="submit" variant="gradient">
-						Create {type ?? 'Questionnaire'}
+						Save {type ?? 'Questionnaire'}
 					</Button>
 				</Center>
 			</form>

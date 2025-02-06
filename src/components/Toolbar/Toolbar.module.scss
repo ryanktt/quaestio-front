@@ -10,8 +10,7 @@
 	border-radius: $radiusMd;
 	display: flex;
 	background-color: $violet6;
-	padding: $spacingXs;
-	box-shadow: $shadowSm;
+	box-shadow: $shadowXs;
 }
 
 .search-input {
@@ -23,40 +22,56 @@
 
 .item {
 	cursor: pointer;
+	&:first-child {
+		.itemIcon {
+			border-top-left-radius: $radiusMd;
+			border-bottom-left-radius: $radiusMd;
+		}
+	}
+	&:last-child {
+		.itemIcon {
+			border-top-right-radius: $radiusMd;
+			border-bottom-right-radius: $radiusMd;
+		}
+	}
 }
 
 .icon {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	color: $violet8;
 	border-radius: $radiusMd;
 	padding: $spacingSm;
-	color: $violet8;
 }
 
 .itemIcon {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: $spacingMd;
-	border-radius: $radiusMd;
+	padding: $spacingLg;
 	color: $violet1;
+
 	&:hover {
 		background-color: $darken;
 	}
 
 	&[data-active] {
+		border: 1px solid $violet3;
 		background-color: $white;
 		color: $violet9;
+		box-shadow: $shadowSm;
 	}
 }
 
 .search {
+	box-shadow: $shadowXs;
+	background-color: $white;
 	display: flex;
 	align-items: center;
 	padding: 3px;
 	width: 100%;
-	border: 1px solid $violet8;
+	border: 1px solid $violet3;
 	border-radius: $radiusMd;
 	&:hover {
 		cursor: default;

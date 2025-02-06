@@ -6,7 +6,6 @@ import {
 	QuestionTypes,
 } from '@components/Questionnaire/Questionnaire.interface';
 import { IQuestionnaireFormProps } from '@components/Questionnaire/QuestionnaireForm/QuestionnaireForm.interface';
-import { getTextFromQuestionnaireType } from '../Questionnaire.aux.ts';
 
 export const buildQuestionnaireFormProps = (questionnaire?: QuestionnaireTypes | null): IQuestionnaireFormProps => {
 	if (!questionnaire) {
@@ -20,7 +19,7 @@ export const buildQuestionnaireFormProps = (questionnaire?: QuestionnaireTypes |
 		};
 	}
 	return {
-		type: getTextFromQuestionnaireType(questionnaire.type) as EQuestionnaireType,
+		type: questionnaire.type.replace('Questionnaire', '') as EQuestionnaireType,
 		description: questionnaire.description,
 		requireEmail: questionnaire.requireEmail,
 		requireName: questionnaire.requireName,

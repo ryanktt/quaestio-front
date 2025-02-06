@@ -1,8 +1,8 @@
-import { Badge, Box, Text as MantineText, useMantineTheme, NavLink as MantineNavLink } from '@mantine/core';
+import { QuestionnaireType, useFetchQuestionnairesSuspenseQuery } from '@gened/graphql';
+import { Badge, Box, NavLink as MantineNavLink, Text as MantineText, useMantineTheme } from '@mantine/core';
+import { IconCheck, IconEye, IconHome2 } from '@tabler/icons-react';
 import { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
-import { IconCheck, IconEye, IconHome2 } from '@tabler/icons-react';
-import { QuestionnaireType, useFetchQuestionnairesSuspenseQuery } from '@gened/graphql';
 import styles from './QuestionnaireList.module.scss';
 
 function Column({ children, gridFr }: PropsWithChildren & { gridFr?: string }) {
@@ -20,7 +20,7 @@ function ColumnItem({ children }: PropsWithChildren) {
 function Header({ label, icon: Icon }: { label: string; icon?: typeof IconHome2 }) {
 	return (
 		<Box display="flex" style={{ alignItems: 'center' }}>
-			<MantineText size="14px" fw="600">
+			<MantineText size="15px" fw="600">
 				{label}
 			</MantineText>
 			{Icon ? <Icon style={{ marginLeft: '8px' }} size={18} /> : null}
@@ -57,7 +57,7 @@ function Status({ active }: { active?: boolean }) {
 
 function Text({ children }: PropsWithChildren) {
 	return (
-		<MantineText size="15px" m="xs">
+		<MantineText size="14px" m="xs">
 			{children}
 		</MantineText>
 	);
@@ -71,7 +71,7 @@ function ID({ children: id }: PropsWithChildren) {
 			component={Link}
 			style={{ borderRadius: theme.radius.sm }}
 			c={theme.colors.indigo[9]}
-			to={`/board/questionnaire/${id}`}
+			to={`/board/questionnaire/edit/${id}`}
 			label={id}
 		/>
 	);

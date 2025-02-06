@@ -1,8 +1,8 @@
 import AccordionFormItem from '@components/Questionnaire/AccordionFormItem/AccordionFormItem.tsx';
-import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
 import { Checkbox, Textarea, useMantineTheme } from '@mantine/core';
 import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
+import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
 import { ChangeEvent, useState } from 'react';
 
 export interface IOptionProps {
@@ -107,6 +107,9 @@ export default function OptionAccordionForm({
 				{...getInputProps('title')}
 				label="Option description"
 				required={!(method === 'ADD')}
+				minRows={2}
+				maxRows={3}
+				autosize
 				resize="vertical"
 				placeholder="The option description"
 				error={method === 'ADD' ? null : form.errors.title}
