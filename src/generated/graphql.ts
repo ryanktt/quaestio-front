@@ -137,6 +137,11 @@ export type AuthResponse = {
   user: Admin;
 };
 
+export type DeleteQuestionnaireResponse = {
+  __typename?: 'DeleteQuestionnaireResponse';
+  status: Scalars['String']['output'];
+};
+
 export type LogOutResponse = {
   __typename?: 'LogOutResponse';
   session: Session;
@@ -148,6 +153,7 @@ export type Mutation = {
   adminCreateQuestionnaireExam: QuestionnaireExam;
   adminCreateQuestionnaireQuiz: QuestionnaireQuiz;
   adminCreateQuestionnaireSurvey: QuestionnaireSurvey;
+  adminDeleteQuestionnaire?: Maybe<DeleteQuestionnaireResponse>;
   adminUpdateQuestionnaireExam: QuestionnaireExam;
   adminUpdateQuestionnaireQuiz: QuestionnaireQuiz;
   adminUpdateQuestionnaireSurvey: QuestionnaireSurvey;
@@ -187,6 +193,11 @@ export type MutationAdminCreateQuestionnaireSurveyArgs = {
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
   requireName?: InputMaybe<Scalars['Boolean']['input']>;
   title: Scalars['String']['input'];
+};
+
+
+export type MutationAdminDeleteQuestionnaireArgs = {
+  questionnaireSharedId: Scalars['String']['input'];
 };
 
 
@@ -748,6 +759,13 @@ export type QuizFragmentFragment = { __typename?: 'QuestionnaireQuiz', _id: stri
 
 export type ExamFragmentFragment = { __typename?: 'QuestionnaireExam', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, timeLimit?: number | null, maxRetryAmount?: number | null, randomizeQuestions: boolean, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> };
 
+export type DeleteQuestionnaireMutationVariables = Exact<{
+  questionnaireSharedId: Scalars['String']['input'];
+}>;
+
+
+export type DeleteQuestionnaireMutation = { __typename?: 'Mutation', adminDeleteQuestionnaire?: { __typename?: 'DeleteQuestionnaireResponse', status: string } | null };
+
 export type FetchQuestionnairesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1198,6 +1216,39 @@ export type FetchQuestionnaireQueryHookResult = ReturnType<typeof useFetchQuesti
 export type FetchQuestionnaireLazyQueryHookResult = ReturnType<typeof useFetchQuestionnaireLazyQuery>;
 export type FetchQuestionnaireSuspenseQueryHookResult = ReturnType<typeof useFetchQuestionnaireSuspenseQuery>;
 export type FetchQuestionnaireQueryResult = Apollo.QueryResult<FetchQuestionnaireQuery, FetchQuestionnaireQueryVariables>;
+export const DeleteQuestionnaireDocument = gql`
+    mutation DeleteQuestionnaire($questionnaireSharedId: String!) {
+  adminDeleteQuestionnaire(questionnaireSharedId: $questionnaireSharedId) {
+    status
+  }
+}
+    `;
+export type DeleteQuestionnaireMutationFn = Apollo.MutationFunction<DeleteQuestionnaireMutation, DeleteQuestionnaireMutationVariables>;
+
+/**
+ * __useDeleteQuestionnaireMutation__
+ *
+ * To run a mutation, you first call `useDeleteQuestionnaireMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteQuestionnaireMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteQuestionnaireMutation, { data, loading, error }] = useDeleteQuestionnaireMutation({
+ *   variables: {
+ *      questionnaireSharedId: // value for 'questionnaireSharedId'
+ *   },
+ * });
+ */
+export function useDeleteQuestionnaireMutation(baseOptions?: Apollo.MutationHookOptions<DeleteQuestionnaireMutation, DeleteQuestionnaireMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteQuestionnaireMutation, DeleteQuestionnaireMutationVariables>(DeleteQuestionnaireDocument, options);
+      }
+export type DeleteQuestionnaireMutationHookResult = ReturnType<typeof useDeleteQuestionnaireMutation>;
+export type DeleteQuestionnaireMutationResult = Apollo.MutationResult<DeleteQuestionnaireMutation>;
+export type DeleteQuestionnaireMutationOptions = Apollo.BaseMutationOptions<DeleteQuestionnaireMutation, DeleteQuestionnaireMutationVariables>;
 export const FetchQuestionnairesDocument = gql`
     query FetchQuestionnaires {
   adminFetchQuestionnaires {

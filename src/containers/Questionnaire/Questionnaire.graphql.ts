@@ -159,3 +159,15 @@ export const EXAM_FRAGMENT = gql(`
         randomizeQuestions
     }
 `);
+
+export const DELETE_QUESTIONNAIRES = gql(`
+	mutation DeleteQuestionnaire(
+		$questionnaireSharedId: String!
+	) {
+		adminDeleteQuestionnaire(
+			questionnaireSharedId: $questionnaireSharedId
+		) {
+			status	
+		}
+	}
+`);
