@@ -1,11 +1,11 @@
-import '@mantine/core/styles.css';
-import Footer from '@components/Footer/Footer.tsx';
-import { PropsWithChildren } from 'react';
-import { Button, MantineProvider, createTheme } from '@mantine/core';
-import AuthModal from '@components/AuthModal/AuthModal.tsx';
 import AlertStack from '@components/AlertStack/AlertStack.tsx';
-import buttonStyles from './LayoutStyles/Button.module.scss';
+import AuthModal from '@components/AuthModal/AuthModal.tsx';
+import Footer from '@components/Footer/Footer.tsx';
+import { Badge, Button, MantineProvider, createTheme } from '@mantine/core';
+import '@mantine/core/styles.css';
+import { PropsWithChildren } from 'react';
 import badgeStyles from './LayoutStyles/Badge.module.scss';
+import buttonStyles from './LayoutStyles/Button.module.scss';
 
 export default function Layout({ children }: PropsWithChildren) {
 	const theme = createTheme({
@@ -14,7 +14,7 @@ export default function Layout({ children }: PropsWithChildren) {
 		fontFamilyMonospace: 'Fira Code, monospace',
 		components: {
 			Button: Button.extend({ classNames: buttonStyles }),
-			Badge: Button.extend({ classNames: badgeStyles }),
+			Badge: Badge.extend({ classNames: badgeStyles }),
 		},
 	});
 
