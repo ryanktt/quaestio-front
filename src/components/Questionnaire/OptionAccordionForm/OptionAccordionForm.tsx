@@ -1,9 +1,10 @@
 import AccordionFormItem from '@components/Questionnaire/AccordionFormItem/AccordionFormItem.tsx';
-import { Checkbox, Textarea, useMantineTheme } from '@mantine/core';
+import RichTextInput from '@components/RichText/RichText';
+import { Checkbox, useMantineTheme } from '@mantine/core';
 import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
 import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 
 export interface IOptionProps {
 	id: string;
@@ -17,7 +18,7 @@ export interface IOptionAccordionFormProps {
 	option?: IOptionProps;
 	method?: 'ADD' | 'EDIT';
 	enableToolbarOptions?: boolean;
-	setOpen?: () => boolean | undefined;
+	setOpen?: () => boolean | null;
 	onDelete?: (optionId: string) => void;
 	onSave?: (option: IOptionProps) => void;
 	onStartEdit?: (option: IOptionProps) => void;
@@ -36,7 +37,7 @@ export default function OptionAccordionForm({
 	method = 'EDIT',
 	badge,
 	enableToolbarOptions = true,
-	setOpen = () => undefined,
+	setOpen = () => null,
 	onDelete = () => {},
 	onSave = () => {},
 	onStartEdit = () => {},
@@ -55,7 +56,7 @@ export default function OptionAccordionForm({
 	const [isChanged, setChanged] = useState(false);
 	const getOption = (): IOptionProps => form.getValues();
 
-	const handleChange = (e: ChangeEvent, item: keyof IOptionProps) => {
+	const handleChange = (e: unknown, item: keyof IOptionProps) => {
 		form.getInputProps(item).onChange(e);
 		setChanged(true);
 		onStartEdit(getOption());
@@ -63,7 +64,7 @@ export default function OptionAccordionForm({
 
 	const getInputProps = (item: keyof IOptionProps, inputType: GetInputPropsType = 'input') => ({
 		...form.getInputProps(item, { type: inputType }),
-		onChange: (e: ChangeEvent) => handleChange(e, item),
+		onChange: (e: unknown) => handleChange(e, item),
 	});
 
 	const closeItem = () => {
@@ -103,26 +104,30 @@ export default function OptionAccordionForm({
 			onClose={closeItem}
 			onDelete={deleteItem}
 		>
-			<Textarea
-				{...getInputProps('title')}
-				label="Option description"
-				required={!(method === 'ADD')}
-				minRows={2}
-				maxRows={3}
-				autosize
-				resize="vertical"
-				placeholder="The option description"
-				error={method === 'ADD' ? null : form.errors.title}
-				inputWrapperOrder={['label', 'error', 'input']}
+			<RichTextInput
+				label="Description"
+				value={getOption().title}
+				onUpdate={(html) => {
+					getInputProps('title').onChange(html);
+				}}
+				inputProps={{
+					error: form.errors.title,
+					required: true,
+					inputWrapperOrder: ['label', 'error', 'input'],
+				}}
 			/>
-			<Textarea
-				{...getInputProps('feedbackAfterSubmit')}
+			<RichTextInput
 				label="Option feedback"
-				resize="vertical"
-				placeholder="Feedback for this option"
-				error={method === 'ADD' ? null : form.errors.title}
-				inputWrapperOrder={['label', 'error', 'input']}
+				value={getOption().feedbackAfterSubmit}
+				onUpdate={(html) => {
+					getInputProps('feedbackAfterSubmit').onChange(html);
+				}}
+				inputProps={{
+					error: form.errors.feedbackAfterSubmit,
+					inputWrapperOrder: ['label', 'error', 'input'],
+				}}
 			/>
+
 			<Checkbox {...getInputProps('correct', 'checkbox')} color={theme.colors.indigo[6]} label="Correct option" />
 		</AccordionFormItem>
 	);

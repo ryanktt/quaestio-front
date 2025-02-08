@@ -24,7 +24,7 @@ export interface IAccordionFormItemProps {
 	toolbarComponents?: React.ReactNode[];
 	variant?: 'subtle' | 'filled';
 	enableToolbarOptions?: boolean;
-	setOpen?: () => boolean | undefined;
+	setOpen?: () => boolean | null;
 }
 
 export default function AccordionFormItem({
@@ -37,7 +37,7 @@ export default function AccordionFormItem({
 	onClose = () => {},
 	onSave = () => ({ preventClose: false }),
 	enableToolbarOptions = true,
-	setOpen: setOpenProp = () => undefined,
+	setOpen: setOpenProp = () => null,
 	variant = 'subtle',
 	isEditing,
 	toolbarComponents = [],
