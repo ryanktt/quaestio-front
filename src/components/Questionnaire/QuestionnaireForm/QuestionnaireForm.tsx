@@ -4,17 +4,8 @@ import QuestionAccordionForm, {
 	IQuestionAccordionFormProps,
 	IQuestionProps,
 } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
-import {
-	Button,
-	Center,
-	Checkbox,
-	InputLabel,
-	Select,
-	TextInput,
-	Textarea,
-	Title,
-	useMantineTheme,
-} from '@mantine/core';
+import RichTextInput from '@components/RichText/RichText.tsx';
+import { Button, Center, Checkbox, InputLabel, Select, TextInput, Title, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
 import { useState } from 'react';
@@ -92,7 +83,7 @@ export default function QuestionnaireForm({
 			onSave: setQuestion,
 			draggable: !onEditQuestionId,
 			enableToolbarOptions: !onEditQuestionId,
-			setOpen: () => onEditQuestionId === question.id,
+			setOpen: () => (onEditQuestionId ? onEditQuestionId === question.id : null),
 			onStartEdit: (opt) => setOnEditQuestionId(opt.id),
 			onFinishEdit: () => setOnEditQuestionId(null),
 		}));
@@ -139,18 +130,20 @@ export default function QuestionnaireForm({
 					placeholder={`The ${type ?? 'Questionnaire'} title`}
 					inputWrapperOrder={['label', 'error', 'input']}
 				/>
-				<Textarea
-					{...form.getInputProps('description')}
+				<RichTextInput
+					editable={!!type}
 					label="Description"
-					resize="vertical"
-					minRows={4}
-					maxRows={6}
-					autosize
-					required
-					disabled={!type}
-					placeholder={`The ${type ?? 'Questionnaire'} description`}
-					inputWrapperOrder={['label', 'error', 'input']}
+					value={form.getValues().description}
+					onUpdate={(html) => {
+						form.getInputProps('description').onChange(html);
+					}}
+					inputProps={{
+						error: form.errors.description,
+						required: true,
+						inputWrapperOrder: ['label', 'error', 'input'],
+					}}
 				/>
+
 				<Checkbox
 					{...form.getInputProps('requireEmail', { type: 'checkbox' })}
 					color={theme.colors.indigo[6]}
@@ -182,7 +175,7 @@ export default function QuestionnaireForm({
 					draggable={false}
 					onSave={setQuestion}
 					enableToolbarOptions={!onEditQuestionId}
-					setOpen={() => (!questionsProps.length ? true : undefined)}
+					setOpen={() => (!questionsProps.length ? true : null)}
 					onStartEdit={(opt) => setOnEditQuestionId(opt.id)}
 					onFinishEdit={() => setOnEditQuestionId(null)}
 				/>
