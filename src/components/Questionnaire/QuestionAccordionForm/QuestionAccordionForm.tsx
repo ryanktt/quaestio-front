@@ -1,6 +1,7 @@
 import DragDropList, { IDragDrogItemProps } from '@components/DragDropList/DragDropList';
+import RichTextInput from '@components/RichText/RichText.tsx';
 import { QuestionType } from '@gened/graphql.ts';
-import { Badge, Box, Checkbox, InputLabel, Select, Textarea, useMantineTheme } from '@mantine/core';
+import { Badge, Box, Checkbox, InputLabel, Select, useMantineTheme } from '@mantine/core';
 import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
 import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
@@ -32,7 +33,7 @@ export interface IQuestionAccordionFormProps {
 	method?: IMethod;
 	draggable?: boolean;
 	enableToolbarOptions?: boolean;
-	setOpen?: () => boolean | undefined;
+	setOpen?: () => boolean | null;
 	onDelete?: (optionId: string) => void;
 	onSave?: (option: IQuestionProps) => void;
 	onStartEdit?: (option: IQuestionProps) => void;
@@ -58,7 +59,7 @@ export default function QuestionAccordionForm({
 	method = 'EDIT',
 	badge,
 	enableToolbarOptions = true,
-	setOpen = () => undefined,
+	setOpen = () => null,
 	onDelete = () => {},
 	onSave = () => {},
 	onStartEdit = () => {},
@@ -75,11 +76,11 @@ export default function QuestionAccordionForm({
 			description: hasLength({ min: 3, max: 255 }, 'Description must be 3-255 characters long'),
 		},
 	});
-	const [isChanged, setChanged] = useState(false);
-	const [onEditOptionId, setOnEditOptionId] = useState<string | null>(null);
-
 	const { type } = form.getValues();
 	const getQuestion = (): IQuestionProps => form.getValues();
+
+	const [isChanged, setChanged] = useState(false);
+	const [onEditOptionId, setOnEditOptionId] = useState<string | null>(null);
 
 	const getTypeByText = (val: (typeof typeValues)[number] | string | null) => {
 		if (val === 'Single Choice') return QuestionType.SingleChoice;
@@ -88,7 +89,8 @@ export default function QuestionAccordionForm({
 		return QuestionType.Text;
 	};
 
-	const getTextByType = (t: QuestionType) => {
+	const getTextByType = () => {
+		const t = getQuestion().type;
 		if (t === QuestionType.SingleChoice) return 'Single Choice';
 		if (t === QuestionType.MultipleChoice) return 'Multiple Choice';
 		if (t === QuestionType.TrueOrFalse) return 'True or False';
@@ -149,7 +151,7 @@ export default function QuestionAccordionForm({
 		onSave: setOption,
 		draggable: !onEditOptionId,
 		enableToolbarOptions: !onEditOptionId,
-		setOpen: () => onEditOptionId === option.id,
+		setOpen: () => (onEditOptionId ? onEditOptionId === option.id : null),
 		onStartEdit: (opt) => setOnEditOptionId(opt.id),
 		onFinishEdit: () => setOnEditOptionId(null),
 	}));
@@ -196,7 +198,7 @@ export default function QuestionAccordionForm({
 		method === 'EDIT' && questionProp.type ? (
 			<Box display="flex" w={120} style={{ alignItems: 'center', justifyContent: 'start' }}>
 				<Badge size="sm" radius="sm" variant={getBadgeVariantByType(questionProp.type)}>
-					{getTextByType(questionProp.type)}
+					{getTextByType()}
 				</Badge>
 			</Box>
 		) : undefined;
@@ -223,46 +225,54 @@ export default function QuestionAccordionForm({
 			<Select
 				variant="default"
 				{...getInputProps('type')}
-				value={type ? getTextByType(type) : ''}
+				value={getTextByType()}
 				maw={300}
 				required={validateInput}
 				label="Question type"
 				placeholder="Select the question type"
 				data={typeValues}
 			/>
-			<Textarea
-				{...getInputProps('description')}
+			<RichTextInput
+				editable={!!type}
 				label="Question description"
-				resize="vertical"
-				minRows={4}
-				maxRows={6}
-				autosize
-				error={validateInput ? form.errors.description : null}
-				disabled={!type}
-				required={validateInput}
-				placeholder="The question description"
-				inputWrapperOrder={['label', 'error', 'input']}
+				value={getQuestion().description}
+				onUpdate={(html) => {
+					getInputProps('description').onChange(html);
+				}}
+				inputProps={{
+					error: validateInput ? form.errors.description : null,
+					required: validateInput,
+					inputWrapperOrder: ['label', 'error', 'input'],
+				}}
 			/>
-
 			{type === QuestionType.MultipleChoice ||
 			type === QuestionType.SingleChoice ||
 			type === QuestionType.TrueOrFalse ? (
 				<>
-					<Textarea
-						{...getInputProps('rightAnswerFeedback')}
+					<RichTextInput
+						editable={!!type}
 						label="Correct Answer Feedback"
-						resize="vertical"
-						disabled={!type}
-						placeholder="Nice one!! :)"
-						inputWrapperOrder={['label', 'error', 'input']}
+						value={getQuestion().rightAnswerFeedback}
+						onUpdate={(html) => {
+							getInputProps('rightAnswerFeedback').onChange(html);
+						}}
+						inputProps={{
+							error: validateInput ? form.errors.rightAnswerFeedback : null,
+							required: validateInput,
+							inputWrapperOrder: ['label', 'error', 'input'],
+						}}
 					/>
-					<Textarea
-						{...getInputProps('wrongAnswerFeedback')}
-						label="Wrong answer feedback"
-						resize="vertical"
-						disabled={!type}
-						placeholder="Too bad :("
-						inputWrapperOrder={['label', 'error', 'input']}
+					<RichTextInput
+						editable={!!type}
+						label="Wrong Answer Feedback"
+						value={getQuestion().wrongAnswerFeedback}
+						onUpdate={(html) => {
+							getInputProps('wrongAnswerFeedback').onChange(html);
+						}}
+						inputProps={{
+							error: validateInput ? form.errors.wrongAnswerFeedback : null,
+							inputWrapperOrder: ['label', 'error', 'input'],
+						}}
 					/>
 					<Checkbox
 						{...getInputProps('showCorrectAnswer', 'checkbox')}
@@ -274,13 +284,17 @@ export default function QuestionAccordionForm({
 			) : null}
 
 			{type === QuestionType.Text ? (
-				<Textarea
-					{...getInputProps('feedbackAfterSubmit')}
-					resize="vertical"
-					disabled={!type}
-					placeholder="Hope you got it! The answer is..."
-					inputWrapperOrder={['label', 'error', 'input']}
+				<RichTextInput
+					editable={!!type}
 					label="Feedback after submit"
+					value={getQuestion().feedbackAfterSubmit}
+					onUpdate={(html) => {
+						getInputProps('feedbackAfterSubmit').onChange(html);
+					}}
+					inputProps={{
+						error: validateInput ? form.errors.feedbackAfterSubmit : null,
+						inputWrapperOrder: ['label', 'error', 'input'],
+					}}
 				/>
 			) : null}
 
