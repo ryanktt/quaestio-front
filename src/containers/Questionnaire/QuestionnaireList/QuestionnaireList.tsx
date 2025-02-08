@@ -1,6 +1,6 @@
 import { QuestionnaireType, useFetchQuestionnairesSuspenseQuery } from '@gened/graphql';
 import { Badge, Box, NavLink as MantineNavLink, Text as MantineText, useMantineTheme } from '@mantine/core';
-import { IconCheck, IconEye, IconHome2 } from '@tabler/icons-react';
+import { IconHome2 } from '@tabler/icons-react';
 import { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './QuestionnaireList.module.scss';
@@ -20,9 +20,7 @@ function ColumnItem({ children }: PropsWithChildren) {
 function Header({ label, icon: Icon }: { label: string; icon?: typeof IconHome2 }) {
 	return (
 		<Box display="flex" style={{ alignItems: 'center' }}>
-			<MantineText size="15px" fw="600">
-				{label}
-			</MantineText>
+			<h5>{label}</h5>
 			{Icon ? <Icon style={{ marginLeft: '8px' }} size={18} /> : null}
 		</Box>
 	);
@@ -156,7 +154,7 @@ export default function QuestionnaireList() {
 
 				<Column>
 					<ColumnItem>
-						<Header label="Views" icon={IconEye} />
+						<Header label="Views" />
 					</ColumnItem>
 					{views.map((vCount) => (
 						<ColumnItem>
@@ -166,7 +164,7 @@ export default function QuestionnaireList() {
 				</Column>
 				<Column>
 					<ColumnItem>
-						<Header label="Entries" icon={IconCheck} />
+						<Header label="Entries" />
 					</ColumnItem>
 					{entries.map((eCount) => (
 						<ColumnItem>

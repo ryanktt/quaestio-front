@@ -10,7 +10,10 @@
 .column {
 	display: grid;
 	grid-template-columns: 1fr;
-
+	h5 {
+		font-size: 14px;
+		font-weight: 600;
+	}
 	.fr2 {
 		grid-column: 2fr;
 	}
@@ -25,6 +28,9 @@
 	}
 	&:last-child {
 		.columnItem:first-child {
+			h5 {
+				margin-right: 10px;
+			}
 			border-top-right-radius: $radiusLg;
 		}
 	}
