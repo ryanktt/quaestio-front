@@ -39,6 +39,7 @@
 		"react-router-dom": "6.23.1",
 		"recharts": "2",
 		"state-pool": "0.10.1",
+		"tiptap-extension-resize-image": "^1.2.1",
 		"uuid": "^11.0.3"
 	},
 	"devDependencies": {

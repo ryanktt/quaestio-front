@@ -15,21 +15,28 @@ import Image from '@tiptap/extension-image';
 import Underline from '@tiptap/extension-underline';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import ImageResize from 'tiptap-extension-resize-image';
 import styles from './RichText.module.scss';
 
 function InsertImageControl() {
 	const { editor } = useRichTextEditorContext();
-	const [url, setUrl] = useState('');
 	const theme = useMantineTheme();
 
-	const addImage = useCallback(() => {
-		if (url) {
-			editor?.chain().focus().setImage({ src: url }).run();
-		}
-	}, [editor]);
-
 	const [opened, setOpened] = useState(false);
+	const [url, setUrl] = useState('');
+
+	const addImage = () => {
+		if (url && editor) {
+			editor?.commands.setImage({ src: url });
+			setOpened(false);
+			setUrl('');
+		}
+	};
+
+	if (!editor) {
+		return null;
+	}
 
 	return (
 		<Popover opened={opened} onChange={setOpened}>
@@ -67,10 +74,8 @@ export default function RichTextInput({
 	inputProps: InputWrapperProps;
 }) {
 	const editor = useEditor({
-		extensions: [StarterKit, Underline, Highlight, Bullet, Image],
-		onUpdate: ({ editor: e }) => {
-			onUpdate(e.getHTML());
-		},
+		extensions: [StarterKit, Underline, Highlight, Bullet, Image, ImageResize],
+		onUpdate: ({ editor: e }) => onUpdate(e.getHTML()),
 	});
 	const theme = useMantineTheme();
 
@@ -95,7 +100,7 @@ export default function RichTextInput({
 					editor={editor}
 					variant="subtle"
 				>
-					<RichTextEditor.Toolbar p={3} sticky stickyOffset={60}>
+					<RichTextEditor.Toolbar p={3}>
 						<RichTextEditor.ControlsGroup className={!editable ? styles.disabled : ''}>
 							<RichTextEditor.Bold />
 							<RichTextEditor.Italic />
