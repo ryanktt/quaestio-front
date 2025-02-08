@@ -5,15 +5,11 @@ import {
 	IQuestionnaireFormProps,
 	QuestionnaireTypes,
 } from '@components/Questionnaire/QuestionnaireForm/QuestionnaireForm.interface';
-import {
-	UpdateSurveyMutationVariables,
-	useFetchQuestionnaireSuspenseQuery,
-	useUpdateSurveyMutation,
-} from '@gened/graphql.ts';
+import { QuestionnaireSurvey, useFetchQuestionnaireSuspenseQuery, useUpdateSurveyMutation } from '@gened/graphql.ts';
 import '@mantine/core/styles.css';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { buildQuestionnaireFormProps } from './EditQuestionnaire.aux.ts';
+import { buildQuestionnaireFormProps, buildUpdateSurveyMutationVariables } from './EditQuestionnaire.aux.ts';
 
 export default function EditQuestionnaire() {
 	const params = useParams() as { sharedId: string };
@@ -28,7 +24,9 @@ export default function EditQuestionnaire() {
 	const handleQuestionnaireUpdate = async (props: IQuestionnaireFormProps) => {
 		const { type } = props;
 		if (type === EQuestionnaireType.Survey) {
-			await surveyMutation({ variables: {} as unknown as UpdateSurveyMutationVariables });
+			await surveyMutation({
+				variables: buildUpdateSurveyMutationVariables(props, questionnaire as QuestionnaireSurvey),
+			});
 		}
 	};
 
