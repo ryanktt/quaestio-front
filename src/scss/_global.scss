@@ -25,5 +25,6 @@ textarea {
 }
 
 body {
-	background: linear-gradient(0deg, $violet0, $white);
+	min-height: 1000px;
+	background: linear-gradient(0deg, rgb(244, 244, 255), rgb(249, 250, 255));
 }
