@@ -9,13 +9,11 @@ import {
 } from '@mantine/core';
 import { RichTextEditor, useRichTextEditorContext } from '@mantine/tiptap';
 import { IconCheck, IconImageInPicture } from '@tabler/icons-react';
-import Bullet from '@tiptap/extension-bullet-list';
 import Highlight from '@tiptap/extension-highlight';
-import Image from '@tiptap/extension-image';
 import Underline from '@tiptap/extension-underline';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ImageResize from 'tiptap-extension-resize-image';
 import styles from './RichText.module.scss';
 
@@ -74,14 +72,11 @@ export default function RichTextInput({
 	inputProps: InputWrapperProps;
 }) {
 	const editor = useEditor({
-		extensions: [StarterKit, Underline, Highlight, Bullet, Image, ImageResize],
+		extensions: [StarterKit, Underline, Highlight, ImageResize],
 		onUpdate: ({ editor: e }) => onUpdate(e.getHTML()),
+		content: value,
 	});
 	const theme = useMantineTheme();
-
-	useEffect(() => {
-		editor?.commands.setContent(value);
-	}, [value, editor]);
 
 	return (
 		<div>
