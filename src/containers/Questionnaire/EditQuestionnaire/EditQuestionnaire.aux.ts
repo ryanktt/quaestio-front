@@ -102,6 +102,7 @@ const addDeleteQuestionMethod = (questionId: string): QuestionMethodInput => {
 const addUpdateQuestionMethod = (questionProps: IQuestionProps): QuestionMethodInput => {
 	return {
 		type: QuestionMethodType.Update,
+		questionId: questionProps.id,
 		questionDiscriminator: buildQuestionDiscriminatorFromProps(questionProps),
 	};
 };
