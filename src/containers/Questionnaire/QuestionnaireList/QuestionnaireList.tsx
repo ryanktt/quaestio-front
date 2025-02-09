@@ -115,9 +115,9 @@ export default function QuestionnaireList() {
 					<ColumnItem>
 						<Header label="Type" />
 					</ColumnItem>
-					{types.map((type) => (
-						<ColumnItem>
-							<Type type={type} />
+					{types.map((type, i) => (
+						<ColumnItem key={sharedIds[i]}>
+							<Type type={type} key={sharedIds[i]} />
 						</ColumnItem>
 					))}
 				</Column>
@@ -125,9 +125,9 @@ export default function QuestionnaireList() {
 					<ColumnItem>
 						<Header label="Title" />
 					</ColumnItem>
-					{titles.map((title) => (
-						<ColumnItem>
-							<Text>{title}</Text>
+					{titles.map((title, i) => (
+						<ColumnItem key={sharedIds[i]}>
+							<Text key={sharedIds[i]}>{title}</Text>
 						</ColumnItem>
 					))}
 				</Column>
@@ -135,9 +135,9 @@ export default function QuestionnaireList() {
 					<ColumnItem>
 						<Header label="Status" />
 					</ColumnItem>
-					{statuses.map((status) => (
-						<ColumnItem>
-							<Status active={status} />
+					{statuses.map((status, i) => (
+						<ColumnItem key={sharedIds[i]}>
+							<Status key={sharedIds[i]} active={status} />
 						</ColumnItem>
 					))}
 				</Column>
@@ -146,8 +146,8 @@ export default function QuestionnaireList() {
 						<Header label="ID" />
 					</ColumnItem>
 					{sharedIds.map((id) => (
-						<ColumnItem>
-							<ID>{id}</ID>
+						<ColumnItem key={id}>
+							<ID key={id}>{id}</ID>
 						</ColumnItem>
 					))}
 				</Column>
@@ -156,9 +156,9 @@ export default function QuestionnaireList() {
 					<ColumnItem>
 						<Header label="Views" />
 					</ColumnItem>
-					{views.map((vCount) => (
-						<ColumnItem>
-							<Text>{vCount}</Text>
+					{views.map((vCount, i) => (
+						<ColumnItem key={sharedIds[i]}>
+							<Text key={sharedIds[i]}>{vCount}</Text>
 						</ColumnItem>
 					))}
 				</Column>
@@ -166,9 +166,9 @@ export default function QuestionnaireList() {
 					<ColumnItem>
 						<Header label="Entries" />
 					</ColumnItem>
-					{entries.map((eCount) => (
-						<ColumnItem>
-							<Text>{eCount}</Text>
+					{entries.map((eCount, i) => (
+						<ColumnItem key={sharedIds[i]}>
+							<Text key={sharedIds[i]}>{eCount}</Text>
 						</ColumnItem>
 					))}
 				</Column>
