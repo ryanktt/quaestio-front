@@ -136,7 +136,6 @@ const buildUpdateQuestionsMethods = (
 	const deleteQuestionMethods = Array.from(unhandledQuestionIdSet).map((id) => {
 		return addDeleteQuestionMethod(id);
 	});
-
 	return [...upsertQuestionMethods, ...deleteQuestionMethods];
 };
 

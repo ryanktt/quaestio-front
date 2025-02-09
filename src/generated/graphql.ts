@@ -273,6 +273,7 @@ export type Option = {
 export type OptionInput = {
   correct?: InputMaybe<Scalars['Boolean']['input']>;
   feedbackAfterSubmit?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   title: Scalars['String']['input'];
 };
 
@@ -535,6 +536,7 @@ export type Questionnaire = {
   questions: Array<Question>;
   requireEmail: Scalars['Boolean']['output'];
   requireName: Scalars['Boolean']['output'];
+  sharedCreatedAt: Scalars['DateTime']['output'];
   sharedId: Scalars['String']['output'];
   title: Scalars['String']['output'];
   type: QuestionnaireType;
@@ -556,6 +558,7 @@ export type QuestionnaireExam = Questionnaire & SchemaBaseInterface & {
   randomizeQuestions: Scalars['Boolean']['output'];
   requireEmail: Scalars['Boolean']['output'];
   requireName: Scalars['Boolean']['output'];
+  sharedCreatedAt: Scalars['DateTime']['output'];
   sharedId: Scalars['String']['output'];
   timeLimit?: Maybe<Scalars['Float']['output']>;
   title: Scalars['String']['output'];
@@ -590,6 +593,7 @@ export type QuestionnaireQuiz = Questionnaire & SchemaBaseInterface & {
   questions: Array<Question>;
   requireEmail: Scalars['Boolean']['output'];
   requireName: Scalars['Boolean']['output'];
+  sharedCreatedAt: Scalars['DateTime']['output'];
   sharedId: Scalars['String']['output'];
   title: Scalars['String']['output'];
   type: QuestionnaireType;
@@ -608,6 +612,7 @@ export type QuestionnaireSurvey = Questionnaire & SchemaBaseInterface & {
   questions: Array<Question>;
   requireEmail: Scalars['Boolean']['output'];
   requireName: Scalars['Boolean']['output'];
+  sharedCreatedAt: Scalars['DateTime']['output'];
   sharedId: Scalars['String']['output'];
   title: Scalars['String']['output'];
   type: QuestionnaireType;
@@ -766,7 +771,9 @@ export type DeleteQuestionnaireMutationVariables = Exact<{
 
 export type DeleteQuestionnaireMutation = { __typename?: 'Mutation', adminDeleteQuestionnaire?: { __typename?: 'DeleteQuestionnaireResponse', status: string } | null };
 
-export type FetchQuestionnairesQueryVariables = Exact<{ [key: string]: never; }>;
+export type FetchQuestionnairesQueryVariables = Exact<{
+  latest?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
 
 
 export type FetchQuestionnairesQuery = { __typename?: 'Query', adminFetchQuestionnaires: Array<{ __typename?: 'QuestionnaireExam', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, timeLimit?: number | null, maxRetryAmount?: number | null, randomizeQuestions: boolean, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } | { __typename?: 'QuestionnaireQuiz', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } | { __typename?: 'QuestionnaireSurvey', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> }> };
@@ -1250,8 +1257,8 @@ export type DeleteQuestionnaireMutationHookResult = ReturnType<typeof useDeleteQ
 export type DeleteQuestionnaireMutationResult = Apollo.MutationResult<DeleteQuestionnaireMutation>;
 export type DeleteQuestionnaireMutationOptions = Apollo.BaseMutationOptions<DeleteQuestionnaireMutation, DeleteQuestionnaireMutationVariables>;
 export const FetchQuestionnairesDocument = gql`
-    query FetchQuestionnaires {
-  adminFetchQuestionnaires {
+    query FetchQuestionnaires($latest: Boolean) {
+  adminFetchQuestionnaires(latest: $latest) {
     ... on QuestionnaireSurvey {
       ...SurveyFragment
     }
@@ -1279,6 +1286,7 @@ ${QuizFragmentFragmentDoc}`;
  * @example
  * const { data, loading, error } = useFetchQuestionnairesQuery({
  *   variables: {
+ *      latest: // value for 'latest'
  *   },
  * });
  */

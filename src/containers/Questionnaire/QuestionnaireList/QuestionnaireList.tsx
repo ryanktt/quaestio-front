@@ -85,7 +85,7 @@ interface QuestionnaireListData {
 }
 
 export default function QuestionnaireList() {
-	const { data } = useFetchQuestionnairesSuspenseQuery();
+	const { data } = useFetchQuestionnairesSuspenseQuery({ variables: { latest: true } });
 
 	const { entries, sharedIds, statuses, titles, types, views } =
 		data.adminFetchQuestionnaires.reduce<QuestionnaireListData>(

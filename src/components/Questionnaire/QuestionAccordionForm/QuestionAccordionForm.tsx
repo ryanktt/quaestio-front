@@ -258,7 +258,6 @@ export default function QuestionAccordionForm({
 						}}
 						inputProps={{
 							error: validateInput ? form.errors.rightAnswerFeedback : null,
-							required: validateInput,
 							inputWrapperOrder: ['label', 'error', 'input'],
 						}}
 					/>

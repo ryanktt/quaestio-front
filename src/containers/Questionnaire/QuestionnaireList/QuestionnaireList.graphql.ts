@@ -1,8 +1,12 @@
 import { gql } from '@apollo/client';
 
 export const FETCH_QUESTIONNAIRES = gql(`
-	query FetchQuestionnaires {
-		adminFetchQuestionnaires {
+	query FetchQuestionnaires(
+		$latest: Boolean
+	) {
+		adminFetchQuestionnaires(
+		latest: $latest
+	) {
 			... on QuestionnaireSurvey {
 				...SurveyFragment
 			}
