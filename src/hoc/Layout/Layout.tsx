@@ -1,6 +1,7 @@
 import AlertStack from '@components/AlertStack/AlertStack.tsx';
 import AuthModal from '@components/AuthModal/AuthModal.tsx';
 import Footer from '@components/Footer/Footer.tsx';
+import Header from '@components/Header/Header';
 import { Badge, Button, MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { PropsWithChildren } from 'react';
@@ -21,7 +22,7 @@ export default function Layout({ children }: PropsWithChildren) {
 	return (
 		<MantineProvider theme={theme}>
 			<AlertStack />
-
+			<Header />
 			{children}
 			<Footer />
 			<AuthModal />

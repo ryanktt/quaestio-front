@@ -1,13 +1,12 @@
-import { Container, Group, ActionIcon, rem } from '@mantine/core';
-import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
-import { MantineLogo } from '@mantinex/mantine-logo';
+import { ActionIcon, Container, Group, rem } from '@mantine/core';
+import { IconBrandInstagram, IconBrandTwitter, IconBrandYoutube } from '@tabler/icons-react';
 import classes from './Footer.module.scss';
 
 export default function Footer() {
 	return (
 		<div className={classes.footer}>
 			<Container className={classes.inner}>
-				<MantineLogo size={28} />
+				<p className={classes.quaestio}>Quaestio</p>
 				<Group gap={0} className={classes.links} justify="flex-end" wrap="nowrap">
 					<ActionIcon size="lg" color="gray" variant="subtle">
 						<IconBrandTwitter style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
