@@ -46,6 +46,7 @@ export const buildQuestionDiscriminatorFromProps = (questionProps: IQuestionProp
 	}
 	if (question.type === QuestionType.SingleChoice) {
 		discriminator.questionSingleChoice = getObjSelectedFields(question as QuestionSingleChoiceInput, [
+			...questionBaseInputKeys,
 			'rightAnswerFeedback',
 			'wrongAnswerFeedback',
 			'randomizeOptions',
@@ -55,6 +56,7 @@ export const buildQuestionDiscriminatorFromProps = (questionProps: IQuestionProp
 	}
 	if (question.type === QuestionType.TrueOrFalse) {
 		discriminator.questionTrueOrFalse = getObjSelectedFields(question as QuestionTrueOrFalseInput, [
+			...questionBaseInputKeys,
 			'rightAnswerFeedback',
 			'wrongAnswerFeedback',
 			'options',
@@ -62,7 +64,10 @@ export const buildQuestionDiscriminatorFromProps = (questionProps: IQuestionProp
 		]) as QuestionTrueOrFalseInput;
 	}
 	if (question.type === QuestionType.Text) {
-		discriminator.questionText = getObjSelectedFields(question as QuestionTextInput, ['type']) as QuestionTextInput;
+		discriminator.questionText = getObjSelectedFields(question as QuestionTextInput, [
+			...questionBaseInputKeys,
+			'type',
+		]) as QuestionTextInput;
 	}
 
 	return discriminator;
