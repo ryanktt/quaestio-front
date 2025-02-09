@@ -1,6 +1,7 @@
 import HomeAdmin from '@containers/Home/HomeAdmin/HomeAdmin';
 import HomePublic from '@containers/Home/HomePublic/HomePublic';
 import { GlobalContext } from '@contexts/Global/Global.context';
+import Loader from '@hoc/Loader/Loader';
 import React, { useContext } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
@@ -16,7 +17,7 @@ function Router() {
 
 	return isLoggedIn ? (
 		<HomeAdmin>
-			<React.Suspense>
+			<React.Suspense fallback={<Loader />}>
 				<Routes>
 					<Route
 						path="/board/*"

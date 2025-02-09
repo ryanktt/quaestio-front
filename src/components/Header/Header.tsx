@@ -20,39 +20,50 @@ export default function Header() {
 	};
 
 	return (
-		<Box pb={120}>
+		<Box pb={100}>
 			<header className={`${classes.header} ${isLoggedIn ? classes.loggedIn : null}`}>
 				<Container size="lg">
 					<Group justify="space-between" h="100%">
 						<p className={classes.quaestio}>Quaestio</p>
 
 						{!isLoggedIn ? (
-							<Group visibleFrom="sm">
-								<Button variant="default" onClick={onLogInClick}>
-									Log In
-								</Button>
-								<Button variant="gradient" onClick={onSignUpClick}>
-									Sign Up
-								</Button>
-							</Group>
+							<>
+								<Group visibleFrom="sm">
+									<Button variant="default" onClick={onLogInClick}>
+										Log In
+									</Button>
+									<Button variant="gradient" onClick={onSignUpClick}>
+										Sign Up
+									</Button>
+								</Group>
+								<Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
+							</>
 						) : null}
-						<Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
 					</Group>
 				</Container>
 			</header>
 
-			<Drawer opened={drawerOpened} onClose={closeDrawer} size="80%" padding="md" hiddenFrom="sm" zIndex={200}>
-				<ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
-					<Group justify="center" grow pb="xl" px="md">
-						<Button variant="default" onClick={onLogInClick}>
-							Log In
-						</Button>
-						<Button variant="gradient" onClick={onSignUpClick}>
-							Sign Up
-						</Button>
-					</Group>
-				</ScrollArea>
-			</Drawer>
+			{!isLoggedIn ? (
+				<Drawer
+					opened={drawerOpened}
+					onClose={closeDrawer}
+					size="80%"
+					padding="md"
+					hiddenFrom="sm"
+					zIndex={200}
+				>
+					<ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
+						<Group justify="center" grow pb="xl" px="md">
+							<Button variant="default" onClick={onLogInClick}>
+								Log In
+							</Button>
+							<Button variant="gradient" onClick={onSignUpClick}>
+								Sign Up
+							</Button>
+						</Group>
+					</ScrollArea>
+				</Drawer>
+			) : null}
 		</Box>
 	);
 }
