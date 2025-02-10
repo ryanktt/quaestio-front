@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import DragDropList, { IDragDrogItemProps } from '@components/DragDropList/DragDropList.tsx';
+import DragDropList from '@components/DragDropList/DragDropList.tsx';
+import DragDropItem from '@components/DragDropList/Draggable.tsx';
 import QuestionAccordionForm, {
-	IQuestionAccordionFormProps,
 	IQuestionProps,
 } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import RichTextInput from '@components/RichText/RichText.tsx';
@@ -39,10 +39,10 @@ export default function QuestionnaireForm({
 	const { type } = form.getValues();
 	const [onEditQuestionId, setOnEditQuestionId] = useState<string | null>(null);
 
-	const handleReorderedQuestions = (reorderedQuestions: IQuestionAccordionFormProps[]) => {
+	const handleReorderedQuestions = (reorderedQuestions: { id: string }[]) => {
 		const { questions } = form.getValues();
 		const updatedQuestions = reorderedQuestions
-			.map(({ question }) => questions.find((q) => q.id === question?.id))
+			.map(({ id }) => questions.find((q) => q.id === id))
 			.filter((question): question is IQuestionProps => !!question);
 
 		form.setFieldValue('questions', updatedQuestions);
@@ -73,20 +73,21 @@ export default function QuestionnaireForm({
 		}
 	};
 
-	const questionsProps = form
-		.getValues()
-		.questions.map<IDragDrogItemProps<IQuestionAccordionFormProps>>((question, i) => ({
-			question,
-			key: question.id,
-			badge: `Question ${i + 1}`,
-			onDelete: deleteQuestion,
-			onSave: setQuestion,
-			draggable: !onEditQuestionId,
-			enableToolbarOptions: !onEditQuestionId,
-			setOpen: () => (onEditQuestionId ? onEditQuestionId === question.id : null),
-			onStartEdit: (opt) => setOnEditQuestionId(opt.id),
-			onFinishEdit: () => setOnEditQuestionId(null),
-		}));
+	const questionItems = form.getValues().questions.map((question, i) => (
+		<DragDropItem index={i} isDragDisabled={!!onEditQuestionId} key={question.id} draggableId={question.id}>
+			<QuestionAccordionForm
+				badge={`Question ${i + 1}`}
+				question={question}
+				draggable
+				onDelete={deleteQuestion}
+				onSave={setQuestion}
+				enableToolbarOptions={!onEditQuestionId}
+				setOpen={() => (onEditQuestionId ? onEditQuestionId === question.id : null)}
+				onStartEdit={(opt) => setOnEditQuestionId(opt.id)}
+				onFinishEdit={() => setOnEditQuestionId(null)}
+			/>
+		</DragDropItem>
+	));
 
 	return (
 		<div
@@ -159,13 +160,11 @@ export default function QuestionnaireForm({
 
 				<InputLabel>Questions</InputLabel>
 
-				{questionsProps.length ? (
+				{questionItems.length ? (
 					<div>
-						<DragDropList
-							onReorder={handleReorderedQuestions}
-							itemsComponent={QuestionAccordionForm}
-							itemPropsList={questionsProps}
-						/>
+						<DragDropList orderedItems={form.getValues().questions} onReorder={handleReorderedQuestions}>
+							{questionItems}
+						</DragDropList>
 					</div>
 				) : null}
 
@@ -175,7 +174,7 @@ export default function QuestionnaireForm({
 					draggable={false}
 					onSave={setQuestion}
 					enableToolbarOptions={!onEditQuestionId}
-					setOpen={() => (!questionsProps.length ? true : null)}
+					setOpen={() => (!questionItems.length ? true : null)}
 					onStartEdit={(opt) => setOnEditQuestionId(opt.id)}
 					onFinishEdit={() => setOnEditQuestionId(null)}
 				/>

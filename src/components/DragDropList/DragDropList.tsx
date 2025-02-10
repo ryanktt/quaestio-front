@@ -1,24 +1,18 @@
-import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
-import { ComponentType, useEffect, useState } from 'react';
-import cx from 'clsx';
+import { DragDropContext, Droppable } from '@hello-pangea/dnd';
+import { PropsWithChildren, useState } from 'react';
 import classes from './DragDropList.module.scss';
 
 export type IDragDrogItemProps<T> = T & { draggable?: boolean; key: string };
 
-export default function DragDropList<P extends Object>({
-	itemsComponent: ItemsComponent,
-	itemPropsList,
+export default function DragDropList({
 	onReorder,
+	orderedItems,
+	children,
 }: {
-	itemsComponent: ComponentType<P>;
-	itemPropsList: IDragDrogItemProps<P>[];
-	onReorder: (state: P[]) => void;
-}) {
-	const [state, setState] = useState([...itemPropsList]);
-
-	useEffect(() => {
-		setState(itemPropsList);
-	}, [itemPropsList]);
+	onReorder: (listState: { id: string }[]) => void;
+	orderedItems: { id: string }[];
+} & PropsWithChildren) {
+	const [state, setState] = useState(orderedItems);
 
 	const handleReorder = ({ from, to }: { from: number; to: number }) => {
 		setState(() => {
@@ -31,28 +25,6 @@ export default function DragDropList<P extends Object>({
 		});
 	};
 
-	const items = state.map((itemProps, index) => {
-		return (
-			<Draggable
-				key={itemProps.key}
-				index={index}
-				draggableId={itemProps.key}
-				isDragDisabled={!itemProps.draggable}
-			>
-				{(provided, snapshot) => (
-					<div
-						className={cx(classes.item, { [classes.itemDragging]: snapshot.isDragging })}
-						{...provided.draggableProps}
-						{...provided.dragHandleProps}
-						ref={provided.innerRef}
-					>
-						<ItemsComponent {...itemProps} />
-					</div>
-				)}
-			</Draggable>
-		);
-	});
-
 	return (
 		<DragDropContext
 			onDragEnd={({ destination, source }) => {
@@ -62,7 +34,7 @@ export default function DragDropList<P extends Object>({
 			<Droppable droppableId="dnd-list" direction="vertical">
 				{(provided) => (
 					<div className={classes.items} {...provided.droppableProps} ref={provided.innerRef}>
-						{items}
+						{children}
 						{provided.placeholder}
 					</div>
 				)}

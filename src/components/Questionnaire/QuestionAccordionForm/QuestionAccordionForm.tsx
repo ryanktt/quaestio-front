@@ -1,4 +1,5 @@
-import DragDropList, { IDragDrogItemProps } from '@components/DragDropList/DragDropList';
+import DragDropList from '@components/DragDropList/DragDropList';
+import DragDropItem from '@components/DragDropList/Draggable.tsx';
 import RichTextInput from '@components/RichText/RichText.tsx';
 import { QuestionType } from '@gened/graphql.ts';
 import { Badge, Box, Checkbox, InputLabel, Select, useMantineTheme } from '@mantine/core';
@@ -7,10 +8,7 @@ import { nanoid } from 'nanoid/non-secure';
 import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
 import { useState } from 'react';
 import AccordionFormItem from '../AccordionFormItem/AccordionFormItem.tsx';
-import OptionAccordionForm, {
-	IOptionAccordionFormProps,
-	IOptionProps,
-} from '../OptionAccordionForm/OptionAccordionForm.tsx';
+import OptionAccordionForm, { IOptionProps } from '../OptionAccordionForm/OptionAccordionForm.tsx';
 
 type IMethod = 'ADD' | 'EDIT';
 
@@ -106,9 +104,9 @@ export default function QuestionAccordionForm({
 		return '';
 	};
 
-	const handleReorderedOptions = (reorderedOptions: IOptionAccordionFormProps[]) => {
+	const handleReorderedOptions = (reorderedOptions: { id: string }[]) => {
 		const updatedOptions = reorderedOptions
-			.map(({ option }) => form.getValues().options.find((opt) => opt.id === option?.id))
+			.map(({ id }) => form.getValues().options.find((opt) => opt.id === id))
 			.filter((opt): opt is IOptionProps => !!opt);
 
 		form.setFieldValue('options', updatedOptions);
@@ -143,18 +141,21 @@ export default function QuestionAccordionForm({
 		}
 	};
 
-	const optionsProps = form.getValues().options.map<IDragDrogItemProps<IOptionAccordionFormProps>>((option, i) => ({
-		badge: `Option ${i + 1}`,
-		option,
-		onDelete: deleteOption,
-		key: option.id,
-		onSave: setOption,
-		draggable: !onEditOptionId,
-		enableToolbarOptions: !onEditOptionId,
-		setOpen: () => (onEditOptionId ? onEditOptionId === option.id : null),
-		onStartEdit: (opt) => setOnEditOptionId(opt.id),
-		onFinishEdit: () => setOnEditOptionId(null),
-	}));
+	const optionsProps = form.getValues().options.map((option, i) => (
+		<DragDropItem index={i} isDragDisabled={!!onEditOptionId} key={option.id} draggableId={option.id}>
+			<OptionAccordionForm
+				badge={`Option ${i + 1}`}
+				key={option.id}
+				option={option}
+				onDelete={deleteOption}
+				onSave={setOption}
+				enableToolbarOptions={!onEditOptionId}
+				setOpen={() => (onEditOptionId ? onEditOptionId === option.id : null)}
+				onStartEdit={(opt) => setOnEditOptionId(opt.id)}
+				onFinishEdit={() => setOnEditOptionId(null)}
+			/>
+		</DragDropItem>
+	));
 
 	const handleChange = (e: unknown, eName: keyof IQuestionProps) => {
 		const formInputProps = form.getInputProps(eName);
@@ -207,7 +208,6 @@ export default function QuestionAccordionForm({
 
 	return (
 		<AccordionFormItem
-			key={questionProp.id}
 			badge={badge}
 			toolbarComponents={questionTypeBadge ? [questionTypeBadge] : undefined}
 			label={questionProp.description}
@@ -320,11 +320,9 @@ export default function QuestionAccordionForm({
 					<InputLabel>Options</InputLabel>
 
 					{optionsProps.length ? (
-						<DragDropList
-							onReorder={handleReorderedOptions}
-							itemsComponent={OptionAccordionForm}
-							itemPropsList={optionsProps}
-						/>
+						<DragDropList orderedItems={getQuestion().options} onReorder={handleReorderedOptions}>
+							{optionsProps}
+						</DragDropList>
 					) : null}
 
 					<OptionAccordionForm
