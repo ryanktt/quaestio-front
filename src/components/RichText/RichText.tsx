@@ -13,7 +13,7 @@ import Highlight from '@tiptap/extension-highlight';
 import Underline from '@tiptap/extension-underline';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ImageResize from 'tiptap-extension-resize-image';
 import styles from './RichText.module.scss';
 
@@ -76,7 +76,10 @@ export default function RichTextInput({
 		onUpdate: ({ editor: e }) => onUpdate(e.getHTML()),
 		content: value,
 	});
+
 	const theme = useMantineTheme();
+
+	useEffect(() => editor?.setOptions({ editable }), [editor, editable]);
 
 	return (
 		<div>
