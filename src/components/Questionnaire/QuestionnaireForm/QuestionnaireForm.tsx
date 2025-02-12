@@ -5,9 +5,10 @@ import QuestionAccordionForm, {
 	IQuestionProps,
 } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import RichTextInput from '@components/RichText/RichText.tsx';
-import { Button, Center, Checkbox, Select, TextInput, Title, useMantineTheme } from '@mantine/core';
+import { Button, Center, Checkbox, NumberInput, Select, TextInput, Title, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
+import moment from 'moment';
 import { useState } from 'react';
 import { EQuestionnaireType, IQuestionnaireFormProps } from './QuestionnaireForm.interface.ts';
 
@@ -29,6 +30,9 @@ export default function QuestionnaireForm({
 			description: '',
 			requireEmail: false,
 			requireName: false,
+			maxRetryAmount: '',
+			randomizeQuestions: '',
+			timeLimit: '',
 			questions: [],
 		},
 		validate: {
@@ -38,6 +42,34 @@ export default function QuestionnaireForm({
 	});
 	const { type } = form.getValues();
 	const [onEditQuestionId, setOnEditQuestionId] = useState<string | null>(null);
+	const [maxRetryInputEnabled, setMaxRetryInputEnabled] = useState(!!form.getValues().maxRetryAmount);
+
+	const setTimeLimitInputInitialValues = (): {
+		enabled: boolean;
+		amount?: number;
+	} => {
+		const { timeLimit } = form.getValues();
+		const minutes = timeLimit ? moment.duration(timeLimit, 'milliseconds').asMinutes() : undefined;
+		return {
+			enabled: !!timeLimit,
+			amount: minutes,
+		};
+	};
+	const [timeLimitInput, setTimeLimitInput] = useState(setTimeLimitInputInitialValues());
+
+	const updateTimeLimitInput = (params: { amount?: number; enabled?: boolean }) => {
+		const { amount, enabled } = params;
+
+		const state = {
+			...timeLimitInput,
+			enabled: enabled ?? timeLimitInput.enabled,
+			amount: amount || timeLimitInput.amount,
+		};
+		setTimeLimitInput(state);
+		if (state.enabled && state.amount) {
+			form.setFieldValue('timeLimit', moment.duration(state.amount, 'minutes').asMilliseconds());
+		}
+	};
 
 	const handleReorderedQuestions = (reorderedQuestions: { id: string }[]) => {
 		const { questions } = form.getValues();
@@ -143,6 +175,55 @@ export default function QuestionnaireForm({
 					}}
 				/>
 
+				{type === 'Exam' ? (
+					<>
+						<div>
+							<Checkbox
+								color={theme.colors.indigo[6]}
+								onChange={(event) => updateTimeLimitInput({ enabled: event.currentTarget.checked })}
+								checked={timeLimitInput.enabled}
+								value={0}
+								mb={5}
+								disabled={!type}
+								label="Time limit"
+							/>
+							{timeLimitInput.enabled ? (
+								<div style={{ display: 'flex', gap: '10px' }}>
+									<NumberInput
+										value={timeLimitInput.amount}
+										onChange={(amount) =>
+											updateTimeLimitInput({ amount: amount ? Number(amount) : undefined })
+										}
+										required
+										placeholder="The time limit in minutes"
+										suffix="min"
+										w={250}
+										min={1}
+									/>
+								</div>
+							) : null}
+						</div>
+						<div>
+							<Checkbox
+								color={theme.colors.indigo[6]}
+								onChange={(event) => setMaxRetryInputEnabled(event.currentTarget.checked)}
+								checked={maxRetryInputEnabled}
+								disabled={!type}
+								mb={5}
+								label="Retry limit"
+							/>
+							{maxRetryInputEnabled ? (
+								<NumberInput
+									{...form.getInputProps('maxRetryAmount')}
+									required
+									placeholder="The max retry count"
+									w={250}
+									min={0}
+								/>
+							) : null}
+						</div>
+					</>
+				) : null}
 				<Checkbox
 					{...form.getInputProps('requireEmail', { type: 'checkbox' })}
 					color={theme.colors.indigo[6]}

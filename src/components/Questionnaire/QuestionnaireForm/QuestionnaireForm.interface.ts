@@ -13,6 +13,9 @@ export interface IQuestionnaireFormProps {
 	description: string;
 	requireEmail: boolean;
 	requireName: boolean;
+	randomizeQuestions: boolean | '';
+	timeLimit: number | '';
+	maxRetryAmount: number | '';
 	questions: IQuestionProps[];
 }
 
