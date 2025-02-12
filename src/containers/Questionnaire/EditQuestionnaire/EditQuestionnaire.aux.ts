@@ -12,6 +12,7 @@ import {
 	QuestionMethodInput,
 	QuestionMethodType,
 	QuestionnaireSurvey,
+	QuestionnaireType,
 	QuestionOrderInput,
 	UpdateSurveyMutationVariables,
 } from '@gened/graphql';
@@ -73,17 +74,31 @@ export const buildQuestionnaireFormProps = (questionnaire?: QuestionnaireTypes |
 			description: '',
 			requireEmail: false,
 			requireName: false,
+			maxRetryAmount: '',
+			randomizeQuestions: '',
+			timeLimit: '',
 			questions: [],
 		};
 	}
-	return {
+	const props: IQuestionnaireFormProps = {
 		type: questionnaire.type.replace('Questionnaire', '') as EQuestionnaireType,
 		description: questionnaire.description,
 		requireEmail: questionnaire.requireEmail,
 		requireName: questionnaire.requireName,
 		title: questionnaire.title,
 		questions: buildQuestionsFormProps(questionnaire.questions),
+		randomizeQuestions: '',
+		maxRetryAmount: '',
+		timeLimit: '',
 	};
+
+	if (questionnaire.__typename === QuestionnaireType.QuestionnaireExam) {
+		if (questionnaire.randomizeQuestions) props.randomizeQuestions = questionnaire.randomizeQuestions;
+		if (questionnaire.maxRetryAmount) props.maxRetryAmount = questionnaire.maxRetryAmount;
+		if (questionnaire.timeLimit) props.timeLimit = questionnaire.timeLimit;
+	}
+
+	return props;
 };
 
 const addCreateQuestionMethod = (questionProps: IQuestionProps, index: number): QuestionMethodInput => {

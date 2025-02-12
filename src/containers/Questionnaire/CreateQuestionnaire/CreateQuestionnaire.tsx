@@ -8,6 +8,7 @@ import QuestionnaireForm from '@components/Questionnaire/QuestionnaireForm/Quest
 import {
 	CreateQuizMutationVariables,
 	CreateSurveyMutationVariables,
+	useCreateExamMutation,
 	useCreateQuizMutation,
 	useCreateSurveyMutation,
 } from '@gened/graphql.ts';
@@ -16,7 +17,9 @@ import { convertPropsToGqlVars } from '@utils/graphql.ts';
 import { useEffect } from 'react';
 import { buildQuestionDiscriminatorsFromProps } from '../Questionnaire.aux.ts';
 
-const buildCreateSurveyGqlVarsFromProps = (props: IQuestionnaireFormProps): CreateSurveyMutationVariables => {
+const buildCreateQuestionnaireGqlVarsFromProps = (
+	props: IQuestionnaireFormProps,
+): CreateSurveyMutationVariables | CreateQuizMutationVariables | CreateSurveyMutationVariables => {
 	return convertPropsToGqlVars({
 		...props,
 		questions: buildQuestionDiscriminatorsFromProps(props.questions),
@@ -24,23 +27,16 @@ const buildCreateSurveyGqlVarsFromProps = (props: IQuestionnaireFormProps): Crea
 	}) as CreateSurveyMutationVariables;
 };
 
-const buildCreateQuizGqlVarsFromProps = (props: IQuestionnaireFormProps): CreateQuizMutationVariables => {
-	return convertPropsToGqlVars({
-		...props,
-		questions: buildQuestionDiscriminatorsFromProps(props.questions),
-		type: undefined,
-	}) as CreateQuizMutationVariables;
-};
-
 export default function CreateQuestionnaire() {
 	const [surveyMutation, { data: surveyData, reset: resetSurvey }] = useCreateSurveyMutation();
 	const [quizMutation, { data: quizData, reset: resetQuiz }] = useCreateQuizMutation();
+	const [examMutation, { data: examData, reset: resetExam }] = useCreateExamMutation();
 
 	const handleQuestionnaireCreation = async (props: IQuestionnaireFormProps) => {
-		if (props.type === EQuestionnaireType.Survey)
-			await surveyMutation({ variables: buildCreateSurveyGqlVarsFromProps(props) });
-		if (props.type === EQuestionnaireType.Quiz)
-			await quizMutation({ variables: buildCreateQuizGqlVarsFromProps(props) });
+		const variables = buildCreateQuestionnaireGqlVarsFromProps(props);
+		if (props.type === EQuestionnaireType.Survey) await surveyMutation({ variables });
+		if (props.type === EQuestionnaireType.Quiz) await quizMutation({ variables });
+		if (props.type === EQuestionnaireType.Exam) await examMutation({ variables });
 	};
 
 	useEffect(() => {
@@ -52,6 +48,11 @@ export default function CreateQuestionnaire() {
 		if (!quizData) return;
 		resetQuiz();
 	}, [quizData]);
+
+	useEffect(() => {
+		if (!examData) return;
+		resetExam();
+	}, [examData]);
 
 	return <QuestionnaireForm title="New Questionnaire" onSubmit={handleQuestionnaireCreation} />;
 }
