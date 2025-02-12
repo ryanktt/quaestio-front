@@ -5,11 +5,11 @@ import {
 	IQuestionnaireFormProps,
 	QuestionnaireTypes,
 } from '@components/Questionnaire/QuestionnaireForm/QuestionnaireForm.interface';
-import { QuestionnaireSurvey, useFetchQuestionnaireSuspenseQuery, useUpdateSurveyMutation } from '@gened/graphql.ts';
+import { useFetchQuestionnaireSuspenseQuery, useUpdateQuizMutation, useUpdateSurveyMutation } from '@gened/graphql.ts';
 import '@mantine/core/styles.css';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { buildQuestionnaireFormProps, buildUpdateSurveyMutationVariables } from './EditQuestionnaire.aux.ts';
+import { buildQuestionnaireFormProps, buildUpdateQuestionnaireMutationVariables } from './EditQuestionnaire.aux.ts';
 
 export default function EditQuestionnaire() {
 	const params = useParams() as { sharedId: string };
@@ -19,21 +19,25 @@ export default function EditQuestionnaire() {
 	});
 
 	const [surveyMutation, { data: surveyData, reset: resetSurvey }] = useUpdateSurveyMutation();
+	const [quizMutation, { data: quizData, reset: resetQuiz }] = useUpdateQuizMutation();
 	const questionnaire = fetchQuestRes.adminFetchQuestionnaire as QuestionnaireTypes;
 
 	const handleQuestionnaireUpdate = async (props: IQuestionnaireFormProps) => {
 		const { type } = props;
-		if (type === EQuestionnaireType.Survey) {
-			await surveyMutation({
-				variables: buildUpdateSurveyMutationVariables(props, questionnaire as QuestionnaireSurvey),
-			});
-		}
+		const variables = buildUpdateQuestionnaireMutationVariables(props, questionnaire);
+		if (type === EQuestionnaireType.Survey) await surveyMutation({ variables });
+		if (type === EQuestionnaireType.Quiz) await quizMutation({ variables });
 	};
 
 	useEffect(() => {
 		if (!surveyData) return;
 		resetSurvey();
 	}, [surveyData]);
+
+	useEffect(() => {
+		if (!quizData) return;
+		resetQuiz();
+	}, [quizData]);
 
 	return (
 		<QuestionnaireForm

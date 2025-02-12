@@ -11,9 +11,9 @@ import {
 	Option,
 	QuestionMethodInput,
 	QuestionMethodType,
-	QuestionnaireSurvey,
 	QuestionnaireType,
 	QuestionOrderInput,
+	UpdateQuizMutationVariables,
 	UpdateSurveyMutationVariables,
 } from '@gened/graphql';
 import _ from 'lodash';
@@ -167,12 +167,12 @@ const buildUpdateQuestionsMethods = (
 	return [...upsertQuestionMethods, ...deleteQuestionMethods];
 };
 
-export const buildUpdateSurveyMutationVariables = (
+export const buildUpdateQuestionnaireMutationVariables = (
 	questionnaireProps: IQuestionnaireFormProps,
-	surveyBeforeUpdate: QuestionnaireSurvey,
-): UpdateSurveyMutationVariables => {
+	questionnaireBeforeUpdate: QuestionnaireTypes,
+): UpdateSurveyMutationVariables | UpdateQuizMutationVariables => {
 	return {
-		questionnaireId: surveyBeforeUpdate._id,
+		questionnaireId: questionnaireBeforeUpdate._id,
 		description: questionnaireProps.description,
 		requireEmail: questionnaireProps.requireEmail,
 		requireName: questionnaireProps.requireName,
@@ -180,7 +180,7 @@ export const buildUpdateSurveyMutationVariables = (
 		questionOrder: buildQuestionOrder(questionnaireProps.questions),
 		questionMethods: buildUpdateQuestionsMethods(
 			questionnaireProps.questions,
-			buildQuestionnaireFormProps(surveyBeforeUpdate).questions,
+			buildQuestionnaireFormProps(questionnaireBeforeUpdate).questions,
 		),
 	};
 };

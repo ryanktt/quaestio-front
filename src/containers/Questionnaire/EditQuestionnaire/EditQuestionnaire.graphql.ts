@@ -24,6 +24,30 @@ export const UPDATE_SURVEY = gql(`
 	}
 `);
 
+export const UPDATE_QUIZ = gql(`
+	mutation UpdateQuiz(
+		$questionnaireId: String!
+		$title: String
+		$questionOrder: [QuestionOrderInput!]
+		$questionMethods: [QuestionMethodInput!]
+		$requireEmail: Boolean
+		$requireName: Boolean
+		$description: String
+	) {
+		adminUpdateQuestionnaireQuiz(
+			questionnaireId: $questionnaireId
+			title: $title
+			questionMethods: $questionMethods
+			questionOrder: $questionOrder
+			requireEmail: $requireEmail
+			requireName: $requireName
+			description: $description
+		) {
+			...QuizFragment
+		}
+	}
+`);
+
 export const FETCH_QUESTIONNAIRE = gql(`
 	query FetchQuestionnaire(
 		$questionnaireId: String 

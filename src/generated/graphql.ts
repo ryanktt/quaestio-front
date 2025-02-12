@@ -777,6 +777,19 @@ export type UpdateSurveyMutationVariables = Exact<{
 
 export type UpdateSurveyMutation = { __typename?: 'Mutation', adminUpdateQuestionnaireSurvey: { __typename?: 'QuestionnaireSurvey', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } };
 
+export type UpdateQuizMutationVariables = Exact<{
+  questionnaireId: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  questionOrder?: InputMaybe<Array<QuestionOrderInput> | QuestionOrderInput>;
+  questionMethods?: InputMaybe<Array<QuestionMethodInput> | QuestionMethodInput>;
+  requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
+  requireName?: InputMaybe<Scalars['Boolean']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateQuizMutation = { __typename?: 'Mutation', adminUpdateQuestionnaireQuiz: { __typename?: 'QuestionnaireQuiz', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } };
+
 export type FetchQuestionnaireQueryVariables = Exact<{
   questionnaireId?: InputMaybe<Scalars['String']['input']>;
   questionnaireSharedId?: InputMaybe<Scalars['String']['input']>;
@@ -1298,6 +1311,53 @@ export function useUpdateSurveyMutation(baseOptions?: Apollo.MutationHookOptions
 export type UpdateSurveyMutationHookResult = ReturnType<typeof useUpdateSurveyMutation>;
 export type UpdateSurveyMutationResult = Apollo.MutationResult<UpdateSurveyMutation>;
 export type UpdateSurveyMutationOptions = Apollo.BaseMutationOptions<UpdateSurveyMutation, UpdateSurveyMutationVariables>;
+export const UpdateQuizDocument = gql`
+    mutation UpdateQuiz($questionnaireId: String!, $title: String, $questionOrder: [QuestionOrderInput!], $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String) {
+  adminUpdateQuestionnaireQuiz(
+    questionnaireId: $questionnaireId
+    title: $title
+    questionMethods: $questionMethods
+    questionOrder: $questionOrder
+    requireEmail: $requireEmail
+    requireName: $requireName
+    description: $description
+  ) {
+    ...QuizFragment
+  }
+}
+    ${QuizFragmentFragmentDoc}`;
+export type UpdateQuizMutationFn = Apollo.MutationFunction<UpdateQuizMutation, UpdateQuizMutationVariables>;
+
+/**
+ * __useUpdateQuizMutation__
+ *
+ * To run a mutation, you first call `useUpdateQuizMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateQuizMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateQuizMutation, { data, loading, error }] = useUpdateQuizMutation({
+ *   variables: {
+ *      questionnaireId: // value for 'questionnaireId'
+ *      title: // value for 'title'
+ *      questionOrder: // value for 'questionOrder'
+ *      questionMethods: // value for 'questionMethods'
+ *      requireEmail: // value for 'requireEmail'
+ *      requireName: // value for 'requireName'
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useUpdateQuizMutation(baseOptions?: Apollo.MutationHookOptions<UpdateQuizMutation, UpdateQuizMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateQuizMutation, UpdateQuizMutationVariables>(UpdateQuizDocument, options);
+      }
+export type UpdateQuizMutationHookResult = ReturnType<typeof useUpdateQuizMutation>;
+export type UpdateQuizMutationResult = Apollo.MutationResult<UpdateQuizMutation>;
+export type UpdateQuizMutationOptions = Apollo.BaseMutationOptions<UpdateQuizMutation, UpdateQuizMutationVariables>;
 export const FetchQuestionnaireDocument = gql`
     query FetchQuestionnaire($questionnaireId: String, $questionnaireSharedId: String) {
   adminFetchQuestionnaire(
