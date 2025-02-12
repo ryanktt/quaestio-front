@@ -15,6 +15,7 @@ import {
 import '@mantine/core/styles.css';
 import { convertPropsToGqlVars } from '@utils/graphql.ts';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { buildQuestionDiscriminatorsFromProps } from '../Questionnaire.aux.ts';
 
 const buildCreateQuestionnaireGqlVarsFromProps = (
@@ -39,19 +40,29 @@ export default function CreateQuestionnaire() {
 		if (props.type === EQuestionnaireType.Exam) await examMutation({ variables });
 	};
 
+	const navigate = useNavigate();
+
+	const redirect = () => {
+		navigate('/board/questionnaires');
+		window.scrollTo(0, 0);
+	};
+
 	useEffect(() => {
 		if (!surveyData) return;
 		resetSurvey();
+		redirect();
 	}, [surveyData]);
 
 	useEffect(() => {
 		if (!quizData) return;
 		resetQuiz();
+		redirect();
 	}, [quizData]);
 
 	useEffect(() => {
 		if (!examData) return;
 		resetExam();
+		redirect();
 	}, [examData]);
 
 	return <QuestionnaireForm title="New Questionnaire" onSubmit={handleQuestionnaireCreation} />;
