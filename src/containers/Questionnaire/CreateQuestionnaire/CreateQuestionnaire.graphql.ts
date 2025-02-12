@@ -20,4 +20,22 @@ export const CREATE_SURVEY = gql(`
 	}
 `);
 
-export default { CREATE_SURVEY };
+export const CREATE_QUIZ = gql(`
+	mutation CreateQuiz(
+		$title: String!
+		$requireEmail: Boolean!
+		$requireName: Boolean!
+		$questions: [QuestionDiscriminatorInput!]!
+		$description: String
+	) {
+		adminCreateQuestionnaireQuiz(
+			title: $title
+			requireEmail: $requireEmail
+			requireName: $requireName
+			questions: $questions
+			description: $description
+		) {
+			...QuizFragment
+		}
+	}
+`);
