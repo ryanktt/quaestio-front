@@ -101,11 +101,9 @@ export default function QuestionnaireForm({
 				borderRadius: theme.radius.lg,
 			}}
 		>
-			<Center>
-				<Title mb={theme.spacing.xl} size={19}>
-					{title}
-				</Title>
-			</Center>
+			<Title mb={theme.spacing.xl} size={24} fw={600} c={theme.colors.gray[8]}>
+				{title}
+			</Title>
 
 			<form
 				onSubmit={form.onSubmit(onSubmit)}
