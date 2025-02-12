@@ -48,6 +48,36 @@ export const UPDATE_QUIZ = gql(`
 	}
 `);
 
+export const UPDATE_EXAM = gql(`
+	mutation UpdateExam(
+		$questionnaireId: String!
+		$title: String
+		$questionOrder: [QuestionOrderInput!]
+		$questionMethods: [QuestionMethodInput!]
+		$requireEmail: Boolean
+		$requireName: Boolean
+		$description: String
+		$randomizeQuestions: Boolean
+		$timeLimit: Int
+		$maxRetryAmount: Int
+	) {
+		adminUpdateQuestionnaireExam(
+			questionnaireId: $questionnaireId
+			title: $title
+			questionMethods: $questionMethods
+			questionOrder: $questionOrder
+			requireEmail: $requireEmail
+			requireName: $requireName
+			description: $description
+			randomizeQuestions: $randomizeQuestions
+			timeLimit: $timeLimit
+			maxRetryAmount: $maxRetryAmount
+		) {
+			...ExamFragment
+		}
+	}
+`);
+
 export const FETCH_QUESTIONNAIRE = gql(`
 	query FetchQuestionnaire(
 		$questionnaireId: String 

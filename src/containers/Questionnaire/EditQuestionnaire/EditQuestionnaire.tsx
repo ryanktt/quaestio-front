@@ -5,7 +5,12 @@ import {
 	IQuestionnaireFormProps,
 	QuestionnaireTypes,
 } from '@components/Questionnaire/QuestionnaireForm/QuestionnaireForm.interface';
-import { useFetchQuestionnaireSuspenseQuery, useUpdateQuizMutation, useUpdateSurveyMutation } from '@gened/graphql.ts';
+import {
+	useFetchQuestionnaireSuspenseQuery,
+	useUpdateExamMutation,
+	useUpdateQuizMutation,
+	useUpdateSurveyMutation,
+} from '@gened/graphql.ts';
 import '@mantine/core/styles.css';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -20,6 +25,7 @@ export default function EditQuestionnaire() {
 
 	const [surveyMutation, { data: surveyData, reset: resetSurvey }] = useUpdateSurveyMutation();
 	const [quizMutation, { data: quizData, reset: resetQuiz }] = useUpdateQuizMutation();
+	const [examMutation, { data: examData, reset: resetExam }] = useUpdateExamMutation();
 	const questionnaire = fetchQuestRes.adminFetchQuestionnaire as QuestionnaireTypes;
 
 	const handleQuestionnaireUpdate = async (props: IQuestionnaireFormProps) => {
@@ -27,6 +33,7 @@ export default function EditQuestionnaire() {
 		const variables = buildUpdateQuestionnaireMutationVariables(props, questionnaire);
 		if (type === EQuestionnaireType.Survey) await surveyMutation({ variables });
 		if (type === EQuestionnaireType.Quiz) await quizMutation({ variables });
+		if (type === EQuestionnaireType.Exam) await examMutation({ variables });
 	};
 
 	useEffect(() => {
@@ -38,6 +45,11 @@ export default function EditQuestionnaire() {
 		if (!quizData) return;
 		resetQuiz();
 	}, [quizData]);
+
+	useEffect(() => {
+		if (!examData) return;
+		resetExam();
+	}, [examData]);
 
 	return (
 		<QuestionnaireForm

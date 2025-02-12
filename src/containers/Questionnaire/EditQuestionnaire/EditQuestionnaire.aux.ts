@@ -13,6 +13,7 @@ import {
 	QuestionMethodType,
 	QuestionnaireType,
 	QuestionOrderInput,
+	UpdateExamMutationVariables,
 	UpdateQuizMutationVariables,
 	UpdateSurveyMutationVariables,
 } from '@gened/graphql';
@@ -170,7 +171,7 @@ const buildUpdateQuestionsMethods = (
 export const buildUpdateQuestionnaireMutationVariables = (
 	questionnaireProps: IQuestionnaireFormProps,
 	questionnaireBeforeUpdate: QuestionnaireTypes,
-): UpdateSurveyMutationVariables | UpdateQuizMutationVariables => {
+): UpdateSurveyMutationVariables | UpdateQuizMutationVariables | UpdateExamMutationVariables => {
 	return {
 		questionnaireId: questionnaireBeforeUpdate._id,
 		description: questionnaireProps.description,
@@ -182,5 +183,12 @@ export const buildUpdateQuestionnaireMutationVariables = (
 			questionnaireProps.questions,
 			buildQuestionnaireFormProps(questionnaireBeforeUpdate).questions,
 		),
+		timeLimit: questionnaireProps.timeLimit || undefined,
+		maxRetryAmount:
+			typeof questionnaireProps.maxRetryAmount === 'number' ? questionnaireProps.maxRetryAmount : undefined,
+		randomizeQuestions:
+			typeof questionnaireProps.randomizeQuestions === 'boolean'
+				? questionnaireProps.randomizeQuestions
+				: undefined,
 	};
 };
