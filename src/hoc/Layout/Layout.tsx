@@ -13,6 +13,7 @@ export default function Layout({ children }: PropsWithChildren) {
 		defaultGradient: { from: 'indigo.8', to: 'violet.6', deg: 50 },
 		fontFamily: 'Montserrat, sans-serif',
 		fontFamilyMonospace: 'Fira Code, monospace',
+		headings: { fontFamily: 'Ubuntu, sans-serif' },
 		components: {
 			Button: Button.extend({ classNames: buttonStyles }),
 			Badge: Badge.extend({ classNames: badgeStyles }),
