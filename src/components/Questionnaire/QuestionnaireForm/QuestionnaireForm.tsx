@@ -5,7 +5,7 @@ import QuestionAccordionForm, {
 	IQuestionProps,
 } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import RichTextInput from '@components/RichText/RichText.tsx';
-import { Button, Center, Checkbox, InputLabel, Select, TextInput, Title, useMantineTheme } from '@mantine/core';
+import { Button, Center, Checkbox, Select, TextInput, Title, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
 import { useState } from 'react';
@@ -156,7 +156,9 @@ export default function QuestionnaireForm({
 					label="Require user name"
 				/>
 
-				<InputLabel>Questions</InputLabel>
+				<Title mt={theme.spacing.lg} size={18} fw={600} c={theme.colors.gray[8]}>
+					Questions
+				</Title>
 
 				{questionItems.length ? (
 					<div>

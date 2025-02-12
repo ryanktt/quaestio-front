@@ -2,7 +2,7 @@ import DragDropList from '@components/DragDropList/DragDropList';
 import DragDropItem from '@components/DragDropList/Draggable.tsx';
 import RichTextInput from '@components/RichText/RichText.tsx';
 import { QuestionType } from '@gened/graphql.ts';
-import { Badge, Box, Checkbox, InputLabel, Select, useMantineTheme } from '@mantine/core';
+import { Badge, Box, Checkbox, Select, Title, useMantineTheme } from '@mantine/core';
 import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
 import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
@@ -317,7 +317,9 @@ export default function QuestionAccordionForm({
 			type === QuestionType.SingleChoice ||
 			type === QuestionType.TrueOrFalse ? (
 				<>
-					<InputLabel>Options</InputLabel>
+					<Title mt={theme.spacing.lg} size={18} fw={500} c={theme.colors.gray[8]}>
+						Options
+					</Title>
 
 					{optionsProps.length ? (
 						<DragDropList orderedItems={getQuestion().options} onReorder={handleReorderedOptions}>
