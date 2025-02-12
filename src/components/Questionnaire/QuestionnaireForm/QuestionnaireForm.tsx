@@ -222,6 +222,12 @@ export default function QuestionnaireForm({
 								/>
 							) : null}
 						</div>
+						<Checkbox
+							{...form.getInputProps('randomizeQuestions')}
+							color={theme.colors.indigo[6]}
+							disabled={!type}
+							label="Randomize questions"
+						/>
 					</>
 				) : null}
 				<Checkbox
