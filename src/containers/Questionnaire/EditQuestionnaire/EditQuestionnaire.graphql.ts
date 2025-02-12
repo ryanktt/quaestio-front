@@ -4,6 +4,7 @@ export const UPDATE_SURVEY = gql(`
 	mutation UpdateSurvey(
 		$questionnaireId: String!
 		$title: String
+		$questionOrder: [QuestionOrderInput!]
 		$questionMethods: [QuestionMethodInput!]
 		$requireEmail: Boolean
 		$requireName: Boolean
@@ -13,6 +14,7 @@ export const UPDATE_SURVEY = gql(`
 			questionnaireId: $questionnaireId
 			title: $title
 			questionMethods: $questionMethods
+			questionOrder: $questionOrder
 			requireEmail: $requireEmail
 			requireName: $requireName
 			description: $description

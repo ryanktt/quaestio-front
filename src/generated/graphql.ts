@@ -207,6 +207,7 @@ export type MutationAdminUpdateQuestionnaireExamArgs = {
   maxRetryAmount?: InputMaybe<Scalars['Float']['input']>;
   passingGradePercent?: InputMaybe<Scalars['Float']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
+  questionOrder?: InputMaybe<Array<QuestionOrderInput>>;
   questionnaireId: Scalars['String']['input'];
   randomizeQuestions?: InputMaybe<Scalars['Boolean']['input']>;
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
@@ -220,6 +221,7 @@ export type MutationAdminUpdateQuestionnaireQuizArgs = {
   active?: InputMaybe<Scalars['Boolean']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
+  questionOrder?: InputMaybe<Array<QuestionOrderInput>>;
   questionnaireId: Scalars['String']['input'];
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
   requireName?: InputMaybe<Scalars['Boolean']['input']>;
@@ -231,6 +233,7 @@ export type MutationAdminUpdateQuestionnaireSurveyArgs = {
   active?: InputMaybe<Scalars['Boolean']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
+  questionOrder?: InputMaybe<Array<QuestionOrderInput>>;
   questionnaireId: Scalars['String']['input'];
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
   requireName?: InputMaybe<Scalars['Boolean']['input']>;
@@ -338,6 +341,7 @@ export type QuestionDiscriminatorInput = {
 };
 
 export type QuestionMethodInput = {
+  index?: InputMaybe<Scalars['Int']['input']>;
   questionDiscriminator?: InputMaybe<QuestionDiscriminatorInput>;
   questionId?: InputMaybe<Scalars['String']['input']>;
   type: QuestionMethodType;
@@ -399,6 +403,11 @@ export type QuestionMultipleChoiceMetrics = QuestionMetrics & {
   unansweredCount: Scalars['Int']['output'];
   updatedAt: Scalars['DateTime']['output'];
   wrongAnswerCount: Scalars['Int']['output'];
+};
+
+export type QuestionOrderInput = {
+  index?: InputMaybe<Scalars['Int']['input']>;
+  questionId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type QuestionSingleChoice = Question & {
@@ -733,6 +742,7 @@ export type CreateSurveyMutation = { __typename?: 'Mutation', adminCreateQuestio
 export type UpdateSurveyMutationVariables = Exact<{
   questionnaireId: Scalars['String']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
+  questionOrder?: InputMaybe<Array<QuestionOrderInput> | QuestionOrderInput>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput> | QuestionMethodInput>;
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
   requireName?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1125,11 +1135,12 @@ export type CreateSurveyMutationHookResult = ReturnType<typeof useCreateSurveyMu
 export type CreateSurveyMutationResult = Apollo.MutationResult<CreateSurveyMutation>;
 export type CreateSurveyMutationOptions = Apollo.BaseMutationOptions<CreateSurveyMutation, CreateSurveyMutationVariables>;
 export const UpdateSurveyDocument = gql`
-    mutation UpdateSurvey($questionnaireId: String!, $title: String, $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String) {
+    mutation UpdateSurvey($questionnaireId: String!, $title: String, $questionOrder: [QuestionOrderInput!], $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String) {
   adminUpdateQuestionnaireSurvey(
     questionnaireId: $questionnaireId
     title: $title
     questionMethods: $questionMethods
+    questionOrder: $questionOrder
     requireEmail: $requireEmail
     requireName: $requireName
     description: $description
@@ -1155,6 +1166,7 @@ export type UpdateSurveyMutationFn = Apollo.MutationFunction<UpdateSurveyMutatio
  *   variables: {
  *      questionnaireId: // value for 'questionnaireId'
  *      title: // value for 'title'
+ *      questionOrder: // value for 'questionOrder'
  *      questionMethods: // value for 'questionMethods'
  *      requireEmail: // value for 'requireEmail'
  *      requireName: // value for 'requireName'

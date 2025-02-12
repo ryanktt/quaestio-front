@@ -12,6 +12,7 @@ import {
 	QuestionMethodInput,
 	QuestionMethodType,
 	QuestionnaireSurvey,
+	QuestionOrderInput,
 	UpdateSurveyMutationVariables,
 } from '@gened/graphql';
 import _ from 'lodash';
@@ -85,9 +86,10 @@ export const buildQuestionnaireFormProps = (questionnaire?: QuestionnaireTypes |
 	};
 };
 
-const addCreateQuestionMethod = (questionProps: IQuestionProps): QuestionMethodInput => {
+const addCreateQuestionMethod = (questionProps: IQuestionProps, index: number): QuestionMethodInput => {
 	return {
 		type: QuestionMethodType.Create,
+		index,
 		questionDiscriminator: buildQuestionDiscriminatorFromProps(questionProps),
 	};
 };
@@ -99,12 +101,22 @@ const addDeleteQuestionMethod = (questionId: string): QuestionMethodInput => {
 	};
 };
 
-const addUpdateQuestionMethod = (questionProps: IQuestionProps): QuestionMethodInput => {
+const addUpdateQuestionMethod = (questionProps: IQuestionProps, index: number): QuestionMethodInput => {
 	return {
 		type: QuestionMethodType.Update,
 		questionId: questionProps.id,
+		index,
 		questionDiscriminator: buildQuestionDiscriminatorFromProps(questionProps),
 	};
+};
+
+const buildQuestionOrder = (questionsProps: IQuestionProps[]): QuestionOrderInput[] => {
+	return questionsProps
+		.map((q, i) => {
+			if (q.id.length !== 24) return null;
+			return { questionId: q.id, index: i };
+		})
+		.filter((q) => !!q) as QuestionOrderInput[];
 };
 
 const buildUpdateQuestionsMethods = (
@@ -120,15 +132,15 @@ const buildUpdateQuestionsMethods = (
 	});
 
 	const upsertQuestionMethods = questionsProps
-		.map((question): QuestionMethodInput | null => {
+		.map((question, i): QuestionMethodInput | null => {
 			const questionBeforeUpdate = questionPropsMap.get(question.id);
 			unhandledQuestionIdSet.delete(question.id);
 
 			if (!questionBeforeUpdate) {
-				return addCreateQuestionMethod(question);
+				return addCreateQuestionMethod(question, i);
 			}
 			if (!_.isEqual(question, questionBeforeUpdate)) {
-				return addUpdateQuestionMethod(question);
+				return addUpdateQuestionMethod(question, i);
 			}
 			return null;
 		})
@@ -150,6 +162,7 @@ export const buildUpdateSurveyMutationVariables = (
 		requireEmail: questionnaireProps.requireEmail,
 		requireName: questionnaireProps.requireName,
 		title: questionnaireProps.title,
+		questionOrder: buildQuestionOrder(questionnaireProps.questions),
 		questionMethods: buildUpdateQuestionsMethods(
 			questionnaireProps.questions,
 			buildQuestionnaireFormProps(surveyBeforeUpdate).questions,
