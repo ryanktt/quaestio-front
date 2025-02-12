@@ -167,13 +167,13 @@ export type Mutation = {
 
 export type MutationAdminCreateQuestionnaireExamArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
-  maxRetryAmount?: InputMaybe<Scalars['Float']['input']>;
+  maxRetryAmount?: InputMaybe<Scalars['Int']['input']>;
   passingGradePercent?: InputMaybe<Scalars['Float']['input']>;
   questions: Array<QuestionDiscriminatorInput>;
   randomizeQuestions?: InputMaybe<Scalars['Boolean']['input']>;
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
   requireName?: InputMaybe<Scalars['Boolean']['input']>;
-  timeLimit?: InputMaybe<Scalars['Float']['input']>;
+  timeLimit?: InputMaybe<Scalars['Int']['input']>;
   title: Scalars['String']['input'];
 };
 
@@ -204,7 +204,7 @@ export type MutationAdminDeleteQuestionnaireArgs = {
 export type MutationAdminUpdateQuestionnaireExamArgs = {
   active?: InputMaybe<Scalars['Boolean']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  maxRetryAmount?: InputMaybe<Scalars['Float']['input']>;
+  maxRetryAmount?: InputMaybe<Scalars['Int']['input']>;
   passingGradePercent?: InputMaybe<Scalars['Float']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
   questionOrder?: InputMaybe<Array<QuestionOrderInput>>;
@@ -212,8 +212,8 @@ export type MutationAdminUpdateQuestionnaireExamArgs = {
   randomizeQuestions?: InputMaybe<Scalars['Boolean']['input']>;
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
   requireName?: InputMaybe<Scalars['Boolean']['input']>;
-  timeLimit?: InputMaybe<Scalars['Float']['input']>;
-  title?: InputMaybe<Scalars['Float']['input']>;
+  timeLimit?: InputMaybe<Scalars['Int']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -750,6 +750,20 @@ export type CreateQuizMutationVariables = Exact<{
 
 export type CreateQuizMutation = { __typename?: 'Mutation', adminCreateQuestionnaireQuiz: { __typename?: 'QuestionnaireQuiz', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } };
 
+export type CreateExamMutationVariables = Exact<{
+  title: Scalars['String']['input'];
+  requireEmail: Scalars['Boolean']['input'];
+  requireName: Scalars['Boolean']['input'];
+  randomizeQuestions?: InputMaybe<Scalars['Boolean']['input']>;
+  timeLimit?: InputMaybe<Scalars['Int']['input']>;
+  maxRetryAmount?: InputMaybe<Scalars['Int']['input']>;
+  questions: Array<QuestionDiscriminatorInput> | QuestionDiscriminatorInput;
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type CreateExamMutation = { __typename?: 'Mutation', adminCreateQuestionnaireExam: { __typename?: 'QuestionnaireExam', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, createdAt: Date, updatedAt: Date, timeLimit?: number | null, maxRetryAmount?: number | null, randomizeQuestions: boolean, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, feedbackAfterSubmit?: string | null }> }> } };
+
 export type UpdateSurveyMutationVariables = Exact<{
   questionnaireId: Scalars['String']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
@@ -1188,6 +1202,55 @@ export function useCreateQuizMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateQuizMutationHookResult = ReturnType<typeof useCreateQuizMutation>;
 export type CreateQuizMutationResult = Apollo.MutationResult<CreateQuizMutation>;
 export type CreateQuizMutationOptions = Apollo.BaseMutationOptions<CreateQuizMutation, CreateQuizMutationVariables>;
+export const CreateExamDocument = gql`
+    mutation CreateExam($title: String!, $requireEmail: Boolean!, $requireName: Boolean!, $randomizeQuestions: Boolean, $timeLimit: Int, $maxRetryAmount: Int, $questions: [QuestionDiscriminatorInput!]!, $description: String) {
+  adminCreateQuestionnaireExam(
+    title: $title
+    requireEmail: $requireEmail
+    requireName: $requireName
+    randomizeQuestions: $randomizeQuestions
+    timeLimit: $timeLimit
+    maxRetryAmount: $maxRetryAmount
+    questions: $questions
+    description: $description
+  ) {
+    ...ExamFragment
+  }
+}
+    ${ExamFragmentFragmentDoc}`;
+export type CreateExamMutationFn = Apollo.MutationFunction<CreateExamMutation, CreateExamMutationVariables>;
+
+/**
+ * __useCreateExamMutation__
+ *
+ * To run a mutation, you first call `useCreateExamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateExamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createExamMutation, { data, loading, error }] = useCreateExamMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      requireEmail: // value for 'requireEmail'
+ *      requireName: // value for 'requireName'
+ *      randomizeQuestions: // value for 'randomizeQuestions'
+ *      timeLimit: // value for 'timeLimit'
+ *      maxRetryAmount: // value for 'maxRetryAmount'
+ *      questions: // value for 'questions'
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useCreateExamMutation(baseOptions?: Apollo.MutationHookOptions<CreateExamMutation, CreateExamMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateExamMutation, CreateExamMutationVariables>(CreateExamDocument, options);
+      }
+export type CreateExamMutationHookResult = ReturnType<typeof useCreateExamMutation>;
+export type CreateExamMutationResult = Apollo.MutationResult<CreateExamMutation>;
+export type CreateExamMutationOptions = Apollo.BaseMutationOptions<CreateExamMutation, CreateExamMutationVariables>;
 export const UpdateSurveyDocument = gql`
     mutation UpdateSurvey($questionnaireId: String!, $title: String, $questionOrder: [QuestionOrderInput!], $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String) {
   adminUpdateQuestionnaireSurvey(

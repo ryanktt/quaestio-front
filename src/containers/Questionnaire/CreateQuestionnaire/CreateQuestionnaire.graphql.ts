@@ -39,3 +39,30 @@ export const CREATE_QUIZ = gql(`
 		}
 	}
 `);
+
+export const CREATE_EXAM = gql(`
+	mutation CreateExam(
+		$title: String!
+		$requireEmail: Boolean!
+		$requireName: Boolean!
+		$randomizeQuestions: Boolean
+		$timeLimit: Int
+		$maxRetryAmount: Int
+		$questions: [QuestionDiscriminatorInput!]!
+		$description: String
+
+	) {
+		adminCreateQuestionnaireExam(
+			title: $title
+			requireEmail: $requireEmail
+			requireName: $requireName
+			randomizeQuestions: $randomizeQuestions
+			timeLimit: $timeLimit
+			maxRetryAmount: $maxRetryAmount
+			questions: $questions
+			description: $description
+		) {
+			...ExamFragment
+		}
+	}
+`);
