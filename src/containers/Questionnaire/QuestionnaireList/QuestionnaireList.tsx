@@ -1,7 +1,9 @@
+import { GlobalContext } from '@contexts/Global/Global.context';
 import { QuestionnaireType, useFetchQuestionnairesSuspenseQuery } from '@gened/graphql';
 import { Badge, Box, NavLink as MantineNavLink, Text as MantineText, useMantineTheme } from '@mantine/core';
+import { useDebouncedValue } from '@mantine/hooks';
 import { IconHome2 } from '@tabler/icons-react';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './QuestionnaireList.module.scss';
 
@@ -83,9 +85,16 @@ interface QuestionnaireListData {
 	views: number[];
 	entries: number[];
 }
+export const DEBOUNCE_DELAY = 500;
 
 export default function QuestionnaireList() {
-	const { data } = useFetchQuestionnairesSuspenseQuery({ variables: { latest: true } });
+	const { searchStr } = useContext(GlobalContext).state;
+	const [textFilter] = useDebouncedValue(searchStr, DEBOUNCE_DELAY);
+	const { data, refetch } = useFetchQuestionnairesSuspenseQuery({ variables: { textFilter } });
+
+	useEffect(() => {
+		refetch({ textFilter });
+	}, [textFilter]);
 
 	const { entries, sharedIds, statuses, titles, types, views } =
 		data.adminFetchQuestionnaires.reduce<QuestionnaireListData>(

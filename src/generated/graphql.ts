@@ -312,6 +312,7 @@ export type QueryAdminFetchQuestionnairesArgs = {
   latest?: InputMaybe<Scalars['Boolean']['input']>;
   questionnaireIds?: InputMaybe<Array<Scalars['String']['input']>>;
   questionnaireSharedIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  textFilter?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -837,6 +838,7 @@ export type DeleteQuestionnaireMutation = { __typename?: 'Mutation', adminDelete
 
 export type FetchQuestionnairesQueryVariables = Exact<{
   latest?: InputMaybe<Scalars['Boolean']['input']>;
+  textFilter?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -1515,8 +1517,8 @@ export type DeleteQuestionnaireMutationHookResult = ReturnType<typeof useDeleteQ
 export type DeleteQuestionnaireMutationResult = Apollo.MutationResult<DeleteQuestionnaireMutation>;
 export type DeleteQuestionnaireMutationOptions = Apollo.BaseMutationOptions<DeleteQuestionnaireMutation, DeleteQuestionnaireMutationVariables>;
 export const FetchQuestionnairesDocument = gql`
-    query FetchQuestionnaires($latest: Boolean) {
-  adminFetchQuestionnaires(latest: $latest) {
+    query FetchQuestionnaires($latest: Boolean, $textFilter: String) {
+  adminFetchQuestionnaires(latest: $latest, textFilter: $textFilter) {
     ... on QuestionnaireSurvey {
       ...SurveyFragment
     }
@@ -1545,6 +1547,7 @@ ${QuizFragmentFragmentDoc}`;
  * const { data, loading, error } = useFetchQuestionnairesQuery({
  *   variables: {
  *      latest: // value for 'latest'
+ *      textFilter: // value for 'textFilter'
  *   },
  * });
  */

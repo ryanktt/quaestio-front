@@ -1,7 +1,8 @@
-import { Box, Input, Tooltip, UnstyledButton } from '@mantine/core';
+import { Tooltip, UnstyledButton } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { IconFilePlus, IconHome2, IconList, IconSearch } from '@tabler/icons-react';
+import { IconFilePlus, IconHome2, IconList } from '@tabler/icons-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Search from './Search.tsx';
 import classes from './Toolbar.module.scss';
 
 interface ToolbarNavProps {
@@ -28,17 +29,6 @@ function ToolbarItem({ icon: Icon, label, active, onClick }: ToolbarNavProps) {
 	);
 }
 
-function ToolbarSearch({ onClick }: { onClick?: () => void }) {
-	return (
-		<div className={`${classes.search}`}>
-			<Box onClick={onClick} className={classes.icon}>
-				<IconSearch size={16} stroke={2} />
-			</Box>
-			<Input className={classes['search-input']} placeholder="Search for questionnaires" variant="default" />
-		</div>
-	);
-}
-
 export default function Toolbar() {
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -54,7 +44,7 @@ export default function Toolbar() {
 
 	return (
 		<div className={classes.toolbar}>
-			<ToolbarSearch key="search" />
+			<Search key="search" />
 			<div className={classes.items}>{sectionsNavItems}</div>
 		</div>
 	);
