@@ -14,11 +14,13 @@ export interface IGlobalState {
 	theme: {
 		light: boolean;
 	};
+	searchStr: string;
 
 	login: (user: IAdmin, session: ISession, token: string) => void;
 	logout: () => void;
 	setLightMode: () => void;
 	setDarkMode: () => void;
+	setSearchStr: (str: string) => void;
 }
 
 export interface ILogoutAction {
@@ -39,4 +41,9 @@ export interface ILoginAction {
 	};
 }
 
-export type IGlobalAction = ILogoutAction | ILoginAction | IDarkModeAction | ILightModeAction;
+export interface ISearchAction {
+	type: 'SEARCH';
+	searchStr: string;
+}
+
+export type IGlobalAction = ILogoutAction | ILoginAction | IDarkModeAction | ILightModeAction | ISearchAction;

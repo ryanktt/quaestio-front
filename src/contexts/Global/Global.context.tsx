@@ -1,16 +1,18 @@
 import { Dispatch, PropsWithChildren, createContext, useEffect, useMemo, useReducer } from 'react';
 import { CookiesProvider, useCookies } from 'react-cookie';
-import { IAdmin, IAuthData, IGlobalAction, IGlobalState, ISession } from './Global.types.ts';
 import globalReducer from './Global.reducer.ts';
+import { IAdmin, IAuthData, IGlobalAction, IGlobalState, ISession } from './Global.types.ts';
 
 const initialGlobalState = {
 	auth: { isLoggedIn: false },
 	theme: { light: true },
 	alerts: [],
+	searchStr: '',
 	login: () => {},
 	logout: () => {},
 	setLightMode: () => {},
 	setDarkMode: () => {},
+	setSearchStr: () => {},
 };
 
 export const GlobalContext = createContext<{
@@ -49,6 +51,9 @@ export default function GlobalContextProvider({ children }: PropsWithChildren & 
 				},
 				setDarkMode: () => {
 					dispatch({ type: 'DARK_MODE' });
+				},
+				setSearchStr: (searchStr: string) => {
+					dispatch({ type: 'SEARCH', searchStr });
 				},
 			},
 		}),

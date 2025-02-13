@@ -36,6 +36,11 @@ const globalReducer = (state: IGlobalState, action: IGlobalAction): IGlobalState
 					light: false,
 				},
 			};
+		case 'SEARCH':
+			return {
+				...state,
+				searchStr: action.searchStr,
+			};
 		default:
 			return state;
 	}
