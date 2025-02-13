@@ -13,7 +13,7 @@ import {
 } from '@gened/graphql.ts';
 import '@mantine/core/styles.css';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { buildQuestionnaireFormProps, buildUpdateQuestionnaireMutationVariables } from './EditQuestionnaire.aux.ts';
 
 export default function EditQuestionnaire() {
@@ -36,19 +36,29 @@ export default function EditQuestionnaire() {
 		if (type === EQuestionnaireType.Exam) await examMutation({ variables });
 	};
 
+	const navigate = useNavigate();
+
+	const redirect = () => {
+		navigate('/board/questionnaires');
+		window.scrollTo(0, 0);
+	};
+
 	useEffect(() => {
 		if (!surveyData) return;
 		resetSurvey();
+		redirect();
 	}, [surveyData]);
 
 	useEffect(() => {
 		if (!quizData) return;
 		resetQuiz();
+		redirect();
 	}, [quizData]);
 
 	useEffect(() => {
 		if (!examData) return;
 		resetExam();
+		redirect();
 	}, [examData]);
 
 	return (
