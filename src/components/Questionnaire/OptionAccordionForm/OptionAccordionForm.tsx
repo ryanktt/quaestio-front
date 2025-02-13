@@ -55,6 +55,7 @@ export default function OptionAccordionForm({
 
 	const [isChanged, setChanged] = useState(false);
 	const getOption = (): IOptionProps => form.getValues();
+	const [feedbackEnabled, setFeedbackEnabled] = useState(!!getOption().feedbackAfterSubmit);
 
 	const handleChange = (e: unknown, item: keyof IOptionProps) => {
 		form.getInputProps(item).onChange(e);
@@ -116,17 +117,27 @@ export default function OptionAccordionForm({
 					inputWrapperOrder: ['label', 'error', 'input'],
 				}}
 			/>
-			<RichTextInput
-				label="Option feedback"
-				value={getOption().feedbackAfterSubmit}
-				onUpdate={(html) => {
-					getInputProps('feedbackAfterSubmit').onChange(html);
-				}}
-				inputProps={{
-					error: form.errors.feedbackAfterSubmit,
-					inputWrapperOrder: ['label', 'error', 'input'],
-				}}
-			/>
+			<div>
+				<Checkbox
+					color={theme.colors.indigo[6]}
+					onChange={(event) => setFeedbackEnabled(event.currentTarget.checked)}
+					checked={feedbackEnabled}
+					mb={5}
+					label="Option feedback"
+				/>
+				{feedbackEnabled ? (
+					<RichTextInput
+						value={getOption().feedbackAfterSubmit}
+						onUpdate={(html) => {
+							getInputProps('feedbackAfterSubmit').onChange(html);
+						}}
+						inputProps={{
+							error: form.errors.feedbackAfterSubmit,
+							inputWrapperOrder: ['label', 'error', 'input'],
+						}}
+					/>
+				) : null}
+			</div>
 
 			<Checkbox {...getInputProps('correct', 'checkbox')} color={theme.colors.indigo[6]} label="Correct option" />
 		</AccordionFormItem>

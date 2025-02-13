@@ -74,10 +74,12 @@ export default function QuestionAccordionForm({
 			description: hasLength({ min: 3, max: 255 }, 'Description must be 3-255 characters long'),
 		},
 	});
-	const { type } = form.getValues();
+	const { type, rightAnswerFeedback, wrongAnswerFeedback } = form.getValues();
 	const getQuestion = (): IQuestionProps => form.getValues();
 
 	const [isChanged, setChanged] = useState(false);
+	const [rightAnswerFeedbackEnabled, setRightAnswerFeedbackEnabled] = useState(!!rightAnswerFeedback);
+	const [wrongAnswerFeedbackEnabled, setWrongAnswerFeedbackEnabled] = useState(!!wrongAnswerFeedback);
 	const [onEditOptionId, setOnEditOptionId] = useState<string | null>(null);
 
 	const getTypeByText = (val: (typeof typeValues)[number] | string | null) => {
@@ -249,30 +251,54 @@ export default function QuestionAccordionForm({
 			type === QuestionType.SingleChoice ||
 			type === QuestionType.TrueOrFalse ? (
 				<>
-					<RichTextInput
-						editable={!!type}
-						label="Correct Answer Feedback"
-						value={getQuestion().rightAnswerFeedback}
-						onUpdate={(html) => {
-							getInputProps('rightAnswerFeedback').onChange(html);
-						}}
-						inputProps={{
-							error: validateInput ? form.errors.rightAnswerFeedback : null,
-							inputWrapperOrder: ['label', 'error', 'input'],
-						}}
-					/>
-					<RichTextInput
-						editable={!!type}
-						label="Wrong Answer Feedback"
-						value={getQuestion().wrongAnswerFeedback}
-						onUpdate={(html) => {
-							getInputProps('wrongAnswerFeedback').onChange(html);
-						}}
-						inputProps={{
-							error: validateInput ? form.errors.wrongAnswerFeedback : null,
-							inputWrapperOrder: ['label', 'error', 'input'],
-						}}
-					/>
+					<div>
+						<Checkbox
+							color={theme.colors.indigo[6]}
+							onChange={(event) => setRightAnswerFeedbackEnabled(event.currentTarget.checked)}
+							checked={rightAnswerFeedbackEnabled}
+							disabled={!type}
+							mb={5}
+							label="Correct answer feedback"
+						/>
+						{rightAnswerFeedbackEnabled ? (
+							<RichTextInput
+								editable={!!type}
+								value={getQuestion().rightAnswerFeedback}
+								onUpdate={(html) => {
+									getInputProps('rightAnswerFeedback').onChange(html);
+								}}
+								inputProps={{
+									error: validateInput ? form.errors.rightAnswerFeedback : null,
+									inputWrapperOrder: ['label', 'error', 'input'],
+								}}
+							/>
+						) : null}
+					</div>
+
+					<div>
+						<Checkbox
+							color={theme.colors.indigo[6]}
+							onChange={(event) => setWrongAnswerFeedbackEnabled(event.currentTarget.checked)}
+							checked={wrongAnswerFeedbackEnabled}
+							disabled={!type}
+							mb={5}
+							label="Wrong answer feedback"
+						/>
+						{wrongAnswerFeedbackEnabled ? (
+							<RichTextInput
+								editable={!!type}
+								value={getQuestion().wrongAnswerFeedback}
+								onUpdate={(html) => {
+									getInputProps('wrongAnswerFeedback').onChange(html);
+								}}
+								inputProps={{
+									error: validateInput ? form.errors.wrongAnswerFeedback : null,
+									inputWrapperOrder: ['label', 'error', 'input'],
+								}}
+							/>
+						) : null}
+					</div>
+
 					<Checkbox
 						{...getInputProps('showCorrectAnswer', 'checkbox')}
 						disabled={!type}

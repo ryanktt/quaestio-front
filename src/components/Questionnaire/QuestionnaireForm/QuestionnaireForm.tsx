@@ -196,7 +196,7 @@ export default function QuestionnaireForm({
 										}
 										required
 										placeholder="The time limit in minutes"
-										suffix="min"
+										suffix=" minutes"
 										w={250}
 										min={1}
 									/>
