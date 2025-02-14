@@ -1,6 +1,6 @@
 .list {
 	display: grid;
-	grid-template-columns: repeat(6, auto);
+	grid-template-columns: 100px 2fr 1fr 240px 0.5fr 0.5fr;
 	border: 1px solid $gray4;
 	border-radius: $radiusLg;
 	box-shadow: $shadowSm;
@@ -14,16 +14,13 @@
 		font-size: 14px;
 		font-weight: 600;
 	}
-	.fr2 {
-		grid-column: 2fr;
-	}
 	&:first-child {
 		.columnItem:first-child {
 			border: none;
 			border-top-left-radius: $radiusLg;
 		}
 		.columnItemWrapper {
-			margin-left: $spacingMd;
+			margin: 0 $spacingMd;
 		}
 	}
 	&:last-child {
@@ -34,6 +31,10 @@
 			border-top-right-radius: $radiusLg;
 		}
 	}
+}
+
+.column.title {
+	grid-column: 3fr;
 }
 
 .columnItem {
@@ -51,7 +52,7 @@
 	.columnItemWrapper {
 		display: flex;
 		align-items: center;
-		margin: 0 $spacingXs;
+		margin-right: $spacingXs;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
@@ -75,5 +76,40 @@
 .status.active {
 	&:before {
 		background-color: $teal5;
+	}
+}
+
+.btn {
+	color: $indigo7;
+	background-color: transparent;
+	min-width: min-content;
+	border-radius: $radiusSm;
+	padding: 3px;
+	height: fit-content;
+	&:hover {
+		color: $indigo7;
+		background-color: $indigo0;
+	}
+	span {
+		padding: 0;
+	}
+}
+
+.id.btn {
+	display: flex;
+	align-items: center;
+	font-weight: 500;
+	overflow: hidden;
+	svg {
+		color: $indigo7;
+		margin-right: 4px;
+	}
+	p {
+		margin: 0;
+		font-size: 12px;
+		color: $indigo7;
+	}
+	&:hover {
+		cursor: pointer;
 	}
 }

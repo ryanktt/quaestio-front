@@ -1,14 +1,16 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { GlobalContext } from '@contexts/Global/Global.context';
 import { QuestionnaireType, useFetchQuestionnairesSuspenseQuery } from '@gened/graphql';
-import { Badge, Box, NavLink as MantineNavLink, Text as MantineText, useMantineTheme } from '@mantine/core';
+import { Badge, Box, Text as MantineText, Tooltip, UnstyledButton, useMantineTheme } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
-import { IconHome2 } from '@tabler/icons-react';
-import { PropsWithChildren, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { IconClipboard, IconExternalLink, IconHome2 } from '@tabler/icons-react';
+import { PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './QuestionnaireList.module.scss';
 
-function Column({ children, gridFr }: PropsWithChildren & { gridFr?: string }) {
-	return <Box className={`${styles.column} Fr${gridFr}`}>{children}</Box>;
+function Column({ children, className }: PropsWithChildren & { className?: string }) {
+	return <Box className={`${styles.column} ${className}`}>{children}</Box>;
 }
 
 function ColumnItem({ children }: PropsWithChildren) {
@@ -63,17 +65,43 @@ function Text({ children }: PropsWithChildren) {
 	);
 }
 
-function ID({ children: id }: PropsWithChildren) {
-	const theme = useMantineTheme();
+function Copy({ id }: { id: string }) {
+	const [copied, setCopied] = useState(false);
+	const copyIdToClipboard = () => {
+		if ('clipboard' in navigator) {
+			navigator.clipboard.writeText(id);
+		}
+		setCopied(true);
+	};
 	return (
-		<MantineNavLink
-			p={0}
-			component={Link}
-			style={{ borderRadius: theme.radius.sm }}
-			c={theme.colors.indigo[9]}
-			to={`/board/questionnaire/edit/${id}`}
-			label={id}
-		/>
+		<Tooltip label={!copied ? 'Copy ID to clipboard' : 'Copied'}>
+			<UnstyledButton
+				type="button"
+				mr={8}
+				pb={1}
+				className={styles.btn}
+				onMouseLeave={() => setCopied(false)}
+				onClick={copyIdToClipboard}
+			>
+				<IconClipboard height={14} size={14} stroke={1.6} />
+			</UnstyledButton>
+		</Tooltip>
+	);
+}
+
+function ID({ id }: { id: string }) {
+	const navigate = useNavigate();
+
+	return (
+		<Box display="flex" style={{ alignItems: 'center' }}>
+			<Copy id={id} />
+			<Tooltip label="Go to questionnaire">
+				<p className={`${styles.btn} ${styles.id}`} onClick={() => navigate(`/board/questionnaire/edit/${id}`)}>
+					<IconExternalLink size={14} stroke={1.6} />
+					<p>{id}</p>
+				</p>
+			</Tooltip>
+		</Box>
 	);
 }
 
@@ -130,7 +158,7 @@ export default function QuestionnaireList() {
 						</ColumnItem>
 					))}
 				</Column>
-				<Column gridFr="2">
+				<Column>
 					<ColumnItem>
 						<Header label="Title" />
 					</ColumnItem>
@@ -156,7 +184,7 @@ export default function QuestionnaireList() {
 					</ColumnItem>
 					{sharedIds.map((id) => (
 						<ColumnItem key={id}>
-							<ID key={id}>{id}</ID>
+							<ID key={id} id={id} />
 						</ColumnItem>
 					))}
 				</Column>
