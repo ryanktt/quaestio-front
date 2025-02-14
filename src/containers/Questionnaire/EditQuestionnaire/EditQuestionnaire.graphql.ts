@@ -77,25 +77,3 @@ export const UPDATE_EXAM = gql(`
 		}
 	}
 `);
-
-export const FETCH_QUESTIONNAIRE = gql(`
-	query FetchQuestionnaire(
-		$questionnaireId: String 
-		$questionnaireSharedId: String
-	) {
-		adminFetchQuestionnaire(
-			questionnaireId: $questionnaireId
-			questionnaireSharedId: $questionnaireSharedId
-		) {
-			... on QuestionnaireSurvey {
-				...SurveyFragment
-			}
-			... on QuestionnaireExam {
-				...ExamFragment
-			}
-			... on QuestionnaireQuiz {
-				...QuizFragment
-			}			
-		}
-	}
-`);

@@ -171,3 +171,47 @@ export const DELETE_QUESTIONNAIRES = gql(`
 		}
 	}
 `);
+
+export const FETCH_QUESTIONNAIRE = gql(`
+	query FetchQuestionnaire(
+		$questionnaireId: String 
+		$questionnaireSharedId: String
+	) {
+		adminFetchQuestionnaire(
+			questionnaireId: $questionnaireId
+			questionnaireSharedId: $questionnaireSharedId
+		) {
+			... on QuestionnaireSurvey {
+				...SurveyFragment
+			}
+			... on QuestionnaireExam {
+				...ExamFragment
+			}
+			... on QuestionnaireQuiz {
+				...QuizFragment
+			}			
+		}
+	}
+`);
+
+export const PUBLIC_FETCH_QUESTIONNAIRE = gql(`
+	query publicFetchQuestionnaire(
+		$questionnaireId: String 
+		$questionnaireSharedId: String
+	) {
+		publicFetchQuestionnaire(
+			questionnaireId: $questionnaireId
+			questionnaireSharedId: $questionnaireSharedId
+		) {
+			... on QuestionnaireSurvey {
+				...SurveyFragment
+			}
+			... on QuestionnaireExam {
+				...ExamFragment
+			}
+			... on QuestionnaireQuiz {
+				...QuizFragment
+			}			
+		}
+	}
+`);
