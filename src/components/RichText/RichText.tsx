@@ -24,7 +24,7 @@ import Text from '@tiptap/extension-text';
 import Underline from '@tiptap/extension-underline';
 import { useEditor } from '@tiptap/react';
 import { useEffect, useState } from 'react';
-import ImageResize from 'tiptap-extension-resize-image';
+import ImageExtension from './ImageExtension.ts';
 import styles from './RichText.module.scss';
 
 function InsertImageControl() {
@@ -94,7 +94,7 @@ export default function RichTextInput({
 			Underline,
 			Highlight,
 			Code,
-			ImageResize,
+			ImageExtension,
 			HardBreak.extend({
 				addKeyboardShortcuts() {
 					return {
