@@ -21,6 +21,7 @@ import ListItem from '@tiptap/extension-list-item';
 import Paragraph from '@tiptap/extension-paragraph';
 import Strike from '@tiptap/extension-strike';
 import Text from '@tiptap/extension-text';
+import TextAlign from '@tiptap/extension-text-align';
 import Underline from '@tiptap/extension-underline';
 import { useEditor } from '@tiptap/react';
 import { useEffect, useState } from 'react';
@@ -95,6 +96,9 @@ export default function RichTextInput({
 			Highlight,
 			Code,
 			ImageExtension,
+			TextAlign.configure({
+				types: ['heading', 'paragraph'],
+			}),
 			HardBreak.extend({
 				addKeyboardShortcuts() {
 					return {
@@ -138,6 +142,9 @@ export default function RichTextInput({
 							<RichTextEditor.Highlight />
 							<RichTextEditor.Code />
 							<RichTextEditor.BulletList />
+							<RichTextEditor.AlignLeft />
+							<RichTextEditor.AlignCenter />
+							<RichTextEditor.AlignRight />
 							<InsertImageControl />
 						</RichTextEditor.ControlsGroup>
 					</RichTextEditor.Toolbar>
