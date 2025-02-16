@@ -1,10 +1,9 @@
 import AccordionFormItem from '@components/Questionnaire/AccordionFormItem/AccordionFormItem.tsx';
-import RichTextInput from '@components/RichText/RichText';
-import { Checkbox, useMantineTheme } from '@mantine/core';
+import { Checkbox, Textarea, useMantineTheme } from '@mantine/core';
 import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
 import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 export interface IOptionProps {
 	id: string;
@@ -43,12 +42,13 @@ export default function OptionAccordionForm({
 	onStartEdit = () => {},
 	onFinishEdit = () => {},
 }: IOptionAccordionFormProps) {
+	console.log(optionProp);
 	const theme = useMantineTheme();
 	const form = useForm<IOptionProps>({
-		mode: 'controlled',
+		mode: 'uncontrolled',
 		initialValues: optionProp,
 		validate: {
-			title: hasLength({ min: 2, max: 255 }, 'Title must be 3-255 characters long'),
+			title: hasLength({ min: 3 }, 'Title must at least 3 characters long'),
 		},
 		validateInputOnBlur: true,
 	});
@@ -57,7 +57,7 @@ export default function OptionAccordionForm({
 	const getOption = (): IOptionProps => form.getValues();
 	const [feedbackEnabled, setFeedbackEnabled] = useState(!!getOption().feedbackAfterSubmit);
 
-	const handleChange = (e: unknown, item: keyof IOptionProps) => {
+	const handleChange = (e: ChangeEvent, item: keyof IOptionProps) => {
 		form.getInputProps(item).onChange(e);
 		setChanged(true);
 		onStartEdit(getOption());
@@ -65,7 +65,7 @@ export default function OptionAccordionForm({
 
 	const getInputProps = (item: keyof IOptionProps, inputType: GetInputPropsType = 'input') => ({
 		...form.getInputProps(item, { type: inputType }),
-		onChange: (e: unknown) => handleChange(e, item),
+		onChange: (e: ChangeEvent) => handleChange(e, item),
 	});
 
 	const closeItem = () => {
@@ -80,6 +80,7 @@ export default function OptionAccordionForm({
 
 	const saveItem = (): { preventClose?: boolean } => {
 		if (!form.validate().hasErrors) {
+			console.log('SAVING_OPTION: ', getOption());
 			onSave(getOption());
 			closeItem();
 			return { preventClose: false };
@@ -105,17 +106,17 @@ export default function OptionAccordionForm({
 			onClose={closeItem}
 			onDelete={deleteItem}
 		>
-			<RichTextInput
-				label="Description"
-				value={getOption().title}
-				onUpdate={(html) => {
-					getInputProps('title').onChange(html);
-				}}
-				inputProps={{
-					error: form.errors.title,
-					required: true,
-					inputWrapperOrder: ['label', 'error', 'input'],
-				}}
+			<Textarea
+				{...getInputProps('title')}
+				label="Option title"
+				required={!(method === 'ADD')}
+				minRows={2}
+				maxRows={3}
+				autosize
+				resize="vertical"
+				placeholder="The option title"
+				error={method === 'ADD' ? null : form.errors.title}
+				inputWrapperOrder={['label', 'error', 'input']}
 			/>
 			<div>
 				<Checkbox
@@ -126,15 +127,13 @@ export default function OptionAccordionForm({
 					label="Option feedback"
 				/>
 				{feedbackEnabled ? (
-					<RichTextInput
-						value={getOption().feedbackAfterSubmit}
-						onUpdate={(html) => {
-							getInputProps('feedbackAfterSubmit').onChange(html);
-						}}
-						inputProps={{
-							error: form.errors.feedbackAfterSubmit,
-							inputWrapperOrder: ['label', 'error', 'input'],
-						}}
+					<Textarea
+						{...getInputProps('feedbackAfterSubmit')}
+						label="Option feedback"
+						resize="vertical"
+						placeholder="Feedback for this option"
+						error={method === 'ADD' ? null : form.errors.feedbackAfterSubmit}
+						inputWrapperOrder={['label', 'error', 'input']}
 					/>
 				) : null}
 			</div>

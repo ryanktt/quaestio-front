@@ -2,7 +2,7 @@ import DragDropList from '@components/DragDropList/DragDropList';
 import DragDropItem from '@components/DragDropList/Draggable.tsx';
 import RichTextInput from '@components/RichText/RichText.tsx';
 import { QuestionType } from '@gened/graphql.ts';
-import { Badge, Box, Checkbox, Select, Title, useMantineTheme } from '@mantine/core';
+import { Badge, Box, Checkbox, Select, Textarea, Title, useMantineTheme } from '@mantine/core';
 import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
 import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
@@ -71,15 +71,16 @@ export default function QuestionAccordionForm({
 		mode: 'controlled',
 		initialValues: questionProp,
 		validate: {
-			description: hasLength({ min: 3, max: 255 }, 'Description must be 3-255 characters long'),
+			description: hasLength({ min: 3 }, 'Description must at least 3 characters long'),
 		},
 	});
-	const { type, rightAnswerFeedback, wrongAnswerFeedback } = form.getValues();
+	const { type, rightAnswerFeedback, wrongAnswerFeedback, feedbackAfterSubmit } = form.getValues();
 	const getQuestion = (): IQuestionProps => form.getValues();
 
 	const [isChanged, setChanged] = useState(false);
 	const [rightAnswerFeedbackEnabled, setRightAnswerFeedbackEnabled] = useState(!!rightAnswerFeedback);
 	const [wrongAnswerFeedbackEnabled, setWrongAnswerFeedbackEnabled] = useState(!!wrongAnswerFeedback);
+	const [textFeedbackEnabled, setTextFeedbackEnabled] = useState(!!feedbackAfterSubmit);
 	const [onEditOptionId, setOnEditOptionId] = useState<string | null>(null);
 
 	const getTypeByText = (val: (typeof typeValues)[number] | string | null) => {
@@ -126,7 +127,6 @@ export default function QuestionAccordionForm({
 		});
 
 		if (!foundOption) updatedOptions.push(upsertedOpt);
-
 		form.setFieldValue('options', updatedOptions);
 		setChanged(true);
 	};
@@ -261,16 +261,12 @@ export default function QuestionAccordionForm({
 							label="Correct answer feedback"
 						/>
 						{rightAnswerFeedbackEnabled ? (
-							<RichTextInput
-								editable={!!type}
-								value={getQuestion().rightAnswerFeedback}
-								onUpdate={(html) => {
-									getInputProps('rightAnswerFeedback').onChange(html);
-								}}
-								inputProps={{
-									error: validateInput ? form.errors.rightAnswerFeedback : null,
-									inputWrapperOrder: ['label', 'error', 'input'],
-								}}
+							<Textarea
+								{...getInputProps('rightAnswerFeedback')}
+								resize="vertical"
+								disabled={!type}
+								placeholder="Nice one!! :)"
+								inputWrapperOrder={['label', 'error', 'input']}
 							/>
 						) : null}
 					</div>
@@ -285,16 +281,12 @@ export default function QuestionAccordionForm({
 							label="Wrong answer feedback"
 						/>
 						{wrongAnswerFeedbackEnabled ? (
-							<RichTextInput
-								editable={!!type}
-								value={getQuestion().wrongAnswerFeedback}
-								onUpdate={(html) => {
-									getInputProps('wrongAnswerFeedback').onChange(html);
-								}}
-								inputProps={{
-									error: validateInput ? form.errors.wrongAnswerFeedback : null,
-									inputWrapperOrder: ['label', 'error', 'input'],
-								}}
+							<Textarea
+								{...getInputProps('wrongAnswerFeedback')}
+								resize="vertical"
+								disabled={!type}
+								placeholder="Too bad :("
+								inputWrapperOrder={['label', 'error', 'input']}
 							/>
 						) : null}
 					</div>
@@ -309,18 +301,26 @@ export default function QuestionAccordionForm({
 			) : null}
 
 			{type === QuestionType.Text ? (
-				<RichTextInput
-					editable={!!type}
-					label="Feedback after submit"
-					value={getQuestion().feedbackAfterSubmit}
-					onUpdate={(html) => {
-						getInputProps('feedbackAfterSubmit').onChange(html);
-					}}
-					inputProps={{
-						error: validateInput ? form.errors.feedbackAfterSubmit : null,
-						inputWrapperOrder: ['label', 'error', 'input'],
-					}}
-				/>
+				<div>
+					<Checkbox
+						color={theme.colors.indigo[6]}
+						onChange={(event) => setTextFeedbackEnabled(event.currentTarget.checked)}
+						checked={textFeedbackEnabled}
+						disabled={!type}
+						mb={5}
+						label="Feedback after submit"
+					/>
+					{textFeedbackEnabled ? (
+						<Textarea
+							{...getInputProps('feedbackAfterSubmit')}
+							resize="vertical"
+							disabled={!type}
+							placeholder="Hope you got it! The answer is..."
+							inputWrapperOrder={['label', 'error', 'input']}
+							label="Feedback after submit"
+						/>
+					) : null}
+				</div>
 			) : null}
 
 			<Checkbox

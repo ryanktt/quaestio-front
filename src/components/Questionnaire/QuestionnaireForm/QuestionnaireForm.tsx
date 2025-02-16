@@ -9,7 +9,7 @@ import { Button, Center, Checkbox, NumberInput, Select, TextInput, Title, useMan
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
 import moment from 'moment';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { EQuestionnaireType, IQuestionnaireFormProps } from './QuestionnaireForm.interface.ts';
 
 export default function QuestionnaireForm({
@@ -55,6 +55,7 @@ export default function QuestionnaireForm({
 			amount: minutes,
 		};
 	};
+
 	const [timeLimitInput, setTimeLimitInput] = useState(setTimeLimitInputInitialValues());
 
 	const updateTimeLimitInput = (params: { amount?: number; enabled?: boolean }) => {
@@ -90,7 +91,6 @@ export default function QuestionnaireForm({
 			return question;
 		});
 		if (!foundQuestion) updatedQuestions.push(newQuestion);
-
 		form.setFieldValue('questions', updatedQuestions);
 	};
 
@@ -105,21 +105,23 @@ export default function QuestionnaireForm({
 		}
 	};
 
-	const questionItems = form.getValues().questions.map((question, i) => (
-		<DragDropItem index={i} isDragDisabled={!!onEditQuestionId} key={question.id} draggableId={question.id}>
-			<QuestionAccordionForm
-				badge={`Question ${i + 1}`}
-				question={question}
-				draggable
-				onDelete={deleteQuestion}
-				onSave={setQuestion}
-				enableToolbarOptions={!onEditQuestionId}
-				setOpen={() => (onEditQuestionId ? onEditQuestionId === question.id : null)}
-				onStartEdit={(opt) => setOnEditQuestionId(opt.id)}
-				onFinishEdit={() => setOnEditQuestionId(null)}
-			/>
-		</DragDropItem>
-	));
+	const questionItems = useMemo(() => {
+		return form.getValues().questions.map((question, i) => (
+			<DragDropItem index={i} isDragDisabled={!!onEditQuestionId} key={question.id} draggableId={question.id}>
+				<QuestionAccordionForm
+					badge={`Question ${i + 1}`}
+					question={question}
+					draggable
+					onDelete={deleteQuestion}
+					onSave={setQuestion}
+					enableToolbarOptions={!onEditQuestionId}
+					setOpen={() => (onEditQuestionId ? onEditQuestionId === question.id : null)}
+					onStartEdit={(opt) => setOnEditQuestionId(opt.id)}
+					onFinishEdit={() => setOnEditQuestionId(null)}
+				/>
+			</DragDropItem>
+		));
+	}, [form.getValues()]);
 
 	return (
 		<div

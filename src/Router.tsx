@@ -6,6 +6,7 @@ import React, { useContext } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 const QuestionnaireList = React.lazy(() => import('@containers/Questionnaire/QuestionnaireList/QuestionnaireList'));
+const RespondQuestionnaire = React.lazy(() => import('@containers/Response/RespondQuestionnaire'));
 const CreateQuestionnaire = React.lazy(
 	() => import('@containers/Questionnaire/CreateQuestionnaire/CreateQuestionnaire'),
 );
@@ -15,7 +16,7 @@ const NotFound = React.lazy(() => import('@containers/NotFound/NotFound'));
 function Router() {
 	const { isLoggedIn } = useContext(GlobalContext).state.auth;
 
-	return isLoggedIn ? (
+	const byAuthRoutes = isLoggedIn ? (
 		<HomeAdmin>
 			<React.Suspense fallback={<Loader />}>
 				<Routes>
@@ -39,6 +40,13 @@ function Router() {
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</React.Suspense>
+	);
+
+	return (
+		<Routes>
+			<Route element={byAuthRoutes} path="/*" />
+			<Route path="/questionnaire/:sharedId" element={<RespondQuestionnaire />} />
+		</Routes>
 	);
 }
 
