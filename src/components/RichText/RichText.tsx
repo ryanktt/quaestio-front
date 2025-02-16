@@ -1,3 +1,4 @@
+/* eslint-disable react/no-this-in-sfc */
 import {
 	Button,
 	InputLabel,
@@ -9,10 +10,19 @@ import {
 } from '@mantine/core';
 import { RichTextEditor, useRichTextEditorContext } from '@mantine/tiptap';
 import { IconCheck, IconImageInPicture } from '@tabler/icons-react';
+import Bold from '@tiptap/extension-bold';
+import BulletList from '@tiptap/extension-bullet-list';
+import Code from '@tiptap/extension-code';
+import Document from '@tiptap/extension-document';
+import HardBreak from '@tiptap/extension-hard-break';
 import Highlight from '@tiptap/extension-highlight';
+import Italic from '@tiptap/extension-italic';
+import ListItem from '@tiptap/extension-list-item';
+import Paragraph from '@tiptap/extension-paragraph';
+import Strike from '@tiptap/extension-strike';
+import Text from '@tiptap/extension-text';
 import Underline from '@tiptap/extension-underline';
 import { useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
 import { useEffect, useState } from 'react';
 import ImageResize from 'tiptap-extension-resize-image';
 import styles from './RichText.module.scss';
@@ -72,13 +82,33 @@ export default function RichTextInput({
 	inputProps: InputWrapperProps;
 }) {
 	const editor = useEditor({
-		extensions: [StarterKit, Underline, Highlight, ImageResize],
+		extensions: [
+			Document,
+			Paragraph,
+			Text,
+			ListItem,
+			Bold,
+			Italic,
+			Strike,
+			BulletList,
+			Underline,
+			Highlight,
+			Code,
+			ImageResize,
+			HardBreak.extend({
+				addKeyboardShortcuts() {
+					return {
+						Enter: () => this.editor.commands.setHardBreak(),
+					};
+				},
+			}),
+		],
+
 		onUpdate: ({ editor: e }) => onUpdate(e.getHTML()),
 		content: value,
 	});
 
 	const theme = useMantineTheme();
-
 	useEffect(() => editor?.setOptions({ editable }), [editor, editable]);
 
 	return (
