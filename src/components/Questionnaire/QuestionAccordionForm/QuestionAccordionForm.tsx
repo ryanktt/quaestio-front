@@ -65,7 +65,6 @@ export default function QuestionAccordionForm({
 }: IQuestionAccordionFormProps) {
 	const theme = useMantineTheme();
 	const primaryColor = theme.colors.indigo[6];
-
 	const typeValues = ['Single Choice', 'Multiple Choice', 'True or False', 'Text'] as const;
 	const form = useForm<IQuestionProps>({
 		mode: 'controlled',
@@ -165,7 +164,6 @@ export default function QuestionAccordionForm({
 		if (eName === 'type') value = getTypeByText(String(e));
 
 		formInputProps.onChange(value);
-
 		setChanged(true);
 		onStartEdit(getQuestion());
 	};
@@ -177,11 +175,10 @@ export default function QuestionAccordionForm({
 
 	const closeItem = () => {
 		setChanged(false);
+		onFinishEdit(getQuestion());
 		if (method === 'ADD') {
 			form.setInitialValues({ ...initialProps, id: nanoid() });
 		}
-		form.reset();
-		onFinishEdit(getQuestion());
 	};
 
 	const saveItem = (): { preventClose?: boolean } => {
@@ -211,6 +208,7 @@ export default function QuestionAccordionForm({
 	return (
 		<AccordionFormItem
 			badge={badge}
+			key={getQuestion().id}
 			toolbarComponents={questionTypeBadge ? [questionTypeBadge] : undefined}
 			label={questionProp.description}
 			isEditing={isChanged}

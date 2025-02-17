@@ -52,6 +52,7 @@ export const buildQuestionsFormProps = (questions: QuestionTypes[]): IQuestionPr
 		if ('options' in question) {
 			options = buildOptionsFormProps(question.options);
 		}
+
 		return {
 			required: question.required,
 			id: question._id,
@@ -139,19 +140,18 @@ const buildUpdateQuestionsMethods = (
 	questionsProps: IQuestionProps[],
 	questionsPropsBeforeUpdate: IQuestionProps[],
 ): QuestionMethodInput[] => {
-	const questionPropsMap = new Map<string, IQuestionProps>();
+	const questionBeforeUpdatePropsMap = new Map<string, IQuestionProps>();
 	const unhandledQuestionIdSet = new Set<string>();
 
 	questionsPropsBeforeUpdate.forEach((qst) => {
-		questionPropsMap.set(qst.id, qst);
+		questionBeforeUpdatePropsMap.set(qst.id, qst);
 		unhandledQuestionIdSet.add(qst.id);
 	});
 
 	const upsertQuestionMethods = questionsProps
 		.map((question, i): QuestionMethodInput | null => {
-			const questionBeforeUpdate = questionPropsMap.get(question.id);
+			const questionBeforeUpdate = questionBeforeUpdatePropsMap.get(question.id);
 			unhandledQuestionIdSet.delete(question.id);
-
 			if (!questionBeforeUpdate) {
 				return addCreateQuestionMethod(question, i);
 			}

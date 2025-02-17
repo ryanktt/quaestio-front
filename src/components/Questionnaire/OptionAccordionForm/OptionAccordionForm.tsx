@@ -42,10 +42,9 @@ export default function OptionAccordionForm({
 	onStartEdit = () => {},
 	onFinishEdit = () => {},
 }: IOptionAccordionFormProps) {
-	console.log(optionProp);
 	const theme = useMantineTheme();
 	const form = useForm<IOptionProps>({
-		mode: 'uncontrolled',
+		mode: 'controlled',
 		initialValues: optionProp,
 		validate: {
 			title: hasLength({ min: 3 }, 'Title must at least 3 characters long'),
@@ -71,7 +70,6 @@ export default function OptionAccordionForm({
 	const closeItem = () => {
 		setChanged(false);
 		onFinishEdit(getOption());
-		form.reset();
 		if (method === 'ADD') {
 			form.setInitialValues({ ...initialProps, id: nanoid() });
 			form.reset();
@@ -80,7 +78,6 @@ export default function OptionAccordionForm({
 
 	const saveItem = (): { preventClose?: boolean } => {
 		if (!form.validate().hasErrors) {
-			console.log('SAVING_OPTION: ', getOption());
 			onSave(getOption());
 			closeItem();
 			return { preventClose: false };
@@ -94,7 +91,7 @@ export default function OptionAccordionForm({
 
 	return (
 		<AccordionFormItem
-			key={optionProp.id}
+			key={getOption().id}
 			badge={badge}
 			type="Option"
 			method={method}
