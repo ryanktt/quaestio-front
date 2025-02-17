@@ -5,7 +5,7 @@ import QuestionAccordionForm, {
 	IQuestionProps,
 } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import RichTextInput from '@components/RichText/RichText.tsx';
-import { Button, Center, Checkbox, NumberInput, Select, TextInput, Title, useMantineTheme } from '@mantine/core';
+import { Button, Center, Checkbox, NumberInput, rem, Select, TextInput, Title, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
 import moment from 'moment';
@@ -134,7 +134,7 @@ export default function QuestionnaireForm({
 				borderRadius: theme.radius.lg,
 			}}
 		>
-			<Title mb={theme.spacing.xl} size={24} fw={600} c={theme.colors.gray[8]}>
+			<Title mb={theme.spacing.xl} size={rem(24)} fw={600} c={theme.colors.gray[8]}>
 				{title}
 			</Title>
 
@@ -244,7 +244,7 @@ export default function QuestionnaireForm({
 					label="Require user name"
 				/>
 
-				<Title mt={theme.spacing.lg} size={18} fw={600} c={theme.colors.gray[8]}>
+				<Title mt={theme.spacing.lg} size={rem(18)} fw={600} c={theme.colors.gray[8]}>
 					Questions
 				</Title>
 

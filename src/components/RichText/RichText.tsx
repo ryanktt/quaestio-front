@@ -5,6 +5,7 @@ import {
 	InputWrapper,
 	InputWrapperProps,
 	Popover,
+	rem,
 	TextInput,
 	useMantineTheme,
 } from '@mantine/core';
@@ -55,7 +56,7 @@ function InsertImageControl() {
 					aria-label="Insert Image"
 					title="Insert Image"
 				>
-					<IconImageInPicture stroke={1.5} size={16} />
+					<IconImageInPicture stroke={1.5} size={rem(16)} />
 				</RichTextEditor.Control>
 			</Popover.Target>
 

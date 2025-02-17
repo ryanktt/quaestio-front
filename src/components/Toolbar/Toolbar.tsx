@@ -1,4 +1,4 @@
-import { Tooltip, UnstyledButton } from '@mantine/core';
+import { rem, Tooltip, UnstyledButton } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { IconFilePlus, IconHome2, IconList } from '@tabler/icons-react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -22,7 +22,7 @@ function ToolbarItem({ icon: Icon, label, active, onClick }: ToolbarNavProps) {
 		<div className={classes.item}>
 			<Tooltip label={label} position="top">
 				<UnstyledButton onClick={onClick} className={classes.itemIcon} data-active={active || undefined}>
-					<Icon size={20} stroke={2} />
+					<Icon size={rem(20)} stroke={2} />
 				</UnstyledButton>
 			</Tooltip>
 		</div>

@@ -1,6 +1,6 @@
 .list {
 	display: grid;
-	grid-template-columns: 100px 2fr 1fr 240px 0.5fr 0.5fr;
+	grid-template-columns: 0.65fr 2fr 0.5fr 0.9fr 0.5fr 0.5fr;
 	border: 1px solid $gray4;
 	border-radius: $radiusLg;
 	box-shadow: $shadowSm;
@@ -11,7 +11,7 @@
 	display: grid;
 	grid-template-columns: 1fr;
 	h5 {
-		font-size: 14px;
+		font-size: rem(14px);
 		font-weight: 600;
 	}
 	&:first-child {
@@ -26,7 +26,7 @@
 	&:last-child {
 		.columnItem:first-child {
 			h5 {
-				margin-right: 10px;
+				margin-right: em(10px);
 			}
 			border-top-right-radius: $radiusLg;
 		}
@@ -38,11 +38,11 @@
 }
 
 .columnItem {
-	height: 60px;
+	height: em(60px);
 	display: flex;
 	justify-content: start;
 	align-items: center;
-	border-top: 1px solid $gray4;
+	border-top: em(1px) solid $gray4;
 	min-width: 0;
 
 	&:first-child {
@@ -63,13 +63,13 @@
 	min-width: fit-content;
 	span {
 		margin: 0;
-		font-size: 10px;
+		font-size: rem(10px);
 		font-weight: 600;
 	}
 	&:before {
 		background-color: $pink6;
-		width: 7px;
-		height: 7px;
+		width: rem(7px);
+		height: rem(7px);
 	}
 }
 
@@ -84,7 +84,7 @@
 	background-color: transparent;
 	min-width: min-content;
 	border-radius: $radiusSm;
-	padding: 3px;
+	padding: rem(3px);
 	height: fit-content;
 	&:hover {
 		color: $indigo7;
@@ -106,7 +106,7 @@
 	}
 	p {
 		margin: 0;
-		font-size: 12px;
+		font-size: rem(12px);
 		color: $indigo7;
 	}
 	&:hover {

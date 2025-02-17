@@ -1,6 +1,6 @@
 import { DEBOUNCE_DELAY } from '@containers/Questionnaire/QuestionnaireList/QuestionnaireList';
 import { GlobalContext } from '@contexts/Global/Global.context';
-import { Box, Input } from '@mantine/core';
+import { Box, Input, rem } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +19,7 @@ export default function Search() {
 	return (
 		<div className={`${styles.search}`}>
 			<Box className={styles.icon}>
-				<IconSearch size={16} stroke={2} />
+				<IconSearch size={rem(16)} stroke={2} />
 			</Box>
 			<Input
 				onChange={(e) => handleSearchChange(e.target.value)}

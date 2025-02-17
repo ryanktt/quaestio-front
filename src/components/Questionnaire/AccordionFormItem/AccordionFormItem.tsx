@@ -1,4 +1,4 @@
-import { Badge, Button, Text, Tooltip, useMantineTheme } from '@mantine/core';
+import { Badge, Button, rem, Text, Tooltip, useMantineTheme } from '@mantine/core';
 import {
 	IconCheck,
 	IconChevronDown,
@@ -73,20 +73,20 @@ export default function AccordionFormItem({
 				<>
 					<Tooltip label="Cancel Changes ">
 						<Button onClick={closeItem} {...buttonStyleProps}>
-							<IconX size={18} />
+							<IconX size={rem(18)} />
 						</Button>
 					</Tooltip>
 
 					<Tooltip label="Save Changes">
 						<Button onClick={saveItem} {...buttonStyleProps}>
-							<IconCheck size={18} />
+							<IconCheck size={rem(18)} />
 						</Button>
 					</Tooltip>
 				</>
 			) : (
 				<Tooltip label="Hide">
 					<Button onClick={closeItem} {...buttonStyleProps}>
-						<IconChevronUp size={18} />
+						<IconChevronUp size={rem(18)} />
 					</Button>
 				</Tooltip>
 			);
@@ -95,7 +95,7 @@ export default function AccordionFormItem({
 			return (
 				<Tooltip label={`Add ${type}`}>
 					<Button onClick={() => setOpen(true)} disabled={!enableToolbarOptions} {...buttonStyleProps}>
-						<IconPlus size={18} />
+						<IconPlus size={rem(18)} />
 					</Button>
 				</Tooltip>
 			);
@@ -105,12 +105,12 @@ export default function AccordionFormItem({
 				<>
 					<Tooltip label={`Delete ${type}`}>
 						<Button onClick={onDelete} disabled={!enableToolbarOptions} {...buttonStyleProps}>
-							<IconTrash size={17} stroke={1.7} />
+							<IconTrash size={rem(17)} stroke={1.7} />
 						</Button>
 					</Tooltip>
 					<Tooltip label={`Show ${type}`}>
 						<Button onClick={() => setOpen(true)} disabled={!enableToolbarOptions} {...buttonStyleProps}>
-							<IconChevronDown size={18} />
+							<IconChevronDown size={rem(18)} />
 						</Button>
 					</Tooltip>
 				</>
@@ -125,7 +125,7 @@ export default function AccordionFormItem({
 				<div className={styles.toolbarContent}>
 					{method === 'EDIT' ? (
 						<div className={styles.dragIcon}>
-							<IconGripVertical size={18} stroke={1.5} />
+							<IconGripVertical size={rem(18)} stroke={1.5} />
 						</div>
 					) : null}
 					<Badge
@@ -136,7 +136,7 @@ export default function AccordionFormItem({
 						{badge}
 					</Badge>
 					{toolbarComponents.length ? (
-						<div style={{ margin: '0 10px', display: 'flex', alignItems: 'center' }}>
+						<div style={{ margin: '0 rem(10px)', display: 'flex', alignItems: 'center' }}>
 							{...toolbarComponents}
 						</div>
 					) : null}
