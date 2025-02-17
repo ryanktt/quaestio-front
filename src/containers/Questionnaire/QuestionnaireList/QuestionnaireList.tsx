@@ -25,7 +25,7 @@ function Header({ label, icon: Icon }: { label: string; icon?: typeof IconHome2 
 	return (
 		<Box display="flex" style={{ alignItems: 'center' }}>
 			<h5>{label}</h5>
-			{Icon ? <Icon style={{ marginLeft: '8px' }} size={rem(18)} /> : null}
+			{Icon ? <Icon style={{ marginLeft: rem(8), width: rem(10), height: rem(10) }} /> : null}
 		</Box>
 	);
 }
@@ -59,7 +59,7 @@ function Status({ active }: { active?: boolean }) {
 
 function Text({ children }: PropsWithChildren) {
 	return (
-		<MantineText size={rem(14)} m="xs">
+		<MantineText size="sm" m="xs">
 			{children}
 		</MantineText>
 	);
@@ -83,7 +83,7 @@ function Copy({ id }: { id: string }) {
 				onMouseLeave={() => setCopied(false)}
 				onClick={copyIdToClipboard}
 			>
-				<IconClipboard height={14} size={rem(14)} stroke={1.6} />
+				<IconClipboard style={{ width: rem(14), height: rem(14) }} stroke={1.6} />
 			</UnstyledButton>
 		</Tooltip>
 	);
@@ -97,7 +97,7 @@ function ID({ id }: { id: string }) {
 			<Copy id={id} />
 			<Tooltip label="Go to questionnaire">
 				<p className={`${styles.btn} ${styles.id}`} onClick={() => navigate(`/board/questionnaire/edit/${id}`)}>
-					<IconExternalLink size={rem(14)} stroke={1.6} />
+					<IconExternalLink style={{ width: rem(14), height: rem(14) }} stroke={1.6} />
 					<p>{id}</p>
 				</p>
 			</Tooltip>

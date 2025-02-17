@@ -1,7 +1,7 @@
-import { Center, Stack } from '@mantine/core';
-import { useContext } from 'react';
 import AlertItem from '@components/Alert/Alert';
 import { AlertContext } from '@contexts/Alert/Alert.context';
+import { Center, rem, Stack } from '@mantine/core';
+import { useContext } from 'react';
 
 export default function AlertStack() {
 	const { alerts } = useContext(AlertContext).state;
@@ -18,7 +18,7 @@ export default function AlertStack() {
 		>
 			<Stack
 				style={{
-					gap: '10px',
+					gap: rem(10),
 					width: 'max-content',
 					transition: 'ease-in-out 0.2s',
 					display: 'flex',

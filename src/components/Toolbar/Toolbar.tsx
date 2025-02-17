@@ -22,7 +22,7 @@ function ToolbarItem({ icon: Icon, label, active, onClick }: ToolbarNavProps) {
 		<div className={classes.item}>
 			<Tooltip label={label} position="top">
 				<UnstyledButton onClick={onClick} className={classes.itemIcon} data-active={active || undefined}>
-					<Icon size={rem(20)} stroke={2} />
+					<Icon style={{ width: rem(20), height: rem(20) }} stroke={2} />
 				</UnstyledButton>
 			</Tooltip>
 		</div>

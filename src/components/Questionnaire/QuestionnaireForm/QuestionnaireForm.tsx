@@ -244,7 +244,7 @@ export default function QuestionnaireForm({
 					label="Require user name"
 				/>
 
-				<Title mt={theme.spacing.lg} size={rem(18)} fw={600} c={theme.colors.gray[8]}>
+				<Title mt={theme.spacing.lg} size={18} fw={600} c={theme.colors.gray[8]}>
 					Questions
 				</Title>
 

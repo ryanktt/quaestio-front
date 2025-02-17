@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
+import { rem } from '@mantine/core';
 import { nanoid } from 'nanoid/non-secure';
 import ImageResize from 'tiptap-extension-resize-image';
 
@@ -67,7 +68,7 @@ const ImageExtension = ImageResize.extend({
 			resizer.style.alignItems = 'center';
 
 			const icon = document.createElement('span');
-			icon.style.padding = '5px';
+			icon.style.padding = rem(5);
 			icon.style.paddingBottom = '0';
 			icon.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
 			icon.style.border = '1px solid rgba(101, 101, 101, 0.8)';
@@ -85,7 +86,7 @@ const ImageExtension = ImageResize.extend({
 			controls.style.left = '50%';
 			controls.style.transform = 'translateX(-50%)';
 			controls.style.display = 'none'; // Hide initially
-			controls.style.gap = '5px';
+			controls.style.gap = rem(5);
 			controls.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
 			controls.style.border = '1px solid rgba(101, 101, 101, 0.8)';
 			controls.style.borderRadius = '5px';
@@ -96,8 +97,8 @@ const ImageExtension = ImageResize.extend({
 				button.style.border = 'none';
 				button.style.background = 'transparent';
 				button.style.cursor = 'pointer';
-				button.style.fontSize = '16px';
-				button.style.padding = '3px 6px';
+				button.style.fontSize = rem(16);
+				button.style.padding = `${rem(3)} ${rem(6)}`;
 				button.onclick = onClick;
 				return button;
 			};
@@ -153,7 +154,6 @@ const ImageExtension = ImageResize.extend({
 				const newWidthPx = event.clientX - wrapper.getBoundingClientRect().left;
 				let newWidthPercent = (newWidthPx / editor.view.dom.clientWidth) * 100;
 				if (newWidthPercent < 25) newWidthPercent = 25;
-				if (newWidthPercent > 100) newWidthPercent = 100;
 
 				const newWidthString = `${newWidthPercent}%`;
 				container.style.width = newWidthString;

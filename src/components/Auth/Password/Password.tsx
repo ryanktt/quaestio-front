@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-nested-ternary */
 import { AuthModalContext } from '@contexts/AuthModal.context';
-import { Box, Center, Group, PasswordInput, Progress, rem, Text } from '@mantine/core';
+import { Box, Center, Group, PasswordInput, Progress, Text } from '@mantine/core';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { ChangeEvent, useContext, useEffect, useState } from 'react';
 
@@ -82,7 +82,7 @@ export default function Password({ onPasswordChange, comfirmPassword = false }: 
 				styles={{ section: { transitionDuration: '50ms' } }}
 				value={confirmPass.length > 0 && index === 0 ? 100 : strength >= ((index + 1) / 4) * 100 ? 100 : 0}
 				color={strength > 80 ? 'teal' : strength > 50 ? 'yellow' : 'red'}
-				size={rem(4)}
+				size={4}
 			/>
 		));
 
