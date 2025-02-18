@@ -20,13 +20,13 @@ export default function Layout({ children }: PropsWithChildren) {
 	const getBackgroudColor = () => {
 		const path = location.pathname;
 		if (path.startsWith('/questionnaire/')) {
-			return `linear-gradient(50deg, ${theme.colors.indigo[8]} 0%, ${theme.colors.violet[7]} 100%)`;
+			return `linear-gradient(50deg, ${theme.colors.indigo[8]} 0%, ${theme.colors.violet[8]} 100%)`;
 		}
 		return 'gray.0';
 	};
 
 	return (
-		<Box bg={getBackgroudColor()}>
+		<Box bg={getBackgroudColor()} h="100%" p={`${theme.spacing.lg} 0`}>
 			<AlertStack />
 			{children}
 			<Footer />

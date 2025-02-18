@@ -15,7 +15,7 @@ export default function RespondQuestionnaire() {
 	});
 
 	return (
-		<Container display="flex" mih={700} p={15}>
+		<Container display="flex" mih={700} p={15} size="48rem">
 			<ResponseForm
 				questionnaireProps={buildQuestionnaireFormProps(
 					fetchQuestRes.publicFetchQuestionnaire as QuestionnaireTypes,

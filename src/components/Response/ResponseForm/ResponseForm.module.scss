@@ -1,0 +1,59 @@
+.box {
+	padding: $spacingMd;
+	box-shadow: $shadowMd;
+	width: 100%;
+	background: $white;
+	border: 1px solid $gray4;
+	border-radius: $radiusLg;
+
+	p {
+		color: $gray8;
+		font-size: rem(16px);
+		font-weight: 500;
+	}
+}
+
+.box.question {
+	textarea {
+		border-radius: $radiusMd;
+		border-color: $violet2;
+	}
+}
+
+.box.option {
+	// border-color: $violet1;
+	background: $indigo6;
+	padding: $spacingSm;
+	p {
+		color: $white;
+	}
+	display: flex;
+	gap: $spacingMd;
+	box-shadow: none;
+	align-items: center;
+	border-radius: $radiusLg;
+}
+
+.title {
+	font-size: rem(20px);
+	font-weight: 500;
+	color: $gray9;
+	margin-bottom: $spacingMd;
+}
+
+.checkbox {
+	input {
+		// border: 1px solid $violet1;
+	}
+	input:checked {
+		border: 1px solid $violet4;
+		background-color: $white;
+	}
+	input:checked + svg {
+		color: $violet4;
+	}
+
+	label {
+		color: $white !important;
+	}
+}
