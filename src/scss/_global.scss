@@ -24,10 +24,6 @@ html {
 input,
 textarea {
 	font-weight: 500;
-
-	&:focus {
-		border-color: $indigo7;
-	}
 }
 
 input,
