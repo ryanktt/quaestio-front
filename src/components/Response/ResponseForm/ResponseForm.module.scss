@@ -21,7 +21,7 @@
 }
 
 .box.option {
-	// border-color: $violet1;
+	border: 0px solid;
 	background: $indigo6;
 	padding: $spacingSm;
 	p {
@@ -43,14 +43,15 @@
 
 .checkbox {
 	input {
-		// border: 1px solid $violet1;
+		border-radius: $radiusMd;
 	}
 	input:checked {
-		border: 1px solid $violet4;
 		background-color: $white;
 	}
 	input:checked + svg {
-		color: $violet4;
+		width: rem(10);
+		height: rem(10);
+		color: $indigo6;
 	}
 
 	label {

@@ -1,9 +1,12 @@
+/* eslint-disable func-names */
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-danger */
 import { IQuestionProps } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import { QuestionType } from '@gened/graphql.ts';
-import { Badge, Box, Checkbox, Textarea, useMantineTheme } from '@mantine/core';
+import { Badge, Box, Checkbox, CheckboxProps, Textarea, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { useForm } from '@mantine/form';
+import { IconCircleFilled } from '@tabler/icons-react';
 import { createMarkup } from '@utils/html';
 import styles from './ResponseForm.module.scss';
 
@@ -13,6 +16,10 @@ export interface IQuestionResponseFormProps {
 	text: string;
 	questionId: string;
 }
+
+const CheckboxIcon: CheckboxProps['icon'] = function ({ indeterminate, ...others }) {
+	return indeterminate ? <IconCircleFilled {...others} /> : <IconCircleFilled {...others} />;
+};
 
 export default function QuestionResponseForm({
 	onChange,
@@ -36,7 +43,7 @@ export default function QuestionResponseForm({
 
 	const optionInputs = questionProps.options.map((option) => (
 		<Box className={`${styles.box} ${styles.option}`} key={option.id}>
-			<Checkbox className={styles.checkbox} label={option.title} />
+			<Checkbox icon={CheckboxIcon} className={styles.checkbox} label={option.title} />
 		</Box>
 	));
 
