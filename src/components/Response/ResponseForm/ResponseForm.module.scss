@@ -1,3 +1,10 @@
+:root {
+	--response-option-bg: #{$indigo6};
+	--response-checked-icon: #{$indigo6};
+	--response-input-bg: #{$indigo0};
+	--response-input-border: #{$indigo6};
+}
+
 .box {
 	padding: $spacingMd;
 	box-shadow: $shadowMd;
@@ -11,18 +18,24 @@
 		font-size: rem(16px);
 		font-weight: 500;
 	}
+	input,
+	textarea {
+		background-color: var(--response-input-bg);
+		&:focus {
+			border-color: var(--response-input-border);
+		}
+	}
 }
 
 .box.question {
 	textarea {
 		border-radius: $radiusMd;
-		border-color: $violet2;
 	}
 }
 
 .box.option {
 	border: 0px solid;
-	background: $indigo6;
+	background: var(--response-option-bg);
 	padding: $spacingSm;
 	p {
 		color: $white;
@@ -34,6 +47,12 @@
 	border-radius: $radiusLg;
 }
 
+.box.submit {
+	display: flex;
+	flex-direction: column;
+	gap: rem(10px);
+}
+
 .title {
 	font-size: rem(20px);
 	font-weight: 500;
@@ -42,6 +61,10 @@
 }
 
 .checkbox {
+	display: flex;
+	div {
+		align-self: center;
+	}
 	input {
 		border-radius: $radiusMd;
 	}
@@ -51,7 +74,7 @@
 	input:checked + svg {
 		width: rem(10);
 		height: rem(10);
-		color: $indigo6;
+		color: var(--response-checked-icon);
 	}
 
 	label {

@@ -7,6 +7,7 @@ import { Badge, Box, Checkbox, CheckboxProps, Textarea, useMantineTheme } from '
 import '@mantine/core/styles.css';
 import { useForm } from '@mantine/form';
 import { IconCircleFilled } from '@tabler/icons-react';
+import { colorSchemes, IColorSchemes } from '@utils/color';
 import { createMarkup } from '@utils/html';
 import styles from './ResponseForm.module.scss';
 
@@ -25,12 +26,15 @@ export default function QuestionResponseForm({
 	onChange,
 	questionProps,
 	questionIndex,
+	colorScheme,
 }: {
 	onChange: (p: IQuestionResponseFormProps) => Promise<void>;
 	questionProps: IQuestionProps;
 	questionIndex: number;
+	colorScheme: IColorSchemes;
 }) {
 	const theme = useMantineTheme();
+	const [primaryColor] = colorSchemes[colorScheme];
 	const form = useForm<IQuestionResponseFormProps>({
 		mode: 'controlled',
 		initialValues: {
@@ -48,8 +52,8 @@ export default function QuestionResponseForm({
 	));
 
 	return (
-		<form
-			onChange={form.onSubmit(onChange)}
+		<div
+			// onChange={form.onSubmit(onChange)}
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -58,13 +62,22 @@ export default function QuestionResponseForm({
 			}}
 		>
 			<Box className={`${styles.box} ${styles.question}`}>
-				<Badge size="md">Q.{questionIndex + 1}</Badge>
+				<Badge color={theme.colors[primaryColor][6]} size="md">
+					Q.{questionIndex + 1}
+				</Badge>
 				<div dangerouslySetInnerHTML={createMarkup(questionProps.description)} />
-				{questionProps.type === QuestionType.Text ? <Textarea autosize minRows={3} /> : null}
+				{questionProps.type === QuestionType.Text ? (
+					<Textarea
+						color={theme.colors[primaryColor][6]}
+						c={theme.colors[primaryColor][6]}
+						autosize
+						minRows={3}
+					/>
+				) : null}
 				<Box display="flex" style={{ flexDirection: 'column', gap: theme.spacing.sm }}>
 					{...optionInputs}
 				</Box>
 			</Box>
-		</form>
+		</div>
 	);
 }
