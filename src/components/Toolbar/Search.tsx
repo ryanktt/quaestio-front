@@ -19,7 +19,7 @@ export default function Search() {
 	return (
 		<div className={`${styles.search}`}>
 			<Box className={styles.icon}>
-				<IconSearch style={{ height: rem(16) }} stroke={2} />
+				<IconSearch style={{ height: rem(16), width: rem(16) }} stroke={2} />
 			</Box>
 			<Input
 				onChange={(e) => handleSearchChange(e.target.value)}
