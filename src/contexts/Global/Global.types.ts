@@ -1,4 +1,5 @@
 import { Admin, Session, SignInMutation, SignUpMutation } from '@gened/graphql';
+import { IColorSchemes } from '@utils/color';
 
 export type ISession = Omit<Session, 'user'>;
 export type IAdmin = Omit<Admin, 'self'>;
@@ -11,6 +12,7 @@ export interface IGlobalState {
 		token?: string;
 		session?: ISession;
 	};
+	layout: { responseColorScheme?: IColorSchemes };
 	theme: {
 		light: boolean;
 	};
@@ -21,6 +23,7 @@ export interface IGlobalState {
 	setLightMode: () => void;
 	setDarkMode: () => void;
 	setSearchStr: (str: string) => void;
+	setResponseColorScheme: (str: IColorSchemes) => void;
 }
 
 export interface ILogoutAction {
@@ -46,4 +49,15 @@ export interface ISearchAction {
 	searchStr: string;
 }
 
-export type IGlobalAction = ILogoutAction | ILoginAction | IDarkModeAction | ILightModeAction | ISearchAction;
+export interface ILayoutAction {
+	type: 'LAYOUT';
+	layout: IGlobalState['layout'];
+}
+
+export type IGlobalAction =
+	| ILogoutAction
+	| ILoginAction
+	| IDarkModeAction
+	| ILightModeAction
+	| ISearchAction
+	| ILayoutAction;

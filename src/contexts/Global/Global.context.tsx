@@ -1,3 +1,4 @@
+import { IColorSchemes } from '@utils/color.ts';
 import { Dispatch, PropsWithChildren, createContext, useEffect, useMemo, useReducer } from 'react';
 import { CookiesProvider, useCookies } from 'react-cookie';
 import globalReducer from './Global.reducer.ts';
@@ -6,6 +7,7 @@ import { IAdmin, IAuthData, IGlobalAction, IGlobalState, ISession } from './Glob
 const initialGlobalState = {
 	auth: { isLoggedIn: false },
 	theme: { light: true },
+	layout: {},
 	alerts: [],
 	searchStr: '',
 	login: () => {},
@@ -13,6 +15,7 @@ const initialGlobalState = {
 	setLightMode: () => {},
 	setDarkMode: () => {},
 	setSearchStr: () => {},
+	setResponseColorScheme: () => {},
 };
 
 export const GlobalContext = createContext<{
@@ -54,6 +57,9 @@ export default function GlobalContextProvider({ children }: PropsWithChildren & 
 				},
 				setSearchStr: (searchStr: string) => {
 					dispatch({ type: 'SEARCH', searchStr });
+				},
+				setResponseColorScheme: (colorScheme: IColorSchemes) => {
+					dispatch({ type: 'LAYOUT', layout: { responseColorScheme: colorScheme } });
 				},
 			},
 		}),

@@ -1,14 +1,17 @@
 import AlertStack from '@components/AlertStack/AlertStack.tsx';
 import AuthModal from '@components/AuthModal/AuthModal.tsx';
 import Footer from '@components/Footer/Footer.tsx';
-import { Badge, Box, Button, useMantineTheme } from '@mantine/core';
+import { GlobalContext } from '@contexts/Global/Global.context';
+import { Badge, Box, Button, getGradient, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { PropsWithChildren } from 'react';
+import { colorSchemes } from '@utils/color';
+import { PropsWithChildren, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import badgeStyles from './LayoutStyles/Badge.module.scss';
 import buttonStyles from './LayoutStyles/Button.module.scss';
 
 export default function Layout({ children }: PropsWithChildren) {
+	const { responseColorScheme } = useContext(GlobalContext).state.layout;
 	const location = useLocation();
 	const theme = useMantineTheme();
 
@@ -17,16 +20,19 @@ export default function Layout({ children }: PropsWithChildren) {
 		Badge: Badge.extend({ classNames: badgeStyles }),
 	};
 
-	const getBackgroudColor = () => {
-		const path = location.pathname;
-		if (path.startsWith('/questionnaire/')) {
-			return `linear-gradient(50deg, ${theme.colors.indigo[8]} 0%, ${theme.colors.violet[8]} 100%)`;
-		}
-		return 'gray.0';
-	};
+	const isResponseScreen = location.pathname.startsWith('/questionnaire/');
+
+	let backgroundColor = theme.colors.gray[1];
+	if (isResponseScreen && responseColorScheme) {
+		const [primaryColor, secondaryColor] = colorSchemes[responseColorScheme];
+		backgroundColor = getGradient(
+			{ deg: 30, from: theme.colors[primaryColor][7], to: theme.colors[secondaryColor][7] },
+			theme,
+		);
+	}
 
 	return (
-		<Box bg={getBackgroudColor()} h="100%" p={`${theme.spacing.lg} 0`}>
+		<Box h="100%" p={`${theme.spacing.lg} 0`} style={{ background: backgroundColor }}>
 			<AlertStack />
 			{children}
 			<Footer />
