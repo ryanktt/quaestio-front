@@ -5,7 +5,7 @@ import { GlobalContext } from '@contexts/Global/Global.context';
 import { Badge, Box, Button, getGradient, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { colorSchemes } from '@utils/color';
-import { PropsWithChildren, useContext } from 'react';
+import { PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import badgeStyles from './LayoutStyles/Badge.module.scss';
 import buttonStyles from './LayoutStyles/Button.module.scss';
@@ -20,16 +20,20 @@ export default function Layout({ children }: PropsWithChildren) {
 		Badge: Badge.extend({ classNames: badgeStyles }),
 	};
 
-	const isResponseScreen = location.pathname.startsWith('/questionnaire/');
+	const [backgroundColor, setBackgroundColor] = useState(theme.colors.gray[1]);
 
-	let backgroundColor = theme.colors.gray[1];
-	if (isResponseScreen && responseColorScheme) {
-		const [primaryColor, secondaryColor] = colorSchemes[responseColorScheme];
-		backgroundColor = getGradient(
-			{ deg: 30, from: theme.colors[primaryColor][7], to: theme.colors[secondaryColor][7] },
-			theme,
-		);
-	}
+	useEffect(() => {
+		const isResponseScreen = location.pathname.startsWith('/questionnaire/');
+		if (isResponseScreen && responseColorScheme) {
+			const [primaryColor, secondaryColor] = colorSchemes[responseColorScheme];
+			setBackgroundColor(
+				getGradient(
+					{ deg: 30, from: theme.colors[primaryColor][7], to: theme.colors[secondaryColor][7] },
+					theme,
+				),
+			);
+		}
+	}, [responseColorScheme]);
 
 	return (
 		<Box h="100%" p={`${theme.spacing.lg} 0`} style={{ background: backgroundColor }}>
