@@ -1,13 +1,15 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable react/prop-types */
+import { IQuestionProps } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import { IQuestionnaireFormProps } from '@components/Questionnaire/QuestionnaireForm/QuestionnaireForm.interface.ts';
 import { Box, Button, getGradient, TextInput, Title, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { useForm } from '@mantine/form';
 import { colorSchemes, IColorSchemes } from '@utils/color.ts';
 import { createMarkup } from '@utils/html.ts';
-import { useEffect } from 'react';
-import QuestionResponseForm from './QuestionResponseForm.tsx';
+import _ from 'lodash';
+import { useEffect, useState } from 'react';
+import QuestionResponseForm, { IQuestionResponseProps } from './QuestionResponseForm.tsx';
 import { IResponseFormProps } from './ResponseForm.interface.ts';
 import styles from './ResponseForm.module.scss';
 
@@ -21,7 +23,7 @@ export default function ResponseForm({
 	colorScheme?: IColorSchemes;
 }) {
 	const {
-		// randomizeQuestions,
+		randomizeQuestions,
 		// maxRetryAmount,
 		// requireEmail,
 		description,
@@ -49,22 +51,39 @@ export default function ResponseForm({
 
 	const form = useForm<IResponseFormProps>({
 		mode: 'controlled',
-
 		initialValues: {
 			name: '',
 			email: '',
+			questionResponses: [],
 		},
 	});
 
-	const questionInputs = questions.map((questionProps, i) => (
+	const getResponse = () => form.getValues();
+
+	const setQuestionResponse = (response: IQuestionResponseProps) => {
+		const updatedResponses = [...getResponse().questionResponses];
+		const foundIndex = updatedResponses.findIndex((r) => r.questionId === response.questionId);
+		updatedResponses[foundIndex] = response;
+
+		form.setFieldValue('questionResponses', updatedResponses);
+	};
+
+	const getQuestionInputs = (questionProps: IQuestionProps, i: number) => (
 		<QuestionResponseForm
 			colorScheme={colorScheme}
 			questionIndex={i}
 			questionProps={questionProps}
 			key={questionProps.id}
-			onChange={() => {}}
+			onChange={setQuestionResponse}
 		/>
-	));
+	);
+
+	const [questionProps, setQuestionProps] = useState<IQuestionProps[]>([]);
+
+	useEffect(() => {
+		if (randomizeQuestions) setQuestionProps(_.shuffle(questions));
+		else setQuestionProps(questions);
+	}, []);
 
 	return (
 		<form
@@ -81,10 +100,10 @@ export default function ResponseForm({
 				<div dangerouslySetInnerHTML={createMarkup(description)} />
 			</Box>
 
-			{...questionInputs}
+			{...questionProps.map(getQuestionInputs)}
 			<Box className={`${styles.box} ${styles.submit}`}>
-				<TextInput label="Name" />
-				<TextInput label="Email" />
+				<TextInput {...form.getInputProps('name')} label="Name" required={questionnaireProps.requireEmail} />
+				<TextInput {...form.getInputProps('email')} label="Email" required={questionnaireProps.requireName} />
 				<Button mt={theme.spacing.md} style={{ background: gradient }}>
 					Submit
 				</Button>

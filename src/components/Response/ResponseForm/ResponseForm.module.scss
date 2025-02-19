@@ -81,3 +81,41 @@
 		color: $white !important;
 	}
 }
+
+.option.true,
+.option.false {
+	width: 100%;
+}
+
+.option.true {
+	background-color: $teal6;
+	.checkbox {
+		input {
+			background-color: $teal0;
+			border-radius: $radiusMd;
+		}
+		input:checked + svg {
+			color: $teal6;
+		}
+		input:focus,
+		input:checked {
+			border: 1px solid $teal7;
+		}
+	}
+}
+.option.false {
+	background-color: $pink6;
+	.checkbox {
+		input {
+			background-color: $pink0;
+			border-radius: $radiusMd;
+		}
+		input:checked + svg {
+			color: $pink6;
+		}
+		input:focus,
+		input:checked {
+			border: 1px solid $pink7;
+		}
+	}
+}

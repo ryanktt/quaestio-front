@@ -138,6 +138,7 @@ export const EXAM_FRAGMENT = gql(`
         title
         description
         active
+        randomizeQuestions
         questions {
             ... on QuestionSingleChoice {
                 ...QuestionSingleChoiceFragment

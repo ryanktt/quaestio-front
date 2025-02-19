@@ -1,18 +1,20 @@
 /* eslint-disable func-names */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-danger */
+import { IOptionProps } from '@components/Questionnaire/OptionAccordionForm/OptionAccordionForm';
 import { IQuestionProps } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import { QuestionType } from '@gened/graphql.ts';
 import { Badge, Box, Checkbox, CheckboxProps, Textarea, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { useForm } from '@mantine/form';
 import { IconCircleFilled } from '@tabler/icons-react';
 import { colorSchemes, IColorSchemes } from '@utils/color';
 import { createMarkup } from '@utils/html';
+import _ from 'lodash';
+import { useEffect, useState } from 'react';
 import styles from './ResponseForm.module.scss';
 
-export interface IQuestionResponseFormProps {
-	type: QuestionType | null;
+export interface IQuestionResponseProps {
+	type: QuestionType;
 	selectedOptionIds: string[];
 	text: string;
 	questionId: string;
@@ -28,32 +30,79 @@ export default function QuestionResponseForm({
 	questionIndex,
 	colorScheme,
 }: {
-	onChange: (p: IQuestionResponseFormProps) => Promise<void>;
+	onChange: (p: IQuestionResponseProps) => void;
 	questionProps: IQuestionProps;
 	questionIndex: number;
 	colorScheme: IColorSchemes;
 }) {
 	const theme = useMantineTheme();
 	const [primaryColor] = colorSchemes[colorScheme];
-	const form = useForm<IQuestionResponseFormProps>({
-		mode: 'controlled',
-		initialValues: {
-			type: questionProps.type,
-			questionId: questionProps.id,
-			selectedOptionIds: [],
-			text: '',
-		},
+
+	const [optionProps, setOptionProps] = useState<IOptionProps[]>([]);
+
+	useEffect(() => {
+		if (questionProps.randomizeOptions) setOptionProps(_.shuffle(questionProps.options));
+		else setOptionProps(questionProps.options);
+	}, []);
+
+	const [state, setState] = useState<IQuestionResponseProps>({
+		type: questionProps.type as QuestionType,
+		questionId: questionProps.id,
+		selectedOptionIds: [],
+		text: '',
 	});
 
-	const optionInputs = questionProps.options.map((option) => (
-		<Box className={`${styles.box} ${styles.option}`} key={option.id}>
-			<Checkbox icon={CheckboxIcon} className={styles.checkbox} label={option.title} />
-		</Box>
-	));
+	useEffect(() => {
+		onChange(state);
+	}, [state]);
+
+	const toggleSelectOption = (selected: boolean, optionId: string) => {
+		let updatedSelectedOptIds = [];
+		if (selected) {
+			if (questionProps.type === QuestionType.SingleChoice || questionProps.type === QuestionType.TrueOrFalse) {
+				updatedSelectedOptIds = [optionId];
+			} else {
+				updatedSelectedOptIds = [...state.selectedOptionIds, optionId];
+			}
+		} else {
+			updatedSelectedOptIds = state.selectedOptionIds.filter((id) => optionId !== id);
+		}
+		setState({ ...state, selectedOptionIds: updatedSelectedOptIds });
+	};
+
+	const getOptionInput = (option: IOptionProps) => {
+		if (questionProps.type === QuestionType.TrueOrFalse) {
+			return (
+				<Box
+					className={`${styles.box} ${styles.option} ${option.correct ? styles.true : styles.false}`}
+					key={option.id}
+				>
+					<Checkbox
+						onChange={(e) => toggleSelectOption(e.target.checked, option.id)}
+						checked={!!state.selectedOptionIds.find((id) => id === option.id)}
+						icon={CheckboxIcon}
+						className={styles.checkbox}
+						label={option.correct ? 'True' : 'False'}
+					/>
+				</Box>
+			);
+		}
+
+		return (
+			<Box className={`${styles.box} ${styles.option}`} key={option.id}>
+				<Checkbox
+					onChange={(e) => toggleSelectOption(e.target.checked, option.id)}
+					checked={!!state.selectedOptionIds.find((id) => id === option.id)}
+					icon={CheckboxIcon}
+					className={styles.checkbox}
+					label={option.title}
+				/>
+			</Box>
+		);
+	};
 
 	return (
 		<div
-			// onChange={form.onSubmit(onChange)}
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -70,12 +119,20 @@ export default function QuestionResponseForm({
 					<Textarea
 						color={theme.colors[primaryColor][6]}
 						c={theme.colors[primaryColor][6]}
+						required={questionProps.required}
+						onChange={(e) => setState({ ...state, text: e.target.value })}
 						autosize
 						minRows={3}
 					/>
 				) : null}
-				<Box display="flex" style={{ flexDirection: 'column', gap: theme.spacing.sm }}>
-					{...optionInputs}
+				<Box
+					style={{
+						display: 'flex',
+						...(questionProps.type !== QuestionType.TrueOrFalse ? { flexDirection: 'column' } : {}),
+						gap: theme.spacing.sm,
+					}}
+				>
+					{...optionProps.map(getOptionInput)}
 				</Box>
 			</Box>
 		</div>
