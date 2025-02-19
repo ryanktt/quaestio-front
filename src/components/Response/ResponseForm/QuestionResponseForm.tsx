@@ -17,6 +17,7 @@ export interface IQuestionResponseProps {
 	type: QuestionType;
 	selectedOptionIds: string[];
 	text: string;
+	answeredAt?: Date;
 	questionId: string;
 }
 
@@ -53,7 +54,7 @@ export default function QuestionResponseForm({
 	});
 
 	useEffect(() => {
-		onChange(state);
+		onChange({ ...state, answeredAt: new Date() });
 	}, [state]);
 
 	const toggleSelectOption = (selected: boolean, optionId: string) => {

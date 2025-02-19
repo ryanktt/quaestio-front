@@ -22,17 +22,7 @@ export default function ResponseForm({
 	questionnaireProps: IQuestionnaireFormProps;
 	colorScheme?: IColorSchemes;
 }) {
-	const {
-		randomizeQuestions,
-		// maxRetryAmount,
-		// requireEmail,
-		description,
-		// requireName,
-		questions,
-		// timeLimit,
-		title,
-		// type,
-	} = questionnaireProps;
+	const { randomizeQuestions, requireEmail, description, requireName, questions, title } = questionnaireProps;
 
 	const theme = useMantineTheme();
 	const [primaryColor, secondaryColor] = colorSchemes[colorScheme];
@@ -42,7 +32,7 @@ export default function ResponseForm({
 		document.documentElement.style.setProperty('--response-checked-icon', theme.colors[primaryColor][6]);
 		document.documentElement.style.setProperty('--response-input-bg', theme.colors[primaryColor][0]);
 		document.documentElement.style.setProperty('--response-input-border', theme.colors[primaryColor][6]);
-	}, []);
+	}, [colorScheme]);
 
 	const gradient = getGradient(
 		{ deg: 30, from: theme.colors[primaryColor][6], to: theme.colors[secondaryColor][6] },
@@ -55,15 +45,22 @@ export default function ResponseForm({
 			name: '',
 			email: '',
 			questionResponses: [],
+			startedAt: new Date(),
+			completedAt: new Date(),
 		},
 	});
+
+	useEffect(() => {
+		form.setFieldValue('startedAt', new Date());
+	}, []);
 
 	const getResponse = () => form.getValues();
 
 	const setQuestionResponse = (response: IQuestionResponseProps) => {
 		const updatedResponses = [...getResponse().questionResponses];
 		const foundIndex = updatedResponses.findIndex((r) => r.questionId === response.questionId);
-		updatedResponses[foundIndex] = response;
+		if (foundIndex !== -1) updatedResponses[foundIndex] = response;
+		else updatedResponses.push(response);
 
 		form.setFieldValue('questionResponses', updatedResponses);
 	};
@@ -85,6 +82,13 @@ export default function ResponseForm({
 		else setQuestionProps(questions);
 	}, []);
 
+	const handleSubmit = () => {
+		form.setFieldValue('completedAt', new Date());
+		if (!form.validate().hasErrors) {
+			form.onSubmit(onSubmit);
+		}
+	};
+
 	return (
 		<form
 			onSubmit={form.onSubmit(onSubmit)}
@@ -101,10 +105,11 @@ export default function ResponseForm({
 			</Box>
 
 			{...questionProps.map(getQuestionInputs)}
+
 			<Box className={`${styles.box} ${styles.submit}`}>
-				<TextInput {...form.getInputProps('name')} label="Name" required={questionnaireProps.requireEmail} />
-				<TextInput {...form.getInputProps('email')} label="Email" required={questionnaireProps.requireName} />
-				<Button mt={theme.spacing.md} style={{ background: gradient }}>
+				<TextInput {...form.getInputProps('name')} label="Name" required={requireEmail} />
+				<TextInput {...form.getInputProps('email')} label="Email" required={requireName} />
+				<Button type="submit" onSubmit={handleSubmit} mt={theme.spacing.md} style={{ background: gradient }}>
 					Submit
 				</Button>
 			</Box>
