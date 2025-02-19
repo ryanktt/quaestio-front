@@ -166,6 +166,8 @@ export type Mutation = {
 
 
 export type MutationAdminCreateQuestionnaireExamArgs = {
+  bgColor?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   maxRetryAmount?: InputMaybe<Scalars['Int']['input']>;
   passingGradePercent?: InputMaybe<Scalars['Float']['input']>;
@@ -179,6 +181,8 @@ export type MutationAdminCreateQuestionnaireExamArgs = {
 
 
 export type MutationAdminCreateQuestionnaireQuizArgs = {
+  bgColor?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   questions: Array<QuestionDiscriminatorInput>;
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
@@ -188,6 +192,8 @@ export type MutationAdminCreateQuestionnaireQuizArgs = {
 
 
 export type MutationAdminCreateQuestionnaireSurveyArgs = {
+  bgColor?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   questions: Array<QuestionDiscriminatorInput>;
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
@@ -203,6 +209,8 @@ export type MutationAdminDeleteQuestionnaireArgs = {
 
 export type MutationAdminUpdateQuestionnaireExamArgs = {
   active?: InputMaybe<Scalars['Boolean']['input']>;
+  bgColor?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   maxRetryAmount?: InputMaybe<Scalars['Int']['input']>;
   passingGradePercent?: InputMaybe<Scalars['Float']['input']>;
@@ -219,6 +227,8 @@ export type MutationAdminUpdateQuestionnaireExamArgs = {
 
 export type MutationAdminUpdateQuestionnaireQuizArgs = {
   active?: InputMaybe<Scalars['Boolean']['input']>;
+  bgColor?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
   questionOrder?: InputMaybe<Array<QuestionOrderInput>>;
@@ -231,6 +241,8 @@ export type MutationAdminUpdateQuestionnaireQuizArgs = {
 
 export type MutationAdminUpdateQuestionnaireSurveyArgs = {
   active?: InputMaybe<Scalars['Boolean']['input']>;
+  bgColor?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput>>;
   questionOrder?: InputMaybe<Array<QuestionOrderInput>>;
@@ -546,6 +558,8 @@ export enum QuestionType {
 export type Questionnaire = {
   _id: Scalars['String']['output'];
   active: Scalars['Boolean']['output'];
+  bgColor?: Maybe<Scalars['String']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   latest: Scalars['Boolean']['output'];
@@ -565,6 +579,8 @@ export type QuestionnaireExam = Questionnaire & SchemaBaseInterface & {
   __typename?: 'QuestionnaireExam';
   _id: Scalars['String']['output'];
   active: Scalars['Boolean']['output'];
+  bgColor?: Maybe<Scalars['String']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   latest: Scalars['Boolean']['output'];
@@ -603,6 +619,8 @@ export type QuestionnaireQuiz = Questionnaire & SchemaBaseInterface & {
   __typename?: 'QuestionnaireQuiz';
   _id: Scalars['String']['output'];
   active: Scalars['Boolean']['output'];
+  bgColor?: Maybe<Scalars['String']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   latest: Scalars['Boolean']['output'];
@@ -622,6 +640,8 @@ export type QuestionnaireSurvey = Questionnaire & SchemaBaseInterface & {
   __typename?: 'QuestionnaireSurvey';
   _id: Scalars['String']['output'];
   active: Scalars['Boolean']['output'];
+  bgColor?: Maybe<Scalars['String']['output']>;
+  color?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   latest: Scalars['Boolean']['output'];

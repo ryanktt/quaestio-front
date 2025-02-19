@@ -1,5 +1,6 @@
 import { ApolloError } from '@apollo/client';
 import { ErrorResponse } from '@apollo/client/link/error';
+import { isDate } from 'lodash';
 
 export const getGraphqlErrorCode = (error?: ApolloError | ErrorResponse): string | undefined => {
 	return (error?.graphQLErrors?.[0]?.extensions?.exception as { code?: string })?.code;
@@ -9,6 +10,9 @@ export const getGraphqlErrorCode = (error?: ApolloError | ErrorResponse): string
 export const convertPropsToGqlVars = <T>(props: unknown): T => {
 	if (Array.isArray(props)) {
 		return props.map(convertPropsToGqlVars).filter((item) => item !== undefined) as T;
+	}
+	if (isDate(props)) {
+		return props.toISOString() as T;
 	}
 
 	if (props && typeof props === 'object') {
