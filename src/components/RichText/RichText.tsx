@@ -60,7 +60,7 @@ function InsertImageControl() {
 				</RichTextEditor.Control>
 			</Popover.Target>
 
-			<Popover.Dropdown display="flex" style={{ gap: '10px', alignItems: 'center' }}>
+			<Popover.Dropdown display="flex" style={{ gap: rem(10), alignItems: 'center' }}>
 				<TextInput size="xs" placeholder="The image URL" onChange={(e) => setUrl(e.target.value)} />
 				<Button onClick={addImage} size="compact-md" variant="outline" c={theme.colors.indigo[6]}>
 					<IconCheck />
