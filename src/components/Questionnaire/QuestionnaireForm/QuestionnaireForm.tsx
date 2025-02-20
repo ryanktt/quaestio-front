@@ -290,7 +290,7 @@ export default function QuestionnaireForm({
 							{...form.getInputProps('randomizeQuestions')}
 							color={theme.colors.indigo[6]}
 							disabled={!type}
-							label="Randomize questions"
+							label="Shuffle questions"
 						/>
 					</>
 				) : null}

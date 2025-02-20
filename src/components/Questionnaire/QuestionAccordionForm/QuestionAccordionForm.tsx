@@ -333,7 +333,7 @@ export default function QuestionAccordionForm({
 					{...getInputProps('randomizeOptions', 'checkbox')}
 					disabled={!type}
 					color={primaryColor}
-					label="Randomize options"
+					label="Shuffle options"
 				/>
 			) : null}
 
