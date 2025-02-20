@@ -29,10 +29,12 @@ export default function QuestionnaireForm({
 	onSubmit,
 	formProps,
 	title,
+	method = 'ADD',
 }: {
 	onSubmit: (p: IQuestionnaireFormProps) => Promise<void>;
 	formProps?: IQuestionnaireFormProps;
 	title: string;
+	method?: 'EDIT' | 'ADD';
 }) {
 	const theme = useMantineTheme();
 	const form = useForm<IQuestionnaireFormProps>({
@@ -50,9 +52,10 @@ export default function QuestionnaireForm({
 			bgColor: '',
 			color: 'indigo',
 		},
+		validateInputOnBlur: true,
 		validate: {
-			title: hasLength({ min: 3, max: 255 }, 'Title must be 3-255 characters long'),
-			description: hasLength({ min: 3 }, 'Description must be at least 3 characters long'),
+			title: hasLength({ min: 1 }, 'Title is missing'),
+			description: hasLength({ min: 1 }, 'Description is missing'),
 		},
 	});
 	const { type } = form.getValues();
@@ -158,6 +161,12 @@ export default function QuestionnaireForm({
 		</DragDropItem>
 	));
 
+	const handleFormSubmit = () => {
+		if (!form.validate().hasErrors) {
+			onSubmit(form.getValues());
+		}
+	};
+
 	return (
 		<div
 			style={{
@@ -175,21 +184,23 @@ export default function QuestionnaireForm({
 			</Title>
 
 			<form
-				onSubmit={form.onSubmit(onSubmit)}
+				onSubmit={handleFormSubmit}
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
 					gap: theme.spacing.md,
 				}}
 			>
-				<Select
-					{...form.getInputProps('type')}
-					maw={300}
-					label="Questionnaire type"
-					required
-					placeholder="Select the questionnaire type"
-					data={[EQuestionnaireType.Exam, EQuestionnaireType.Quiz, EQuestionnaireType.Survey]}
-				/>
+				{method === 'ADD' ? (
+					<Select
+						{...form.getInputProps('type')}
+						maw={300}
+						label="Questionnaire type"
+						required
+						placeholder="Select the questionnaire type"
+						data={[EQuestionnaireType.Exam, EQuestionnaireType.Quiz, EQuestionnaireType.Survey]}
+					/>
+				) : null}
 
 				<TextInput
 					{...form.getInputProps('title')}
@@ -202,12 +213,12 @@ export default function QuestionnaireForm({
 				<RichTextInput
 					editable={!!type}
 					label="Description"
-					value={form.getValues().description}
+					value={form.getInputProps('description').value}
 					onUpdate={(html) => {
 						form.getInputProps('description').onChange(html);
 					}}
 					inputProps={{
-						error: form.errors.description,
+						...form.getInputProps('description'),
 						required: true,
 						inputWrapperOrder: ['label', 'error', 'input'],
 					}}

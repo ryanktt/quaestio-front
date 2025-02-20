@@ -8,7 +8,7 @@ import { useForm } from '@mantine/form';
 import { colorSchemes, IColorSchemes } from '@utils/color.ts';
 import { createMarkup } from '@utils/html.ts';
 import _ from 'lodash';
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import QuestionResponseForm, { IQuestionResponseProps } from './QuestionResponseForm.tsx';
 import { IResponseFormProps } from './ResponseForm.interface.ts';
 import styles from './ResponseForm.module.scss';
@@ -82,16 +82,17 @@ export default function ResponseForm({
 		else setQuestionProps(questions);
 	}, []);
 
-	const handleSubmit = () => {
+	const handleSubmit = (e?: FormEvent<HTMLFormElement>) => {
+		e?.preventDefault();
 		form.setFieldValue('completedAt', new Date());
 		if (!form.validate().hasErrors) {
-			form.onSubmit(onSubmit);
+			onSubmit(form.getValues());
 		}
 	};
 
 	return (
 		<form
-			onSubmit={form.onSubmit(onSubmit)}
+			onSubmit={handleSubmit}
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -109,7 +110,7 @@ export default function ResponseForm({
 			<Box className={`${styles.box} ${styles.submit}`}>
 				<TextInput {...form.getInputProps('name')} label="Name" required={requireEmail} />
 				<TextInput {...form.getInputProps('email')} label="Email" required={requireName} />
-				<Button type="submit" onSubmit={handleSubmit} mt={theme.spacing.md} style={{ background: gradient }}>
+				<Button type="submit" mt={theme.spacing.md} style={{ background: gradient }}>
 					Submit
 				</Button>
 			</Box>

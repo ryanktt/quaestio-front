@@ -1,5 +1,5 @@
 import AccordionFormItem from '@components/Questionnaire/AccordionFormItem/AccordionFormItem.tsx';
-import { Checkbox, Textarea, useMantineTheme } from '@mantine/core';
+import { Checkbox, Textarea, TextInput, useMantineTheme } from '@mantine/core';
 import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
 import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
@@ -47,7 +47,7 @@ export default function OptionAccordionForm({
 		mode: 'controlled',
 		initialValues: optionProp,
 		validate: {
-			title: hasLength({ min: 3 }, 'Title must at least 3 characters long'),
+			title: hasLength({ min: 1 }, 'Title is missings'),
 		},
 		validateInputOnBlur: true,
 	});
@@ -70,14 +70,15 @@ export default function OptionAccordionForm({
 	const closeItem = () => {
 		setChanged(false);
 		onFinishEdit(getOption());
-		if (method === 'ADD') {
-			form.setInitialValues({ ...initialProps, id: nanoid() });
+		setTimeout(() => {
 			form.reset();
-		}
+		}, 300);
 	};
 
 	const saveItem = (): { preventClose?: boolean } => {
+		const savedOption = getOption();
 		if (!form.validate().hasErrors) {
+			form.setInitialValues(method === 'ADD' ? { ...initialProps, id: nanoid() } : savedOption);
 			onSave(getOption());
 			closeItem();
 			return { preventClose: false };
@@ -103,16 +104,11 @@ export default function OptionAccordionForm({
 			onClose={closeItem}
 			onDelete={deleteItem}
 		>
-			<Textarea
+			<TextInput
 				{...getInputProps('title')}
 				label="Option title"
-				required={!(method === 'ADD')}
-				minRows={2}
-				maxRows={3}
-				autosize
-				resize="vertical"
+				required={!(method === 'ADD') || isChanged}
 				placeholder="The option title"
-				error={method === 'ADD' ? null : form.errors.title}
 				inputWrapperOrder={['label', 'error', 'input']}
 			/>
 			<div>
@@ -129,7 +125,7 @@ export default function OptionAccordionForm({
 						label="Option feedback"
 						resize="vertical"
 						placeholder="Feedback for this option"
-						error={method === 'ADD' ? null : form.errors.feedbackAfterSubmit}
+						error={method === 'ADD' ? null : form.getInputProps('feedbackAfterSubmit').error}
 						inputWrapperOrder={['label', 'error', 'input']}
 					/>
 				) : null}

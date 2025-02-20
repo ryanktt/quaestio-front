@@ -52,7 +52,7 @@ const initialProps: IQuestionProps = {
 };
 
 export default function QuestionAccordionForm({
-	question: questionProp = initialProps,
+	question: questionProps = initialProps,
 	draggable = true,
 	method = 'EDIT',
 	badge,
@@ -68,9 +68,9 @@ export default function QuestionAccordionForm({
 	const typeValues = ['Single Choice', 'Multiple Choice', 'True or False', 'Text'] as const;
 	const form = useForm<IQuestionProps>({
 		mode: 'controlled',
-		initialValues: questionProp,
+		initialValues: questionProps,
 		validate: {
-			description: hasLength({ min: 3 }, 'Description must at least 3 characters long'),
+			description: hasLength({ min: 1 }, 'Description is missing'),
 		},
 	});
 	const { type, rightAnswerFeedback, wrongAnswerFeedback, feedbackAfterSubmit } = form.getValues();
@@ -176,14 +176,16 @@ export default function QuestionAccordionForm({
 	const closeItem = () => {
 		setChanged(false);
 		onFinishEdit(getQuestion());
-		if (method === 'ADD') {
-			form.setInitialValues({ ...initialProps, id: nanoid() });
-		}
+		setTimeout(() => {
+			form.reset();
+		}, 300);
 	};
 
 	const saveItem = (): { preventClose?: boolean } => {
+		const savedQuestion = getQuestion();
 		if (!form.validate().hasErrors) {
-			onSave(getQuestion());
+			form.setInitialValues(method === 'ADD' ? { ...initialProps, id: nanoid() } : savedQuestion);
+			onSave(savedQuestion);
 			closeItem();
 			return { preventClose: false };
 		}
@@ -195,9 +197,9 @@ export default function QuestionAccordionForm({
 	};
 
 	const questionTypeBadge =
-		method === 'EDIT' && questionProp.type ? (
+		method === 'EDIT' && questionProps.type ? (
 			<Box display="flex" w={120} style={{ alignItems: 'center', justifyContent: 'start' }}>
-				<Badge size="sm" radius="sm" variant={getBadgeVariantByType(questionProp.type)}>
+				<Badge size="sm" radius="sm" variant={getBadgeVariantByType(questionProps.type)}>
 					{getTextByType()}
 				</Badge>
 			</Box>
@@ -210,7 +212,7 @@ export default function QuestionAccordionForm({
 			badge={badge}
 			key={getQuestion().id}
 			toolbarComponents={questionTypeBadge ? [questionTypeBadge] : undefined}
-			label={questionProp.description}
+			label={questionProps.description}
 			isEditing={isChanged}
 			draggable={draggable}
 			enableToolbarOptions={enableToolbarOptions}
@@ -235,12 +237,10 @@ export default function QuestionAccordionForm({
 			<RichTextInput
 				editable={!!type}
 				label="Question description"
-				value={getQuestion().description}
-				onUpdate={(html) => {
-					getInputProps('description').onChange(html);
-				}}
+				value={getInputProps('description').value}
+				onUpdate={(html) => getInputProps('description').onChange(html)}
 				inputProps={{
-					error: validateInput ? form.errors.description : null,
+					error: getInputProps('description').error,
 					required: validateInput,
 					inputWrapperOrder: ['label', 'error', 'input'],
 				}}

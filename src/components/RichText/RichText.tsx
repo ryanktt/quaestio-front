@@ -108,7 +108,6 @@ export default function RichTextInput({
 				},
 			}),
 		],
-
 		onUpdate: ({ editor: e }) => onUpdate(e.getHTML()),
 		content: value,
 	});

@@ -63,6 +63,7 @@ export default function EditQuestionnaire() {
 
 	return (
 		<QuestionnaireForm
+			method="EDIT"
 			formProps={buildQuestionnaireFormProps(questionnaire)}
 			onSubmit={handleQuestionnaireUpdate}
 			title="Edit Questionnaire"
