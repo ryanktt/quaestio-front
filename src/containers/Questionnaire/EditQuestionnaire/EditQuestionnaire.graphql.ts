@@ -60,6 +60,8 @@ export const UPDATE_EXAM = gql(`
 		$randomizeQuestions: Boolean
 		$timeLimit: Int
 		$maxRetryAmount: Int
+		$bgColor: String
+		$color: String
 	) {
 		adminUpdateQuestionnaireExam(
 			questionnaireId: $questionnaireId
@@ -72,6 +74,8 @@ export const UPDATE_EXAM = gql(`
 			randomizeQuestions: $randomizeQuestions
 			timeLimit: $timeLimit
 			maxRetryAmount: $maxRetryAmount
+			bgColor: $bgColor
+			color: $color
 		) {
 			...ExamFragment
 		}

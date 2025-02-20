@@ -17,6 +17,8 @@ export interface IQuestionnaireFormProps {
 	timeLimit: number | '';
 	maxRetryAmount: number | '';
 	questions: IQuestionProps[];
+	bgColor: string;
+	color: string;
 }
 
 export type QuestionnaireTypes = QuestionnaireExam | QuestionnaireSurvey | QuestionnaireQuiz;

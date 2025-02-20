@@ -17,6 +17,7 @@ import {
 	UpdateQuizMutationVariables,
 	UpdateSurveyMutationVariables,
 } from '@gened/graphql';
+import { convertPropsToGqlVars } from '@utils/graphql.ts';
 import _ from 'lodash';
 import { buildQuestionDiscriminatorFromProps } from '../Questionnaire.aux.ts';
 
@@ -80,6 +81,8 @@ export const buildQuestionnaireFormProps = (questionnaire?: QuestionnaireTypes |
 			randomizeQuestions: '',
 			timeLimit: '',
 			questions: [],
+			bgColor: '',
+			color: '',
 		};
 	}
 	const props: IQuestionnaireFormProps = {
@@ -89,6 +92,8 @@ export const buildQuestionnaireFormProps = (questionnaire?: QuestionnaireTypes |
 		requireName: questionnaire.requireName,
 		title: questionnaire.title,
 		questions: buildQuestionsFormProps(questionnaire.questions),
+		bgColor: questionnaire.bgColor || '',
+		color: questionnaire.color || '',
 		randomizeQuestions: '',
 		maxRetryAmount: '',
 		timeLimit: '',
@@ -172,12 +177,14 @@ export const buildUpdateQuestionnaireMutationVariables = (
 	questionnaireProps: IQuestionnaireFormProps,
 	questionnaireBeforeUpdate: QuestionnaireTypes,
 ): UpdateSurveyMutationVariables | UpdateQuizMutationVariables | UpdateExamMutationVariables => {
-	return {
+	return convertPropsToGqlVars({
 		questionnaireId: questionnaireBeforeUpdate._id,
 		description: questionnaireProps.description,
 		requireEmail: questionnaireProps.requireEmail,
 		requireName: questionnaireProps.requireName,
 		title: questionnaireProps.title,
+		color: questionnaireProps.color,
+		bgColor: questionnaireProps.bgColor,
 		questionOrder: buildQuestionOrder(questionnaireProps.questions),
 		questionMethods: buildUpdateQuestionsMethods(
 			questionnaireProps.questions,
@@ -190,5 +197,5 @@ export const buildUpdateQuestionnaireMutationVariables = (
 			typeof questionnaireProps.randomizeQuestions === 'boolean'
 				? questionnaireProps.randomizeQuestions
 				: undefined,
-	};
+	});
 };

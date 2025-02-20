@@ -7,6 +7,8 @@ export const CREATE_SURVEY = gql(`
 		$requireName: Boolean!
 		$questions: [QuestionDiscriminatorInput!]!
 		$description: String
+		$bgColor: String
+		$color: String
 	) {
 		adminCreateQuestionnaireSurvey(
 			title: $title
@@ -14,6 +16,8 @@ export const CREATE_SURVEY = gql(`
 			requireName: $requireName
 			questions: $questions
 			description: $description
+			bgColor: $bgColor
+			color: $color
 		) {
 			...SurveyFragment
 		}
@@ -27,6 +31,8 @@ export const CREATE_QUIZ = gql(`
 		$requireName: Boolean!
 		$questions: [QuestionDiscriminatorInput!]!
 		$description: String
+		$bgColor: String
+		$color: String
 	) {
 		adminCreateQuestionnaireQuiz(
 			title: $title
@@ -34,6 +40,8 @@ export const CREATE_QUIZ = gql(`
 			requireName: $requireName
 			questions: $questions
 			description: $description
+			bgColor: $bgColor
+			color: $color
 		) {
 			...QuizFragment
 		}
@@ -50,6 +58,8 @@ export const CREATE_EXAM = gql(`
 		$maxRetryAmount: Int
 		$questions: [QuestionDiscriminatorInput!]!
 		$description: String
+		$bgColor: String
+		$color: String
 
 	) {
 		adminCreateQuestionnaireExam(
@@ -61,6 +71,8 @@ export const CREATE_EXAM = gql(`
 			maxRetryAmount: $maxRetryAmount
 			questions: $questions
 			description: $description
+			bgColor: $bgColor
+			color: $color
 		) {
 			...ExamFragment
 		}

@@ -79,6 +79,8 @@ export const SURVEY_FRAGMENT = gql(`
         title
         description
         active
+        color
+        bgColor
         questions {
             type
             ... on QuestionSingleChoice {
@@ -109,6 +111,8 @@ export const QUIZ_FRAGMENT = gql(`
         title
         description
         active
+        color
+        bgColor
         questions {
             ... on QuestionSingleChoice {
                 ...QuestionSingleChoiceFragment
@@ -138,6 +142,8 @@ export const EXAM_FRAGMENT = gql(`
         title
         description
         active
+        color
+        bgColor
         randomizeQuestions
         questions {
             ... on QuestionSingleChoice {

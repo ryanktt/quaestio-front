@@ -5,6 +5,8 @@ export type ISession = Omit<Session, 'user'>;
 export type IAdmin = Omit<Admin, 'self'>;
 export type IAuthData = SignUpMutation['publicSignUp'] | SignInMutation['publicSignIn'];
 
+export type ILayoutBgColors = IColorSchemes | 'black' | 'white';
+
 export interface IGlobalState {
 	auth: {
 		isLoggedIn: boolean;
@@ -12,7 +14,7 @@ export interface IGlobalState {
 		token?: string;
 		session?: ISession;
 	};
-	layout: { responseColorScheme?: IColorSchemes };
+	layout: { responseBgColor?: ILayoutBgColors };
 	theme: {
 		light: boolean;
 	};
@@ -23,7 +25,7 @@ export interface IGlobalState {
 	setLightMode: () => void;
 	setDarkMode: () => void;
 	setSearchStr: (str: string) => void;
-	setResponseColorScheme: (str: IColorSchemes) => void;
+	setResponseBgColor: (str: ILayoutBgColors) => void;
 }
 
 export interface ILogoutAction {

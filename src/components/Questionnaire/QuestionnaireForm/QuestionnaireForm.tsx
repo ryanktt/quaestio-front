@@ -1,15 +1,28 @@
 /* eslint-disable react/prop-types */
+import ColorSelect, { IColorOption } from '@components/ColorSelect/ColorSelect.tsx';
 import DragDropList from '@components/DragDropList/DragDropList.tsx';
 import DragDropItem from '@components/DragDropList/Draggable.tsx';
 import QuestionAccordionForm, {
 	IQuestionProps,
 } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import RichTextInput from '@components/RichText/RichText.tsx';
-import { Button, Center, Checkbox, NumberInput, rem, Select, TextInput, Title, useMantineTheme } from '@mantine/core';
+import {
+	Box,
+	Button,
+	Center,
+	Checkbox,
+	NumberInput,
+	rem,
+	Select,
+	TextInput,
+	Title,
+	useMantineTheme,
+} from '@mantine/core';
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
+import { colorSchemes } from '@utils/color.ts';
 import moment from 'moment';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { EQuestionnaireType, IQuestionnaireFormProps } from './QuestionnaireForm.interface.ts';
 
 export default function QuestionnaireForm({
@@ -34,6 +47,8 @@ export default function QuestionnaireForm({
 			randomizeQuestions: '',
 			timeLimit: '',
 			questions: [],
+			bgColor: '',
+			color: 'indigo',
 		},
 		validate: {
 			title: hasLength({ min: 3, max: 255 }, 'Title must be 3-255 characters long'),
@@ -43,6 +58,27 @@ export default function QuestionnaireForm({
 	const { type } = form.getValues();
 	const [onEditQuestionId, setOnEditQuestionId] = useState<string | null>(null);
 	const [maxRetryInputEnabled, setMaxRetryInputEnabled] = useState(!!form.getValues().maxRetryAmount);
+
+	const colorPickerOptions = useMemo(() => {
+		return Object.entries(colorSchemes).map(([colorName, [primaryColor]]) => ({
+			value: theme.colors[primaryColor][6],
+			label: colorName,
+		}));
+	}, [colorSchemes]);
+
+	const bgColorPickerOptions = useMemo(() => {
+		return [
+			{ label: 'default', value: 'transparent' },
+			{ label: 'white', value: theme.white },
+			{ label: 'black', value: theme.colors.dark[8] },
+		];
+	}, [form.getValues().color]);
+
+	const handleBgColorUpdate = (colorOption: IColorOption) => {
+		let bgColor = colorOption.label;
+		if (colorOption.value === 'transparent') bgColor = '';
+		form.setFieldValue('bgColor', bgColor);
+	};
 
 	const setTimeLimitInputInitialValues = (): {
 		enabled: boolean;
@@ -154,6 +190,7 @@ export default function QuestionnaireForm({
 					placeholder="Select the questionnaire type"
 					data={[EQuestionnaireType.Exam, EQuestionnaireType.Quiz, EQuestionnaireType.Survey]}
 				/>
+
 				<TextInput
 					{...form.getInputProps('title')}
 					label="Title"
@@ -175,6 +212,21 @@ export default function QuestionnaireForm({
 						inputWrapperOrder: ['label', 'error', 'input'],
 					}}
 				/>
+
+				<Box style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: rem(15) }}>
+					<ColorSelect
+						label="Form color"
+						selectedColorLabel={form.getValues().color}
+						colorOptions={colorPickerOptions}
+						onSelected={(c) => form.setFieldValue('color', c.label)}
+					/>
+					<ColorSelect
+						label="Background color"
+						selectedColorLabel={form.getValues().bgColor}
+						colorOptions={bgColorPickerOptions}
+						onSelected={handleBgColorUpdate}
+					/>
+				</Box>
 
 				{type === 'Exam' ? (
 					<>

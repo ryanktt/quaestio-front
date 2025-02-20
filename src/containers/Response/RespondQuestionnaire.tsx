@@ -5,9 +5,11 @@ import { IResponseFormProps } from '@components/Response/ResponseForm/ResponseFo
 import ResponseForm from '@components/Response/ResponseForm/ResponseForm.tsx';
 import { buildQuestionnaireFormProps } from '@containers/Questionnaire/EditQuestionnaire/EditQuestionnaire.aux.ts';
 import { GlobalContext } from '@contexts/Global/Global.context';
+import { ILayoutBgColors } from '@contexts/Global/Global.types.ts';
 import { usePublicFetchQuestionnaireSuspenseQuery, useRespondQuestionnaireMutation } from '@gened/graphql.ts';
 import { Container } from '@mantine/core';
 import '@mantine/core/styles.css';
+import { IColorSchemes } from '@utils/color.ts';
 import { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { buildRespondQuestionnaireGqlVars } from './Response.aux.ts';
@@ -21,7 +23,8 @@ export default function RespondQuestionnaire() {
 	});
 	const [respondMutation, { data: respondData, reset: resetRespond }] = useRespondQuestionnaireMutation();
 	const questionnaire = fetchQuestRes.publicFetchQuestionnaire as QuestionnaireTypes;
-	const colorScheme = 'green';
+	const color = questionnaire.color || ('indigo' as IColorSchemes);
+	const bgColor = (questionnaire.bgColor || color) as ILayoutBgColors;
 
 	useEffect(() => {
 		if (!respondData) return;
@@ -29,8 +32,8 @@ export default function RespondQuestionnaire() {
 	}, [respondData]);
 
 	useEffect(() => {
-		ctx.state.setResponseBgColor(colorScheme);
-	}, [colorScheme]);
+		ctx.state.setResponseBgColor(bgColor);
+	}, [bgColor]);
 
 	const handleRespondQuestionnaire = async (props: IResponseFormProps) => {
 		const variables = buildRespondQuestionnaireGqlVars(props, questionnaire._id);
@@ -40,7 +43,7 @@ export default function RespondQuestionnaire() {
 	return (
 		<Container display="flex" mih={700} p={15} size="48rem">
 			<ResponseForm
-				colorScheme={colorScheme}
+				colorScheme={color as IColorSchemes}
 				questionnaireProps={buildQuestionnaireFormProps(questionnaire)}
 				onSubmit={handleRespondQuestionnaire}
 			/>
