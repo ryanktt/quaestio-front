@@ -1,11 +1,11 @@
-import { useSignInMutation, useSignUpMutation } from '@gened/graphql.ts';
-import { TextInput, Button, Center } from '@mantine/core';
-import { hasLength, isEmail, useForm } from '@mantine/form';
-import { useContext, useEffect, useState } from 'react';
 import { AuthModalContext } from '@contexts/AuthModal.context.tsx';
 import { GlobalContext } from '@contexts/Global/Global.context.tsx';
-import { useCookies } from 'react-cookie';
 import { IAuthData } from '@contexts/Global/Global.types.ts';
+import { useSignInMutation, useSignUpMutation } from '@gened/graphql.ts';
+import { Button, Center, TextInput } from '@mantine/core';
+import { hasLength, isEmail, useForm } from '@mantine/form';
+import { useContext, useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import Password from './Password/Password.tsx';
 
@@ -55,9 +55,9 @@ export default function Auth() {
 		setCookie('authData', authResponse, {
 			path: '/',
 			httpOnly: import.meta.env.VITE_MODE === 'production',
+			secure: import.meta.env.VITE_MODE === 'production',
 			expires: new Date(session.expiresAt),
 			sameSite: 'strict',
-			secure: true,
 		});
 		globalContext.state.login(user, session, authToken);
 		navigate('/board/questionnaires');
