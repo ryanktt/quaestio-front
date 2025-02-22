@@ -302,7 +302,7 @@ export type OptionMetrics = {
 
 export type PublicUpsertResponse = {
   __typename?: 'PublicUpsertResponse';
-  authToken: Scalars['String']['output'];
+  respondentToken: Scalars['String']['output'];
 };
 
 export type Query = {
@@ -806,6 +806,8 @@ export type UpdateSurveyMutationVariables = Exact<{
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
   requireName?: InputMaybe<Scalars['Boolean']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  bgColor?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -819,6 +821,8 @@ export type UpdateQuizMutationVariables = Exact<{
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
   requireName?: InputMaybe<Scalars['Boolean']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  bgColor?: InputMaybe<Scalars['String']['input']>;
+  color?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -897,7 +901,7 @@ export type RespondQuestionnaireMutationVariables = Exact<{
 }>;
 
 
-export type RespondQuestionnaireMutation = { __typename?: 'Mutation', publicUpsertQuestionnaireResponse: { __typename?: 'PublicUpsertResponse', authToken: string } };
+export type RespondQuestionnaireMutation = { __typename?: 'Mutation', publicUpsertQuestionnaireResponse: { __typename?: 'PublicUpsertResponse', respondentToken: string } };
 
 export const QuestionSingleChoiceFragmentFragmentDoc = gql`
     fragment QuestionSingleChoiceFragment on QuestionSingleChoice {
@@ -1357,7 +1361,7 @@ export type CreateExamMutationHookResult = ReturnType<typeof useCreateExamMutati
 export type CreateExamMutationResult = Apollo.MutationResult<CreateExamMutation>;
 export type CreateExamMutationOptions = Apollo.BaseMutationOptions<CreateExamMutation, CreateExamMutationVariables>;
 export const UpdateSurveyDocument = gql`
-    mutation UpdateSurvey($questionnaireId: String!, $title: String, $questionOrder: [QuestionOrderInput!], $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String) {
+    mutation UpdateSurvey($questionnaireId: String!, $title: String, $questionOrder: [QuestionOrderInput!], $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String, $bgColor: String, $color: String) {
   adminUpdateQuestionnaireSurvey(
     questionnaireId: $questionnaireId
     title: $title
@@ -1366,6 +1370,8 @@ export const UpdateSurveyDocument = gql`
     requireEmail: $requireEmail
     requireName: $requireName
     description: $description
+    bgColor: $bgColor
+    color: $color
   ) {
     ...SurveyFragment
   }
@@ -1393,6 +1399,8 @@ export type UpdateSurveyMutationFn = Apollo.MutationFunction<UpdateSurveyMutatio
  *      requireEmail: // value for 'requireEmail'
  *      requireName: // value for 'requireName'
  *      description: // value for 'description'
+ *      bgColor: // value for 'bgColor'
+ *      color: // value for 'color'
  *   },
  * });
  */
@@ -1404,7 +1412,7 @@ export type UpdateSurveyMutationHookResult = ReturnType<typeof useUpdateSurveyMu
 export type UpdateSurveyMutationResult = Apollo.MutationResult<UpdateSurveyMutation>;
 export type UpdateSurveyMutationOptions = Apollo.BaseMutationOptions<UpdateSurveyMutation, UpdateSurveyMutationVariables>;
 export const UpdateQuizDocument = gql`
-    mutation UpdateQuiz($questionnaireId: String!, $title: String, $questionOrder: [QuestionOrderInput!], $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String) {
+    mutation UpdateQuiz($questionnaireId: String!, $title: String, $questionOrder: [QuestionOrderInput!], $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String, $bgColor: String, $color: String) {
   adminUpdateQuestionnaireQuiz(
     questionnaireId: $questionnaireId
     title: $title
@@ -1413,6 +1421,8 @@ export const UpdateQuizDocument = gql`
     requireEmail: $requireEmail
     requireName: $requireName
     description: $description
+    bgColor: $bgColor
+    color: $color
   ) {
     ...QuizFragment
   }
@@ -1440,6 +1450,8 @@ export type UpdateQuizMutationFn = Apollo.MutationFunction<UpdateQuizMutation, U
  *      requireEmail: // value for 'requireEmail'
  *      requireName: // value for 'requireName'
  *      description: // value for 'description'
+ *      bgColor: // value for 'bgColor'
+ *      color: // value for 'color'
  *   },
  * });
  */
@@ -1709,7 +1721,7 @@ export const RespondQuestionnaireDocument = gql`
     startedAt: $startedAt
     answers: $answers
   ) {
-    authToken
+    respondentToken
   }
 }
     `;

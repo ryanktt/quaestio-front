@@ -17,7 +17,7 @@ export const RESPOND_QUESTIONNAIRE = gql(`
             startedAt: $startedAt
             answers: $answers
         ) {
-            authToken
+            respondentToken
         } 
     }
 `);
