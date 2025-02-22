@@ -108,12 +108,22 @@ export default function RichTextInput({
 				},
 			}),
 		],
-		onUpdate: ({ editor: e }) => onUpdate(e.getHTML()),
-		content: value,
+		onUpdate: ({ editor: e }) => {
+			const html = e.getHTML();
+			if (html === '<p></p>') onUpdate('');
+			else onUpdate(html);
+		},
 	});
 
 	const theme = useMantineTheme();
-	useEffect(() => editor?.setOptions({ editable }), [editor, editable]);
+
+	useEffect(() => {
+		editor?.setOptions({ editable });
+	}, [editor, editable]);
+
+	useEffect(() => {
+		editor?.commands.setContent(value, false, { preserveWhitespace: 'full' });
+	}, [value, editor]);
 
 	return (
 		<div>
