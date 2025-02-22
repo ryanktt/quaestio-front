@@ -9,6 +9,8 @@ export const UPDATE_SURVEY = gql(`
 		$requireEmail: Boolean
 		$requireName: Boolean
 		$description: String
+		$bgColor: String
+		$color: String
 	) {
 		adminUpdateQuestionnaireSurvey(
 			questionnaireId: $questionnaireId
@@ -18,6 +20,8 @@ export const UPDATE_SURVEY = gql(`
 			requireEmail: $requireEmail
 			requireName: $requireName
 			description: $description
+			bgColor: $bgColor
+			color: $color
 		) {
 			...SurveyFragment
 		}
@@ -33,6 +37,8 @@ export const UPDATE_QUIZ = gql(`
 		$requireEmail: Boolean
 		$requireName: Boolean
 		$description: String
+		$bgColor: String
+		$color: String
 	) {
 		adminUpdateQuestionnaireQuiz(
 			questionnaireId: $questionnaireId
@@ -42,6 +48,8 @@ export const UPDATE_QUIZ = gql(`
 			requireEmail: $requireEmail
 			requireName: $requireName
 			description: $description
+			bgColor: $bgColor
+			color: $color
 		) {
 			...QuizFragment
 		}

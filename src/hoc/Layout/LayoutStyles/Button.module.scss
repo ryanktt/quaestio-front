@@ -5,7 +5,12 @@ button {
 		border: 0;
 
 		&:hover {
-			background: linear-gradient(50deg, $indigo8, $violet8);
+			background: linear-gradient(50deg, $indigo7, $violet7);
+		}
+
+		&:disabled {
+			background: linear-gradient(50deg, $indigo0, $violet0);
+			color: $gray6;
 		}
 	}
 

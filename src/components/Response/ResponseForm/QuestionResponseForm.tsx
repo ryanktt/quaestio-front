@@ -54,7 +54,10 @@ export default function QuestionResponseForm({
 	});
 
 	useEffect(() => {
-		onChange({ ...state, answeredAt: new Date() });
+		const isAnswered =
+			(questionProps.type === QuestionType.Text && !!state.text) ||
+			(questionProps.type !== QuestionType.Text && !!state.selectedOptionIds.length);
+		onChange({ ...state, answeredAt: isAnswered ? new Date() : undefined });
 	}, [state]);
 
 	const toggleSelectOption = (selected: boolean, optionId: string) => {
@@ -83,7 +86,7 @@ export default function QuestionResponseForm({
 						checked={!!state.selectedOptionIds.find((id) => id === option.id)}
 						icon={CheckboxIcon}
 						className={styles.checkbox}
-						label={option.correct ? 'True' : 'False'}
+						label={option.title}
 					/>
 				</Box>
 			);

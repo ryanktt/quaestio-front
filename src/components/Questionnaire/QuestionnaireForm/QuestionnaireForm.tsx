@@ -6,6 +6,7 @@ import QuestionAccordionForm, {
 	IQuestionProps,
 } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import RichTextInput from '@components/RichText/RichText.tsx';
+import { AlertContext } from '@contexts/Alert/Alert.context.tsx';
 import {
 	Box,
 	Button,
@@ -22,7 +23,8 @@ import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
 import { colorSchemes } from '@utils/color.ts';
 import moment from 'moment';
-import { useMemo, useState } from 'react';
+import { nanoid } from 'nanoid/non-secure';
+import { FormEvent, useContext, useMemo, useState } from 'react';
 import { EQuestionnaireType, IQuestionnaireFormProps } from './QuestionnaireForm.interface.ts';
 
 export default function QuestionnaireForm({
@@ -36,6 +38,7 @@ export default function QuestionnaireForm({
 	title: string;
 	method?: 'EDIT' | 'ADD';
 }) {
+	const { setAlert } = useContext(AlertContext).state;
 	const theme = useMantineTheme();
 	const form = useForm<IQuestionnaireFormProps>({
 		mode: 'controlled',
@@ -49,7 +52,7 @@ export default function QuestionnaireForm({
 			randomizeQuestions: '',
 			timeLimit: '',
 			questions: [],
-			bgColor: '',
+			bgColor: null,
 			color: 'indigo',
 		},
 		validateInputOnBlur: true,
@@ -58,9 +61,10 @@ export default function QuestionnaireForm({
 			description: hasLength({ min: 1 }, 'Description is missing'),
 		},
 	});
-	const { type } = form.getValues();
+	const getQuestionnaire = () => form.getValues();
+	const { type } = getQuestionnaire();
 	const [onEditQuestionId, setOnEditQuestionId] = useState<string | null>(null);
-	const [maxRetryInputEnabled, setMaxRetryInputEnabled] = useState(!!form.getValues().maxRetryAmount);
+	const [maxRetryInputEnabled, setMaxRetryInputEnabled] = useState(!!getQuestionnaire().maxRetryAmount);
 
 	const colorPickerOptions = useMemo(() => {
 		return Object.entries(colorSchemes).map(([colorName, [primaryColor]]) => ({
@@ -75,11 +79,11 @@ export default function QuestionnaireForm({
 			{ label: 'white', value: theme.white },
 			{ label: 'black', value: theme.colors.dark[8] },
 		];
-	}, [form.getValues().color]);
+	}, [getQuestionnaire().color]);
 
 	const handleBgColorUpdate = (colorOption: IColorOption) => {
-		let bgColor = colorOption.label;
-		if (colorOption.value === 'transparent') bgColor = '';
+		let bgColor: string | null = colorOption.label;
+		if (colorOption.value === 'transparent') bgColor = null;
 		form.setFieldValue('bgColor', bgColor);
 	};
 
@@ -87,7 +91,7 @@ export default function QuestionnaireForm({
 		enabled: boolean;
 		amount?: number;
 	} => {
-		const { timeLimit } = form.getValues();
+		const { timeLimit } = getQuestionnaire();
 		const minutes = timeLimit ? moment.duration(timeLimit, 'milliseconds').asMinutes() : undefined;
 		return {
 			enabled: !!timeLimit,
@@ -112,7 +116,7 @@ export default function QuestionnaireForm({
 	};
 
 	const handleReorderedQuestions = (reorderedQuestions: { id: string }[]) => {
-		const { questions } = form.getValues();
+		const { questions } = getQuestionnaire();
 		const updatedQuestions = reorderedQuestions
 			.map(({ id }) => questions.find((q) => q.id === id))
 			.filter((question): question is IQuestionProps => !!question);
@@ -122,7 +126,7 @@ export default function QuestionnaireForm({
 
 	const setQuestion = (newQuestion: IQuestionProps) => {
 		let foundQuestion;
-		const updatedQuestions = form.getValues().questions.map((question) => {
+		const updatedQuestions = getQuestionnaire().questions.map((question) => {
 			if (question.id === newQuestion.id) {
 				foundQuestion = true;
 				return newQuestion;
@@ -134,7 +138,7 @@ export default function QuestionnaireForm({
 	};
 
 	const deleteQuestion = (questionId: string) => {
-		const { questions } = form.getValues();
+		const { questions } = getQuestionnaire();
 		const index = questions.findIndex((question) => question.id === questionId);
 		if (index !== -1) {
 			const updatedQuestions = [...questions];
@@ -144,7 +148,7 @@ export default function QuestionnaireForm({
 		}
 	};
 
-	const questionItems = form.getValues().questions.map((question, i) => (
+	const questionItems = getQuestionnaire().questions.map((question, i) => (
 		<DragDropItem index={i} isDragDisabled={!!onEditQuestionId} key={question.id} draggableId={question.id}>
 			<QuestionAccordionForm
 				badge={`Question ${i + 1}`}
@@ -161,9 +165,31 @@ export default function QuestionnaireForm({
 		</DragDropItem>
 	));
 
-	const handleFormSubmit = () => {
+	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const questionnaire = getQuestionnaire();
+		if (!questionnaire.questions.length) {
+			setAlert({
+				id: nanoid(),
+				type: 'ERROR',
+				message: 'No question was added for this questionnaire',
+				title: 'Missing Question',
+				timeout: 3000,
+			});
+			return;
+		}
+		if (onEditQuestionId) {
+			setAlert({
+				id: nanoid(),
+				type: 'ERROR',
+				message: 'Questionnaire has pending unsaved question changes',
+				title: 'Unsaved Question',
+				timeout: 3000,
+			});
+			return;
+		}
 		if (!form.validate().hasErrors) {
-			onSubmit(form.getValues());
+			onSubmit(questionnaire);
 		}
 	};
 
@@ -227,13 +253,13 @@ export default function QuestionnaireForm({
 				<Box style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: rem(15) }}>
 					<ColorSelect
 						label="Form color"
-						selectedColorLabel={form.getValues().color}
+						selectedColorLabel={getQuestionnaire().color}
 						colorOptions={colorPickerOptions}
 						onSelected={(c) => form.setFieldValue('color', c.label)}
 					/>
 					<ColorSelect
 						label="Background color"
-						selectedColorLabel={form.getValues().bgColor}
+						selectedColorLabel={getQuestionnaire().bgColor}
 						colorOptions={bgColorPickerOptions}
 						onSelected={handleBgColorUpdate}
 					/>
@@ -313,7 +339,7 @@ export default function QuestionnaireForm({
 
 				{questionItems.length ? (
 					<div>
-						<DragDropList orderedItems={form.getValues().questions} onReorder={handleReorderedQuestions}>
+						<DragDropList orderedItems={getQuestionnaire().questions} onReorder={handleReorderedQuestions}>
 							{questionItems}
 						</DragDropList>
 					</div>

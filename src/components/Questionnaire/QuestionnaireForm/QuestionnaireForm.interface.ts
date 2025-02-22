@@ -17,7 +17,7 @@ export interface IQuestionnaireFormProps {
 	timeLimit: number | '';
 	maxRetryAmount: number | '';
 	questions: IQuestionProps[];
-	bgColor: string;
+	bgColor: string | null;
 	color: string;
 }
 
