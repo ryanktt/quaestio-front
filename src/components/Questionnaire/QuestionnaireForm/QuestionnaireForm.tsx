@@ -83,7 +83,7 @@ export default function QuestionnaireForm({
 
 	const handleBgColorUpdate = (colorOption: IColorOption) => {
 		let bgColor: string | null = colorOption.label;
-		if (colorOption.value === 'transparent') bgColor = null;
+		if (colorOption.value === 'transparent') bgColor = method === 'ADD' ? '' : null;
 		form.setFieldValue('bgColor', bgColor);
 	};
 
@@ -259,7 +259,7 @@ export default function QuestionnaireForm({
 					/>
 					<ColorSelect
 						label="Background color"
-						selectedColorLabel={getQuestionnaire().bgColor}
+						selectedColorLabel={getQuestionnaire().bgColor || ''}
 						colorOptions={bgColorPickerOptions}
 						onSelected={handleBgColorUpdate}
 					/>
