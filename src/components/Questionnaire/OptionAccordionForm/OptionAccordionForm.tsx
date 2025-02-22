@@ -122,7 +122,6 @@ export default function OptionAccordionForm({
 				{feedbackEnabled ? (
 					<Textarea
 						{...getInputProps('feedbackAfterSubmit')}
-						label="Option feedback"
 						resize="vertical"
 						placeholder="Feedback for this option"
 						error={method === 'ADD' ? null : form.getInputProps('feedbackAfterSubmit').error}
