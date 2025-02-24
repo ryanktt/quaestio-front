@@ -143,7 +143,7 @@ export default function RichTextInput({
 					variant="subtle"
 				>
 					<RichTextEditor.Toolbar p={3}>
-						<RichTextEditor.ControlsGroup className={!editable ? styles.disabled : ''}>
+						<RichTextEditor.ControlsGroup style={{flexWrap: 'wrap'}} className={!editable ? styles.disabled : ''}>
 							<RichTextEditor.Bold />
 							<RichTextEditor.Italic />
 							<RichTextEditor.Underline />
