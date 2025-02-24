@@ -1,5 +1,48 @@
 import { gql } from '@apollo/client';
 
+export const QUESTIONNAIRE_METRICS = gql(`
+    fragment QuestionnaireMetricsFragment on QuestionnaireMetrics {
+      totalResponseCount
+      totalAttemptCount
+      totalAnswerTime
+      avgAnswerTime
+      avgAttemptCount
+      questionMetrics {
+        ... on QuestionSingleChoiceMetrics {
+          answerCount
+          unansweredCount
+          rightAnswerCount
+          wrongAnswerCount
+          options {
+            selectedCount
+          }
+        }
+        ... on QuestionMultipleChoiceMetrics {
+          answerCount
+          unansweredCount
+          rightAnswerCount
+          wrongAnswerCount
+          options {
+            selectedCount
+          }
+        }
+        ... on QuestionTrueOrFalseMetrics {
+          answerCount
+          unansweredCount
+          rightAnswerCount
+          wrongAnswerCount
+          options {
+            selectedCount
+          }
+        }
+        ... on QuestionTextMetrics {
+          answerCount
+          unansweredCount
+        }
+      }
+    }
+`);
+
 export const QUESTION_FRAGMENT = gql(`	
     fragment QuestionSingleChoiceFragment on QuestionSingleChoice {
         _id
@@ -81,6 +124,9 @@ export const SURVEY_FRAGMENT = gql(`
         active
         color
         bgColor
+        metrics {
+            ...QuestionnaireMetricsFragment
+        }
         questions {
             type
             ... on QuestionSingleChoice {
@@ -113,6 +159,9 @@ export const QUIZ_FRAGMENT = gql(`
         active
         color
         bgColor
+        metrics {
+            ...QuestionnaireMetricsFragment
+        }
         questions {
             ... on QuestionSingleChoice {
                 ...QuestionSingleChoiceFragment
@@ -144,6 +193,9 @@ export const EXAM_FRAGMENT = gql(`
         active
         color
         bgColor
+        metrics {
+            ...QuestionnaireMetricsFragment
+        }
         randomizeQuestions
         questions {
             ... on QuestionSingleChoice {
