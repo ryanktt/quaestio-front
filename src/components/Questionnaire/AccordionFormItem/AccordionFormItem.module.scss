@@ -44,6 +44,10 @@
 	.dragIcon {
 		color: $indigo9;
 	}
+
+	.content.open {
+		border: none;
+	}
 }
 
 .dragIcon {
@@ -113,5 +117,9 @@
 }
 
 .content.open {
+	border: 1px solid $gray4;
+	border-top: 0;
+	border-bottom-right-radius: $radiusMd;
+	border-bottom-left-radius: $radiusMd;
 	grid-template-rows: 1fr;
 }
