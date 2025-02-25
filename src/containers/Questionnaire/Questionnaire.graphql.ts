@@ -143,6 +143,7 @@ export const SURVEY_FRAGMENT = gql(`
                 ...QuestionTextFragment
             }
         }
+        sharedCreatedAt
         createdAt
         updatedAt
     }
@@ -177,6 +178,7 @@ export const QUIZ_FRAGMENT = gql(`
                 ...QuestionTextFragment
             }
         }
+        sharedCreatedAt
         createdAt
         updatedAt
     }
@@ -212,6 +214,7 @@ export const EXAM_FRAGMENT = gql(`
                 ...QuestionTextFragment
             }
         }
+        sharedCreatedAt
         createdAt
         updatedAt
         timeLimit
