@@ -41,9 +41,11 @@ export default function Layout({ children }: PropsWithChildren) {
 	}, [responseBgColor, location.pathname]);
 
 	return (
-		<Box h="100%" p={`${theme.spacing.lg} 0`} style={{ background: backgroundColor }}>
+		<Box h="100%" pt={theme.spacing.lg} style={{ background: backgroundColor }}>
 			<AlertStack />
+			<Box mih={1200}>
 			{children}
+			</Box>
 			<Footer />
 			<AuthModal />
 		</Box>

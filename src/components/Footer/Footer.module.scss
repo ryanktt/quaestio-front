@@ -1,14 +1,19 @@
 .footer {
+	background-color: $white;
 	margin-top: rem(120px);
-	border-top: rem(1px) solid light-dark($gray2, $dark5);
+	border-top: rem(1px) solid $gray4;
+
+	p {
+		color: $gray8;
+	}
 }
 
 .inner {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding-top: $spacingXl;
-	padding-bottom: $spacingXl;
+	padding-top: $spacingSm;
+	padding-bottom: $spacingSm;
 
 	@media (max-width: $mantine-breakpoint-xs) {
 		flex-direction: column;
