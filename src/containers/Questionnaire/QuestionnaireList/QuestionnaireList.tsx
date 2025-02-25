@@ -96,10 +96,13 @@ function ID({ id }: { id: string }) {
 		<Box display="flex" style={{ alignItems: 'center' }}>
 			<Copy id={id} />
 			<Tooltip label="Go to questionnaire">
-				<p className={`${styles.btn} ${styles.id}`} onClick={() => navigate(`/board/questionnaire/edit/${id}`)}>
+				<UnstyledButton
+					className={`${styles.btn} ${styles.id}`}
+					onClick={() => navigate(`/board/questionnaire/edit/${id}`)}
+				>
 					<IconExternalLink style={{ width: rem(14), height: rem(14) }} stroke={1.6} />
 					<p>{id}</p>
-				</p>
+				</UnstyledButton>
 			</Tooltip>
 		</Box>
 	);
