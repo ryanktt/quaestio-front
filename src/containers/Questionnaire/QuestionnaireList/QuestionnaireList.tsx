@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import StatusBadge from '@components/StatusBadge/StatusBadge';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import { QuestionnaireType, useFetchQuestionnairesSuspenseQuery } from '@gened/graphql';
 import { Badge, Box, Text as MantineText, rem, Tooltip, UnstyledButton, useMantineTheme } from '@mantine/core';
@@ -45,14 +46,6 @@ function Type({ type }: { type: QuestionnaireType }) {
 	return (
 		<Badge variant={badgeVariant} radius={theme.radius.sm}>
 			{getTextFromQuestionnaireType(type)}
-		</Badge>
-	);
-}
-
-function Status({ active }: { active?: boolean }) {
-	return (
-		<Badge variant="dot" className={`${styles.status} ${active ? styles.active : ''}`}>
-			{active ? 'Active' : 'Unactive'}
 		</Badge>
 	);
 }
@@ -177,7 +170,7 @@ export default function QuestionnaireList() {
 					</ColumnItem>
 					{statuses.map((status, i) => (
 						<ColumnItem key={sharedIds[i]}>
-							<Status key={sharedIds[i]} active={status} />
+							<StatusBadge key={sharedIds[i]} active={status} />
 						</ColumnItem>
 					))}
 				</Column>

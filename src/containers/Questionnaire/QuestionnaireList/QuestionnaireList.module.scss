@@ -59,26 +59,6 @@
 	}
 }
 
-.status {
-	min-width: fit-content;
-	span {
-		margin: 0;
-		font-size: rem(10px);
-		font-weight: 600;
-	}
-	&:before {
-		background-color: $pink6;
-		width: rem(7px);
-		height: rem(7px);
-	}
-}
-
-.status.active {
-	&:before {
-		background-color: $teal5;
-	}
-}
-
 .btn {
 	color: $indigo7;
 	background-color: transparent;
