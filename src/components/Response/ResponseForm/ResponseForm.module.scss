@@ -1,5 +1,5 @@
 :root {
-	--response-option-bg: #{$indigo6};
+	--response-option-bg: #{linear-gradient(180, $indigo6, $indigo7)};
 	--response-checked-icon: #{$indigo6};
 	--response-input-bg: #{$indigo0};
 	--response-input-border: #{$indigo6};

@@ -33,7 +33,7 @@ export default function Layout({ children }: PropsWithChildren) {
 			const [primaryColor, secondaryColor] = colorSchemes[responseBgColor as IColorSchemes];
 			setBackgroundColor(
 				getGradient(
-					{ deg: 30, from: theme.colors[primaryColor][7], to: theme.colors[secondaryColor][7] },
+					{ deg: 30, from: theme.colors[primaryColor][8], to: theme.colors[secondaryColor][8] },
 					theme,
 				),
 			);
@@ -43,9 +43,7 @@ export default function Layout({ children }: PropsWithChildren) {
 	return (
 		<Box h="100%" pt={theme.spacing.lg} style={{ background: backgroundColor }}>
 			<AlertStack />
-			<Box mih={1200}>
-			{children}
-			</Box>
+			<Box mih={1200}>{children}</Box>
 			<Footer />
 			<AuthModal />
 		</Box>

@@ -28,7 +28,10 @@ export default function ResponseForm({
 	const [primaryColor, secondaryColor] = colorSchemes[colorScheme];
 
 	useEffect(() => {
-		document.documentElement.style.setProperty('--response-option-bg', theme.colors[primaryColor][7]);
+		document.documentElement.style.setProperty(
+			'--response-option-bg',
+			getGradient({ deg: 180, from: theme.colors[primaryColor][6], to: theme.colors[primaryColor][7] }, theme),
+		);
 		document.documentElement.style.setProperty('--response-checked-icon', theme.colors[primaryColor][6]);
 		document.documentElement.style.setProperty('--response-input-bg', theme.colors[primaryColor][0]);
 		document.documentElement.style.setProperty('--response-input-border', theme.colors[primaryColor][6]);
