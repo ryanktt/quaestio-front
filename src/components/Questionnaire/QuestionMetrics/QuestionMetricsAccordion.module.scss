@@ -1,0 +1,88 @@
+.accordion {
+	display: flex;
+	flex-direction: column;
+	gap: rem(5px);
+	.accordionItem:first-child {
+		border-top-right-radius: $radiusMd;
+		border-top-left-radius: $radiusMd;
+	}
+
+	.accordionItem:last-child {
+		border-bottom-right-radius: $radiusMd;
+		border-bottom-left-radius: $radiusMd;
+	}
+}
+
+.accordionItem {
+	overflow: hidden;
+	border: 1px solid $gray4;
+	border-radius: $radiusSm;
+	box-shadow: $shadowXs;
+}
+
+.dropper {
+	background: linear-gradient(0deg, $indigo8, $indigo7);
+	height: rem(45px);
+	padding: 0 $spacingSm;
+	cursor: pointer;
+	overflow: hidden;
+	img {
+		display: none;
+	}
+	p {
+		color: $white;
+		font-size: rem(14);
+		font-weight: 500;
+	}
+
+	&:hover {
+		background: linear-gradient(0deg, $indigo8, $indigo8);
+	}
+}
+
+.content {
+	display: grid;
+	grid-template-rows: 0fr;
+	overflow: hidden;
+	transition: grid-template-rows 0.3s;
+	background-color: $white;
+}
+
+.content.open {
+	grid-template-rows: 1fr;
+}
+
+.analyticsWrapper {
+	min-height: 0;
+}
+
+.analytics {
+	padding: $spacingSm;
+	display: flex;
+	flex-direction: column;
+	gap: $spacingSm;
+}
+
+.dropperDescription {
+	align-self: flex-start;
+	overflow: hidden;
+	height: rem(35px);
+	p {
+		padding: 0;
+	}
+}
+
+.questionDescription {
+	border-radius: $radiusMd;
+	padding: rem(2px);
+	background: $gray0;
+	font-weight: 600;
+	overflow: hidden;
+	font-size: rem(14px);
+	color: $gray7;
+	p {
+		padding: 0;
+		margin: 3px;
+		font-size: rem(14px);
+	}
+}

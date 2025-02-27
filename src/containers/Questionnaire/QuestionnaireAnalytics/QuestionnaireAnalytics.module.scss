@@ -1,0 +1,25 @@
+.metricsCard {
+	max-width: 100%;
+	min-width: rem(190px);
+	align-items: center;
+	text-wrap: nowrap;
+	gap: $spacingSm;
+	border: 1px solid $gray4;
+	border-radius: $radiusMd;
+	box-shadow: $shadowSm;
+	display: flex;
+	padding: $spacingLg;
+}
+
+.markup {
+	border-radius: $radiusMd;
+	padding: rem(2px) rem(10px);
+	margin: 0;
+	background-color: $gray0;
+	font-weight: 600;
+	font-size: rem(14px);
+	color: $gray7;
+	p {
+		margin: 0;
+	}
+}

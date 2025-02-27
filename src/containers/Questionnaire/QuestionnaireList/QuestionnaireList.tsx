@@ -91,7 +91,7 @@ function ID({ id }: { id: string }) {
 			<Tooltip label="Go to questionnaire">
 				<UnstyledButton
 					className={`${styles.btn} ${styles.id}`}
-					onClick={() => navigate(`/board/questionnaire/edit/${id}`)}
+					onClick={() => navigate(`/board/questionnaire/${id}`)}
 				>
 					<IconExternalLink style={{ width: rem(14), height: rem(14) }} stroke={1.6} />
 					<p>{id}</p>

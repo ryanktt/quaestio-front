@@ -10,8 +10,9 @@
 }
 
 .item.filled {
+	border: 1px solid $gray4;
 	.toolbar {
-		background: linear-gradient(0deg, $indigo7 0%, 40%, $indigo6 100%);
+		background: linear-gradient(0deg, $indigo7, $indigo6);
 	}
 	.badge {
 		color: $white;
@@ -117,9 +118,5 @@
 }
 
 .content.open {
-	border: 1px solid $gray4;
-	border-top: 0;
-	border-bottom-right-radius: $radiusMd;
-	border-bottom-left-radius: $radiusMd;
 	grid-template-rows: 1fr;
 }

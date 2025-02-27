@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 
 export const QUESTIONNAIRE_METRICS = gql(`
     fragment QuestionnaireMetricsFragment on QuestionnaireMetrics {
+      _id
       totalResponseCount
       totalAttemptCount
       totalAnswerTime
@@ -10,33 +11,40 @@ export const QUESTIONNAIRE_METRICS = gql(`
       byLocationMap
       questionMetrics {
         ... on QuestionSingleChoiceMetrics {
+          _id
           answerCount
           unansweredCount
           rightAnswerCount
           wrongAnswerCount
           options {
+            _id
             selectedCount
           }
         }
         ... on QuestionMultipleChoiceMetrics {
+          _id
           answerCount
           unansweredCount
           rightAnswerCount
           wrongAnswerCount
           options {
+            _id
             selectedCount
           }
         }
         ... on QuestionTrueOrFalseMetrics {
+          _id
           answerCount
           unansweredCount
           rightAnswerCount
           wrongAnswerCount
           options {
+            _id
             selectedCount
           }
         }
         ... on QuestionTextMetrics {
+          _id
           answerCount
           unansweredCount
         }

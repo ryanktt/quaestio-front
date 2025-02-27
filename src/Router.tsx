@@ -6,6 +6,9 @@ import React, { useContext } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 const QuestionnaireList = React.lazy(() => import('@containers/Questionnaire/QuestionnaireList/QuestionnaireList'));
+const QuestionnaireAnalytics = React.lazy(
+	() => import('@containers/Questionnaire/QuestionnaireAnalytics/QuestionnaireAnalytics'),
+);
 const RespondQuestionnaire = React.lazy(() => import('@containers/Response/RespondQuestionnaire'));
 const CreateQuestionnaire = React.lazy(
 	() => import('@containers/Questionnaire/CreateQuestionnaire/CreateQuestionnaire'),
@@ -26,6 +29,7 @@ function Router() {
 							<Routes>
 								<Route path="/questionnaires" element={<QuestionnaireList />} />
 								<Route path="/questionnaire/create" element={<CreateQuestionnaire />} />
+								<Route path="/questionnaire/:sharedId" element={<QuestionnaireAnalytics />} />
 								<Route path="/questionnaire/edit/:sharedId" element={<EditQuestionnaire />} />
 							</Routes>
 						}

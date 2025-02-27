@@ -205,7 +205,7 @@ export default function QuestionnaireForm({
 				borderRadius: theme.radius.lg,
 			}}
 		>
-			<Title mb={theme.spacing.xl} size={rem(24)} fw={600} c={theme.colors.gray[8]}>
+			<Title mb={theme.spacing.xl} size={24} fw={600} c={theme.colors.gray[8]}>
 				{title}
 			</Title>
 
