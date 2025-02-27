@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-danger */
 /* eslint-disable no-underscore-dangle */
 import {
@@ -102,6 +103,7 @@ export default function QuestionMetricsAccordion({
 				const metrics = questionMetrics.find(({ _id }) => _id === question._id);
 				return (
 					<MetricsAccordionItem
+						key={`metrics-accordion-item-${i}`}
 						index={i}
 						questionMetrics={metrics as QuestionMetricsTypes}
 						question={question}

@@ -130,7 +130,11 @@ export default function OptionAccordionForm({
 				) : null}
 			</div>
 
-			<Checkbox {...getInputProps('correct', 'checkbox')} color={theme.colors.indigo[6]} label="Correct option" />
+			<Checkbox
+				{...getInputProps('correct', 'checkbox')}
+				color={theme.colors.indigo[6]}
+				label="Correct option"
+			/>
 		</AccordionFormItem>
 	);
 }

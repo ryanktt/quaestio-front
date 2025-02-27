@@ -94,7 +94,11 @@ export default function AccordionFormItem({
 		if (method === 'ADD') {
 			return (
 				<Tooltip label={`Add ${type}`}>
-					<Button onClick={() => setOpen(true)} disabled={!enableToolbarOptions} {...buttonStyleProps}>
+					<Button
+						onClick={() => setOpen(true)}
+						disabled={!enableToolbarOptions}
+						{...buttonStyleProps}
+					>
 						<IconPlus style={{ width: rem(18), height: rem(18) }} />
 					</Button>
 				</Tooltip>
@@ -109,7 +113,11 @@ export default function AccordionFormItem({
 						</Button>
 					</Tooltip>
 					<Tooltip label={`Show ${type}`}>
-						<Button onClick={() => setOpen(true)} disabled={!enableToolbarOptions} {...buttonStyleProps}>
+						<Button
+							onClick={() => setOpen(true)}
+							disabled={!enableToolbarOptions}
+							{...buttonStyleProps}
+						>
 							<IconChevronDown style={{ width: rem(18), height: rem(18) }} />
 						</Button>
 					</Tooltip>

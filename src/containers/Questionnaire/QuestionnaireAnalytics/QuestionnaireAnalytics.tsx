@@ -7,7 +7,14 @@ import { useFetchQuestionnaireSuspenseQuery } from '@gened/graphql';
 import '@mantine/charts/styles.css';
 import { Box, Button, getGradient, Group, rem, Text, Title, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { IconClock, IconEdit, IconExternalLink, IconFileArrowRight, IconFiles, IconTrash } from '@tabler/icons-react';
+import {
+	IconClock,
+	IconEdit,
+	IconExternalLink,
+	IconFileArrowRight,
+	IconFiles,
+	IconTrash,
+} from '@tabler/icons-react';
 import { createMarkup } from '@utils/html';
 import moment from 'moment';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -28,7 +35,9 @@ function MetricsCard({
 	return (
 		<Box
 			className={styles.metricsCard}
-			style={{ background: getGradient({ deg: 25, from: `${color}.8`, to: `${color}.5` }, theme) }}
+			style={{
+				background: getGradient({ deg: 25, from: `${color}.8`, to: `${color}.5` }, theme),
+			}}
 		>
 			<Icon size={35} color={theme.white} stroke={1.7} />
 			<div>
@@ -57,7 +66,7 @@ export default function QuestionnaireAnalytics() {
 	const avgAnswerTimeMin = moment.duration(metrics.avgAnswerTime, 'ms').asMinutes().toFixed(0);
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing.md }}>
+		<div className={styles.analytics}>
 			<Group grow preventGrowOverflow={false}>
 				<MetricsCard
 					label="Responses"
@@ -71,22 +80,14 @@ export default function QuestionnaireAnalytics() {
 					color="pink"
 					icon={IconFiles}
 				/>
-				<MetricsCard label="Avg Answer Time" stats={`${avgAnswerTimeMin} min`} color="teal" icon={IconClock} />
+				<MetricsCard
+					label="Avg Answer Time"
+					stats={`${avgAnswerTimeMin} min`}
+					color="teal"
+					icon={IconClock}
+				/>
 			</Group>
-			<div
-				style={{
-					padding: theme.spacing.lg,
-					boxShadow: theme.shadows.sm,
-					width: '100%',
-					backgroundColor: theme.white,
-					border: '1px solid',
-					borderColor: theme.colors.gray[4],
-					borderRadius: theme.radius.lg,
-					display: 'flex',
-					gap: theme.spacing.md,
-					flexDirection: 'column',
-				}}
-			>
+			<div className={styles.mainSection}>
 				<Box>
 					<Box
 						mb={5}

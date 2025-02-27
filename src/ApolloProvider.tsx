@@ -1,23 +1,39 @@
-import { ApolloClient, ApolloLink, ApolloProvider, HttpLink, InMemoryCache, Observable, from } from '@apollo/client';
+import {
+	ApolloClient,
+	ApolloLink,
+	ApolloProvider,
+	HttpLink,
+	InMemoryCache,
+	Observable,
+	from,
+} from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import { AlertContext } from '@contexts/Alert/Alert.context';
 import '@mantine/core/styles.css';
 import { getGraphqlErrorCode } from '@utils/graphql.ts';
 import { setContext } from 'apollo-link-context';
 import { nanoid } from 'nanoid/non-secure';
-import { PropsWithChildren, useContext, useMemo } from 'react';
+import { PropsWithChildren, useContext, useEffect, useMemo } from 'react';
 import { Cookies } from 'react-cookie';
 import { createState } from 'state-pool';
 
 interface RequestContext {
-	requestId: string;
-	loading: boolean;
+	requestId?: string;
+	loading?: boolean;
 	errorCode?: string;
 }
 const apolloRequestCtxState = createState<RequestContext | null>(null);
 
 const middleware = new ApolloLink((operation, forward) => {
-	const requestStartCtx = { requestId: nanoid(5), loading: true };
+	const operationType = operation.query.definitions.find(
+		(definition) => definition.kind === 'OperationDefinition',
+	)?.operation;
+	if (operationType !== 'mutation') return forward(operation);
+
+	const requestStartCtx = {
+		requestId: nanoid(5),
+		loading: true,
+	};
 	operation.setContext(requestStartCtx);
 	apolloRequestCtxState.setValue(requestStartCtx);
 	return forward(operation);
@@ -34,6 +50,7 @@ const afterware = new ApolloLink((operation, forward) => {
 			},
 			complete: () => {
 				const { requestId, errorCode } = operation.getContext() as RequestContext;
+				if (!requestId) observer.complete();
 				apolloRequestCtxState.setValue({ requestId, errorCode, loading: false });
 				observer.complete();
 			},
@@ -58,6 +75,7 @@ const client = new ApolloClient({
 	link: from([
 		onError((error) => {
 			const { requestId } = error.operation.getContext() as RequestContext;
+			if (!requestId) return;
 			const requestErrorCtx = {
 				errorCode: getGraphqlErrorCode(error),
 				loading: false,
@@ -75,15 +93,17 @@ const client = new ApolloClient({
 function ApolloClientProvider({ children }: PropsWithChildren) {
 	const alertState = useContext(AlertContext).state;
 	const [apolloRequest] = apolloRequestCtxState.useState();
+	const apolloRequestMemo = useMemo(() => apolloRequest, [apolloRequest]);
 
-	useMemo(() => {
+	useEffect(() => {
 		if (!apolloRequest) return;
 
 		const {
 			errorCode: requestErrorCode,
 			loading: requestLoading,
 			requestId,
-		} = apolloRequest as { requestId: string; loading: boolean; errorCode?: string };
+		} = apolloRequest as RequestContext;
+		if (!requestId) return;
 
 		const timeout = 2000;
 		if (requestLoading) {
@@ -107,11 +127,11 @@ function ApolloClientProvider({ children }: PropsWithChildren) {
 				id: requestId,
 				type: 'SUCCESS',
 				title: 'Success',
-				message: 'You request has been successfully sent',
+				message: 'Your request has been successfully sent',
 				timeout,
 			});
 		}
-	}, [apolloRequest]);
+	}, [apolloRequestMemo]);
 
 	return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }

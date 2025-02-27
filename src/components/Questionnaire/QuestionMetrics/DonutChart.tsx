@@ -36,7 +36,7 @@ export default function DonutChart({ data }: { data: DonutChartCell[] }) {
 			bg="gray.0"
 			p="xs"
 		>
-			<MantineDonutChart styles={{ root: { display: 'flex' } }} size={70} data={data} withTooltip={false} />
+			<MantineDonutChart size={70} data={data} withTooltip={false} />
 			<Group maw={300}>
 				{data.map(({ color, name, value }, i) => (
 					<Legend color={color} name={name} value={value} key={`legend-${i}`} />

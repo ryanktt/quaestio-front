@@ -198,7 +198,12 @@ export default function QuestionAccordionForm({
 
 	const questionTypeBadge =
 		method === 'EDIT' && questionProps.type ? (
-			<Box display="flex" w={120} style={{ alignItems: 'center', justifyContent: 'start' }}>
+			<Box
+				style={{ alignItems: 'center', justifyContent: 'start' }}
+				key="question-badge"
+				display="flex"
+				w={120}
+			>
 				<Badge size="sm" radius="sm" variant={getBadgeVariantByType(questionProps.type)}>
 					{getTextByType()}
 				</Badge>

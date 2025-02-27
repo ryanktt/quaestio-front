@@ -69,7 +69,9 @@ export const buildQuestionsFormProps = (questions: QuestionTypes[]): IQuestionPr
 	});
 };
 
-export const buildQuestionnaireFormProps = (questionnaire?: QuestionnaireTypes | null): IQuestionnaireFormProps => {
+export const buildQuestionnaireFormProps = (
+	questionnaire?: QuestionnaireTypes | null,
+): IQuestionnaireFormProps => {
 	if (!questionnaire) {
 		return {
 			type: null,
@@ -192,7 +194,9 @@ export const buildUpdateQuestionnaireMutationVariables = (
 		),
 		timeLimit: questionnaireProps.timeLimit || undefined,
 		maxRetryAmount:
-			typeof questionnaireProps.maxRetryAmount === 'number' ? questionnaireProps.maxRetryAmount : undefined,
+			typeof questionnaireProps.maxRetryAmount === 'number'
+				? questionnaireProps.maxRetryAmount
+				: undefined,
 		randomizeQuestions:
 			typeof questionnaireProps.randomizeQuestions === 'boolean'
 				? questionnaireProps.randomizeQuestions

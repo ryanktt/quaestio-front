@@ -3,10 +3,18 @@
 import StatusBadge from '@components/StatusBadge/StatusBadge';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import { QuestionnaireType, useFetchQuestionnairesSuspenseQuery } from '@gened/graphql';
-import { Badge, Box, Text as MantineText, rem, Tooltip, UnstyledButton, useMantineTheme } from '@mantine/core';
+import {
+	Badge,
+	Box,
+	Text as MantineText,
+	rem,
+	Tooltip,
+	UnstyledButton,
+	useMantineTheme,
+} from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { IconClipboard, IconExternalLink, IconHome2 } from '@tabler/icons-react';
-import { PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { PropsWithChildren, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './QuestionnaireList.module.scss';
 
@@ -114,11 +122,7 @@ export const DEBOUNCE_DELAY = 500;
 export default function QuestionnaireList() {
 	const { searchStr } = useContext(GlobalContext).state;
 	const [textFilter] = useDebouncedValue(searchStr, DEBOUNCE_DELAY);
-	const { data, refetch } = useFetchQuestionnairesSuspenseQuery({ variables: { textFilter } });
-
-	useEffect(() => {
-		refetch({ textFilter });
-	}, [textFilter]);
+	const { data } = useFetchQuestionnairesSuspenseQuery({ variables: { textFilter } });
 
 	const { entries, sharedIds, statuses, titles, types, views } =
 		data.adminFetchQuestionnaires.reduce<QuestionnaireListData>(

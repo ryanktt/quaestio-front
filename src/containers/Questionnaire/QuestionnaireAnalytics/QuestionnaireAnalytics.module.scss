@@ -1,3 +1,21 @@
+.analytics {
+	display: flex;
+	flex-direction: column;
+	gap: $spacingMd;
+}
+
+.mainSection {
+	padding: $spacingLg;
+	box-shadow: $shadowSm;
+	width: 100%;
+	border: 1px solid;
+	border-color: $gray4;
+	border-radius: $radiusLg;
+	display: flex;
+	flex-direction: column;
+	gap: $spacingSm;
+}
+
 .metricsCard {
 	max-width: 100%;
 	min-width: rem(190px);

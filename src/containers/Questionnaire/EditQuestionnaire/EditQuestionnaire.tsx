@@ -14,7 +14,10 @@ import {
 import '@mantine/core/styles.css';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { buildQuestionnaireFormProps, buildUpdateQuestionnaireMutationVariables } from './EditQuestionnaire.aux.ts';
+import {
+	buildQuestionnaireFormProps,
+	buildUpdateQuestionnaireMutationVariables,
+} from './EditQuestionnaire.aux.ts';
 
 export default function EditQuestionnaire() {
 	const params = useParams() as { sharedId: string };

@@ -149,7 +149,12 @@ export default function QuestionnaireForm({
 	};
 
 	const questionItems = getQuestionnaire().questions.map((question, i) => (
-		<DragDropItem index={i} isDragDisabled={!!onEditQuestionId} key={question.id} draggableId={question.id}>
+		<DragDropItem
+			index={i}
+			isDragDisabled={!!onEditQuestionId}
+			key={question.id}
+			draggableId={question.id}
+		>
 			<QuestionAccordionForm
 				badge={`Question ${i + 1}`}
 				question={question}
@@ -270,7 +275,9 @@ export default function QuestionnaireForm({
 						<div>
 							<Checkbox
 								color={theme.colors.indigo[6]}
-								onChange={(event) => updateTimeLimitInput({ enabled: event.currentTarget.checked })}
+								onChange={(event) =>
+									updateTimeLimitInput({ enabled: event.currentTarget.checked })
+								}
 								checked={timeLimitInput.enabled}
 								value={0}
 								mb={5}
@@ -282,7 +289,9 @@ export default function QuestionnaireForm({
 									<NumberInput
 										value={timeLimitInput.amount}
 										onChange={(amount) =>
-											updateTimeLimitInput({ amount: amount ? Number(amount) : undefined })
+											updateTimeLimitInput({
+												amount: amount ? Number(amount) : undefined,
+											})
 										}
 										required
 										placeholder="The time limit in minutes"
@@ -339,7 +348,10 @@ export default function QuestionnaireForm({
 
 				{questionItems.length ? (
 					<div>
-						<DragDropList orderedItems={getQuestionnaire().questions} onReorder={handleReorderedQuestions}>
+						<DragDropList
+							orderedItems={getQuestionnaire().questions}
+							onReorder={handleReorderedQuestions}
+						>
 							{questionItems}
 						</DragDropList>
 					</div>
