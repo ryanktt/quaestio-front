@@ -260,7 +260,6 @@ export default function QuestionAccordionForm({
 							onChange={(event) => setRightAnswerFeedbackEnabled(event.currentTarget.checked)}
 							checked={rightAnswerFeedbackEnabled}
 							disabled={!type}
-							mb={5}
 							label="Correct answer feedback"
 						/>
 						{rightAnswerFeedbackEnabled ? (
@@ -280,7 +279,6 @@ export default function QuestionAccordionForm({
 							onChange={(event) => setWrongAnswerFeedbackEnabled(event.currentTarget.checked)}
 							checked={wrongAnswerFeedbackEnabled}
 							disabled={!type}
-							mb={5}
 							label="Wrong answer feedback"
 						/>
 						{wrongAnswerFeedbackEnabled ? (
@@ -310,7 +308,6 @@ export default function QuestionAccordionForm({
 						onChange={(event) => setTextFeedbackEnabled(event.currentTarget.checked)}
 						checked={textFeedbackEnabled}
 						disabled={!type}
-						mb={5}
 						label="Feedback after submit"
 					/>
 					{textFeedbackEnabled ? (
@@ -346,7 +343,7 @@ export default function QuestionAccordionForm({
 			type === QuestionType.SingleChoice ||
 			type === QuestionType.TrueOrFalse ? (
 				<>
-					<Title mt={theme.spacing.lg} size={18} fw={500} c={theme.colors.gray[8]}>
+					<Title size={18} fw={500} c={theme.colors.gray[8]}>
 						Options
 					</Title>
 
