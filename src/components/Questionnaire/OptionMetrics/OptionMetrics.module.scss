@@ -1,0 +1,29 @@
+.options {
+	display: flex;
+	flex-direction: column;
+
+	.option:last-child {
+		border-bottom-right-radius: $radiusSm;
+		border-bottom-left-radius: $radiusSm;
+	}
+}
+
+.option {
+	overflow: hidden;
+	border-top: 1px solid $gray4;
+}
+
+.main {
+	background: linear-gradient(0deg, $gray1, $gray0);
+	padding: 0 $spacingSm;
+	padding: $spacingXs;
+	overflow: hidden;
+	img {
+		display: none;
+	}
+	p {
+		color: $gray8;
+		font-size: rem(14);
+		font-weight: 500;
+	}
+}

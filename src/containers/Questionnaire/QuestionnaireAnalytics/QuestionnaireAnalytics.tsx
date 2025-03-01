@@ -76,7 +76,7 @@ export default function QuestionnaireAnalytics() {
 				/>
 				<MetricsCard
 					label="Avg Re-entries"
-					stats={String(metrics.avgAttemptCount - 1)}
+					stats={(metrics.avgAttemptCount - 1).toFixed(1)}
 					color="pink"
 					icon={IconFiles}
 				/>
@@ -90,7 +90,7 @@ export default function QuestionnaireAnalytics() {
 			<div className={styles.mainSection}>
 				<Box>
 					<Box
-						mb={5}
+						mb={theme.spacing.sm}
 						display="flex"
 						style={{
 							justifyContent: 'space-between',
@@ -98,7 +98,7 @@ export default function QuestionnaireAnalytics() {
 							flexWrap: 'wrap',
 						}}
 					>
-						<Title c="gray.8" size={24}>
+						<Title c="gray.8" size={24} mb={theme.spacing.sm}>
 							{title}
 						</Title>
 						<Group gap={0}>

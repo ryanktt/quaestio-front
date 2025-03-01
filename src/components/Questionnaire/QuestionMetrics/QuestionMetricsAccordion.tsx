@@ -7,11 +7,14 @@ import {
 	QuestionSingleChoiceMetrics,
 	QuestionTextMetrics,
 	QuestionTrueOrFalseMetrics,
+	QuestionType,
 } from '@gened/graphql';
 import { Box, rem, Title, UnstyledButton, useMantineTheme } from '@mantine/core';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { createMarkup } from '@utils/html';
 import { useMemo, useState } from 'react';
+import OptionMetricsList from '../OptionMetrics/OptionMetrics.tsx';
+import { QuestionTypes } from '../Questionnaire.interface.ts';
 import DonutChart from './DonutChart.tsx';
 import styles from './QuestionMetricsAccordion.module.scss';
 
@@ -27,7 +30,7 @@ function MetricsAccordionItem({
 	index,
 }: {
 	questionMetrics: QuestionMetricsTypes;
-	question: Question;
+	question: QuestionTypes;
 	index: number;
 }) {
 	const theme = useMantineTheme();
@@ -49,6 +52,15 @@ function MetricsAccordionItem({
 		return data;
 	}, []);
 
+	const getQuestionTextByType = () => {
+		const t = question.type;
+		if (t === QuestionType.SingleChoice) return 'Single Choice';
+		if (t === QuestionType.MultipleChoice) return 'Multiple Choice';
+		if (t === QuestionType.TrueOrFalse) return 'True or False';
+		if (t === QuestionType.Text) return 'Text';
+		return null;
+	};
+
 	return (
 		<Box className={styles.accordionItem}>
 			<Box
@@ -60,6 +72,10 @@ function MetricsAccordionItem({
 				<Box display="flex" style={{ gap: rem(10), alignItems: 'center', overflow: 'hidden' }}>
 					<Title size={12} c="white">
 						Q{index + 1}
+					</Title>
+					<Title tt="uppercase" size={12} w={110} c="white">
+						{' '}
+						{getQuestionTextByType()}
 					</Title>
 					<div
 						className={styles.dropperDescription}
@@ -84,6 +100,15 @@ function MetricsAccordionItem({
 							dangerouslySetInnerHTML={createMarkup(question.description || '')}
 						/>
 					</Box>
+
+					{'options' in questionMetrics && 'options' in question ? (
+						<Box>
+							<OptionMetricsList
+								optionMetrics={questionMetrics.options}
+								options={question.options}
+							/>
+						</Box>
+					) : null}
 				</Box>
 			</Box>
 		</Box>
