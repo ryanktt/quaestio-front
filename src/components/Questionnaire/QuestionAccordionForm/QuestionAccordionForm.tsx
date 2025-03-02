@@ -2,13 +2,14 @@ import DragDropList from '@components/DragDropList/DragDropList';
 import DragDropItem from '@components/DragDropList/Draggable.tsx';
 import RichTextInput from '@components/RichText/RichText.tsx';
 import { QuestionType } from '@gened/graphql.ts';
-import { Box, Checkbox, Select, Textarea, Title, useMantineTheme } from '@mantine/core';
+import { Box, Checkbox, rem, Select, Textarea, Title, useMantineTheme } from '@mantine/core';
 import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
 import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
 import { useState } from 'react';
 import AccordionFormItem from '../AccordionFormItem/AccordionFormItem.tsx';
 import OptionAccordionForm, { IOptionProps } from '../OptionAccordionForm/OptionAccordionForm.tsx';
+import { EQuestionnaireType } from '../QuestionnaireForm/QuestionnaireForm.interface.ts';
 
 type IMethod = 'ADD' | 'EDIT';
 
@@ -30,6 +31,7 @@ export interface IQuestionAccordionFormProps {
 	question?: IQuestionProps;
 	method?: IMethod;
 	draggable?: boolean;
+	questionnaireType?: EQuestionnaireType | null;
 	enableToolbarOptions?: boolean;
 	setOpen?: () => boolean | null;
 	onDelete?: (optionId: string) => void;
@@ -55,6 +57,7 @@ export default function QuestionAccordionForm({
 	question: questionProps = initialProps,
 	draggable = true,
 	method = 'EDIT',
+	questionnaireType,
 	badge,
 	enableToolbarOptions = true,
 	setOpen = () => null,
@@ -136,7 +139,7 @@ export default function QuestionAccordionForm({
 
 	const optionsProps = form.getValues().options.map((option, i) => (
 		<DragDropItem
-			mb="0"
+			mb={rem(3)}
 			index={i}
 			isDragDisabled={!!onEditOptionId}
 			key={option.id}
@@ -146,6 +149,7 @@ export default function QuestionAccordionForm({
 				badge={`Option ${i + 1}`}
 				key={option.id}
 				option={option}
+				questionnaireType={questionnaireType}
 				onDelete={deleteOption}
 				onSave={setOption}
 				enableToolbarOptions={!onEditOptionId}
@@ -248,9 +252,10 @@ export default function QuestionAccordionForm({
 					inputWrapperOrder: ['label', 'error', 'input'],
 				}}
 			/>
-			{type === QuestionType.MultipleChoice ||
-			type === QuestionType.SingleChoice ||
-			type === QuestionType.TrueOrFalse ? (
+			{questionnaireType !== EQuestionnaireType.Survey &&
+			(type === QuestionType.MultipleChoice ||
+				type === QuestionType.SingleChoice ||
+				type === QuestionType.TrueOrFalse) ? (
 				<>
 					<div>
 						<Checkbox
@@ -353,6 +358,7 @@ export default function QuestionAccordionForm({
 
 					<OptionAccordionForm
 						badge="New Option"
+						questionnaireType={questionnaireType}
 						method="ADD"
 						onSave={setOption}
 						enableToolbarOptions={!onEditOptionId}

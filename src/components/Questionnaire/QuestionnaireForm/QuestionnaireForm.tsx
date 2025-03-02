@@ -161,6 +161,7 @@ export default function QuestionnaireForm({
 				key={question.id}
 				draggable
 				onDelete={deleteQuestion}
+				questionnaireType={getQuestionnaire().type}
 				onSave={setQuestion}
 				enableToolbarOptions={!onEditQuestionId}
 				setOpen={() => (onEditQuestionId ? onEditQuestionId === question.id : null)}
@@ -360,6 +361,7 @@ export default function QuestionnaireForm({
 				<QuestionAccordionForm
 					badge="New Question"
 					method="ADD"
+					questionnaireType={getQuestionnaire().type}
 					draggable={false}
 					onSave={setQuestion}
 					enableToolbarOptions={!onEditQuestionId}

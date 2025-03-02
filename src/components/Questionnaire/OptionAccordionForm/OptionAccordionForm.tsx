@@ -4,6 +4,7 @@ import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
 import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
 import { ChangeEvent, useState } from 'react';
+import { EQuestionnaireType } from '../Questionnaire.interface.ts';
 
 export interface IOptionProps {
 	id: string;
@@ -17,6 +18,7 @@ export interface IOptionAccordionFormProps {
 	option?: IOptionProps;
 	method?: 'ADD' | 'EDIT';
 	enableToolbarOptions?: boolean;
+	questionnaireType?: EQuestionnaireType | null;
 	setOpen?: () => boolean | null;
 	onDelete?: (optionId: string) => void;
 	onSave?: (option: IOptionProps) => void;
@@ -35,6 +37,7 @@ export default function OptionAccordionForm({
 	option: optionProp = initialProps,
 	method = 'EDIT',
 	badge,
+	questionnaireType,
 	enableToolbarOptions = true,
 	setOpen = () => null,
 	onDelete = () => {},
@@ -130,11 +133,13 @@ export default function OptionAccordionForm({
 				) : null}
 			</div>
 
-			<Checkbox
-				{...getInputProps('correct', 'checkbox')}
-				color={theme.colors.indigo[6]}
-				label="Correct option"
-			/>
+			{questionnaireType !== EQuestionnaireType.Survey ? (
+				<Checkbox
+					{...getInputProps('correct', 'checkbox')}
+					color={theme.colors.indigo[6]}
+					label="Correct option"
+				/>
+			) : null}
 		</AccordionFormItem>
 	);
 }

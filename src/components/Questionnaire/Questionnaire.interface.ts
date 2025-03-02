@@ -14,7 +14,11 @@ import {
 
 export type QuestionnaireTypes = QuestionnaireExam | QuestionnaireSurvey | QuestionnaireQuiz;
 
-export type QuestionTypes = QuestionMultipleChoice | QuestionSingleChoice | QuestionTrueOrFalse | QuestionText;
+export type QuestionTypes =
+	| QuestionMultipleChoice
+	| QuestionSingleChoice
+	| QuestionTrueOrFalse
+	| QuestionText;
 
 export enum EQuestionnaireType {
 	Survey = 'Survey',
@@ -28,4 +32,10 @@ export type IQuestionInputTypes =
 	| QuestionSingleChoiceInput
 	| QuestionTrueOrFalseInput;
 
-export const questionBaseInputKeys = ['showCorrectAnswer', 'description', 'required', 'weight', 'title'] as const;
+export const questionBaseInputKeys = [
+	'showCorrectAnswer',
+	'description',
+	'required',
+	'weight',
+	'title',
+] as const;
