@@ -15,6 +15,7 @@ import styles from './AccordionFormItem.module.scss';
 
 export interface IAccordionFormItemProps {
 	badge: string;
+	badgeColor?: string;
 	label?: string;
 	type: 'Option' | 'Question';
 	method?: 'ADD' | 'EDIT';
@@ -26,6 +27,7 @@ export interface IAccordionFormItemProps {
 	toolbarComponents?: React.ReactNode[];
 	variant?: 'subtle' | 'filled';
 	enableToolbarOptions?: boolean;
+	deletable?: boolean;
 	setOpen?: () => boolean | null;
 }
 
@@ -33,6 +35,7 @@ export default function AccordionFormItem({
 	label,
 	method = 'EDIT',
 	badge,
+	badgeColor,
 	type,
 	children,
 	onDelete = () => {},
@@ -41,6 +44,7 @@ export default function AccordionFormItem({
 	enableToolbarOptions = true,
 	setOpen: setOpenProp = () => null,
 	variant = 'subtle',
+	deletable = true,
 	isEditing,
 	toolbarComponents = [],
 }: PropsWithChildren & IAccordionFormItemProps) {
@@ -110,11 +114,13 @@ export default function AccordionFormItem({
 		if (method === 'EDIT') {
 			return (
 				<>
-					<Tooltip label={`Delete ${type}`}>
-						<Button onClick={onDelete} disabled={!enableToolbarOptions} {...buttonStyleProps}>
-							<IconTrash style={{ width: rem(17), height: rem(17) }} stroke={1.7} />
-						</Button>
-					</Tooltip>
+					{deletable ? (
+						<Tooltip label={`Delete ${type}`}>
+							<Button onClick={onDelete} disabled={!enableToolbarOptions} {...buttonStyleProps}>
+								<IconTrash style={{ width: rem(17), height: rem(17) }} stroke={1.7} />
+							</Button>
+						</Tooltip>
+					) : null}
 					<Tooltip label={`Show ${type}`}>
 						<Button
 							onClick={() => setOpen(true)}
@@ -142,6 +148,8 @@ export default function AccordionFormItem({
 					<Badge
 						variant={variant === 'subtle' ? 'light' : 'filled'}
 						className={styles.badge}
+						c={badgeColor ? theme.colors[badgeColor][8] : undefined}
+						bg={badgeColor ? theme.colors[badgeColor][1] : undefined}
 						ml={method === 'ADD' ? 10 : 0}
 					>
 						{badge}

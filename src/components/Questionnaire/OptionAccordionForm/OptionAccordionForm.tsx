@@ -1,4 +1,6 @@
+/* eslint-disable no-nested-ternary */
 import AccordionFormItem from '@components/Questionnaire/AccordionFormItem/AccordionFormItem.tsx';
+import { QuestionType } from '@gened/graphql.ts';
 import { Checkbox, Textarea, TextInput, useMantineTheme } from '@mantine/core';
 import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
@@ -19,6 +21,7 @@ export interface IOptionAccordionFormProps {
 	method?: 'ADD' | 'EDIT';
 	enableToolbarOptions?: boolean;
 	questionnaireType?: EQuestionnaireType | null;
+	questionType?: QuestionType | null;
 	setOpen?: () => boolean | null;
 	onDelete?: (optionId: string) => void;
 	onSave?: (option: IOptionProps) => void;
@@ -38,6 +41,7 @@ export default function OptionAccordionForm({
 	method = 'EDIT',
 	badge,
 	questionnaireType,
+	questionType,
 	enableToolbarOptions = true,
 	setOpen = () => null,
 	onDelete = () => {},
@@ -96,12 +100,16 @@ export default function OptionAccordionForm({
 	return (
 		<AccordionFormItem
 			key={getOption().id}
-			badge={badge}
+			badge={questionType === QuestionType.TrueOrFalse ? String(optionProp.correct) : badge}
+			badgeColor={
+				questionType === QuestionType.TrueOrFalse ? (optionProp.correct ? 'teal' : 'pink') : undefined
+			}
 			type="Option"
 			method={method}
 			label={optionProp.title}
 			enableToolbarOptions={enableToolbarOptions}
 			isEditing={isChanged}
+			deletable={questionType !== QuestionType.TrueOrFalse}
 			setOpen={setOpen}
 			onSave={saveItem}
 			onClose={closeItem}
