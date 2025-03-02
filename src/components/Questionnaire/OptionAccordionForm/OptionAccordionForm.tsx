@@ -54,7 +54,7 @@ export default function OptionAccordionForm({
 		mode: 'controlled',
 		initialValues: optionProp,
 		validate: {
-			title: hasLength({ min: 1 }, 'Title is missings'),
+			title: hasLength({ min: 1 }, 'Title is missing'),
 		},
 		validateInputOnBlur: true,
 	});
