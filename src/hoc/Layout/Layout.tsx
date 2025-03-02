@@ -33,7 +33,7 @@ export default function Layout({ children }: PropsWithChildren) {
 			const [primaryColor, secondaryColor] = colorSchemes[responseBgColor as IColorSchemes];
 			setBackgroundColor(
 				getGradient(
-					{ deg: 30, from: theme.colors[primaryColor][8], to: theme.colors[secondaryColor][8] },
+					{ deg: 30, from: theme.colors[primaryColor][6], to: theme.colors[secondaryColor][6] },
 					theme,
 				),
 			);

@@ -2,7 +2,7 @@ import DragDropList from '@components/DragDropList/DragDropList';
 import DragDropItem from '@components/DragDropList/Draggable.tsx';
 import RichTextInput from '@components/RichText/RichText.tsx';
 import { QuestionType } from '@gened/graphql.ts';
-import { Badge, Box, Checkbox, Select, Textarea, Title, useMantineTheme } from '@mantine/core';
+import { Box, Checkbox, Select, Textarea, Title, useMantineTheme } from '@mantine/core';
 import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
 import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
@@ -98,14 +98,6 @@ export default function QuestionAccordionForm({
 		return null;
 	};
 
-	const getBadgeVariantByType = (t: QuestionType) => {
-		if (t === QuestionType.SingleChoice) return 'light-teal';
-		if (t === QuestionType.MultipleChoice) return 'light-grape';
-		if (t === QuestionType.TrueOrFalse) return 'light-blue';
-		if (t === QuestionType.Text) return 'light-orange';
-		return '';
-	};
-
 	const handleReorderedOptions = (reorderedOptions: { id: string }[]) => {
 		const updatedOptions = reorderedOptions
 			.map(({ id }) => form.getValues().options.find((opt) => opt.id === id))
@@ -143,7 +135,13 @@ export default function QuestionAccordionForm({
 	};
 
 	const optionsProps = form.getValues().options.map((option, i) => (
-		<DragDropItem index={i} isDragDisabled={!!onEditOptionId} key={option.id} draggableId={option.id}>
+		<DragDropItem
+			mb="0"
+			index={i}
+			isDragDisabled={!!onEditOptionId}
+			key={option.id}
+			draggableId={option.id}
+		>
 			<OptionAccordionForm
 				badge={`Option ${i + 1}`}
 				key={option.id}
@@ -204,9 +202,9 @@ export default function QuestionAccordionForm({
 				display="flex"
 				w={120}
 			>
-				<Badge size="sm" radius="sm" variant={getBadgeVariantByType(questionProps.type)}>
+				<Title size="sm" fw={600} c="white">
 					{getTextByType()}
-				</Badge>
+				</Title>
 			</Box>
 		) : undefined;
 

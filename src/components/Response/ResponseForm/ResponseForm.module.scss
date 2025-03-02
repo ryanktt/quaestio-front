@@ -10,7 +10,7 @@
 	box-shadow: $shadowMd;
 	width: 100%;
 	background: $white;
-	border: 1px solid $gray4;
+	border: 1px solid $gray5;
 	border-radius: $radiusLg;
 
 	p {
@@ -20,7 +20,7 @@
 	}
 	input,
 	textarea {
-		background-color: var(--response-input-bg);
+		background-color: $gray1;
 		&:focus {
 			border-color: var(--response-input-border);
 		}
@@ -34,7 +34,7 @@
 }
 
 .box.option {
-	border: 0px solid;
+	border: 1px solid $gray0;
 	background: var(--response-option-bg);
 	padding: $spacingSm;
 	p {
@@ -88,7 +88,8 @@
 }
 
 .option.true {
-	background-color: $teal6;
+	background: $teal8;
+	border: 1px solid $teal3;
 	.checkbox {
 		input {
 			background-color: $teal0;
@@ -99,12 +100,13 @@
 		}
 		input:focus,
 		input:checked {
-			border: 1px solid $teal7;
+			border: 1px solid $teal8;
 		}
 	}
 }
 .option.false {
-	background-color: $pink6;
+	background: $pink8;
+	border: 1px solid $pink3;
 	.checkbox {
 		input {
 			background-color: $pink0;
@@ -115,7 +117,7 @@
 		}
 		input:focus,
 		input:checked {
-			border: 1px solid $pink7;
+			border: 1px solid $pink8;
 		}
 	}
 }

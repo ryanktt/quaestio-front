@@ -6,7 +6,7 @@ import { PropsWithChildren } from 'react';
 
 export default function HomeAdmin({ children }: PropsWithChildren) {
 	return (
-		<Container display="flex" mih={700}>
+		<Container display="flex" mih={700} p={0}>
 			<Box pos="relative" w={0} h={0}>
 				<Navbar />
 			</Box>

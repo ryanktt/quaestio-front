@@ -4,7 +4,7 @@
 import { IOptionProps } from '@components/Questionnaire/OptionAccordionForm/OptionAccordionForm';
 import { IQuestionProps } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import { QuestionType } from '@gened/graphql.ts';
-import { Badge, Box, Checkbox, CheckboxProps, Textarea, useMantineTheme } from '@mantine/core';
+import { Badge, Box, Checkbox, CheckboxProps, rem, Textarea, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { IconCircleFilled } from '@tabler/icons-react';
 import { colorSchemes, IColorSchemes } from '@utils/color';
@@ -63,7 +63,10 @@ export default function QuestionResponseForm({
 	const toggleSelectOption = (selected: boolean, optionId: string) => {
 		let updatedSelectedOptIds = [];
 		if (selected) {
-			if (questionProps.type === QuestionType.SingleChoice || questionProps.type === QuestionType.TrueOrFalse) {
+			if (
+				questionProps.type === QuestionType.SingleChoice ||
+				questionProps.type === QuestionType.TrueOrFalse
+			) {
 				updatedSelectedOptIds = [optionId];
 			} else {
 				updatedSelectedOptIds = [...state.selectedOptionIds, optionId];
@@ -115,14 +118,14 @@ export default function QuestionResponseForm({
 			}}
 		>
 			<Box className={`${styles.box} ${styles.question}`}>
-				<Badge color={theme.colors[primaryColor][6]} size="md">
+				<Badge color={theme.colors[primaryColor][8]} size="md">
 					Q.{questionIndex + 1}
 				</Badge>
 				<div dangerouslySetInnerHTML={createMarkup(questionProps.description)} />
 				{questionProps.type === QuestionType.Text ? (
 					<Textarea
-						color={theme.colors[primaryColor][6]}
-						c={theme.colors[primaryColor][6]}
+						color={theme.colors[primaryColor][7]}
+						c={theme.colors[primaryColor][7]}
 						required={questionProps.required}
 						onChange={(e) => setState({ ...state, text: e.target.value })}
 						autosize
@@ -132,8 +135,10 @@ export default function QuestionResponseForm({
 				<Box
 					style={{
 						display: 'flex',
-						...(questionProps.type !== QuestionType.TrueOrFalse ? { flexDirection: 'column' } : {}),
-						gap: theme.spacing.sm,
+						...(questionProps.type !== QuestionType.TrueOrFalse
+							? { flexDirection: 'column' }
+							: {}),
+						gap: rem(5),
 					}}
 				>
 					{...optionProps.map(getOptionInput)}

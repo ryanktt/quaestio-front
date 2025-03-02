@@ -64,11 +64,11 @@
 }
 
 .dropperDescription {
-	align-self: flex-start;
 	overflow: hidden;
-	height: rem(35px);
+	display: flex;
+	gap: rem(5px);
 	p {
-		padding: 0;
+		margin: 0;
 	}
 }
 

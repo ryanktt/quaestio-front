@@ -70,10 +70,10 @@ function MetricsAccordionItem({
 				display="flex"
 			>
 				<Box display="flex" style={{ gap: rem(10), alignItems: 'center', overflow: 'hidden' }}>
-					<Title size={12} c="white">
+					<Title size={13} c="white">
 						Q{index + 1}
 					</Title>
-					<Title tt="uppercase" size={12} w={110} c="white">
+					<Title size={13} w={110} c="white">
 						{' '}
 						{getQuestionTextByType()}
 					</Title>

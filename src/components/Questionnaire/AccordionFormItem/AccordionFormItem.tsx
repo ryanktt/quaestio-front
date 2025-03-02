@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import { Badge, Button, rem, Text, Tooltip, useMantineTheme } from '@mantine/core';
 import {
 	IconCheck,
@@ -8,6 +9,7 @@ import {
 	IconTrash,
 	IconX,
 } from '@tabler/icons-react';
+import { createMarkup } from '@utils/html';
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import styles from './AccordionFormItem.module.scss';
 
@@ -48,6 +50,7 @@ export default function AccordionFormItem({
 		color: variant === 'subtle' ? theme.colors.indigo[7] : theme.white,
 		variant: 'subtle',
 		size: 'md',
+		h: 45,
 		p: '0 15px',
 	};
 
@@ -148,9 +151,16 @@ export default function AccordionFormItem({
 							{...toolbarComponents}
 						</div>
 					) : null}
-					<Text className={styles.toolbarDescription} size="sm">
-						{label}
-					</Text>
+					{type === 'Question' ? (
+						<div
+							className={`${styles.toolbarDescription} ${styles.html}`}
+							dangerouslySetInnerHTML={createMarkup(label || '')}
+						/>
+					) : (
+						<Text className={styles.toolbarDescription} size="sm">
+							{label}
+						</Text>
+					)}
 				</div>
 				<div className={styles.toolbarButtons}>{getItemButtons()}</div>
 			</div>

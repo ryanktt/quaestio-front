@@ -2,7 +2,6 @@
 	border-radius: $radiusMd;
 	overflow: hidden;
 	box-shadow: $shadowXs;
-	height: max-content;
 }
 
 .item.add {
@@ -12,7 +11,7 @@
 .item.filled {
 	border: 1px solid $gray4;
 	.toolbar {
-		background: linear-gradient(0deg, $indigo7, $indigo6);
+		background: linear-gradient(0deg, $indigo8, $indigo7);
 	}
 	.badge {
 		color: $white;
@@ -33,14 +32,14 @@
 
 	.toolbar {
 		background: $white;
-		background: linear-gradient(0deg, $gray0 20%, 40%, $white 100%);
+		background: linear-gradient(0deg, $gray1, $white 100%);
 	}
 	.badge {
 		color: $indigo9;
 		background-color: $indigo1;
 	}
 	.toolbarDescription {
-		color: $gray7;
+		color: $gray9;
 	}
 	.dragIcon {
 		color: $indigo9;
@@ -61,6 +60,7 @@
 .toolbar {
 	min-width: 0;
 	width: 100%;
+	height: 45px;
 	justify-content: space-between;
 	align-content: center;
 	display: flex;
@@ -85,6 +85,15 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	font-weight: 500;
+	font-size: 14px;
+}
+
+.html {
+	display: flex;
+	gap: rem(5px);
+	p {
+		margin: 0;
+	}
 }
 
 .toolbarButtons {

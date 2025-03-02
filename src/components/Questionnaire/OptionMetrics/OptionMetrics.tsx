@@ -51,7 +51,7 @@ function MetricsItem({
 				</Box>
 				<Box w={90}>
 					{option.correct ? (
-						<Badge size="sm" variant="dot" c="teal" color="teal">
+						<Badge size="sm" variant="outline" c="teal.8" color="teal">
 							Correct
 						</Badge>
 					) : null}
