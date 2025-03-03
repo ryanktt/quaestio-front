@@ -85,6 +85,7 @@ export const buildQuestionnaireFormProps = (
 			questions: [],
 			bgColor: '',
 			color: '',
+			active: '',
 		};
 	}
 	const props: IQuestionnaireFormProps = {
@@ -96,6 +97,7 @@ export const buildQuestionnaireFormProps = (
 		questions: buildQuestionsFormProps(questionnaire.questions),
 		bgColor: questionnaire.bgColor || '',
 		color: questionnaire.color || '',
+		active: questionnaire.active,
 		randomizeQuestions: '',
 		maxRetryAmount: '',
 		timeLimit: '',
@@ -185,6 +187,7 @@ export const buildUpdateQuestionnaireMutationVariables = (
 		requireEmail: questionnaireProps.requireEmail,
 		requireName: questionnaireProps.requireName,
 		title: questionnaireProps.title,
+		active: questionnaireProps.active,
 		color: questionnaireProps.color,
 		bgColor: questionnaireProps.bgColor,
 		questionOrder: buildQuestionOrder(questionnaireProps.questions),

@@ -19,6 +19,7 @@ export interface IQuestionnaireFormProps {
 	questions: IQuestionProps[];
 	bgColor: string | null;
 	color: string;
+	active: boolean | '';
 }
 
 export type QuestionnaireTypes = QuestionnaireExam | QuestionnaireSurvey | QuestionnaireQuiz;

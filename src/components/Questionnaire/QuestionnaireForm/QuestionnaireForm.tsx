@@ -53,6 +53,7 @@ export default function QuestionnaireForm({
 			timeLimit: '',
 			questions: [],
 			bgColor: null,
+			active: '',
 			color: 'indigo',
 		},
 		validateInputOnBlur: true,
@@ -232,7 +233,17 @@ export default function QuestionnaireForm({
 						placeholder="Select the questionnaire type"
 						data={[EQuestionnaireType.Exam, EQuestionnaireType.Quiz, EQuestionnaireType.Survey]}
 					/>
-				) : null}
+				) : (
+					<Select
+						value={getQuestionnaire().active ? 'Active' : 'Inactive'}
+						onChange={(e) => {
+							form.setFieldValue('active', e === 'Active');
+						}}
+						label="Status"
+						maw={300}
+						data={['Active', 'Inactive']}
+					/>
+				)}
 
 				<TextInput
 					{...form.getInputProps('title')}

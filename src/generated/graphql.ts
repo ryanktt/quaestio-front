@@ -801,6 +801,7 @@ export type CreateExamMutation = { __typename?: 'Mutation', adminCreateQuestionn
 export type UpdateSurveyMutationVariables = Exact<{
   questionnaireId: Scalars['String']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
+  active?: InputMaybe<Scalars['Boolean']['input']>;
   questionOrder?: InputMaybe<Array<QuestionOrderInput> | QuestionOrderInput>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput> | QuestionMethodInput>;
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
@@ -816,6 +817,7 @@ export type UpdateSurveyMutation = { __typename?: 'Mutation', adminUpdateQuestio
 export type UpdateQuizMutationVariables = Exact<{
   questionnaireId: Scalars['String']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
+  active?: InputMaybe<Scalars['Boolean']['input']>;
   questionOrder?: InputMaybe<Array<QuestionOrderInput> | QuestionOrderInput>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput> | QuestionMethodInput>;
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
@@ -831,6 +833,7 @@ export type UpdateQuizMutation = { __typename?: 'Mutation', adminUpdateQuestionn
 export type UpdateExamMutationVariables = Exact<{
   questionnaireId: Scalars['String']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
+  active?: InputMaybe<Scalars['Boolean']['input']>;
   questionOrder?: InputMaybe<Array<QuestionOrderInput> | QuestionOrderInput>;
   questionMethods?: InputMaybe<Array<QuestionMethodInput> | QuestionMethodInput>;
   requireEmail?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1429,10 +1432,11 @@ export type CreateExamMutationHookResult = ReturnType<typeof useCreateExamMutati
 export type CreateExamMutationResult = Apollo.MutationResult<CreateExamMutation>;
 export type CreateExamMutationOptions = Apollo.BaseMutationOptions<CreateExamMutation, CreateExamMutationVariables>;
 export const UpdateSurveyDocument = gql`
-    mutation UpdateSurvey($questionnaireId: String!, $title: String, $questionOrder: [QuestionOrderInput!], $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String, $bgColor: String, $color: String) {
+    mutation UpdateSurvey($questionnaireId: String!, $title: String, $active: Boolean, $questionOrder: [QuestionOrderInput!], $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String, $bgColor: String, $color: String) {
   adminUpdateQuestionnaireSurvey(
     questionnaireId: $questionnaireId
     title: $title
+    active: $active
     questionMethods: $questionMethods
     questionOrder: $questionOrder
     requireEmail: $requireEmail
@@ -1462,6 +1466,7 @@ export type UpdateSurveyMutationFn = Apollo.MutationFunction<UpdateSurveyMutatio
  *   variables: {
  *      questionnaireId: // value for 'questionnaireId'
  *      title: // value for 'title'
+ *      active: // value for 'active'
  *      questionOrder: // value for 'questionOrder'
  *      questionMethods: // value for 'questionMethods'
  *      requireEmail: // value for 'requireEmail'
@@ -1480,10 +1485,11 @@ export type UpdateSurveyMutationHookResult = ReturnType<typeof useUpdateSurveyMu
 export type UpdateSurveyMutationResult = Apollo.MutationResult<UpdateSurveyMutation>;
 export type UpdateSurveyMutationOptions = Apollo.BaseMutationOptions<UpdateSurveyMutation, UpdateSurveyMutationVariables>;
 export const UpdateQuizDocument = gql`
-    mutation UpdateQuiz($questionnaireId: String!, $title: String, $questionOrder: [QuestionOrderInput!], $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String, $bgColor: String, $color: String) {
+    mutation UpdateQuiz($questionnaireId: String!, $title: String, $active: Boolean, $questionOrder: [QuestionOrderInput!], $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String, $bgColor: String, $color: String) {
   adminUpdateQuestionnaireQuiz(
     questionnaireId: $questionnaireId
     title: $title
+    active: $active
     questionMethods: $questionMethods
     questionOrder: $questionOrder
     requireEmail: $requireEmail
@@ -1513,6 +1519,7 @@ export type UpdateQuizMutationFn = Apollo.MutationFunction<UpdateQuizMutation, U
  *   variables: {
  *      questionnaireId: // value for 'questionnaireId'
  *      title: // value for 'title'
+ *      active: // value for 'active'
  *      questionOrder: // value for 'questionOrder'
  *      questionMethods: // value for 'questionMethods'
  *      requireEmail: // value for 'requireEmail'
@@ -1531,10 +1538,11 @@ export type UpdateQuizMutationHookResult = ReturnType<typeof useUpdateQuizMutati
 export type UpdateQuizMutationResult = Apollo.MutationResult<UpdateQuizMutation>;
 export type UpdateQuizMutationOptions = Apollo.BaseMutationOptions<UpdateQuizMutation, UpdateQuizMutationVariables>;
 export const UpdateExamDocument = gql`
-    mutation UpdateExam($questionnaireId: String!, $title: String, $questionOrder: [QuestionOrderInput!], $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String, $randomizeQuestions: Boolean, $timeLimit: Int, $maxRetryAmount: Int, $bgColor: String, $color: String) {
+    mutation UpdateExam($questionnaireId: String!, $title: String, $active: Boolean, $questionOrder: [QuestionOrderInput!], $questionMethods: [QuestionMethodInput!], $requireEmail: Boolean, $requireName: Boolean, $description: String, $randomizeQuestions: Boolean, $timeLimit: Int, $maxRetryAmount: Int, $bgColor: String, $color: String) {
   adminUpdateQuestionnaireExam(
     questionnaireId: $questionnaireId
     title: $title
+    active: $active
     questionMethods: $questionMethods
     questionOrder: $questionOrder
     requireEmail: $requireEmail
@@ -1567,6 +1575,7 @@ export type UpdateExamMutationFn = Apollo.MutationFunction<UpdateExamMutation, U
  *   variables: {
  *      questionnaireId: // value for 'questionnaireId'
  *      title: // value for 'title'
+ *      active: // value for 'active'
  *      questionOrder: // value for 'questionOrder'
  *      questionMethods: // value for 'questionMethods'
  *      requireEmail: // value for 'requireEmail'

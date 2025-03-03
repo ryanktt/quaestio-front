@@ -4,6 +4,7 @@ export const UPDATE_SURVEY = gql(`
 	mutation UpdateSurvey(
 		$questionnaireId: String!
 		$title: String
+		$active: Boolean
 		$questionOrder: [QuestionOrderInput!]
 		$questionMethods: [QuestionMethodInput!]
 		$requireEmail: Boolean
@@ -15,6 +16,7 @@ export const UPDATE_SURVEY = gql(`
 		adminUpdateQuestionnaireSurvey(
 			questionnaireId: $questionnaireId
 			title: $title
+			active: $active
 			questionMethods: $questionMethods
 			questionOrder: $questionOrder
 			requireEmail: $requireEmail
@@ -32,6 +34,7 @@ export const UPDATE_QUIZ = gql(`
 	mutation UpdateQuiz(
 		$questionnaireId: String!
 		$title: String
+		$active: Boolean
 		$questionOrder: [QuestionOrderInput!]
 		$questionMethods: [QuestionMethodInput!]
 		$requireEmail: Boolean
@@ -43,6 +46,7 @@ export const UPDATE_QUIZ = gql(`
 		adminUpdateQuestionnaireQuiz(
 			questionnaireId: $questionnaireId
 			title: $title
+			active: $active
 			questionMethods: $questionMethods
 			questionOrder: $questionOrder
 			requireEmail: $requireEmail
@@ -60,6 +64,7 @@ export const UPDATE_EXAM = gql(`
 	mutation UpdateExam(
 		$questionnaireId: String!
 		$title: String
+		$active: Boolean
 		$questionOrder: [QuestionOrderInput!]
 		$questionMethods: [QuestionMethodInput!]
 		$requireEmail: Boolean
@@ -74,6 +79,7 @@ export const UPDATE_EXAM = gql(`
 		adminUpdateQuestionnaireExam(
 			questionnaireId: $questionnaireId
 			title: $title
+			active: $active
 			questionMethods: $questionMethods
 			questionOrder: $questionOrder
 			requireEmail: $requireEmail
