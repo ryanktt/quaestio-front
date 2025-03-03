@@ -30,13 +30,10 @@ export type Admin = SchemaBaseInterface & User & {
 };
 
 export type Answer = {
-  _id: Scalars['String']['output'];
   answeredAt?: Maybe<Scalars['DateTime']['output']>;
   correct?: Maybe<Scalars['Boolean']['output']>;
-  createdAt: Scalars['DateTime']['output'];
   question: Scalars['String']['output'];
   type: AnswerType;
-  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type AnswerDiscriminatorInput = {
@@ -49,14 +46,11 @@ export type AnswerDiscriminatorInput = {
 
 export type AnswerMultipleChoice = Answer & {
   __typename?: 'AnswerMultipleChoice';
-  _id: Scalars['String']['output'];
   answeredAt?: Maybe<Scalars['DateTime']['output']>;
   correct?: Maybe<Scalars['Boolean']['output']>;
-  createdAt: Scalars['DateTime']['output'];
   options?: Maybe<Array<Scalars['String']['output']>>;
   question: Scalars['String']['output'];
   type: AnswerType;
-  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type AnswerMultipleChoiceInput = {
@@ -68,14 +62,11 @@ export type AnswerMultipleChoiceInput = {
 
 export type AnswerSingleChoice = Answer & {
   __typename?: 'AnswerSingleChoice';
-  _id: Scalars['String']['output'];
   answeredAt?: Maybe<Scalars['DateTime']['output']>;
   correct?: Maybe<Scalars['Boolean']['output']>;
-  createdAt: Scalars['DateTime']['output'];
   option?: Maybe<Scalars['String']['output']>;
   question: Scalars['String']['output'];
   type: AnswerType;
-  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type AnswerSingleChoiceInput = {
@@ -87,14 +78,11 @@ export type AnswerSingleChoiceInput = {
 
 export type AnswerText = Answer & {
   __typename?: 'AnswerText';
-  _id: Scalars['String']['output'];
   answeredAt?: Maybe<Scalars['DateTime']['output']>;
   correct?: Maybe<Scalars['Boolean']['output']>;
-  createdAt: Scalars['DateTime']['output'];
   question: Scalars['String']['output'];
   text?: Maybe<Scalars['String']['output']>;
   type: AnswerType;
-  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type AnswerTextInput = {
@@ -106,14 +94,11 @@ export type AnswerTextInput = {
 
 export type AnswerTrueOrFalse = Answer & {
   __typename?: 'AnswerTrueOrFalse';
-  _id: Scalars['String']['output'];
   answeredAt?: Maybe<Scalars['DateTime']['output']>;
   correct?: Maybe<Scalars['Boolean']['output']>;
-  createdAt: Scalars['DateTime']['output'];
   option?: Maybe<Scalars['String']['output']>;
   question: Scalars['String']['output'];
   type: AnswerType;
-  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type AnswerTrueOrFalseInput = {
@@ -313,6 +298,7 @@ export type Query = {
   __typename?: 'Query';
   adminFetchQuestionnaire?: Maybe<Questionnaire>;
   adminFetchQuestionnaires: Array<Questionnaire>;
+  adminFetchResponses: Array<Response>;
   fetchAdmin?: Maybe<Admin>;
   publicFetchQuestionnaire?: Maybe<Questionnaire>;
 };
@@ -327,6 +313,13 @@ export type QueryAdminFetchQuestionnaireArgs = {
 
 export type QueryAdminFetchQuestionnairesArgs = {
   latest?: InputMaybe<Scalars['Boolean']['input']>;
+  questionnaireIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  questionnaireSharedIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  textFilter?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryAdminFetchResponsesArgs = {
   questionnaireIds?: InputMaybe<Array<Scalars['String']['input']>>;
   questionnaireSharedIds?: InputMaybe<Array<Scalars['String']['input']>>;
   textFilter?: InputMaybe<Scalars['String']['input']>;
@@ -695,10 +688,14 @@ export type Response = {
   completedAt?: Maybe<Scalars['DateTime']['output']>;
   createdAt: Scalars['DateTime']['output'];
   questionnaire: Questionnaire;
+  questionnaireSharedId: Scalars['String']['output'];
   respondent: Respondent;
+  respondentEmail?: Maybe<Scalars['String']['output']>;
+  respondentName?: Maybe<Scalars['String']['output']>;
   self: Response;
   startedAt: Scalars['DateTime']['output'];
   updatedAt: Scalars['DateTime']['output'];
+  user: Scalars['String']['output'];
 };
 
 export type SchemaBaseInterface = {
@@ -911,6 +908,15 @@ export type RespondQuestionnaireMutationVariables = Exact<{
 
 
 export type RespondQuestionnaireMutation = { __typename?: 'Mutation', publicUpsertQuestionnaireResponse: { __typename?: 'PublicUpsertResponse', respondentToken: string } };
+
+export type FetchResponsesQueryVariables = Exact<{
+  questionnaireIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  questionnaireSharedIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  textFilter?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type FetchResponsesQuery = { __typename?: 'Query', adminFetchResponses: Array<{ __typename?: 'Response', _id: string, questionnaireSharedId: string, startedAt: Date, completedAt?: Date | null, respondentName?: string | null, respondentEmail?: string | null, questionnaire: { __typename?: 'QuestionnaireExam', title: string, type: QuestionnaireType } | { __typename?: 'QuestionnaireQuiz', title: string, type: QuestionnaireType } | { __typename?: 'QuestionnaireSurvey', title: string, type: QuestionnaireType }, answers: Array<{ __typename: 'AnswerMultipleChoice', type: AnswerType, answeredAt?: Date | null, question: string, correct?: boolean | null, options?: Array<string> | null } | { __typename: 'AnswerSingleChoice', type: AnswerType, answeredAt?: Date | null, question: string, correct?: boolean | null, option?: string | null } | { __typename: 'AnswerText', type: AnswerType, answeredAt?: Date | null, question: string, correct?: boolean | null } | { __typename: 'AnswerTrueOrFalse', type: AnswerType, answeredAt?: Date | null, question: string, correct?: boolean | null, option?: string | null }> }> };
 
 export const QuestionnaireMetricsFragmentFragmentDoc = gql`
     fragment QuestionnaireMetricsFragment on QuestionnaireMetrics {
@@ -1840,3 +1846,95 @@ export function useRespondQuestionnaireMutation(baseOptions?: Apollo.MutationHoo
 export type RespondQuestionnaireMutationHookResult = ReturnType<typeof useRespondQuestionnaireMutation>;
 export type RespondQuestionnaireMutationResult = Apollo.MutationResult<RespondQuestionnaireMutation>;
 export type RespondQuestionnaireMutationOptions = Apollo.BaseMutationOptions<RespondQuestionnaireMutation, RespondQuestionnaireMutationVariables>;
+export const FetchResponsesDocument = gql`
+    query FetchResponses($questionnaireIds: [String!], $questionnaireSharedIds: [String!], $textFilter: String) {
+  adminFetchResponses(
+    questionnaireIds: $questionnaireIds
+    questionnaireSharedIds: $questionnaireSharedIds
+    textFilter: $textFilter
+  ) {
+    _id
+    questionnaireSharedId
+    startedAt
+    completedAt
+    respondentName
+    respondentEmail
+    questionnaire {
+      title
+      type
+    }
+    answers {
+      ... on AnswerSingleChoice {
+        __typename
+        type
+        answeredAt
+        question
+        answeredAt
+        correct
+        option
+      }
+      ... on AnswerTrueOrFalse {
+        __typename
+        type
+        answeredAt
+        question
+        answeredAt
+        correct
+        option
+      }
+      ... on AnswerMultipleChoice {
+        __typename
+        type
+        answeredAt
+        question
+        answeredAt
+        correct
+        options
+      }
+      ... on AnswerText {
+        __typename
+        type
+        answeredAt
+        question
+        answeredAt
+        correct
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useFetchResponsesQuery__
+ *
+ * To run a query within a React component, call `useFetchResponsesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchResponsesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchResponsesQuery({
+ *   variables: {
+ *      questionnaireIds: // value for 'questionnaireIds'
+ *      questionnaireSharedIds: // value for 'questionnaireSharedIds'
+ *      textFilter: // value for 'textFilter'
+ *   },
+ * });
+ */
+export function useFetchResponsesQuery(baseOptions?: Apollo.QueryHookOptions<FetchResponsesQuery, FetchResponsesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchResponsesQuery, FetchResponsesQueryVariables>(FetchResponsesDocument, options);
+      }
+export function useFetchResponsesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchResponsesQuery, FetchResponsesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchResponsesQuery, FetchResponsesQueryVariables>(FetchResponsesDocument, options);
+        }
+export function useFetchResponsesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FetchResponsesQuery, FetchResponsesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FetchResponsesQuery, FetchResponsesQueryVariables>(FetchResponsesDocument, options);
+        }
+export type FetchResponsesQueryHookResult = ReturnType<typeof useFetchResponsesQuery>;
+export type FetchResponsesLazyQueryHookResult = ReturnType<typeof useFetchResponsesLazyQuery>;
+export type FetchResponsesSuspenseQueryHookResult = ReturnType<typeof useFetchResponsesSuspenseQuery>;
+export type FetchResponsesQueryResult = Apollo.QueryResult<FetchResponsesQuery, FetchResponsesQueryVariables>;

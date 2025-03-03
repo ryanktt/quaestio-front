@@ -1,24 +1,10 @@
 .list {
 	display: grid;
-	grid-template-columns: 0.65fr 2fr 0.6fr 0.9fr 0.5fr 0.5fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	border: 1px solid $gray4;
 	border-radius: $radiusLg;
 	box-shadow: $shadowSm;
 	background-color: $white;
-	margin-bottom: $spacingMd;
-}
-
-.listTitle {
-	background-color: $white;
-	border-radius: $radiusMd;
-	border: 1px solid $gray4;
-	border-bottom: 0;
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
-	width: min-content;
-	padding: $spacingXs;
-	margin-left: $spacingLg;
-	box-shadow: $shadowMd;
 }
 
 .column {
