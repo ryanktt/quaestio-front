@@ -52,7 +52,7 @@ export default function QuestionnaireForm({
 			randomizeQuestions: '',
 			timeLimit: '',
 			questions: [],
-			bgColor: null,
+			bgColor: '',
 			active: '',
 			color: 'indigo',
 		},

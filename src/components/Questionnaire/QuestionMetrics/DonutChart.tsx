@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { DonutChartCell, DonutChart as MantineDonutChart } from '@mantine/charts';
-import { Box, Group, Text, useMantineTheme } from '@mantine/core';
+import { Box, Text, useMantineTheme } from '@mantine/core';
 import { IconCircleFilled } from '@tabler/icons-react';
 
 function Legend({ color, name, value }: DonutChartCell) {
@@ -24,8 +24,10 @@ function Legend({ color, name, value }: DonutChartCell) {
 export default function DonutChart({ data }: { data: DonutChartCell[] }) {
 	const theme = useMantineTheme();
 
+	const hasValue = data.some((chartData) => chartData.value);
+
 	return (
-		<Group
+		<Box
 			display="flex"
 			style={{
 				alignItems: 'center',
@@ -33,11 +35,12 @@ export default function DonutChart({ data }: { data: DonutChartCell[] }) {
 				borderRadius: theme.radius.md,
 				border: `1px solid${theme.colors.gray[4]}`,
 			}}
+			miw={250}
 			bg="gray.0"
 			p="xs"
 		>
-			<MantineDonutChart size={70} data={data} withTooltip={false} />
-			<Group maw={300}>
+			{hasValue ? <MantineDonutChart size={70} data={data} withTooltip={false} /> : null}
+			<Box>
 				{data.map(({ color, name, value }, i) => (
 					<Legend color={color} name={name} value={value} key={`legend-${i}`} />
 				))}
@@ -47,7 +50,7 @@ export default function DonutChart({ data }: { data: DonutChartCell[] }) {
 					name="Total"
 					key="legend"
 				/>
-			</Group>
-		</Group>
+			</Box>
+		</Box>
 	);
 }

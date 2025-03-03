@@ -9,7 +9,7 @@ import {
 	QuestionTrueOrFalseMetrics,
 	QuestionType,
 } from '@gened/graphql';
-import { Box, rem, Title, UnstyledButton, useMantineTheme } from '@mantine/core';
+import { Box, Group, rem, Title, UnstyledButton, useMantineTheme } from '@mantine/core';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { createMarkup } from '@utils/html';
 import { useMemo, useState } from 'react';
@@ -36,21 +36,21 @@ function MetricsAccordionItem({
 	const theme = useMantineTheme();
 	const [open, setOpen] = useState(false);
 
-	const chartData = useMemo(() => {
+	const correctChartData = useMemo(() => {
 		if (!questionMetrics) return [];
-		const data = [
-			{ name: 'Unanswared', value: questionMetrics.unansweredCount, color: 'orange' },
-			{ name: 'Answered', value: questionMetrics.answerCount, color: 'blue' },
-		];
-
 		if ('rightAnswerCount' in questionMetrics && questionMetrics.rightAnswerCount) {
-			data.push(
+			return [
 				{ name: 'Correct', value: questionMetrics.rightAnswerCount, color: 'teal' },
 				{ name: 'Incorrect', value: questionMetrics.wrongAnswerCount, color: 'pink' },
-			);
+			];
 		}
-		return data;
+		return [];
 	}, []);
+
+	const answeredChartData = [
+		{ name: 'Unanswared', value: questionMetrics.unansweredCount, color: 'orange' },
+		{ name: 'Answered', value: questionMetrics.answerCount, color: 'blue' },
+	];
 
 	const getQuestionTextByType = () => {
 		const t = question.type;
@@ -94,7 +94,10 @@ function MetricsAccordionItem({
 			<Box className={`${styles.content} ${open ? styles.open : ''}`}>
 				<Box className={styles.analyticsWrapper}>
 					<Box className={styles.analytics}>
-						<DonutChart data={chartData} />
+						<Group preventGrowOverflow={false} grow>
+							<DonutChart data={answeredChartData} />
+							<DonutChart data={correctChartData} />
+						</Group>
 						<div
 							className={styles.questionDescription}
 							dangerouslySetInnerHTML={createMarkup(question.description || '')}
