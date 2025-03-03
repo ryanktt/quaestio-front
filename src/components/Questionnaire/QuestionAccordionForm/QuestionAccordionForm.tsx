@@ -6,7 +6,7 @@ import { Box, Checkbox, Select, Textarea, Title, useMantineTheme } from '@mantin
 import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
 import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import AccordionFormItem from '../AccordionFormItem/AccordionFormItem.tsx';
 import OptionAccordionForm, { IOptionProps } from '../OptionAccordionForm/OptionAccordionForm.tsx';
 import { EQuestionnaireType } from '../QuestionnaireForm/QuestionnaireForm.interface.ts';
@@ -85,14 +85,14 @@ export default function QuestionAccordionForm({
 	const [textFeedbackEnabled, setTextFeedbackEnabled] = useState(!!feedbackAfterSubmit);
 	const [onEditOptionId, setOnEditOptionId] = useState<string | null>(null);
 
-	const getTypeByText = (val: (typeof typeValues)[number] | string | null) => {
+	const getTypeFromText = (val: (typeof typeValues)[number] | string | null) => {
 		if (val === 'Single Choice') return QuestionType.SingleChoice;
 		if (val === 'Multiple Choice') return QuestionType.MultipleChoice;
 		if (val === 'True or False') return QuestionType.TrueOrFalse;
 		return QuestionType.Text;
 	};
 
-	const getTextByType = () => {
+	const getTextFromType = () => {
 		const t = getQuestion().type;
 		if (t === QuestionType.SingleChoice) return 'Single Choice';
 		if (t === QuestionType.MultipleChoice) return 'Multiple Choice';
@@ -165,7 +165,7 @@ export default function QuestionAccordionForm({
 	const handleChange = (e: unknown, eName: keyof IQuestionProps) => {
 		const formInputProps = form.getInputProps(eName);
 		let value: unknown = e;
-		if (eName === 'type') value = getTypeByText(String(e));
+		if (eName === 'type') value = getTypeFromText(String(e));
 
 		formInputProps.onChange(value);
 		setChanged(true);
@@ -209,21 +209,22 @@ export default function QuestionAccordionForm({
 				w={120}
 			>
 				<Title size="sm" fw={600} c="white">
-					{getTextByType()}
+					{getTextFromType()}
 				</Title>
 			</Box>
 		) : undefined;
 
 	const validateInput = method === 'EDIT' || isChanged;
 
-	useEffect(() => {
-		if (type === QuestionType.TrueOrFalse && !getQuestion().options.length) {
+	const handleTypeSelection = (e: unknown) => {
+		getInputProps('type').onChange(e);
+		if (getTypeFromText(String(e)) === QuestionType.TrueOrFalse) {
 			form.setFieldValue('options', [
 				{ id: nanoid(), title: 'True', correct: true, feedbackAfterSubmit: '' },
 				{ id: nanoid(), title: 'False', correct: false, feedbackAfterSubmit: '' },
 			]);
 		}
-	}, [method, type]);
+	};
 
 	return (
 		<AccordionFormItem
@@ -245,8 +246,9 @@ export default function QuestionAccordionForm({
 			<Select
 				variant="default"
 				{...getInputProps('type')}
-				value={getTextByType()}
+				value={getTextFromType()}
 				maw={300}
+				onChange={handleTypeSelection}
 				required={validateInput}
 				label="Question type"
 				placeholder="Select the question type"
