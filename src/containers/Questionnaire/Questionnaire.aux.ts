@@ -1,6 +1,9 @@
 import { IOptionProps } from '@components/Questionnaire/OptionAccordionForm/OptionAccordionForm';
 import { IQuestionProps } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm';
-import { IQuestionInputTypes, questionBaseInputKeys } from '@components/Questionnaire/Questionnaire.interface';
+import {
+	IQuestionInputTypes,
+	questionBaseInputKeys,
+} from '@components/Questionnaire/Questionnaire.interface';
 import {
 	OptionInput,
 	QuestionDiscriminatorInput,
@@ -15,7 +18,7 @@ import { getObjSelectedFields } from '@utils/objects';
 
 export const buildGqlOptionVarsFromProps = (optionProps: IOptionProps): OptionInput => {
 	return convertPropsToGqlVars(
-		getObjSelectedFields(optionProps, ['correct', 'feedbackAfterSubmit', 'title']),
+		getObjSelectedFields(optionProps, ['correct', 'feedbackAfterSubmit', 'title', 'true']),
 	) as OptionInput;
 };
 
@@ -24,7 +27,9 @@ export const buildGqlOptionsVarsFromProps = (optionsProps?: IOptionProps[]): Opt
 	return optionsProps.map(buildGqlOptionVarsFromProps);
 };
 
-export const buildQuestionDiscriminatorFromProps = (questionProps: IQuestionProps): QuestionDiscriminatorInput => {
+export const buildQuestionDiscriminatorFromProps = (
+	questionProps: IQuestionProps,
+): QuestionDiscriminatorInput => {
 	const question = convertPropsToGqlVars({
 		...questionProps,
 		options: buildGqlOptionsVarsFromProps(questionProps.options),

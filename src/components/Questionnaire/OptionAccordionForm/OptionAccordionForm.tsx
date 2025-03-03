@@ -12,6 +12,7 @@ export interface IOptionProps {
 	id: string;
 	title: string;
 	feedbackAfterSubmit: string;
+	true: boolean | '';
 	correct: boolean | '';
 }
 
@@ -34,6 +35,7 @@ const initialProps: IOptionProps = {
 	feedbackAfterSubmit: '',
 	correct: '',
 	title: '',
+	true: '',
 };
 
 export default function OptionAccordionForm({
@@ -77,9 +79,7 @@ export default function OptionAccordionForm({
 	const closeItem = () => {
 		setChanged(false);
 		onFinishEdit(getOption());
-		setTimeout(() => {
-			form.reset();
-		}, 300);
+		form.reset();
 	};
 
 	const saveItem = (): { preventClose?: boolean } => {
@@ -100,9 +100,9 @@ export default function OptionAccordionForm({
 	return (
 		<AccordionFormItem
 			key={getOption().id}
-			badge={questionType === QuestionType.TrueOrFalse ? String(optionProp.correct) : badge}
+			badge={questionType === QuestionType.TrueOrFalse ? String(optionProp.true) : badge}
 			badgeColor={
-				questionType === QuestionType.TrueOrFalse ? (optionProp.correct ? 'teal' : 'pink') : undefined
+				questionType === QuestionType.TrueOrFalse ? (optionProp.true ? 'teal' : 'pink') : undefined
 			}
 			type="Option"
 			method={method}

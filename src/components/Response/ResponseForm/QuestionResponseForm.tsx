@@ -81,7 +81,7 @@ export default function QuestionResponseForm({
 		if (questionProps.type === QuestionType.TrueOrFalse) {
 			return (
 				<Box
-					className={`${styles.box} ${styles.option} ${option.correct ? styles.true : styles.false}`}
+					className={`${styles.box} ${styles.option} ${option.true ? styles.true : styles.false}`}
 					key={option.id}
 				>
 					<Checkbox

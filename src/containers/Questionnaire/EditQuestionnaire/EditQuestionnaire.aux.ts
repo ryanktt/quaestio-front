@@ -27,6 +27,7 @@ export const buildOptionsFormProps = (options: Option[]) => {
 		feedbackAfterSubmit: option.feedbackAfterSubmit || '',
 		correct: option.correct || false,
 		title: option.title,
+		true: !!option.true,
 	}));
 };
 

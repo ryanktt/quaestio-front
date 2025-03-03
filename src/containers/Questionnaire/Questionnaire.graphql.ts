@@ -65,6 +65,7 @@ export const QUESTION_FRAGMENT = gql(`
             _id
             title
             correct
+            true
             feedbackAfterSubmit
         }
         wrongAnswerFeedback
@@ -84,6 +85,7 @@ export const QUESTION_FRAGMENT = gql(`
             _id
             title
             correct
+            true
             feedbackAfterSubmit
         }
         wrongAnswerFeedback
@@ -103,6 +105,7 @@ export const QUESTION_FRAGMENT = gql(`
             _id
             title
             correct
+            true
             feedbackAfterSubmit
         }
         wrongAnswerFeedback

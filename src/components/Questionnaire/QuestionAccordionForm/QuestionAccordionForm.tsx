@@ -180,9 +180,7 @@ export default function QuestionAccordionForm({
 	const closeItem = () => {
 		setChanged(false);
 		onFinishEdit(getQuestion());
-		setTimeout(() => {
-			form.reset();
-		}, 300);
+		form.reset();
 	};
 
 	const saveItem = (): { preventClose?: boolean } => {
@@ -220,9 +218,11 @@ export default function QuestionAccordionForm({
 		getInputProps('type').onChange(e);
 		if (getTypeFromText(String(e)) === QuestionType.TrueOrFalse) {
 			form.setFieldValue('options', [
-				{ id: nanoid(), title: 'True', correct: true, feedbackAfterSubmit: '' },
-				{ id: nanoid(), title: 'False', correct: false, feedbackAfterSubmit: '' },
+				{ id: nanoid(), title: 'True', correct: '', true: true, feedbackAfterSubmit: '' },
+				{ id: nanoid(), title: 'False', correct: '', true: false, feedbackAfterSubmit: '' },
 			]);
+		} else {
+			form.setFieldValue('options', []);
 		}
 	};
 
