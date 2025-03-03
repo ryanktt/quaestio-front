@@ -41,10 +41,15 @@ function ColorSelect({
 			<InputLabel>{label}</InputLabel>
 			<Combobox store={combobox} withinPortal={false}>
 				<Combobox.Target>
-					<Input fw={500} component="button" type="button" onClick={() => combobox.toggleDropdown()}>
+					<Input
+						fw={500}
+						component="button"
+						type="button"
+						onClick={() => combobox.toggleDropdown()}
+					>
 						<Group style={{ overflow: 'hidden', flexWrap: 'nowrap', minWidth: '0' }}>
 							<ColorSwatch color={selectedColor.value} size={18} />
-							<Text size="sm" fw={500} style={{ color: theme.colors.gray[7] }} tt="capitalize">
+							<Text size="sm" fw={500} style={{ color: theme.colors.dark[7] }} tt="capitalize">
 								{selectedColor.label}
 							</Text>
 						</Group>
@@ -52,7 +57,11 @@ function ColorSelect({
 				</Combobox.Target>
 
 				<Combobox.Dropdown>
-					<Box display="flex" p={theme.spacing.sm} style={{ gap: theme.spacing.sm, flexWrap: 'wrap' }}>
+					<Box
+						display="flex"
+						p={theme.spacing.sm}
+						style={{ gap: theme.spacing.sm, flexWrap: 'wrap' }}
+					>
 						{colorOptions.map((color) => (
 							<Combobox.Option
 								p={0}

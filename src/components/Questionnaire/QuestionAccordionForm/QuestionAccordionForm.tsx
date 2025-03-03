@@ -357,7 +357,7 @@ export default function QuestionAccordionForm({
 			type === QuestionType.SingleChoice ||
 			type === QuestionType.TrueOrFalse ? (
 				<>
-					<Title size={18} fw={500} c={theme.colors.gray[8]}>
+					<Title size={18} fw={500} c={theme.colors.dark[8]}>
 						Options
 					</Title>
 

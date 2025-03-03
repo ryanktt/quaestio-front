@@ -212,7 +212,7 @@ export default function QuestionnaireForm({
 				borderRadius: theme.radius.lg,
 			}}
 		>
-			<Title mb={theme.spacing.xl} size={24} fw={600} c={theme.colors.gray[8]}>
+			<Title mb={theme.spacing.xl} size={24} fw={600} c={theme.colors.dark[8]}>
 				{title}
 			</Title>
 
@@ -354,7 +354,7 @@ export default function QuestionnaireForm({
 					label="Require user name"
 				/>
 
-				<Title mt={theme.spacing.lg} size={18} fw={600} c={theme.colors.gray[8]}>
+				<Title mt={theme.spacing.lg} size={18} fw={600} c={theme.colors.dark[8]}>
 					Questions
 				</Title>
 

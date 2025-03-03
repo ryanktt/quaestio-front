@@ -143,7 +143,10 @@ export default function RichTextInput({
 					variant="subtle"
 				>
 					<RichTextEditor.Toolbar p={3}>
-						<RichTextEditor.ControlsGroup style={{flexWrap: 'wrap'}} className={!editable ? styles.disabled : ''}>
+						<RichTextEditor.ControlsGroup
+							style={{ flexWrap: 'wrap' }}
+							className={!editable ? styles.disabled : ''}
+						>
 							<RichTextEditor.Bold />
 							<RichTextEditor.Italic />
 							<RichTextEditor.Underline />
@@ -164,7 +167,7 @@ export default function RichTextInput({
 						style={{
 							resize: 'vertical',
 							overflow: 'auto',
-							color: theme.colors.gray[8],
+							color: theme.colors.dark[8],
 						}}
 						fz="sm"
 						fw={500}
