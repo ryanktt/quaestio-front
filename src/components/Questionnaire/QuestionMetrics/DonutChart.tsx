@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { DonutChartCell, DonutChart as MantineDonutChart } from '@mantine/charts';
-import { Box, Text, useMantineTheme } from '@mantine/core';
+import { Box, rem, Text, useMantineTheme } from '@mantine/core';
 import { IconCircleFilled } from '@tabler/icons-react';
 
 function Legend({ color, name, value }: DonutChartCell) {
@@ -49,7 +49,7 @@ export default function DonutChart({ data }: { data: DonutChartCell[] }) {
 					}}
 				/>
 			) : null}
-			<Box>
+			<Box style={{ display: 'flex', flexDirection: 'column', gap: rem(3) }}>
 				{data.map(({ color, name, value }, i) => (
 					<Legend color={color} name={name} value={value} key={`legend-${i}`} />
 				))}
