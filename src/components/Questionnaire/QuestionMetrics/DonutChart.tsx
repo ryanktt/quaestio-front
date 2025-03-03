@@ -24,7 +24,7 @@ function Legend({ color, name, value }: DonutChartCell) {
 export default function DonutChart({ data }: { data: DonutChartCell[] }) {
 	const theme = useMantineTheme();
 
-	const hasValue = data.some((chartData) => chartData.value);
+	const totalValue = data.reduce((acc, { value }) => value + acc, 0);
 
 	return (
 		<Box
@@ -39,7 +39,16 @@ export default function DonutChart({ data }: { data: DonutChartCell[] }) {
 			bg="gray.0"
 			p="xs"
 		>
-			{hasValue ? <MantineDonutChart size={70} data={data} withTooltip={false} /> : null}
+			{totalValue ? (
+				<MantineDonutChart
+					size={70}
+					data={data}
+					valueFormatter={(v) => {
+						const percentage = ((v / totalValue) * 100).toFixed(0);
+						return `${percentage}%`;
+					}}
+				/>
+			) : null}
 			<Box>
 				{data.map(({ color, name, value }, i) => (
 					<Legend color={color} name={name} value={value} key={`legend-${i}`} />
