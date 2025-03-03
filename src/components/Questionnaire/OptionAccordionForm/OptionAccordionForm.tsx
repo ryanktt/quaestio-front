@@ -102,7 +102,13 @@ export default function OptionAccordionForm({
 			key={getOption().id}
 			badge={questionType === QuestionType.TrueOrFalse ? String(optionProp.true) : badge}
 			badgeColor={
-				questionType === QuestionType.TrueOrFalse ? (optionProp.true ? 'teal' : 'pink') : undefined
+				questionType === QuestionType.TrueOrFalse
+					? optionProp.true
+						? 'teal'
+						: 'pink'
+					: optionProp.correct
+						? 'teal'
+						: undefined
 			}
 			type="Option"
 			method={method}

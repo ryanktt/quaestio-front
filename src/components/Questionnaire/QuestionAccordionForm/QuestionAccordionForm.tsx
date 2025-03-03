@@ -112,14 +112,17 @@ export default function QuestionAccordionForm({
 
 	const setOption = (upsertedOpt: IOptionProps) => {
 		let foundOption;
-		const updatedOptions = form.getValues().options.map((opt) => {
+		let updatedOptions = [...getQuestion().options];
+		if (type === QuestionType.SingleChoice && upsertedOpt.correct) {
+			updatedOptions = updatedOptions.map((opt) => ({ ...opt, correct: false }));
+		}
+		updatedOptions = updatedOptions.map((opt) => {
 			if (opt.id === upsertedOpt.id) {
 				foundOption = true;
 				return upsertedOpt;
 			}
 			return opt;
 		});
-
 		if (!foundOption) updatedOptions.push(upsertedOpt);
 		form.setFieldValue('options', updatedOptions);
 		setChanged(true);
