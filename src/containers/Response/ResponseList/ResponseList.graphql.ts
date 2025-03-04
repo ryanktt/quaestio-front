@@ -11,54 +11,8 @@ export const FETCH_RESPONSES = gql(`
         questionnaireSharedIds: $questionnaireSharedIds
         textFilter: $textFilter
     ) {
-        _id
-        questionnaireSharedId
-        startedAt
-        completedAt
-        respondentName
-        respondentEmail
-        questionnaire {
-            title
-            type
-        }
-        answers {
-        ... on AnswerSingleChoice {
-            __typename
-            type
-            answeredAt
-            question
-            answeredAt
-            correct
-            option
-        }
-        ... on AnswerTrueOrFalse {
-            __typename
-            type
-            answeredAt
-            question
-            answeredAt
-            correct
-            option
-        }
-        ... on AnswerMultipleChoice {
-            __typename
-            type
-            answeredAt
-            question
-            answeredAt
-            correct
-            options
-        }
-        ... on AnswerText {
-            __typename
-            type
-            answeredAt
-            question
-            answeredAt
-            correct
-        }
+        ...ResponseFragment
     }
-  }
   }
 `);
 

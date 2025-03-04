@@ -30,11 +30,17 @@ export default function QuestionResponseForm({
 	questionProps,
 	questionIndex,
 	colorScheme,
+	readMode = false,
+	// correction =false,
+	questionResponseFormProps,
 }: {
 	onChange: (p: IQuestionResponseProps) => void;
 	questionProps: IQuestionProps;
 	questionIndex: number;
 	colorScheme: IColorSchemes;
+	readMode?: boolean;
+	correction?: boolean;
+	questionResponseFormProps?: IQuestionResponseProps;
 }) {
 	const theme = useMantineTheme();
 	const [primaryColor] = colorSchemes[colorScheme];
@@ -46,12 +52,14 @@ export default function QuestionResponseForm({
 		else setOptionProps(questionProps.options);
 	}, []);
 
-	const [state, setState] = useState<IQuestionResponseProps>({
-		type: questionProps.type as QuestionType,
-		questionId: questionProps.id,
-		selectedOptionIds: [],
-		text: '',
-	});
+	const [state, setState] = useState<IQuestionResponseProps>(
+		questionResponseFormProps || {
+			type: questionProps.type as QuestionType,
+			questionId: questionProps.id,
+			selectedOptionIds: [],
+			text: '',
+		},
+	);
 
 	useEffect(() => {
 		const isAnswered =
@@ -85,8 +93,11 @@ export default function QuestionResponseForm({
 					key={option.id}
 				>
 					<Checkbox
-						onChange={(e) => toggleSelectOption(e.target.checked, option.id)}
+						onChange={(e) => {
+							if (!readMode) toggleSelectOption(e.target.checked, option.id);
+						}}
 						checked={!!state.selectedOptionIds.find((id) => id === option.id)}
+						readOnly={readMode}
 						icon={CheckboxIcon}
 						className={styles.checkbox}
 						label={option.title}
@@ -98,8 +109,11 @@ export default function QuestionResponseForm({
 		return (
 			<Box className={`${styles.box} ${styles.option}`} key={option.id}>
 				<Checkbox
-					onChange={(e) => toggleSelectOption(e.target.checked, option.id)}
+					onChange={(e) => {
+						if (!readMode) toggleSelectOption(e.target.checked, option.id);
+					}}
 					checked={!!state.selectedOptionIds.find((id) => id === option.id)}
+					readOnly={readMode}
 					icon={CheckboxIcon}
 					className={styles.checkbox}
 					label={option.title}
@@ -129,6 +143,7 @@ export default function QuestionResponseForm({
 						required={questionProps.required}
 						onChange={(e) => setState({ ...state, text: e.target.value })}
 						autosize
+						readOnly={readMode}
 						minRows={3}
 					/>
 				) : null}

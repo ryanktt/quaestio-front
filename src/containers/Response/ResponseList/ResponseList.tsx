@@ -106,7 +106,7 @@ function ID({ id }: { id: string }) {
 	return (
 		<Box display="flex" style={{ alignItems: 'center' }}>
 			<Copy id={id} />
-			<Tooltip label="Go to questionnaire">
+			<Tooltip label="Go to response">
 				<UnstyledButton
 					className={`${styles.btn} ${styles.id}`}
 					onClick={() => navigate(`/board/response/${id}`)}
@@ -196,7 +196,7 @@ export default function ResponseList() {
 				</Column>
 				<Column>
 					<ColumnItem>
-						<Header label="AnsweredAt" />
+						<Header label="Answered At" />
 					</ColumnItem>
 					{answeredAts.map((answeredAt, i) => (
 						<ColumnItem key={ids[i]}>

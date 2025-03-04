@@ -16,10 +16,14 @@ import styles from './ResponseForm.module.scss';
 export default function ResponseForm({
 	onSubmit,
 	questionnaireProps,
+	responseFormProps,
 	colorScheme = 'indigo',
+	readMode = false,
 }: {
-	onSubmit: (p: IResponseFormProps) => Promise<void>;
+	onSubmit?: (p: IResponseFormProps) => Promise<void>;
 	questionnaireProps: IQuestionnaireFormProps;
+	responseFormProps?: IResponseFormProps;
+	readMode?: boolean;
 	colorScheme?: IColorSchemes;
 }) {
 	const { randomizeQuestions, requireEmail, description, requireName, questions, title } =
@@ -42,7 +46,7 @@ export default function ResponseForm({
 
 	const form = useForm<IResponseFormProps>({
 		mode: 'controlled',
-		initialValues: {
+		initialValues: responseFormProps || {
 			name: '',
 			email: '',
 			questionResponses: [],
@@ -66,15 +70,23 @@ export default function ResponseForm({
 		form.setFieldValue('questionResponses', updatedResponses);
 	};
 
-	const getQuestionInputs = (questionProps: IQuestionProps, i: number) => (
-		<QuestionResponseForm
-			colorScheme={colorScheme}
-			questionIndex={i}
-			questionProps={questionProps}
-			key={questionProps.id}
-			onChange={setQuestionResponse}
-		/>
-	);
+	const getQuestionInputs = (questionProps: IQuestionProps, i: number) => {
+		const props = form
+			.getValues()
+			.questionResponses.find(({ questionId }) => questionId === questionProps.id);
+
+		return (
+			<QuestionResponseForm
+				readMode={readMode}
+				questionResponseFormProps={props}
+				colorScheme={colorScheme}
+				questionIndex={i}
+				questionProps={questionProps}
+				key={questionProps.id}
+				onChange={setQuestionResponse}
+			/>
+		);
+	};
 
 	const [questionProps, setQuestionProps] = useState<IQuestionProps[]>([]);
 
@@ -87,7 +99,7 @@ export default function ResponseForm({
 		e?.preventDefault();
 		form.setFieldValue('completedAt', new Date());
 		if (!form.validate().hasErrors) {
-			onSubmit(form.getValues());
+			if (onSubmit) onSubmit(form.getValues());
 		}
 	};
 
@@ -109,11 +121,23 @@ export default function ResponseForm({
 			{...questionProps.map(getQuestionInputs)}
 
 			<Box className={`${styles.box} ${styles.submit}`}>
-				<TextInput {...form.getInputProps('name')} label="Name" required={requireEmail} />
-				<TextInput {...form.getInputProps('email')} label="Email" required={requireName} />
-				<Button type="submit" mt={theme.spacing.md} style={{ background: gradient }}>
-					Submit
-				</Button>
+				<TextInput
+					{...form.getInputProps('name')}
+					label="Name"
+					required={requireEmail}
+					readOnly={readMode}
+				/>
+				<TextInput
+					{...form.getInputProps('email')}
+					label="Email"
+					required={requireName}
+					readOnly={readMode}
+				/>
+				{!readMode ? (
+					<Button type="submit" mt={theme.spacing.md} style={{ background: gradient }}>
+						Submit
+					</Button>
+				) : null}
 			</Box>
 		</form>
 	);

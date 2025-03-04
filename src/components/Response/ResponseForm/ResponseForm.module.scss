@@ -15,7 +15,7 @@
 
 	p {
 		color: $dark8;
-		font-size: rem(16px);
+		font-size: rem(15px);
 		font-weight: 500;
 	}
 	input,
@@ -36,7 +36,7 @@
 .box.option {
 	border: 1px solid $gray0;
 	background: var(--response-option-bg);
-	padding: $spacingSm;
+	padding: $spacingXs;
 	p {
 		color: $white;
 	}
