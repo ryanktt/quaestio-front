@@ -22,4 +22,73 @@ export const RESPOND_QUESTIONNAIRE = gql(`
     }
 `);
 
-export default { RESPOND_QUESTIONNAIRE };
+export const FETCH_RESPONSE = gql(`
+    query FetchResponse(
+        $responseId: String!
+    ) {
+        adminFetchResponse(
+            responseId: $responseId
+        ) {
+            ...ResponseFragment
+        } 
+    }
+`);
+
+export const RESPONSE_FRAGMENT = gql(`
+    fragment ResponseFragment on Response {
+        _id
+        questionnaireSharedId
+        startedAt
+        completedAt
+        respondentName
+        respondentEmail
+        questionnaire {
+            ... on QuestionnaireSurvey {
+				...SurveyFragment
+			}
+			... on QuestionnaireExam {
+				...ExamFragment
+			}
+			... on QuestionnaireQuiz {
+				...QuizFragment
+			}	
+        }
+        answers {
+            ... on AnswerSingleChoice {
+                __typename
+                type
+                answeredAt
+                question
+                answeredAt
+                correct
+                option
+            }
+            ... on AnswerTrueOrFalse {
+                __typename
+                type
+                answeredAt
+                question
+                answeredAt
+                correct
+                option
+            }
+            ... on AnswerMultipleChoice {
+                __typename
+                type
+                answeredAt
+                question
+                answeredAt
+                correct
+                options
+            }
+            ... on AnswerText {
+                __typename
+                type
+                answeredAt
+                question
+                answeredAt
+                correct
+            }
+        }
+    }
+`);
