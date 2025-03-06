@@ -74,7 +74,7 @@ export default function Response() {
 					border: `1px solid${theme.colors.gray[5]}`,
 				}}
 			>
-				<Box maw={700} style={{ margin: '0 auto' }} p={`${theme.spacing.md} 0`}>
+				<Box maw={700} style={{ margin: '0 auto' }} p={`${theme.spacing.sm} 0`}>
 					{response ? (
 						<ResponseForm
 							colorScheme="indigo"

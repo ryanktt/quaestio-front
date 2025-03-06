@@ -37,7 +37,7 @@ export default function RespondQuestionnaire() {
 	};
 
 	return (
-		<Container display="flex" mih={700} p={15} size="48rem">
+		<Container display="flex" mih={700} size="48rem">
 			<ResponseForm
 				colorScheme={color as IColorSchemes}
 				questionnaireProps={buildQuestionnaireFormProps(questionnaire)}
