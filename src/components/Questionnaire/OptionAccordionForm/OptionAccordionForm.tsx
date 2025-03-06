@@ -5,7 +5,7 @@ import { Checkbox, Textarea, TextInput, useMantineTheme } from '@mantine/core';
 import { hasLength, useForm } from '@mantine/form';
 import { nanoid } from 'nanoid/non-secure';
 import { GetInputPropsType } from 'node_modules/@mantine/form/lib/types';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { EQuestionnaireType } from '../Questionnaire.interface.ts';
 
 export interface IOptionProps {
@@ -96,6 +96,10 @@ export default function OptionAccordionForm({
 	const deleteItem = () => {
 		onDelete(form.getValues().id);
 	};
+
+	useEffect(() => {
+		form.setValues(optionProp);
+	}, [optionProp]);
 
 	return (
 		<AccordionFormItem

@@ -113,7 +113,10 @@ export default function QuestionAccordionForm({
 	const setOption = (upsertedOpt: IOptionProps) => {
 		let foundOption;
 		let updatedOptions = [...getQuestion().options];
-		if (type === QuestionType.SingleChoice && upsertedOpt.correct) {
+		if (
+			type === QuestionType.SingleChoice ||
+			(type === QuestionType.TrueOrFalse && upsertedOpt.correct)
+		) {
 			updatedOptions = updatedOptions.map((opt) => ({ ...opt, correct: false }));
 		}
 		updatedOptions = updatedOptions.map((opt) => {
