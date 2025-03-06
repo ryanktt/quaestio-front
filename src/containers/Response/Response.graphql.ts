@@ -18,6 +18,49 @@ export const RESPOND_QUESTIONNAIRE = gql(`
             answers: $answers
         ) {
             respondentToken
+            correction {
+                correctQuestionOptions {
+                    optionIds
+                    questionId
+                }
+                correctedAnswers {
+                    ... on AnswerSingleChoice {
+                        __typename
+                        type
+                        answeredAt
+                        question
+                        answeredAt
+                        correct
+                        option
+                    }
+                    ... on AnswerTrueOrFalse {
+                        __typename
+                        type
+                        answeredAt
+                        question
+                        answeredAt
+                        correct
+                        option
+                    }
+                    ... on AnswerMultipleChoice {
+                        __typename
+                        type
+                        answeredAt
+                        question
+                        answeredAt
+                        correct
+                        options
+                    }
+                    ... on AnswerText {
+                        __typename
+                        type
+                        answeredAt
+                        question
+                        answeredAt
+                        correct
+                    }
+                }
+            }
         } 
     }
 `);

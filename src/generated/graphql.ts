@@ -122,6 +122,12 @@ export type AuthResponse = {
   user: Admin;
 };
 
+export type CorrectQuestionOption = {
+  __typename?: 'CorrectQuestionOption';
+  optionIds: Array<Scalars['String']['output']>;
+  questionId: Scalars['String']['output'];
+};
+
 export type DeleteQuestionnaireResponse = {
   __typename?: 'DeleteQuestionnaireResponse';
   status: Scalars['String']['output'];
@@ -291,6 +297,7 @@ export type OptionMetrics = {
 
 export type PublicUpsertResponse = {
   __typename?: 'PublicUpsertResponse';
+  correction: ResponseCorrection;
   respondentToken: Scalars['String']['output'];
 };
 
@@ -704,6 +711,12 @@ export type Response = {
   user: Scalars['String']['output'];
 };
 
+export type ResponseCorrection = {
+  __typename?: 'ResponseCorrection';
+  correctQuestionOptions: Array<CorrectQuestionOption>;
+  correctedAnswers: Array<Answer>;
+};
+
 export type SchemaBaseInterface = {
   _id: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
@@ -913,7 +926,7 @@ export type RespondQuestionnaireMutationVariables = Exact<{
 }>;
 
 
-export type RespondQuestionnaireMutation = { __typename?: 'Mutation', publicUpsertQuestionnaireResponse: { __typename?: 'PublicUpsertResponse', respondentToken: string } };
+export type RespondQuestionnaireMutation = { __typename?: 'Mutation', publicUpsertQuestionnaireResponse: { __typename?: 'PublicUpsertResponse', respondentToken: string, correction: { __typename?: 'ResponseCorrection', correctQuestionOptions: Array<{ __typename?: 'CorrectQuestionOption', optionIds: Array<string>, questionId: string }>, correctedAnswers: Array<{ __typename: 'AnswerMultipleChoice', type: AnswerType, answeredAt?: Date | null, question: string, correct?: boolean | null, options?: Array<string> | null } | { __typename: 'AnswerSingleChoice', type: AnswerType, answeredAt?: Date | null, question: string, correct?: boolean | null, option?: string | null } | { __typename: 'AnswerText', type: AnswerType, answeredAt?: Date | null, question: string, correct?: boolean | null } | { __typename: 'AnswerTrueOrFalse', type: AnswerType, answeredAt?: Date | null, question: string, correct?: boolean | null, option?: string | null }> } } };
 
 export type FetchResponseQueryVariables = Exact<{
   responseId: Scalars['String']['input'];
@@ -1887,6 +1900,49 @@ export const RespondQuestionnaireDocument = gql`
     answers: $answers
   ) {
     respondentToken
+    correction {
+      correctQuestionOptions {
+        optionIds
+        questionId
+      }
+      correctedAnswers {
+        ... on AnswerSingleChoice {
+          __typename
+          type
+          answeredAt
+          question
+          answeredAt
+          correct
+          option
+        }
+        ... on AnswerTrueOrFalse {
+          __typename
+          type
+          answeredAt
+          question
+          answeredAt
+          correct
+          option
+        }
+        ... on AnswerMultipleChoice {
+          __typename
+          type
+          answeredAt
+          question
+          answeredAt
+          correct
+          options
+        }
+        ... on AnswerText {
+          __typename
+          type
+          answeredAt
+          question
+          answeredAt
+          correct
+        }
+      }
+    }
   }
 }
     `;
