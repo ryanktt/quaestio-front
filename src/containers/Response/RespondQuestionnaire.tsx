@@ -12,7 +12,7 @@ import '@mantine/core/styles.css';
 import { IColorSchemes } from '@utils/color.ts';
 import { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { buildRespondQuestionnaireGqlVars } from './Response.aux.ts';
+import { buildRespondQuestionnaireGqlVars, buildResponseCorrectionFormProps } from './Response.aux.ts';
 
 export default function RespondQuestionnaire() {
 	const ctx = useContext(GlobalContext);
@@ -21,15 +21,11 @@ export default function RespondQuestionnaire() {
 	const { data: fetchQuestRes } = usePublicFetchQuestionnaireSuspenseQuery({
 		variables: { questionnaireSharedId: params.sharedId },
 	});
-	const [respondMutation, { data: respondData, reset: resetRespond }] = useRespondQuestionnaireMutation();
+	const [respondMutation, { data: respondData }] = useRespondQuestionnaireMutation();
 	const questionnaire = fetchQuestRes.publicFetchQuestionnaire as QuestionnaireTypes;
+	const correction = respondData?.publicUpsertQuestionnaireResponse.correction;
 	const color = questionnaire.color || ('indigo' as IColorSchemes);
 	const bgColor = (questionnaire.bgColor || color) as ILayoutBgColors;
-
-	useEffect(() => {
-		if (!respondData) return;
-		resetRespond();
-	}, [respondData]);
 
 	useEffect(() => {
 		ctx.state.setResponseBgColor(bgColor);
@@ -45,6 +41,7 @@ export default function RespondQuestionnaire() {
 			<ResponseForm
 				colorScheme={color as IColorSchemes}
 				questionnaireProps={buildQuestionnaireFormProps(questionnaire)}
+				correctedResponses={buildResponseCorrectionFormProps(correction)}
 				onSubmit={handleRespondQuestionnaire}
 			/>
 		</Container>

@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { IQuestionResponseProps } from '@components/Response/ResponseForm/QuestionResponseForm';
 import { AnswerTypes, IResponseFormProps } from '@components/Response/ResponseForm/ResponseForm.interface';
 import {
@@ -6,10 +7,11 @@ import {
 	QuestionType,
 	RespondQuestionnaireMutationVariables,
 	Response,
+	ResponseCorrection,
 } from '@gened/graphql';
 import { convertPropsToGqlVars } from '@utils/graphql';
 
-export const buildAnswer = (responseProps: IQuestionResponseProps): AnswerDiscriminatorInput => {
+export const buildAnswerVars = (responseProps: IQuestionResponseProps): AnswerDiscriminatorInput => {
 	const type = responseProps.type as unknown as AnswerType;
 	const discriminator: Partial<AnswerDiscriminatorInput> = { type };
 	if (type === AnswerType.MultipleChoice) {
@@ -55,13 +57,34 @@ export const buildRespondQuestionnaireGqlVars = (
 		name,
 		email,
 		questionnaireId,
-		answers: questionResponses.map(buildAnswer),
+		answers: questionResponses.map(buildAnswerVars),
 		startedAt: startedAt as Date,
 		completedAt: completedAt as Date,
 	}) as RespondQuestionnaireMutationVariables;
 };
 
-export const buildResponseFormProps = (response?: Response): IResponseFormProps => {
+export const buildAnswerProps = (answer: AnswerTypes, correctOptionIds?: string[]) => {
+	const selectedOptionIds: string[] = [];
+	let text = '';
+	if ('option' in answer && answer.option) selectedOptionIds.push(answer.option);
+	if ('options' in answer && answer.options) selectedOptionIds.push(...answer.options);
+	if ('text' in answer && answer.text) text = answer.text;
+	return {
+		type: answer.type as unknown as QuestionType,
+		anweredAt: answer.answeredAt ? new Date(answer.answeredAt) : undefined,
+		correct: typeof answer.correct === 'boolean' ? answer.correct : undefined,
+		questionId: answer.question,
+		selectedOptionIds,
+		correctOptionIds,
+		text,
+	};
+};
+
+export const buildResponseFormProps = (
+	response?: Partial<
+		Pick<Response, 'answers' | 'respondentEmail' | 'respondentName' | 'startedAt' | 'completedAt'>
+	>,
+): IResponseFormProps => {
 	if (!response) {
 		return {
 			email: '',
@@ -75,21 +98,21 @@ export const buildResponseFormProps = (response?: Response): IResponseFormProps 
 	return {
 		email: response.respondentName || '',
 		name: response.respondentEmail || '',
-		questionResponses: response.answers.map((answer: AnswerTypes) => {
-			const selectedOptionIds: string[] = [];
-			let text = '';
-			if ('option' in answer && answer.option) selectedOptionIds.push(answer.option);
-			if ('options' in answer && answer.options) selectedOptionIds.push(...answer.options);
-			if ('text' in answer && answer.text) text = answer.text;
-			return {
-				type: answer.type as unknown as QuestionType,
-				anweredAt: answer.answeredAt ? new Date(answer.answeredAt) : undefined,
-				questionId: answer.question,
-				selectedOptionIds,
-				text,
-			};
-		}),
-		completedAt: new Date(response.completedAt as Date),
-		startedAt: new Date(response.startedAt),
+		questionResponses: (response.answers || []).map((answer) => buildAnswerProps(answer)),
+		completedAt: response.completedAt ? new Date(response.completedAt) : undefined,
+		startedAt: response.startedAt ? new Date(response.startedAt) : undefined,
 	};
+};
+
+export const buildResponseCorrectionFormProps = (
+	correction?: ResponseCorrection,
+): IQuestionResponseProps[] | undefined => {
+	if (!correction) return;
+	return correction.correctedAnswers.map((answer) =>
+		buildAnswerProps(
+			answer,
+			correction.correctQuestionOptions.find(({ questionId }) => questionId === answer.question)
+				?.optionIds,
+		),
+	);
 };

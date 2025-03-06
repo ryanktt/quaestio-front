@@ -33,16 +33,23 @@
 	}
 }
 
+.options {
+	display: flex;
+	gap: rem(8px);
+	@media (max-width: $mantine-breakpoint-sm) {
+		flex-wrap: wrap;
+	}
+}
+
 .box.option {
-	border: 1px solid $gray0;
+	border: 1px solid $gray4;
 	background: var(--response-option-bg);
 	padding: $spacingXs;
 	p {
 		color: $white;
 	}
 	display: flex;
-	gap: $spacingMd;
-	box-shadow: none;
+	gap: $spacingSm;
 	align-items: center;
 	border-radius: $radiusLg;
 }
@@ -66,7 +73,7 @@
 		align-self: center;
 	}
 	input {
-		border-radius: $radiusMd;
+		border-radius: 200px;
 	}
 	input:checked {
 		background-color: $white;
@@ -93,7 +100,6 @@
 	.checkbox {
 		input {
 			background-color: $teal0;
-			border-radius: $radiusMd;
 		}
 		input:checked + svg {
 			color: $teal6;
@@ -110,7 +116,6 @@
 	.checkbox {
 		input {
 			background-color: $pink0;
-			border-radius: $radiusMd;
 		}
 		input:checked + svg {
 			color: $pink6;

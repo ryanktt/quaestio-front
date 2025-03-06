@@ -1,16 +1,17 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable func-names */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-danger */
 import { IOptionProps } from '@components/Questionnaire/OptionAccordionForm/OptionAccordionForm';
 import { IQuestionProps } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import { QuestionType } from '@gened/graphql.ts';
-import { Badge, Box, Checkbox, CheckboxProps, rem, Textarea, useMantineTheme } from '@mantine/core';
+import { Badge, Box, Checkbox, CheckboxProps, rem, Text, Textarea, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { IconCircleFilled } from '@tabler/icons-react';
+import { IconBulb, IconCheck, IconCircleFilled, IconExclamationMark } from '@tabler/icons-react';
 import { colorSchemes, IColorSchemes } from '@utils/color';
 import { createMarkup } from '@utils/html';
 import _ from 'lodash';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styles from './ResponseForm.module.scss';
 
 export interface IQuestionResponseProps {
@@ -18,44 +19,134 @@ export interface IQuestionResponseProps {
 	selectedOptionIds: string[];
 	text: string;
 	answeredAt?: Date;
+	correct?: boolean;
 	questionId: string;
+	correctOptionIds?: string[];
 }
 
 const CheckboxIcon: CheckboxProps['icon'] = function ({ indeterminate, ...others }) {
 	return indeterminate ? <IconCircleFilled {...others} /> : <IconCircleFilled {...others} />;
 };
 
+function Feedback({
+	msg,
+	type,
+	color: c,
+}: {
+	msg: string;
+	type: 'wrong' | 'right' | 'neutral';
+	color: string;
+}) {
+	const theme = useMantineTheme();
+
+	let color = c;
+	let icon = <IconBulb size={18} stroke={1.6} color={theme.colors[color][8]} />;
+	if (type === 'wrong') {
+		color = 'pink';
+		icon = <IconExclamationMark size={18} stroke={1.6} color={theme.colors[color][8]} />;
+	}
+	if (type === 'right') {
+		color = 'teal';
+		icon = <IconCheck size={18} stroke={1.6} color={theme.colors[color][8]} />;
+	}
+
+	return (
+		<Box
+			style={{
+				border: `1px solid${theme.colors[color][2]}`,
+				borderBottomWidth: '2px',
+				borderRadius: theme.radius.sm,
+				borderBottomRightRadius: theme.radius.md,
+			}}
+			p="sm"
+			bg={theme.colors[color][0]}
+			display="flex"
+		>
+			{icon}
+			<Text ml={3} fw={600} style={{ fontSize: rem(13) }} c={theme.colors[color][7]}>
+				{msg}
+			</Text>
+		</Box>
+	);
+}
+
+function OptionCheckbox({
+	option,
+	question,
+	readMode,
+	onChange,
+	checked,
+	showFeedback,
+	feedbackColor,
+}: {
+	option: IOptionProps;
+	question: IQuestionProps;
+	readMode: boolean;
+	onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+	checked: boolean;
+	showFeedback: boolean;
+	feedbackColor: string;
+}) {
+	const feedback =
+		showFeedback && option.feedbackAfterSubmit ? (
+			<Box pr={rem(15)} mt={rem(0)}>
+				<Feedback color={feedbackColor} msg={option.feedbackAfterSubmit} type="neutral" />
+			</Box>
+		) : null;
+
+	const isTrueOrFalse = question.type === QuestionType.TrueOrFalse;
+
+	return (
+		<Box w="100%" style={{ display: 'flex', flexDirection: 'column', gap: rem(5) }}>
+			<Box
+				className={`${styles.box} ${styles.option} ${isTrueOrFalse ? (option.true ? styles.true : styles.false) : ''}`}
+				key={option.id}
+			>
+				<Checkbox
+					onChange={onChange}
+					checked={checked}
+					readOnly={readMode}
+					icon={CheckboxIcon}
+					className={styles.checkbox}
+					label={option.title}
+				/>
+			</Box>
+			{feedback}
+		</Box>
+	);
+}
+
 export default function QuestionResponseForm({
 	onChange,
-	questionProps,
+	question,
 	questionIndex,
 	colorScheme,
 	readMode = false,
-	// correction =false,
-	questionResponseFormProps,
+	questionResponseProps,
+	correctedResponseProps,
 }: {
 	onChange: (p: IQuestionResponseProps) => void;
-	questionProps: IQuestionProps;
+	question: IQuestionProps;
 	questionIndex: number;
 	colorScheme: IColorSchemes;
 	readMode?: boolean;
-	correction?: boolean;
-	questionResponseFormProps?: IQuestionResponseProps;
+	questionResponseProps?: IQuestionResponseProps;
+	correctedResponseProps?: IQuestionResponseProps;
 }) {
 	const theme = useMantineTheme();
 	const [primaryColor] = colorSchemes[colorScheme];
 
-	const [optionProps, setOptionProps] = useState<IOptionProps[]>([]);
+	const [option, setOptionProps] = useState<IOptionProps[]>([]);
 
 	useEffect(() => {
-		if (questionProps.randomizeOptions) setOptionProps(_.shuffle(questionProps.options));
-		else setOptionProps(questionProps.options);
+		if (question.randomizeOptions) setOptionProps(_.shuffle(question.options));
+		else setOptionProps(question.options);
 	}, []);
 
 	const [state, setState] = useState<IQuestionResponseProps>(
-		questionResponseFormProps || {
-			type: questionProps.type as QuestionType,
-			questionId: questionProps.id,
+		questionResponseProps || {
+			type: question.type as QuestionType,
+			questionId: question.id,
 			selectedOptionIds: [],
 			text: '',
 		},
@@ -63,18 +154,15 @@ export default function QuestionResponseForm({
 
 	useEffect(() => {
 		const isAnswered =
-			(questionProps.type === QuestionType.Text && !!state.text) ||
-			(questionProps.type !== QuestionType.Text && !!state.selectedOptionIds.length);
+			(question.type === QuestionType.Text && !!state.text) ||
+			(question.type !== QuestionType.Text && !!state.selectedOptionIds.length);
 		onChange({ ...state, answeredAt: isAnswered ? new Date() : undefined });
 	}, [state]);
 
 	const toggleSelectOption = (selected: boolean, optionId: string) => {
 		let updatedSelectedOptIds = [];
 		if (selected) {
-			if (
-				questionProps.type === QuestionType.SingleChoice ||
-				questionProps.type === QuestionType.TrueOrFalse
-			) {
+			if (question.type === QuestionType.SingleChoice || question.type === QuestionType.TrueOrFalse) {
 				updatedSelectedOptIds = [optionId];
 			} else {
 				updatedSelectedOptIds = [...state.selectedOptionIds, optionId];
@@ -85,62 +173,50 @@ export default function QuestionResponseForm({
 		setState({ ...state, selectedOptionIds: updatedSelectedOptIds });
 	};
 
-	const getOptionInput = (option: IOptionProps) => {
-		if (questionProps.type === QuestionType.TrueOrFalse) {
-			return (
-				<Box
-					className={`${styles.box} ${styles.option} ${option.true ? styles.true : styles.false}`}
-					key={option.id}
-				>
-					<Checkbox
-						onChange={(e) => {
-							if (!readMode) toggleSelectOption(e.target.checked, option.id);
-						}}
-						checked={!!state.selectedOptionIds.find((id) => id === option.id)}
-						readOnly={readMode}
-						icon={CheckboxIcon}
-						className={styles.checkbox}
-						label={option.title}
-					/>
-				</Box>
-			);
-		}
+	const showWrongAnswerFeedback =
+		!!question.wrongAnswerFeedback && correctedResponseProps?.correct === false;
+	const showRightAnswerFeedback =
+		!!question.rightAnswerFeedback && correctedResponseProps?.correct === true;
+	const showTextFeedback = !!question.feedbackAfterSubmit && correctedResponseProps;
+	const showFeedback = showRightAnswerFeedback || showWrongAnswerFeedback || showTextFeedback;
 
+	const optionCheckboxes = option.map((opt) => {
 		return (
-			<Box className={`${styles.box} ${styles.option}`} key={option.id}>
-				<Checkbox
-					onChange={(e) => {
-						if (!readMode) toggleSelectOption(e.target.checked, option.id);
-					}}
-					checked={!!state.selectedOptionIds.find((id) => id === option.id)}
-					readOnly={readMode}
-					icon={CheckboxIcon}
-					className={styles.checkbox}
-					label={option.title}
-				/>
-			</Box>
+			<OptionCheckbox
+				showFeedback={!!correctedResponseProps}
+				checked={!!state.selectedOptionIds.find((id) => id === opt.id)}
+				onChange={(e) => {
+					if (!readMode) toggleSelectOption(e.target.checked, opt.id);
+				}}
+				option={opt}
+				question={question}
+				readMode={readMode}
+				feedbackColor={primaryColor}
+				key={opt.id}
+			/>
 		);
-	};
+	});
 
 	return (
 		<div
 			style={{
 				display: 'flex',
-				flexDirection: 'column',
-				gap: theme.spacing.sm,
 				width: '100%',
 			}}
 		>
 			<Box className={`${styles.box} ${styles.question}`}>
-				<Badge color={theme.colors[primaryColor][8]} size="md">
-					Q.{questionIndex + 1}
-				</Badge>
-				<div dangerouslySetInnerHTML={createMarkup(questionProps.description)} />
-				{questionProps.type === QuestionType.Text ? (
+				<Box>
+					<Badge color={theme.colors[primaryColor][8]} size="md">
+						Q.{questionIndex + 1}
+					</Badge>
+					{}
+				</Box>
+				<div dangerouslySetInnerHTML={createMarkup(question.description)} />
+				{question.type === QuestionType.Text ? (
 					<Textarea
 						color={theme.colors[primaryColor][7]}
 						c={theme.colors[primaryColor][7]}
-						required={questionProps.required}
+						required={question.required}
 						onChange={(e) => setState({ ...state, text: e.target.value })}
 						autosize
 						readOnly={readMode}
@@ -148,16 +224,29 @@ export default function QuestionResponseForm({
 					/>
 				) : null}
 				<Box
-					style={{
-						display: 'flex',
-						...(questionProps.type !== QuestionType.TrueOrFalse
-							? { flexDirection: 'column' }
-							: {}),
-						gap: rem(5),
-					}}
+					className={styles.options}
+					style={question.type !== QuestionType.TrueOrFalse ? { flexDirection: 'column' } : {}}
 				>
-					{...optionProps.map(getOptionInput)}
+					{optionCheckboxes}
 				</Box>
+
+				{showFeedback ? (
+					<Box mt={theme.spacing.lg}>
+						{showWrongAnswerFeedback ? (
+							<Feedback color={primaryColor} msg={question.wrongAnswerFeedback} type="wrong" />
+						) : null}
+						{showRightAnswerFeedback ? (
+							<Feedback color={primaryColor} msg={question.rightAnswerFeedback} type="right" />
+						) : null}
+						{showTextFeedback ? (
+							<Feedback
+								color={primaryColor}
+								msg={question.feedbackAfterSubmit}
+								type="neutral"
+							/>
+						) : null}
+					</Box>
+				) : null}
 			</Box>
 		</div>
 	);

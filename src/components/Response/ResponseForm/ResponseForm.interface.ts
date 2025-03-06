@@ -19,8 +19,8 @@ export type IAnswerInputTypes =
 	| AnswerTrueOrFalseInput;
 
 export interface IResponseFormProps {
-	name: string;
-	email: string;
+	name?: string;
+	email?: string;
 	questionResponses: IQuestionResponseProps[];
 	startedAt?: Date;
 	completedAt?: Date;

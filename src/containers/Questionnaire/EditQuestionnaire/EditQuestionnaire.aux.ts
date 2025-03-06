@@ -25,7 +25,7 @@ export const buildOptionsFormProps = (options: Option[]) => {
 	return options.map((option) => ({
 		id: option._id,
 		feedbackAfterSubmit: option.feedbackAfterSubmit || '',
-		correct: option.correct || false,
+		correct: typeof option.correct === 'boolean' ? option.correct : '',
 		title: option.title,
 		true: !!option.true,
 	}));
@@ -52,7 +52,7 @@ export const buildQuestionsFormProps = (questions: QuestionTypes[]): IQuestionPr
 			wrongAnswerFeedback = question.wrongAnswerFeedback || '';
 		}
 		if ('options' in question) {
-			options = buildOptionsFormProps(question.options);
+			options = buildOptionsFormProps(question.options) as IOptionProps[];
 		}
 
 		return {

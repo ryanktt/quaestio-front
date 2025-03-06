@@ -19,12 +19,14 @@ export default function ResponseForm({
 	responseFormProps,
 	colorScheme = 'indigo',
 	readMode = false,
+	correctedResponses,
 }: {
 	onSubmit?: (p: IResponseFormProps) => Promise<void>;
 	questionnaireProps: IQuestionnaireFormProps;
 	responseFormProps?: IResponseFormProps;
 	readMode?: boolean;
 	colorScheme?: IColorSchemes;
+	correctedResponses?: IQuestionResponseProps[];
 }) {
 	const { randomizeQuestions, requireEmail, description, requireName, questions, title } =
 		questionnaireProps;
@@ -74,14 +76,16 @@ export default function ResponseForm({
 		const props = form
 			.getValues()
 			.questionResponses.find(({ questionId }) => questionId === questionProps.id);
+		const correctedProps = correctedResponses?.find(({ questionId }) => questionId === questionProps.id);
 
 		return (
 			<QuestionResponseForm
 				readMode={readMode}
-				questionResponseFormProps={props}
+				questionResponseProps={props}
+				correctedResponseProps={correctedProps}
 				colorScheme={colorScheme}
 				questionIndex={i}
-				questionProps={questionProps}
+				question={questionProps}
 				key={questionProps.id}
 				onChange={setQuestionResponse}
 			/>
