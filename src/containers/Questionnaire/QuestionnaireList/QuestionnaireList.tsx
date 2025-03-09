@@ -6,7 +6,9 @@ import { QuestionnaireType, useFetchQuestionnairesSuspenseQuery } from '@gened/g
 import {
 	Badge,
 	Box,
+	Flex,
 	Text as MantineText,
+	Pagination,
 	Title,
 	Tooltip,
 	UnstyledButton,
@@ -123,28 +125,37 @@ export const DEBOUNCE_DELAY = 500;
 export default function QuestionnaireList() {
 	const { searchStr } = useContext(GlobalContext).state;
 	const [textFilter] = useDebouncedValue(searchStr, DEBOUNCE_DELAY);
-	const { data } = useFetchQuestionnairesSuspenseQuery({ variables: { textFilter } });
+	const [pagination, setPagination] = useState({ page: 1, limit: 10 });
 
-	const { entries, sharedIds, statuses, titles, types, views } =
-		data.adminFetchQuestionnaires.reduce<QuestionnaireListData>(
-			(state, questionnaire) => {
-				state.sharedIds.push(questionnaire.sharedId);
-				state.types.push(questionnaire.type);
-				state.statuses.push(questionnaire.active);
-				state.titles.push(questionnaire.title);
-				state.entries.push(0);
-				state.views.push(0);
-				return state;
-			},
-			{
-				sharedIds: [],
-				statuses: [],
-				entries: [],
-				titles: [],
-				types: [],
-				views: [],
-			},
-		);
+	const { data } = useFetchQuestionnairesSuspenseQuery({
+		variables: { textFilter, pagination },
+	});
+
+	const { results, currentPage, totalPageCount } = data.adminFetchQuestionnaires;
+
+	const handlePaginationUpdate = (page: number) => {
+		setPagination({ ...pagination, page });
+	};
+
+	const { entries, sharedIds, statuses, titles, types, views } = results.reduce<QuestionnaireListData>(
+		(state, questionnaire) => {
+			state.sharedIds.push(questionnaire.sharedId);
+			state.types.push(questionnaire.type);
+			state.statuses.push(questionnaire.active);
+			state.titles.push(questionnaire.title);
+			state.entries.push(0);
+			state.views.push(0);
+			return state;
+		},
+		{
+			sharedIds: [],
+			statuses: [],
+			entries: [],
+			titles: [],
+			types: [],
+			views: [],
+		},
+	);
 
 	return (
 		<div>
@@ -211,6 +222,16 @@ export default function QuestionnaireList() {
 					))}
 				</Column>
 			</Box>
+			{totalPageCount > 1 ? (
+				<Flex mt={10} justify="flex-end" pr={20}>
+					<Pagination
+						size="sm"
+						total={totalPageCount}
+						value={currentPage}
+						onChange={handlePaginationUpdate}
+					/>
+				</Flex>
+			) : null}
 		</div>
 	);
 }
