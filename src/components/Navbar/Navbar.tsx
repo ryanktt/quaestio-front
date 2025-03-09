@@ -2,16 +2,7 @@ import { AuthModalContext } from '@contexts/AuthModal.context';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import { useSignOutMutation } from '@gened/graphql';
 import { rem, Stack, Tooltip, UnstyledButton } from '@mantine/core';
-import {
-	IconDeviceDesktopAnalytics,
-	IconGauge,
-	IconHome2,
-	IconLogout,
-	IconNotebook,
-	IconSettings,
-	IconSwitchHorizontal,
-	IconUser,
-} from '@tabler/icons-react';
+import { IconFilePlus, IconHome2, IconLogout, IconNotebook, IconSwitchHorizontal } from '@tabler/icons-react';
 import { useContext, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -37,11 +28,8 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 }
 
 const mockdata = [
-	{ icon: IconNotebook, label: 'Home' },
-	{ icon: IconGauge, label: 'Dashboard' },
-	{ icon: IconDeviceDesktopAnalytics, label: 'Analytics' },
-	{ icon: IconUser, label: 'Account' },
-	{ icon: IconSettings, label: 'Settings' },
+	{ icon: IconNotebook, label: 'Home', path: '/board/questionnaires' },
+	{ icon: IconFilePlus, label: 'Create questionnaire', path: '/board/questionnaire/create' },
 ];
 
 export default function Navbar() {
@@ -71,7 +59,15 @@ export default function Navbar() {
 	const [active, setActive] = useState(2);
 
 	const links = mockdata.map((link, index) => (
-		<NavbarLink {...link} key={link.label} active={index === active} onClick={() => setActive(index)} />
+		<NavbarLink
+			{...link}
+			key={link.label}
+			active={index === active}
+			onClick={() => {
+				navigate(link.path);
+				setActive(index);
+			}}
+		/>
 	));
 
 	return (

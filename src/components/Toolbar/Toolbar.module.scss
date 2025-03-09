@@ -64,14 +64,15 @@
 }
 
 .search {
-	box-shadow: $shadowXs;
+	box-shadow: $shadowMd;
 	background-color: $white;
+	overflow: hidden;
 	display: flex;
 	align-items: center;
-	padding: rem(3px);
+	padding: rem(3px) rem(10px);
 	width: 100%;
 	border: 1px solid $violet3;
-	border-radius: $radiusMd;
+	border-radius: 50px;
 	&:hover {
 		cursor: default;
 	}
