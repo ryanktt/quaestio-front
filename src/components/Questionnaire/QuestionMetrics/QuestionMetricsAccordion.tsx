@@ -9,7 +9,7 @@ import {
 	QuestionTrueOrFalseMetrics,
 	QuestionType,
 } from '@gened/graphql';
-import { Box, Group, rem, Title, UnstyledButton, useMantineTheme } from '@mantine/core';
+import { Box, Group, Title, UnstyledButton, rem, useMantineTheme } from '@mantine/core';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { createMarkup } from '@utils/html';
 import { useMemo, useState } from 'react';
@@ -38,7 +38,7 @@ function MetricsAccordionItem({
 
 	const correctChartData = useMemo(() => {
 		if (!questionMetrics) return [];
-		if ('rightAnswerCount' in questionMetrics && questionMetrics.rightAnswerCount) {
+		if ('rightAnswerCount' in questionMetrics) {
 			return [
 				{ name: 'Correct', value: questionMetrics.rightAnswerCount, color: 'teal' },
 				{ name: 'Incorrect', value: questionMetrics.wrongAnswerCount, color: 'pink' },

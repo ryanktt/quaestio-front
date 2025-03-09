@@ -76,7 +76,7 @@ export default function QuestionnaireAnalytics() {
 				/>
 				<MetricsCard
 					label="Avg Re-entries"
-					stats={(metrics.avgAttemptCount - 1).toFixed(1)}
+					stats={((metrics.avgAttemptCount || 1) - 1).toFixed(1)}
 					color="pink"
 					icon={IconFiles}
 				/>
