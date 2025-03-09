@@ -5,13 +5,21 @@ export const FETCH_RESPONSES = gql(`
         $questionnaireIds: [String!]
         $questionnaireSharedIds: [String!]
         $textFilter: String
+        $pagination: PaginationInput
     ) {
         adminFetchResponses(
         questionnaireIds: $questionnaireIds
         questionnaireSharedIds: $questionnaireSharedIds
         textFilter: $textFilter
+        pagination: $pagination
     ) {
-        ...ResponseFragment
+        results {
+            ...ResponseFragment
+		}
+        currentPage
+        totalPageCount
+        hasNextPage
+        totalResultCount    
     }
   }
 `);

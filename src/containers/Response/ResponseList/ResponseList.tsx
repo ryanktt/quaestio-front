@@ -6,11 +6,13 @@ import { QuestionnaireType, useFetchResponsesSuspenseQuery } from '@gened/graphq
 import {
 	Badge,
 	Box,
+	Flex,
 	Text as MantineText,
-	rem,
+	Pagination,
 	Title,
 	Tooltip,
 	UnstyledButton,
+	rem,
 	useMantineTheme,
 } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
@@ -131,9 +133,15 @@ export const DEBOUNCE_DELAY = 500;
 export default function ResponseList() {
 	const { searchStr } = useContext(GlobalContext).state;
 	const [textFilter] = useDebouncedValue(searchStr, DEBOUNCE_DELAY);
-	const { data } = useFetchResponsesSuspenseQuery({ variables: { textFilter } });
+	const [pagination, setPagination] = useState({ page: 1, limit: 10 });
+	const { data } = useFetchResponsesSuspenseQuery({ variables: { textFilter, pagination } });
 
-	const { answeredAts, emails, ids, titles, types } = data.adminFetchResponses.reduce<ResponseListData>(
+	const handlePaginationUpdate = (page: number) => {
+		setPagination({ ...pagination, page });
+	};
+
+	const { results, currentPage, totalPageCount } = data.adminFetchResponses;
+	const { answeredAts, emails, ids, titles, types } = results.reduce<ResponseListData>(
 		(state, response) => {
 			state.ids.push(response._id);
 			state.types.push(response.questionnaire.type);
@@ -205,6 +213,16 @@ export default function ResponseList() {
 					))}
 				</Column>
 			</Box>
+			{totalPageCount > 1 ? (
+				<Flex mt={10} justify="flex-end" pr={20}>
+					<Pagination
+						size="sm"
+						total={totalPageCount}
+						value={currentPage}
+						onChange={handlePaginationUpdate}
+					/>
+				</Flex>
+			) : null}
 		</div>
 	);
 }
