@@ -1,17 +1,16 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import StatusBadge from '@components/StatusBadge/StatusBadge';
-import ResponseList from '@containers/Response/ResponseList/ResponseList';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import { QuestionnaireType, useFetchQuestionnairesSuspenseQuery } from '@gened/graphql';
 import {
 	Badge,
 	Box,
 	Text as MantineText,
-	rem,
 	Title,
 	Tooltip,
 	UnstyledButton,
+	rem,
 	useMantineTheme,
 } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
@@ -149,9 +148,6 @@ export default function QuestionnaireList() {
 
 	return (
 		<div>
-			<Box className={styles.listTitle}>
-				<Title size="md">Questionnaires</Title>
-			</Box>
 			<Box className={styles.list}>
 				<Column>
 					<ColumnItem>
@@ -215,10 +211,6 @@ export default function QuestionnaireList() {
 					))}
 				</Column>
 			</Box>
-			<Box className={styles.listTitle}>
-				<Title size="md">Responses</Title>
-			</Box>
-			<ResponseList />
 		</div>
 	);
 }

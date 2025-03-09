@@ -67,27 +67,27 @@ export default function QuestionnaireAnalytics() {
 
 	return (
 		<div className={styles.analytics}>
-			<Group grow preventGrowOverflow={false}>
-				<MetricsCard
-					label="Responses"
-					stats={String(metrics.totalResponseCount)}
-					color="orange"
-					icon={IconFileArrowRight}
-				/>
-				<MetricsCard
-					label="Avg Re-entries"
-					stats={((metrics.avgAttemptCount || 1) - 1).toFixed(1)}
-					color="pink"
-					icon={IconFiles}
-				/>
-				<MetricsCard
-					label="Avg Answer Time"
-					stats={`${avgAnswerTimeMin} min`}
-					color="teal"
-					icon={IconClock}
-				/>
-			</Group>
 			<div className={styles.mainSection}>
+				<Group grow preventGrowOverflow={false}>
+					<MetricsCard
+						label="Responses"
+						stats={String(metrics.totalResponseCount)}
+						color="orange"
+						icon={IconFileArrowRight}
+					/>
+					<MetricsCard
+						label="Avg Re-entries"
+						stats={((metrics.avgAttemptCount || 1) - 1).toFixed(1)}
+						color="pink"
+						icon={IconFiles}
+					/>
+					<MetricsCard
+						label="Avg Answer Time"
+						stats={`${avgAnswerTimeMin} min`}
+						color="teal"
+						icon={IconClock}
+					/>
+				</Group>
 				<Box>
 					<Box
 						mb={theme.spacing.sm}

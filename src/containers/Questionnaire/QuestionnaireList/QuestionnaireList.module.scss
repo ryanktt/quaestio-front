@@ -8,19 +8,6 @@
 	margin-bottom: $spacingMd;
 }
 
-.listTitle {
-	background-color: $white;
-	border-radius: $radiusMd;
-	border: 1px solid $gray4;
-	border-bottom: 0;
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
-	width: min-content;
-	padding: $spacingXs;
-	margin-left: $spacingLg;
-	box-shadow: $shadowMd;
-}
-
 .column {
 	display: grid;
 	grid-template-columns: 1fr;

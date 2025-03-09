@@ -2,7 +2,14 @@ import { AuthModalContext } from '@contexts/AuthModal.context';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import { useSignOutMutation } from '@gened/graphql';
 import { rem, Stack, Tooltip, UnstyledButton } from '@mantine/core';
-import { IconFilePlus, IconHome2, IconLogout, IconNotebook, IconSwitchHorizontal } from '@tabler/icons-react';
+import {
+	IconFilePlus,
+	IconFileStack,
+	IconHome2,
+	IconLogout,
+	IconNotebook,
+	IconSwitchHorizontal,
+} from '@tabler/icons-react';
 import { useContext, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +37,7 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 const mockdata = [
 	{ icon: IconNotebook, label: 'Home', path: '/board/questionnaires' },
 	{ icon: IconFilePlus, label: 'Create questionnaire', path: '/board/questionnaire/create' },
+	{ icon: IconFileStack, label: 'Entries', path: '/board/responses' },
 ];
 
 export default function Navbar() {
