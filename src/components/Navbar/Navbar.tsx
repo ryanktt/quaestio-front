@@ -4,15 +4,15 @@ import { useSignOutMutation } from '@gened/graphql';
 import { rem, Stack, Tooltip, UnstyledButton } from '@mantine/core';
 import {
 	IconFilePlus,
+	IconFiles,
 	IconFileStack,
 	IconHome2,
 	IconLogout,
-	IconNotebook,
 	IconSwitchHorizontal,
 } from '@tabler/icons-react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import classes from './Navbar.module.scss';
 
 interface NavbarLinkProps {
@@ -35,8 +35,8 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 }
 
 const mockdata = [
-	{ icon: IconNotebook, label: 'Home', path: '/board/questionnaires' },
 	{ icon: IconFilePlus, label: 'Create questionnaire', path: '/board/questionnaire/create' },
+	{ icon: IconFiles, label: 'Questionnaires', path: '/board/questionnaires' },
 	{ icon: IconFileStack, label: 'Entries', path: '/board/responses' },
 ];
 
@@ -45,6 +45,7 @@ export default function Navbar() {
 	const authModalContext = useContext(AuthModalContext);
 	const [logoutMutation, { data: logoutData, reset: resetLogout }] = useSignOutMutation();
 	const [, , removeCookies] = useCookies(['authData']);
+	const location = useLocation();
 	const navigate = useNavigate();
 
 	const onLogout = async () => {
@@ -64,16 +65,13 @@ export default function Navbar() {
 		resetLogout();
 	}, [logoutData]);
 
-	const [active, setActive] = useState(2);
-
-	const links = mockdata.map((link, index) => (
+	const links = mockdata.map((link) => (
 		<NavbarLink
 			{...link}
 			key={link.label}
-			active={index === active}
+			active={location.pathname === link.path}
 			onClick={() => {
 				navigate(link.path);
-				setActive(index);
 			}}
 		/>
 	));

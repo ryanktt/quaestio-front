@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import StatusBadge from '@components/StatusBadge/StatusBadge';
+import Search from '@components/Toolbar/Search';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import { QuestionnaireType, useFetchQuestionnairesSuspenseQuery } from '@gened/graphql';
 import {
@@ -159,6 +160,9 @@ export default function QuestionnaireList() {
 
 	return (
 		<div>
+			<Box mb={15}>
+				<Search />
+			</Box>
 			<Box className={styles.list}>
 				<Column>
 					<ColumnItem>
