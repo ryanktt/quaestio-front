@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import AlertItem from '@components/Alert/Alert.tsx';
 import ColorSelect, { IColorOption } from '@components/ColorSelect/ColorSelect.tsx';
 import DragDropList from '@components/DragDropList/DragDropList.tsx';
 import DragDropItem from '@components/DragDropList/Draggable.tsx';
@@ -15,6 +16,7 @@ import {
 	NumberInput,
 	rem,
 	Select,
+	Switch,
 	TextInput,
 	Title,
 	useMantineTheme,
@@ -32,8 +34,10 @@ export default function QuestionnaireForm({
 	formProps,
 	title,
 	method = 'ADD',
+	onToggleActive,
 }: {
 	onSubmit: (p: IQuestionnaireFormProps) => Promise<void>;
+	onToggleActive: (active: boolean) => Promise<void>;
 	formProps?: IQuestionnaireFormProps;
 	title: string;
 	method?: 'EDIT' | 'ADD';
@@ -234,15 +238,26 @@ export default function QuestionnaireForm({
 						data={[EQuestionnaireType.Exam, EQuestionnaireType.Quiz, EQuestionnaireType.Survey]}
 					/>
 				) : (
-					<Select
-						value={getQuestionnaire().active ? 'Active' : 'Inactive'}
-						onChange={(e) => {
-							form.setFieldValue('active', e === 'Active');
-						}}
-						label="Status"
-						maw={300}
-						data={['Active', 'Inactive']}
-					/>
+					<>
+						<Switch
+							checked={!!getQuestionnaire().active}
+							onChange={(e) => {
+								const active = e.currentTarget.checked;
+								form.setFieldValue('active', active);
+								onToggleActive(active);
+							}}
+							label={getQuestionnaire().active ? 'Active' : 'Inactive'}
+							maw={300}
+						/>
+						<AlertItem
+							alert={{
+								type: 'DEFAULT',
+								title: 'Important!',
+								message: 'Further editing the questionnaire will reset all its metrics',
+								id: 'important',
+							}}
+						/>
+					</>
 				)}
 
 				<TextInput

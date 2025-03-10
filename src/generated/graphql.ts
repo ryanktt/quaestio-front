@@ -145,6 +145,7 @@ export type Mutation = {
   adminCreateQuestionnaireQuiz: QuestionnaireQuiz;
   adminCreateQuestionnaireSurvey: QuestionnaireSurvey;
   adminDeleteQuestionnaire?: Maybe<DeleteQuestionnaireResponse>;
+  adminToggleQuestionnaireActive?: Maybe<Questionnaire>;
   adminUpdateQuestionnaireExam: QuestionnaireExam;
   adminUpdateQuestionnaireQuiz: QuestionnaireQuiz;
   adminUpdateQuestionnaireSurvey: QuestionnaireSurvey;
@@ -194,6 +195,12 @@ export type MutationAdminCreateQuestionnaireSurveyArgs = {
 
 
 export type MutationAdminDeleteQuestionnaireArgs = {
+  questionnaireSharedId: Scalars['String']['input'];
+};
+
+
+export type MutationAdminToggleQuestionnaireActiveArgs = {
+  active?: InputMaybe<Scalars['Boolean']['input']>;
   questionnaireSharedId: Scalars['String']['input'];
 };
 
@@ -893,6 +900,14 @@ export type UpdateExamMutationVariables = Exact<{
 
 
 export type UpdateExamMutation = { __typename?: 'Mutation', adminUpdateQuestionnaireExam: { __typename?: 'QuestionnaireExam', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, color?: string | null, bgColor?: string | null, randomizeQuestions: boolean, sharedCreatedAt: Date, createdAt: Date, updatedAt: Date, timeLimit?: number | null, maxRetryAmount?: number | null, metrics: { __typename?: 'QuestionnaireMetrics', _id: string, totalResponseCount: number, totalAttemptCount: number, totalAnswerTime: number, avgAnswerTime: number, avgAttemptCount: number, byLocationMap?: string | null, questionMetrics: Array<{ __typename?: 'QuestionMultipleChoiceMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> } | { __typename?: 'QuestionSingleChoiceMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> } | { __typename?: 'QuestionTextMetrics', _id: string, answerCount: number, unansweredCount: number } | { __typename?: 'QuestionTrueOrFalseMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> }> }, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, true?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, true?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, true?: boolean | null, feedbackAfterSubmit?: string | null }> }> } };
+
+export type ToggleQuestionnaireActiveMutationVariables = Exact<{
+  questionnaireSharedId: Scalars['String']['input'];
+  active?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type ToggleQuestionnaireActiveMutation = { __typename?: 'Mutation', adminToggleQuestionnaireActive?: { __typename?: 'QuestionnaireExam', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, color?: string | null, bgColor?: string | null, randomizeQuestions: boolean, sharedCreatedAt: Date, createdAt: Date, updatedAt: Date, timeLimit?: number | null, maxRetryAmount?: number | null, metrics: { __typename?: 'QuestionnaireMetrics', _id: string, totalResponseCount: number, totalAttemptCount: number, totalAnswerTime: number, avgAnswerTime: number, avgAttemptCount: number, byLocationMap?: string | null, questionMetrics: Array<{ __typename?: 'QuestionMultipleChoiceMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> } | { __typename?: 'QuestionSingleChoiceMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> } | { __typename?: 'QuestionTextMetrics', _id: string, answerCount: number, unansweredCount: number } | { __typename?: 'QuestionTrueOrFalseMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> }> }, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, true?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, true?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, true?: boolean | null, feedbackAfterSubmit?: string | null }> }> } | { __typename?: 'QuestionnaireQuiz', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, color?: string | null, bgColor?: string | null, sharedCreatedAt: Date, createdAt: Date, updatedAt: Date, metrics: { __typename?: 'QuestionnaireMetrics', _id: string, totalResponseCount: number, totalAttemptCount: number, totalAnswerTime: number, avgAnswerTime: number, avgAttemptCount: number, byLocationMap?: string | null, questionMetrics: Array<{ __typename?: 'QuestionMultipleChoiceMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> } | { __typename?: 'QuestionSingleChoiceMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> } | { __typename?: 'QuestionTextMetrics', _id: string, answerCount: number, unansweredCount: number } | { __typename?: 'QuestionTrueOrFalseMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> }> }, questions: Array<{ __typename?: 'QuestionMultipleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, true?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, true?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', _id: string, type: QuestionType, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, true?: boolean | null, feedbackAfterSubmit?: string | null }> }> } | { __typename?: 'QuestionnaireSurvey', _id: string, sharedId: string, type: QuestionnaireType, requireEmail: boolean, requireName: boolean, title: string, description: string, active: boolean, color?: string | null, bgColor?: string | null, sharedCreatedAt: Date, createdAt: Date, updatedAt: Date, metrics: { __typename?: 'QuestionnaireMetrics', _id: string, totalResponseCount: number, totalAttemptCount: number, totalAnswerTime: number, avgAnswerTime: number, avgAttemptCount: number, byLocationMap?: string | null, questionMetrics: Array<{ __typename?: 'QuestionMultipleChoiceMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> } | { __typename?: 'QuestionSingleChoiceMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> } | { __typename?: 'QuestionTextMetrics', _id: string, answerCount: number, unansweredCount: number } | { __typename?: 'QuestionTrueOrFalseMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> }> }, questions: Array<{ __typename?: 'QuestionMultipleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, true?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionSingleChoice', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, randomizeOptions: boolean, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, true?: boolean | null, feedbackAfterSubmit?: string | null }> } | { __typename?: 'QuestionText', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, feedbackAfterSubmit?: string | null } | { __typename?: 'QuestionTrueOrFalse', type: QuestionType, _id: string, showCorrectAnswer: boolean, title?: string | null, weight?: number | null, required: boolean, description?: string | null, wrongAnswerFeedback?: string | null, rightAnswerFeedback?: string | null, options: Array<{ __typename?: 'Option', _id: string, title: string, correct?: boolean | null, true?: boolean | null, feedbackAfterSubmit?: string | null }> }> } | null };
 
 export type QuestionnaireMetricsFragmentFragment = { __typename?: 'QuestionnaireMetrics', _id: string, totalResponseCount: number, totalAttemptCount: number, totalAnswerTime: number, avgAnswerTime: number, avgAttemptCount: number, byLocationMap?: string | null, questionMetrics: Array<{ __typename?: 'QuestionMultipleChoiceMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> } | { __typename?: 'QuestionSingleChoiceMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> } | { __typename?: 'QuestionTextMetrics', _id: string, answerCount: number, unansweredCount: number } | { __typename?: 'QuestionTrueOrFalseMetrics', _id: string, answerCount: number, unansweredCount: number, rightAnswerCount: number, wrongAnswerCount: number, options: Array<{ __typename?: 'OptionMetrics', _id: string, selectedCount: number }> }> };
 
@@ -1724,6 +1739,53 @@ export function useUpdateExamMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateExamMutationHookResult = ReturnType<typeof useUpdateExamMutation>;
 export type UpdateExamMutationResult = Apollo.MutationResult<UpdateExamMutation>;
 export type UpdateExamMutationOptions = Apollo.BaseMutationOptions<UpdateExamMutation, UpdateExamMutationVariables>;
+export const ToggleQuestionnaireActiveDocument = gql`
+    mutation ToggleQuestionnaireActive($questionnaireSharedId: String!, $active: Boolean) {
+  adminToggleQuestionnaireActive(
+    questionnaireSharedId: $questionnaireSharedId
+    active: $active
+  ) {
+    ... on QuestionnaireSurvey {
+      ...SurveyFragment
+    }
+    ... on QuestionnaireExam {
+      ...ExamFragment
+    }
+    ... on QuestionnaireQuiz {
+      ...QuizFragment
+    }
+  }
+}
+    ${SurveyFragmentFragmentDoc}
+${ExamFragmentFragmentDoc}
+${QuizFragmentFragmentDoc}`;
+export type ToggleQuestionnaireActiveMutationFn = Apollo.MutationFunction<ToggleQuestionnaireActiveMutation, ToggleQuestionnaireActiveMutationVariables>;
+
+/**
+ * __useToggleQuestionnaireActiveMutation__
+ *
+ * To run a mutation, you first call `useToggleQuestionnaireActiveMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useToggleQuestionnaireActiveMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [toggleQuestionnaireActiveMutation, { data, loading, error }] = useToggleQuestionnaireActiveMutation({
+ *   variables: {
+ *      questionnaireSharedId: // value for 'questionnaireSharedId'
+ *      active: // value for 'active'
+ *   },
+ * });
+ */
+export function useToggleQuestionnaireActiveMutation(baseOptions?: Apollo.MutationHookOptions<ToggleQuestionnaireActiveMutation, ToggleQuestionnaireActiveMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ToggleQuestionnaireActiveMutation, ToggleQuestionnaireActiveMutationVariables>(ToggleQuestionnaireActiveDocument, options);
+      }
+export type ToggleQuestionnaireActiveMutationHookResult = ReturnType<typeof useToggleQuestionnaireActiveMutation>;
+export type ToggleQuestionnaireActiveMutationResult = Apollo.MutationResult<ToggleQuestionnaireActiveMutation>;
+export type ToggleQuestionnaireActiveMutationOptions = Apollo.BaseMutationOptions<ToggleQuestionnaireActiveMutation, ToggleQuestionnaireActiveMutationVariables>;
 export const DeleteQuestionnaireDocument = gql`
     mutation DeleteQuestionnaire($questionnaireSharedId: String!) {
   adminDeleteQuestionnaire(questionnaireSharedId: $questionnaireSharedId) {

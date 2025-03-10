@@ -7,6 +7,7 @@ import {
 } from '@components/Questionnaire/QuestionnaireForm/QuestionnaireForm.interface';
 import {
 	useFetchQuestionnaireSuspenseQuery,
+	useToggleQuestionnaireActiveMutation,
 	useUpdateExamMutation,
 	useUpdateQuizMutation,
 	useUpdateSurveyMutation,
@@ -29,6 +30,7 @@ export default function EditQuestionnaire() {
 	const [surveyMutation, { data: surveyData, reset: resetSurvey }] = useUpdateSurveyMutation();
 	const [quizMutation, { data: quizData, reset: resetQuiz }] = useUpdateQuizMutation();
 	const [examMutation, { data: examData, reset: resetExam }] = useUpdateExamMutation();
+	const [toggleMutation] = useToggleQuestionnaireActiveMutation();
 	const questionnaire = fetchQuestRes.adminFetchQuestionnaire as QuestionnaireTypes;
 
 	const handleQuestionnaireUpdate = async (props: IQuestionnaireFormProps) => {
@@ -37,6 +39,10 @@ export default function EditQuestionnaire() {
 		if (type === EQuestionnaireType.Survey) await surveyMutation({ variables });
 		if (type === EQuestionnaireType.Quiz) await quizMutation({ variables });
 		if (type === EQuestionnaireType.Exam) await examMutation({ variables });
+	};
+
+	const handleQuestionnaireActiveToggled = async (active: boolean) => {
+		await toggleMutation({ variables: { questionnaireSharedId: params.sharedId, active } });
 	};
 
 	const navigate = useNavigate();
@@ -70,6 +76,7 @@ export default function EditQuestionnaire() {
 			formProps={buildQuestionnaireFormProps(questionnaire)}
 			onSubmit={handleQuestionnaireUpdate}
 			title="Edit Questionnaire"
+			onToggleActive={handleQuestionnaireActiveToggled}
 		/>
 	);
 }

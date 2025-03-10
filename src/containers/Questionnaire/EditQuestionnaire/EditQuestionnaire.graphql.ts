@@ -95,3 +95,25 @@ export const UPDATE_EXAM = gql(`
 		}
 	}
 `);
+
+export const TOGGLE_QUESTIONNAIRE_ACTIVE = gql(`
+	mutation ToggleQuestionnaireActive(
+		$questionnaireSharedId: String!
+		$active: Boolean
+	) {
+		adminToggleQuestionnaireActive(
+			questionnaireSharedId: $questionnaireSharedId
+			active: $active
+		) {
+			... on QuestionnaireSurvey {
+				...SurveyFragment
+			}
+			... on QuestionnaireExam {
+				...ExamFragment
+			}
+			... on QuestionnaireQuiz {
+				...QuizFragment
+			}			
+		}
+	}
+`);
