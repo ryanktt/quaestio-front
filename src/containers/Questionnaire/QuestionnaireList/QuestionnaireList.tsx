@@ -138,14 +138,13 @@ export default function QuestionnaireList() {
 		setPagination({ ...pagination, page });
 	};
 
-	const { entries, sharedIds, statuses, titles, types, views } = results.reduce<QuestionnaireListData>(
+	const { entries, sharedIds, statuses, titles, types } = results.reduce<QuestionnaireListData>(
 		(state, questionnaire) => {
 			state.sharedIds.push(questionnaire.sharedId);
 			state.types.push(questionnaire.type);
 			state.statuses.push(questionnaire.active);
 			state.titles.push(questionnaire.title);
-			state.entries.push(0);
-			state.views.push(0);
+			state.entries.push(questionnaire.metrics.totalResponseCount);
 			return state;
 		},
 		{
@@ -205,7 +204,7 @@ export default function QuestionnaireList() {
 					))}
 				</Column>
 
-				<Column>
+				{/* <Column>
 					<ColumnItem>
 						<Header label="Views" />
 					</ColumnItem>
@@ -214,7 +213,7 @@ export default function QuestionnaireList() {
 							<Text key={sharedIds[i]}>{vCount}</Text>
 						</ColumnItem>
 					))}
-				</Column>
+				</Column> */}
 				<Column>
 					<ColumnItem>
 						<Header label="Entries" />
