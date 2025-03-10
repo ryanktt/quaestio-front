@@ -3,6 +3,7 @@
 import QuestionMetricsAccordion from '@components/Questionnaire/QuestionMetrics/QuestionMetricsAccordion';
 import { QuestionnaireTypes } from '@components/Questionnaire/Questionnaire.interface';
 import StatusBadge from '@components/StatusBadge/StatusBadge';
+import ResponseList from '@containers/Response/ResponseList/ResponseList';
 import { useFetchQuestionnaireSuspenseQuery } from '@gened/graphql';
 import '@mantine/charts/styles.css';
 import { Box, Button, getGradient, Group, rem, Text, Title, useMantineTheme } from '@mantine/core';
@@ -140,6 +141,7 @@ export default function QuestionnaireAnalytics() {
 
 				<QuestionMetricsAccordion questions={questions} questionMetrics={metrics.questionMetrics} />
 			</div>
+			<ResponseList questionnaireSharedId={sharedId} />
 		</div>
 	);
 }

@@ -131,11 +131,17 @@ interface ResponseListData {
 }
 export const DEBOUNCE_DELAY = 500;
 
-export default function ResponseList() {
+export default function ResponseList({ questionnaireSharedId }: { questionnaireSharedId?: string }) {
 	const { searchStr } = useContext(GlobalContext).state;
 	const [textFilter] = useDebouncedValue(searchStr, DEBOUNCE_DELAY);
 	const [pagination, setPagination] = useState({ page: 1, limit: 10 });
-	const { data } = useFetchResponsesSuspenseQuery({ variables: { textFilter, pagination } });
+	const { data } = useFetchResponsesSuspenseQuery({
+		variables: {
+			questionnaireSharedIds: questionnaireSharedId ? [questionnaireSharedId] : undefined,
+			textFilter,
+			pagination,
+		},
+	});
 
 	const handlePaginationUpdate = (page: number) => {
 		setPagination({ ...pagination, page });
@@ -162,7 +168,7 @@ export default function ResponseList() {
 
 	return (
 		<div>
-			<Box mb={15}>
+			<Box mb={10}>
 				<Search />
 			</Box>
 			<Box className={styles.list}>

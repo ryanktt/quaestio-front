@@ -71,9 +71,13 @@
 	align-items: center;
 	padding: rem(2px) rem(10px);
 	width: 100%;
-	border: 1px solid $violet3;
-	border-radius: 50px;
+	border: 1px solid $gray3;
+	border-radius: $radiusLg;
 	&:hover {
 		cursor: default;
 	}
+}
+
+.search:focus-within {
+	border-color: $violet3;
 }

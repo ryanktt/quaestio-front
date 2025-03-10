@@ -160,7 +160,7 @@ export default function QuestionnaireList() {
 
 	return (
 		<div>
-			<Box mb={15}>
+			<Box mb={10}>
 				<Search />
 			</Box>
 			<Box className={styles.list}>
