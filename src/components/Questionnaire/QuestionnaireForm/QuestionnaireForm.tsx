@@ -255,6 +255,7 @@ export default function QuestionnaireForm({
 								title: 'Important!',
 								message: 'Further editing the questionnaire will reset all its metrics',
 								id: 'important',
+								withCloseBtn: false,
 							}}
 						/>
 					</>

@@ -113,7 +113,7 @@ export default function ResponseForm({
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
-				gap: theme.spacing.lg,
+				gap: theme.spacing.md,
 				width: '100%',
 			}}
 		>

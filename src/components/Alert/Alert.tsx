@@ -1,7 +1,7 @@
+import { AlertContext } from '@contexts/Alert/Alert.context';
+import { IAlert, IAlertTypes } from '@contexts/Alert/Alert.types';
 import { Notification } from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
-import { AlertContext } from '@contexts/Alert/Alert.context';
-import { IAlertTypes, IAlert } from '@contexts/Alert/Alert.types';
 import classes from './Alert.module.scss';
 
 export default function AlertItem({ alert }: { alert: IAlert }) {
@@ -48,7 +48,7 @@ export default function AlertItem({ alert }: { alert: IAlert }) {
 			loading={alert.type === 'LOADING'}
 			color={getAlertColor(alert.type)}
 			role="alert"
-			withCloseButton
+			withCloseButton={typeof alert.withCloseBtn === 'boolean' ? alert.withCloseBtn : true}
 			withBorder
 			title={alert.title}
 			onClose={closeAlert}

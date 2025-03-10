@@ -4,6 +4,7 @@ export interface IAlert {
 	type: IAlertTypes;
 	message?: string;
 	title?: string;
+	withCloseBtn?: boolean;
 	timeout?: number;
 	errorCode?: string;
 }
