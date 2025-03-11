@@ -148,6 +148,7 @@ export default function ResponseForm({
 				<TextInput
 					{...form.getInputProps('email')}
 					label="Email"
+					type="email"
 					required={requireName}
 					readOnly={readMode}
 				/>
