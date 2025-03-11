@@ -13,7 +13,7 @@ export default function AlertItem({ alert }: { alert: IAlert }) {
 			case 'SUCCESS':
 				return 'green';
 			case 'ERROR':
-				return 'red';
+				return 'pink';
 			case 'LOADING':
 				return 'blue';
 			default:

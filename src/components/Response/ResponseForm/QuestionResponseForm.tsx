@@ -2,6 +2,7 @@
 /* eslint-disable func-names */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-danger */
+import AlertItem from '@components/Alert/Alert';
 import { IOptionProps } from '@components/Questionnaire/OptionAccordionForm/OptionAccordionForm';
 import { IQuestionProps } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import { QuestionType } from '@gened/graphql.ts';
@@ -124,6 +125,8 @@ export default function QuestionResponseForm({
 	readMode = false,
 	questionResponseProps,
 	correctedResponseProps,
+	onError,
+	showErrors: showErrorsProp = false,
 }: {
 	onChange: (p: IQuestionResponseProps) => void;
 	question: IQuestionProps;
@@ -132,6 +135,8 @@ export default function QuestionResponseForm({
 	readMode?: boolean;
 	questionResponseProps?: IQuestionResponseProps;
 	correctedResponseProps?: IQuestionResponseProps;
+	showErrors: boolean;
+	onError: (elementId: string, error: boolean) => void;
 }) {
 	const theme = useMantineTheme();
 	const [primaryColor] = colorSchemes[colorScheme];
@@ -151,6 +156,17 @@ export default function QuestionResponseForm({
 			text: '',
 		},
 	);
+
+	const elementId = `question-form-${question.id}`;
+	let missingCompletion = false;
+	if (question.type === QuestionType.Text) {
+		missingCompletion = !state.text.length;
+	} else {
+		missingCompletion = !state.selectedOptionIds.length;
+	}
+	const showError = missingCompletion && showErrorsProp;
+
+	onError(elementId, missingCompletion);
 
 	useEffect(() => {
 		const isAnswered =
@@ -199,6 +215,7 @@ export default function QuestionResponseForm({
 
 	return (
 		<div
+			id={elementId}
 			style={{
 				display: 'flex',
 				width: '100%',
@@ -245,6 +262,19 @@ export default function QuestionResponseForm({
 								type="neutral"
 							/>
 						) : null}
+					</Box>
+				) : null}
+
+				{showError ? (
+					<Box mt={theme.spacing.lg}>
+						<AlertItem
+							alert={{
+								type: 'ERROR',
+								title: 'Answer required',
+								id: 'required',
+								withCloseBtn: false,
+							}}
+						/>
 					</Box>
 				) : null}
 			</Box>

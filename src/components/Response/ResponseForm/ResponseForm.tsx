@@ -46,6 +46,7 @@ export default function ResponseForm({
 		theme,
 	);
 
+	const [questionWErrorElId, setQuestionWErrorElId] = useState<string | null>(null);
 	const form = useForm<IResponseFormProps>({
 		mode: 'controlled',
 		initialValues: responseFormProps || {
@@ -72,6 +73,8 @@ export default function ResponseForm({
 		form.setFieldValue('questionResponses', updatedResponses);
 	};
 
+	const [showErrors, setShowErrors] = useState(false);
+
 	const getQuestionInputs = (questionProps: IQuestionProps, i: number) => {
 		const props = form
 			.getValues()
@@ -85,13 +88,17 @@ export default function ResponseForm({
 				correctedResponseProps={correctedProps}
 				colorScheme={colorScheme}
 				questionIndex={i}
+				showErrors={showErrors}
+				onError={(id, error) => {
+					if (questionWErrorElId === id && !error) setQuestionWErrorElId(null);
+					else if (error && !questionWErrorElId) setQuestionWErrorElId(id);
+				}}
 				question={questionProps}
 				key={questionProps.id}
 				onChange={setQuestionResponse}
 			/>
 		);
 	};
-
 	const [questionProps, setQuestionProps] = useState<IQuestionProps[]>([]);
 
 	useEffect(() => {
@@ -101,9 +108,15 @@ export default function ResponseForm({
 
 	const handleSubmit = (e?: FormEvent<HTMLFormElement>) => {
 		e?.preventDefault();
-		form.setFieldValue('completedAt', new Date());
-		if (!form.validate().hasErrors) {
+
+		if (!form.validate().hasErrors && !questionWErrorElId) {
+			form.setFieldValue('completedAt', new Date());
 			if (onSubmit) onSubmit(form.getValues());
+		} else {
+			setShowErrors(true);
+			document
+				.getElementById(questionWErrorElId || '')
+				?.scrollIntoView({ behavior: 'instant', block: 'center' });
 		}
 	};
 
@@ -131,12 +144,14 @@ export default function ResponseForm({
 					required={requireEmail}
 					readOnly={readMode}
 				/>
+
 				<TextInput
 					{...form.getInputProps('email')}
 					label="Email"
 					required={requireName}
 					readOnly={readMode}
 				/>
+
 				{!readMode ? (
 					<Button type="submit" mt={theme.spacing.md} style={{ background: gradient }}>
 						Submit
