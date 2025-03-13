@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable react/no-danger */
 /* eslint-disable react/prop-types */
 import QuestionMetricsAccordion from '@components/Questionnaire/QuestionMetrics/QuestionMetricsAccordion';
@@ -21,7 +22,7 @@ import moment from 'moment';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './QuestionnaireAnalytics.module.scss';
 
-function MetricsCard({
+export function MetricsCard({
 	label,
 	stats,
 	color,
@@ -62,7 +63,7 @@ export default function QuestionnaireAnalytics() {
 		variables: { questionnaireSharedId: params.sharedId },
 	});
 
-	const { metrics, questions, title, active, description, sharedCreatedAt, updatedAt, sharedId } =
+	const { _id, metrics, questions, title, active, description, sharedCreatedAt, updatedAt, sharedId } =
 		fetchQuestRes.adminFetchQuestionnaire as QuestionnaireTypes;
 	const avgAnswerTimeMin = moment.duration(metrics.avgAnswerTime, 'ms').asMinutes().toFixed(0);
 
@@ -141,7 +142,7 @@ export default function QuestionnaireAnalytics() {
 
 				<QuestionMetricsAccordion questions={questions} questionMetrics={metrics.questionMetrics} />
 			</div>
-			<ResponseList questionnaireSharedId={sharedId} />
+			<ResponseList questionnaireId={_id} />
 		</div>
 	);
 }

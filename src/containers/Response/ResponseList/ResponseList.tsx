@@ -131,13 +131,13 @@ interface ResponseListData {
 }
 export const DEBOUNCE_DELAY = 500;
 
-export default function ResponseList({ questionnaireSharedId }: { questionnaireSharedId?: string }) {
+export default function ResponseList({ questionnaireId }: { questionnaireId?: string }) {
 	const { searchStr } = useContext(GlobalContext).state;
 	const [textFilter] = useDebouncedValue(searchStr, DEBOUNCE_DELAY);
 	const [pagination, setPagination] = useState({ page: 1, limit: 10 });
 	const { data } = useFetchResponsesSuspenseQuery({
 		variables: {
-			questionnaireSharedIds: questionnaireSharedId ? [questionnaireSharedId] : undefined,
+			questionnaireIds: questionnaireId ? [questionnaireId] : undefined,
 			textFilter,
 			pagination,
 		},
@@ -204,7 +204,7 @@ export default function ResponseList({ questionnaireSharedId }: { questionnaireS
 				</Column>
 				<Column>
 					<ColumnItem>
-						<Header label=" ID" />
+						<Header label="ID" />
 					</ColumnItem>
 					{ids.map((id) => (
 						<ColumnItem key={id}>
