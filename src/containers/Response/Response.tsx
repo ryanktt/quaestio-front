@@ -1,14 +1,21 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
 import { QuestionnaireTypes } from '@components/Questionnaire/Questionnaire.interface';
 import ResponseForm from '@components/Response/ResponseForm/ResponseForm.tsx';
 import { buildQuestionnaireFormProps } from '@containers/Questionnaire/EditQuestionnaire/EditQuestionnaire.aux.ts';
-import { Response as ResponseType, useFetchResponseSuspenseQuery } from '@gened/graphql.ts';
-import { Box, Button, getGradient, rem, Text, useMantineTheme } from '@mantine/core';
+import { MetricsCard } from '@containers/Questionnaire/QuestionnaireAnalytics/QuestionnaireAnalytics.tsx';
+import {
+	QuestionnaireType,
+	Response as ResponseType,
+	useFetchResponseSuspenseQuery,
+} from '@gened/graphql.ts';
+import { Box, Button, Group, rem, Text, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { IconExternalLink } from '@tabler/icons-react';
-import { colorSchemes } from '@utils/color.ts';
+import { IconClock, IconExternalLink } from '@tabler/icons-react';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { buildResponseFormProps } from './Response.aux.ts';
 
@@ -23,40 +30,88 @@ export default function Response() {
 	const response = data.adminFetchResponse as unknown as ResponseType;
 	const questionnaire = response?.questionnaire as QuestionnaireTypes;
 
-	const [primaryColor, secondaryColor] = colorSchemes.indigo;
-	const background = getGradient(
-		{
-			deg: 30,
-			from: theme.colors[primaryColor || 'indigo'][5],
-			to: theme.colors[secondaryColor || 'violet'][5],
-		},
-		theme,
-	);
+	const [metrics, setMetrics] = useState({
+		questionCount: 0,
+		rightAnswerCount: 0,
+		wrongAnswerCount: 0,
+		unasweredCount: 0,
+	});
+	useEffect(() => {
+		let rightAnswerCount = 0;
+		let wrongAnswerCount = 0;
+		const questionCount = questionnaire.questions.length;
+		response.answers.forEach((answer) => {
+			if (!answer.correct && answer.answeredAt) wrongAnswerCount++;
+			else if (answer.correct && answer.answeredAt) rightAnswerCount++;
+		});
+		setMetrics({
+			questionCount,
+			rightAnswerCount,
+			wrongAnswerCount,
+			unasweredCount: questionCount - (rightAnswerCount + wrongAnswerCount),
+		});
+	}, []);
+
+	const answerTimeInMin = moment.duration(response.answerTime, 'ms').asMinutes().toFixed(1);
 
 	return (
-		<Box>
-			<Box
-				style={{
-					borderRadius: theme.radius.md,
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'space-between',
-					boxShadow: theme.shadows.sm,
-					border: `1px solid${theme.colors.gray[4]}`,
-				}}
-				bg="white"
-				p={`${theme.spacing.sm} ${theme.spacing.md}`}
-				mb={theme.spacing.sm}
+		<Box
+			style={{
+				borderRadius: theme.radius.lg,
+				boxShadow: theme.shadows.xs,
+				border: `1px solid${theme.colors.gray[4]}`,
+			}}
+			bg="white"
+			p={theme.spacing.md}
+			mb={theme.spacing.md}
+		>
+			<Group
+				grow
+				preventGrowOverflow={false}
+				gap={10}
+				maw={700}
+				display="flex"
+				mb={5}
+				style={{ margin: '0 auto' }}
 			>
+				<MetricsCard
+					color="teal"
+					icon={IconClock}
+					label="Answer time"
+					stats={`${answerTimeInMin} min`}
+				/>
+				<MetricsCard
+					color="orange"
+					icon={IconClock}
+					label="Unanswered"
+					stats={`${metrics.unasweredCount}`}
+				/>
+				{questionnaire.type !== QuestionnaireType.QuestionnaireSurvey ? (
+					<MetricsCard
+						color="violet"
+						icon={IconClock}
+						label="Score"
+						stats={`${metrics.rightAnswerCount}/${metrics.questionCount}`}
+					/>
+				) : (
+					<MetricsCard
+						color="violet"
+						icon={IconClock}
+						label="Question Count"
+						stats={`${metrics.questionCount}`}
+					/>
+				)}
+			</Group>
+			<Group maw={700} justify="space-between" style={{ margin: '0 auto' }} mt={theme.spacing.xs}>
 				<Box style={{ display: 'flex', alignItems: 'center' }}>
-					<Text size="sm" fw={600} c="gray.9">
-						Response {response._id}
+					<Text size="sm" fw={500} c="gray.7">
+						{response._id}
 					</Text>
 				</Box>
 				<Button
-					variant="light"
-					c="violet.7"
-					color="violet.7"
+					variant="white"
+					c="indigo.7"
+					color="indigo.7"
 					onClick={() => navigate(`/board/questionnaire/${questionnaire.sharedId}`)}
 				>
 					<IconExternalLink size={20} />
@@ -64,16 +119,8 @@ export default function Response() {
 						Questionnaire
 					</Text>
 				</Button>
-			</Box>
-			<Box
-				p="md"
-				style={{
-					background,
-					borderRadius: theme.radius.md,
-					boxShadow: theme.shadows.lg,
-					border: `1px solid${theme.colors.gray[5]}`,
-				}}
-			>
+			</Group>
+			<Box>
 				<Box maw={700} style={{ margin: '0 auto' }} p={`${theme.spacing.sm} 0`}>
 					{response ? (
 						<ResponseForm
