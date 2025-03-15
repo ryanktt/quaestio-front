@@ -83,6 +83,7 @@ export const RESPONSE_FRAGMENT = gql(`
         questionnaireSharedId
         startedAt
         completedAt
+        answerTime
         respondentName
         respondentEmail
         questionnaire {

@@ -65,7 +65,7 @@ export default function QuestionnaireAnalytics() {
 
 	const { _id, metrics, questions, title, active, description, sharedCreatedAt, updatedAt, sharedId } =
 		fetchQuestRes.adminFetchQuestionnaire as QuestionnaireTypes;
-	const avgAnswerTimeMin = moment.duration(metrics.avgAnswerTime, 'ms').asMinutes().toFixed(0);
+	const avgAnswerTimeMin = moment.duration(metrics.avgAnswerTime, 'ms').asMinutes().toFixed(1);
 
 	return (
 		<div className={styles.analytics}>
