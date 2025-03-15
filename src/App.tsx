@@ -4,6 +4,7 @@ import GlobalContextProvider from '@contexts/Global/Global.context.tsx';
 import Layout from '@hoc/Layout/Layout.tsx';
 import { createTheme, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
+import { ModalsProvider } from '@mantine/modals';
 import '@mantine/tiptap/styles.css';
 import ApolloClientProvider from './ApolloProvider.tsx';
 import Router from './Router.tsx';
@@ -23,9 +24,11 @@ function App() {
 				<ApolloClientProvider>
 					<AuthModalContextProvider>
 						<MantineProvider theme={themeConfig}>
-							<Layout>
-								<Router />
-							</Layout>
+							<ModalsProvider>
+								<Layout>
+									<Router />
+								</Layout>
+							</ModalsProvider>
 						</MantineProvider>
 					</AuthModalContextProvider>
 				</ApolloClientProvider>

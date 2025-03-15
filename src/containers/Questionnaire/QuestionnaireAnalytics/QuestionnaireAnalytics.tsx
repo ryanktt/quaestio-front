@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable react/no-danger */
 /* eslint-disable react/prop-types */
+
 import QuestionMetricsAccordion from '@components/Questionnaire/QuestionMetrics/QuestionMetricsAccordion';
 import { QuestionnaireTypes } from '@components/Questionnaire/Questionnaire.interface';
 import StatusBadge from '@components/StatusBadge/StatusBadge';
 import ResponseList from '@containers/Response/ResponseList/ResponseList';
-import { useFetchQuestionnaireSuspenseQuery } from '@gened/graphql';
+import { useDeleteQuestionnaireMutation, useFetchQuestionnaireSuspenseQuery } from '@gened/graphql';
 import '@mantine/charts/styles.css';
 import { Box, Button, getGradient, Group, rem, Text, Title, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
+import { modals } from '@mantine/modals';
 import {
 	IconClock,
 	IconEdit,
@@ -63,10 +65,30 @@ export default function QuestionnaireAnalytics() {
 		variables: { questionnaireSharedId: params.sharedId },
 	});
 
+	const [deleteMutation] = useDeleteQuestionnaireMutation();
+
 	const { _id, metrics, questions, title, active, description, sharedCreatedAt, updatedAt, sharedId } =
 		fetchQuestRes.adminFetchQuestionnaire as QuestionnaireTypes;
 	const avgAnswerTimeMin = moment.duration(metrics.avgAnswerTime, 'ms').asMinutes().toFixed(1);
 
+	const openModal = () => {
+		modals.openConfirmModal({
+			title: 'Delete Questionnaire',
+			centered: true,
+			children: (
+				<Text size="sm">
+					Are you sure? This action is will permanently delete this questionnaire, its metrics and
+					responses.
+				</Text>
+			),
+			labels: { confirm: 'Delete', cancel: 'Cancel' },
+			confirmProps: { color: 'pink' },
+			onConfirm: async () => {
+				await deleteMutation({ variables: { questionnaireSharedId: sharedId } });
+				navigate('/board/questionnaires');
+			},
+		});
+	};
 	return (
 		<div className={styles.analytics}>
 			<div className={styles.mainSection}>
@@ -112,7 +134,14 @@ export default function QuestionnaireAnalytics() {
 							>
 								<IconExternalLink size={20} stroke={1.6} /> Page
 							</Button>
-							<Button variant="subtle" p={rem('0px 15px')} size="sm" c="pink.8" color="pink.3">
+							<Button
+								onClick={openModal}
+								variant="subtle"
+								p={rem('0px 15px')}
+								size="sm"
+								c="pink.8"
+								color="pink.3"
+							>
 								<IconTrash size={20} /> Delete
 							</Button>
 							<Button

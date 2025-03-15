@@ -17,6 +17,7 @@
 		"@mantine/core": "^7.16.2",
 		"@mantine/form": "7.10.0",
 		"@mantine/hooks": "^7.16.2",
+		"@mantine/modals": "^7.17.2",
 		"@mantine/tiptap": "^7.16.2",
 		"@mantinex/mantine-logo": "1.0.1",
 		"@parcel/watcher": "^2.5.0",
