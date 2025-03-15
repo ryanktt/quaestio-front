@@ -73,12 +73,12 @@ export default function QuestionnaireAnalytics() {
 
 	const openModal = () => {
 		modals.openConfirmModal({
-			title: <Title size="md">Delete Questionnaire</Title>,
+			title: <Title size="lg">Delete Questionnaire</Title>,
 			centered: true,
 			children: (
 				<Text size="sm" fw={500}>
-					Are you sure? This action is will permanently delete this questionnaire, its metrics and
-					responses.
+					Are you sure? This action is will permanently delete the questionnaire along with its
+					metrics and entries data
 				</Text>
 			),
 			labels: { confirm: 'Delete', cancel: 'Cancel' },
