@@ -40,6 +40,7 @@ export default function RespondQuestionnaire() {
 		<Container display="flex" mih={700} size="48rem">
 			<ResponseForm
 				colorScheme={color as IColorSchemes}
+				readMode={!!respondData}
 				questionnaireProps={buildQuestionnaireFormProps(questionnaire)}
 				correctedResponses={buildResponseCorrectionFormProps(correction)}
 				onSubmit={handleRespondQuestionnaire}

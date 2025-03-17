@@ -6,9 +6,19 @@ import AlertItem from '@components/Alert/Alert';
 import { IOptionProps } from '@components/Questionnaire/OptionAccordionForm/OptionAccordionForm';
 import { IQuestionProps } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import { QuestionType } from '@gened/graphql.ts';
-import { Badge, Box, Checkbox, CheckboxProps, rem, Text, Textarea, useMantineTheme } from '@mantine/core';
+import {
+	Badge,
+	Box,
+	Checkbox,
+	CheckboxProps,
+	Flex,
+	rem,
+	Text,
+	Textarea,
+	useMantineTheme,
+} from '@mantine/core';
 import '@mantine/core/styles.css';
-import { IconBulb, IconCheck, IconCircleFilled, IconExclamationMark } from '@tabler/icons-react';
+import { IconBulb, IconCheck, IconCircleFilled, IconExclamationMark, IconX } from '@tabler/icons-react';
 import { colorSchemes, IColorSchemes } from '@utils/color';
 import { createMarkup } from '@utils/html';
 import _ from 'lodash';
@@ -55,16 +65,14 @@ function Feedback({
 		<Box
 			style={{
 				border: `1px solid${theme.colors[color][2]}`,
-				borderBottomWidth: '2px',
-				borderRadius: theme.radius.sm,
-				borderBottomRightRadius: theme.radius.md,
+				borderRadius: theme.radius.md,
 			}}
-			p="sm"
+			p="xs"
 			bg={theme.colors[color][0]}
 			display="flex"
 		>
 			{icon}
-			<Text ml={3} fw={600} style={{ fontSize: rem(13) }} c={theme.colors[color][7]}>
+			<Text ml={3} fw={500} style={{ fontSize: rem(13) }} c={theme.colors[color][7]}>
 				{msg}
 			</Text>
 		</Box>
@@ -73,36 +81,59 @@ function Feedback({
 
 function OptionCheckbox({
 	option,
-	question,
 	readMode,
 	onChange,
 	checked,
 	showFeedback,
 	feedbackColor,
+	correct,
+	showCorrect,
+	adminView = false,
 }: {
 	option: IOptionProps;
-	question: IQuestionProps;
 	readMode: boolean;
 	onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 	checked: boolean;
 	showFeedback: boolean;
 	feedbackColor: string;
+	showCorrect: boolean;
+	adminView?: boolean;
+	correct?: boolean;
 }) {
+	const theme = useMantineTheme();
 	const feedback =
 		showFeedback && option.feedbackAfterSubmit ? (
-			<Box pr={rem(15)} mt={rem(0)}>
+			<Box mt={5}>
 				<Feedback color={feedbackColor} msg={option.feedbackAfterSubmit} type="neutral" />
 			</Box>
 		) : null;
 
-	const isTrueOrFalse = question.type === QuestionType.TrueOrFalse;
+	const getCorrectionStyle = () => {
+		if (
+			((showCorrect && showFeedback) || adminView) &&
+			((typeof correct === 'boolean' && checked) || correct === true)
+		) {
+			return correct ? styles.right : styles.wrong;
+		}
+		return '';
+	};
 
 	return (
-		<Box w="100%" style={{ display: 'flex', flexDirection: 'column', gap: rem(5) }}>
-			<Box
-				className={`${styles.box} ${styles.option} ${isTrueOrFalse ? (option.true ? styles.true : styles.false) : ''}`}
-				key={option.id}
-			>
+		<Box
+			w="100%"
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				gap: rem(5),
+				...(feedback && {
+					background: theme.white,
+					borderRadius: theme.radius.lg,
+					padding: rem(8),
+					border: `1px solid ${theme.colors.gray[1]}`,
+				}),
+			}}
+		>
+			<Box className={`${styles.box} ${styles.option}  ${getCorrectionStyle()}`} key={option.id}>
 				<Checkbox
 					onChange={onChange}
 					checked={checked}
@@ -127,6 +158,7 @@ export default function QuestionResponseForm({
 	correctedResponseProps,
 	onError,
 	showErrors: showErrorsProp = false,
+	adminView = false,
 }: {
 	onChange: (p: IQuestionResponseProps) => void;
 	question: IQuestionProps;
@@ -136,6 +168,7 @@ export default function QuestionResponseForm({
 	questionResponseProps?: IQuestionResponseProps;
 	correctedResponseProps?: IQuestionResponseProps;
 	showErrors: boolean;
+	adminView?: boolean;
 	onError: (elementId: string, error: boolean) => void;
 }) {
 	const theme = useMantineTheme();
@@ -197,21 +230,53 @@ export default function QuestionResponseForm({
 	const showFeedback = showRightAnswerFeedback || showWrongAnswerFeedback || showTextFeedback;
 
 	const optionCheckboxes = option.map((opt) => {
+		const correct =
+			typeof opt.correct === 'boolean'
+				? opt.correct
+				: correctedResponseProps?.correctOptionIds?.includes(opt.id);
+
 		return (
 			<OptionCheckbox
 				showFeedback={!!correctedResponseProps}
 				checked={!!state.selectedOptionIds.find((id) => id === opt.id)}
+				showCorrect={question.showCorrectAnswer}
+				correct={correct}
+				adminView={adminView}
 				onChange={(e) => {
 					if (!readMode) toggleSelectOption(e.target.checked, opt.id);
 				}}
 				option={opt}
-				question={question}
 				readMode={readMode}
 				feedbackColor={primaryColor}
 				key={opt.id}
 			/>
 		);
 	});
+
+	const getRightWrongIcon = () => {
+		if (
+			!(
+				(typeof correctedResponseProps?.correct === 'boolean' ||
+					typeof questionResponseProps?.correct === 'boolean') &&
+				(question.showCorrectAnswer || adminView)
+			)
+		) {
+			return null;
+		}
+
+		let color = 'teal';
+		let icon = <IconCheck size={20} color={theme.colors[color][6]} />;
+		if (questionResponseProps?.correct === false || correctedResponseProps?.correct === false) {
+			color = 'pink';
+			icon = <IconX size={20} color={theme.colors[color][6]} />;
+		}
+
+		return (
+			<Box display="flex" p={4} style={{ borderRadius: rem(100) }} bg={theme.colors[color][1]}>
+				{icon}
+			</Box>
+		);
+	};
 
 	return (
 		<div
@@ -222,12 +287,12 @@ export default function QuestionResponseForm({
 			}}
 		>
 			<Box className={`${styles.box} ${styles.question}`}>
-				<Box>
+				<Flex justify="space-between">
 					<Badge color={theme.colors[primaryColor][8]} size="md">
 						Q.{questionIndex + 1}
 					</Badge>
-					{}
-				</Box>
+					{getRightWrongIcon()}
+				</Flex>
 				<div dangerouslySetInnerHTML={createMarkup(question.description)} />
 				{question.type === QuestionType.Text ? (
 					<Textarea

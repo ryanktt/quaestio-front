@@ -126,6 +126,7 @@ export default function Response() {
 						<ResponseForm
 							colorScheme="indigo"
 							readMode
+							adminView
 							questionnaireProps={buildQuestionnaireFormProps(questionnaire)}
 							responseFormProps={buildResponseFormProps(response)}
 						/>

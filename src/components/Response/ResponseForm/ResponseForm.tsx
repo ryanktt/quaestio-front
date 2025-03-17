@@ -20,6 +20,7 @@ export default function ResponseForm({
 	colorScheme = 'indigo',
 	readMode = false,
 	correctedResponses,
+	adminView = false,
 }: {
 	onSubmit?: (p: IResponseFormProps) => Promise<void>;
 	questionnaireProps: IQuestionnaireFormProps;
@@ -27,6 +28,7 @@ export default function ResponseForm({
 	readMode?: boolean;
 	colorScheme?: IColorSchemes;
 	correctedResponses?: IQuestionResponseProps[];
+	adminView?: boolean;
 }) {
 	const { randomizeQuestions, requireEmail, description, requireName, questions, title } =
 		questionnaireProps;
@@ -93,6 +95,7 @@ export default function ResponseForm({
 					if (questionWErrorElId === id && !error) setQuestionWErrorElId(null);
 					else if (error && !questionWErrorElId) setQuestionWErrorElId(id);
 				}}
+				adminView={adminView}
 				question={questionProps}
 				key={questionProps.id}
 				onChange={setQuestionResponse}

@@ -318,7 +318,7 @@ export default function QuestionAccordionForm({
 						{...getInputProps('showCorrectAnswer', 'checkbox')}
 						disabled={!type}
 						color={primaryColor}
-						label="Show correct answer"
+						label="Show correct option"
 					/>
 				</>
 			) : null}

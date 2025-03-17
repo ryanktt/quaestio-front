@@ -5,11 +5,12 @@
 	height: rem(500px);
 	width: fit-content;
 	border-radius: $radiusMd;
+	border: 1px solid $violet2;
 	padding: $spacingMd;
 	display: flex;
 	flex-direction: column;
 	background: $gradient;
-	box-shadow: $shadowMd;
+	box-shadow: $shadowLg;
 }
 
 .navbar-main {

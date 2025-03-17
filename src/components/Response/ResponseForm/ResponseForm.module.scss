@@ -94,8 +94,8 @@
 	width: 100%;
 }
 
-.option.true {
-	background: $teal8;
+.option.right {
+	background: $teal7;
 	border: 1px solid $teal3;
 	.checkbox {
 		input {
@@ -106,12 +106,12 @@
 		}
 		input:focus,
 		input:checked {
-			border: 1px solid $teal8;
+			border: 1px solid $teal7;
 		}
 	}
 }
-.option.false {
-	background: $pink8;
+.option.wrong {
+	background: $pink7;
 	border: 1px solid $pink3;
 	.checkbox {
 		input {
@@ -122,7 +122,7 @@
 		}
 		input:focus,
 		input:checked {
-			border: 1px solid $pink8;
+			border: 1px solid $pink7;
 		}
 	}
 }
