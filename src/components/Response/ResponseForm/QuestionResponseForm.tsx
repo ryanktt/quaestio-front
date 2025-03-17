@@ -193,9 +193,9 @@ export default function QuestionResponseForm({
 	const elementId = `question-form-${question.id}`;
 	let missingCompletion = false;
 	if (question.type === QuestionType.Text) {
-		missingCompletion = !state.text.length;
+		missingCompletion = question.required && !state.text.length;
 	} else {
-		missingCompletion = !state.selectedOptionIds.length;
+		missingCompletion = question.required && !state.selectedOptionIds.length;
 	}
 	const showError = missingCompletion && showErrorsProp;
 
