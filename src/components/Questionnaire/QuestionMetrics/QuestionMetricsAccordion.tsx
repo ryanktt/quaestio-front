@@ -2,16 +2,32 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable no-underscore-dangle */
 import {
+	ByRatingMetrics,
 	Question,
 	QuestionMultipleChoiceMetrics,
+	QuestionRatingMetrics,
 	QuestionSingleChoiceMetrics,
 	QuestionTextMetrics,
 	QuestionTrueOrFalseMetrics,
 	QuestionType,
 } from '@gened/graphql';
-import { Box, Group, Title, UnstyledButton, rem, useMantineTheme } from '@mantine/core';
+import {
+	Box,
+	Flex,
+	Group,
+	Rating,
+	Stack,
+	Text,
+	Title,
+	UnstyledButton,
+	getGradient,
+	rem,
+	useMantineTheme,
+} from '@mantine/core';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { createMarkup } from '@utils/html';
+import { getPercentage } from '@utils/number.ts';
+import _ from 'lodash';
 import { useMemo, useState } from 'react';
 import OptionMetricsList from '../OptionMetrics/OptionMetrics.tsx';
 import { QuestionTypes } from '../Questionnaire.interface.ts';
@@ -22,7 +38,35 @@ type QuestionMetricsTypes =
 	| QuestionTextMetrics
 	| QuestionTrueOrFalseMetrics
 	| QuestionMultipleChoiceMetrics
-	| QuestionSingleChoiceMetrics;
+	| QuestionSingleChoiceMetrics
+	| QuestionRatingMetrics;
+
+function Ratings({ byRating, reviewCount }: { byRating: ByRatingMetrics[]; reviewCount: number }) {
+	const theme = useMantineTheme();
+
+	return (
+		<Stack bg="var(--mantine-color-body)" align="stretch" justify="center" gap={0}>
+			{_.orderBy(byRating, ['rating'], ['desc']).map(({ rating, selectedCount }) => (
+				<Flex
+					style={{
+						borderTop: `1px solid ${theme.colors.gray[3]}`,
+						background: getGradient({ deg: 1, from: 'gray.0', to: 'white' }, theme),
+					}}
+					p={`${rem(8)} ${theme.spacing.lg}`}
+					gap={10}
+				>
+					<Rating styles={{ label: { marginRight: rem(20) } }} value={rating} size={20} />
+					<Text c="gray.8" fw={500} size="sm" w={38}>
+						{getPercentage(selectedCount, 0, reviewCount)}%
+					</Text>
+					<Text c="gray.7" size="sm">
+						{selectedCount} selections
+					</Text>
+				</Flex>
+			))}
+		</Stack>
+	);
+}
 
 function MetricsAccordionItem({
 	questionMetrics,
@@ -62,6 +106,11 @@ function MetricsAccordionItem({
 		return null;
 	};
 
+	const ratings =
+		'byRating' in questionMetrics && questionMetrics.byRating ? (
+			<Ratings byRating={questionMetrics.byRating} reviewCount={questionMetrics.answerCount} />
+		) : null;
+
 	return (
 		<Box className={styles.accordionItem}>
 			<Box
@@ -75,7 +124,6 @@ function MetricsAccordionItem({
 						Q{index + 1}
 					</Title>
 					<Title size={13} w={110} c="white">
-						{' '}
 						{getQuestionTextByType()}
 					</Title>
 					<div
@@ -97,14 +145,18 @@ function MetricsAccordionItem({
 					<Box className={styles.analytics}>
 						<Group preventGrowOverflow={false} grow>
 							<DonutChart data={answeredChartData} />
-							<DonutChart data={correctChartData} />
+
+							{question.type !== QuestionType.Rating && question.type !== QuestionType.Text ? (
+								<DonutChart data={correctChartData} />
+							) : null}
 						</Group>
-						<div
+						{/* <div
 							className={styles.questionDescription}
 							dangerouslySetInnerHTML={createMarkup(question.description || '')}
-						/>
+						/> */}
 					</Box>
 
+					{ratings}
 					{'options' in questionMetrics && 'options' in question ? (
 						<Box>
 							<OptionMetricsList
