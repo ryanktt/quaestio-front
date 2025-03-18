@@ -11,9 +11,9 @@ import {
 	Response as ResponseType,
 	useFetchResponseSuspenseQuery,
 } from '@gened/graphql.ts';
-import { Box, Button, Group, rem, Text, useMantineTheme } from '@mantine/core';
+import { Box, Button, getGradient, Group, rem, Text, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { IconClock, IconExternalLink } from '@tabler/icons-react';
+import { IconClock, IconExternalLink, IconFileCheck, IconFiles, IconFileUnknown } from '@tabler/icons-react';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -60,8 +60,8 @@ export default function Response() {
 				borderRadius: theme.radius.lg,
 				boxShadow: theme.shadows.xs,
 				border: `1px solid${theme.colors.gray[4]}`,
+				background: getGradient({ from: 'indigo.7', to: 'violet.7', deg: 30 }, theme),
 			}}
-			bg="white"
 			p={theme.spacing.md}
 			mb={theme.spacing.md}
 		>
@@ -75,43 +75,49 @@ export default function Response() {
 				style={{ margin: '0 auto' }}
 			>
 				<MetricsCard
-					color="teal"
-					icon={IconClock}
-					label="Answer time"
-					stats={`${answerTimeInMin} min`}
-				/>
-				<MetricsCard
 					color="orange"
-					icon={IconClock}
+					icon={IconFileUnknown}
 					label="Unanswered"
-					stats={`${metrics.unasweredCount}`}
+					stats={`${metrics.unasweredCount} Questions`}
 				/>
 				{questionnaire.type !== QuestionnaireType.QuestionnaireSurvey ? (
 					<MetricsCard
-						color="violet"
-						icon={IconClock}
+						color="cyan"
+						icon={IconFileCheck}
 						label="Score"
 						stats={`${metrics.rightAnswerCount}/${metrics.questionCount}`}
 					/>
 				) : (
 					<MetricsCard
-						color="violet"
-						icon={IconClock}
+						color="cyan"
+						icon={IconFiles}
 						label="Question Count"
 						stats={`${metrics.questionCount}`}
 					/>
 				)}
+				<MetricsCard
+					color="teal"
+					icon={IconClock}
+					label="Answer time"
+					stats={`${answerTimeInMin} min`}
+				/>
 			</Group>
-			<Group maw={700} justify="space-between" style={{ margin: '0 auto' }} mt={theme.spacing.xs}>
+			<Group
+				maw={700}
+				justify="space-between"
+				style={{ margin: '0 auto' }}
+				mt={theme.spacing.xs}
+				mb={theme.spacing.sm}
+			>
 				<Box style={{ display: 'flex', alignItems: 'center' }}>
-					<Text size="sm" fw={500} c="gray.7">
+					<Text size="sm" fw={500} c="white">
 						{response._id}
 					</Text>
 				</Box>
 				<Button
 					variant="white"
-					c="indigo.7"
-					color="indigo.7"
+					c="white"
+					bg="transparent"
 					onClick={() => navigate(`/board/questionnaire/${questionnaire.sharedId}`)}
 				>
 					<IconExternalLink size={20} />
@@ -121,7 +127,12 @@ export default function Response() {
 				</Button>
 			</Group>
 			<Box>
-				<Box maw={700} style={{ margin: '0 auto' }} p={`${theme.spacing.sm} 0`}>
+				<Box
+					maw={700}
+					style={{
+						margin: '0 auto',
+					}}
+				>
 					{response ? (
 						<ResponseForm
 							colorScheme="indigo"

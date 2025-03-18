@@ -1,6 +1,8 @@
 import {
 	AnswerMultipleChoice,
 	AnswerMultipleChoiceInput,
+	AnswerRating,
+	AnswerRatingInput,
 	AnswerSingleChoice,
 	AnswerSingleChoiceInput,
 	AnswerText,
@@ -10,13 +12,19 @@ import {
 } from '@gened/graphql.ts';
 import { IQuestionResponseProps } from './QuestionResponseForm.tsx';
 
-export type AnswerTypes = AnswerMultipleChoice | AnswerSingleChoice | AnswerTrueOrFalse | AnswerText;
+export type AnswerTypes =
+	| AnswerMultipleChoice
+	| AnswerSingleChoice
+	| AnswerTrueOrFalse
+	| AnswerText
+	| AnswerRating;
 
 export type IAnswerInputTypes =
 	| AnswerMultipleChoiceInput
 	| AnswerTextInput
 	| AnswerSingleChoiceInput
-	| AnswerTrueOrFalseInput;
+	| AnswerTrueOrFalseInput
+	| AnswerRatingInput;
 
 export interface IResponseFormProps {
 	name?: string;

@@ -11,11 +11,10 @@
 	width: 100%;
 	background: $white;
 	border: 1px solid $gray5;
-	border-radius: $radiusLg;
-
+	border-radius: rem(12px);
 	p {
 		color: $dark8;
-		font-size: rem(15px);
+		font-size: rem(16px);
 		font-weight: 500;
 	}
 	input,
@@ -95,34 +94,34 @@
 }
 
 .option.right {
-	background: $teal7;
-	border: 1px solid $teal3;
+	background: $green7;
+	border: 1px solid $green3;
 	.checkbox {
 		input {
-			background-color: $teal0;
+			background-color: $green0;
 		}
 		input:checked + svg {
-			color: $teal6;
+			color: $green6;
 		}
 		input:focus,
 		input:checked {
-			border: 1px solid $teal7;
+			border: 1px solid $green7;
 		}
 	}
 }
 .option.wrong {
-	background: $pink7;
-	border: 1px solid $pink3;
+	background: $red7;
+	border: 1px solid $red3;
 	.checkbox {
 		input {
-			background-color: $pink0;
+			background-color: $red0;
 		}
 		input:checked + svg {
-			color: $pink6;
+			color: $red6;
 		}
 		input:focus,
 		input:checked {
-			border: 1px solid $pink7;
+			border: 1px solid $red7;
 		}
 	}
 }

@@ -46,6 +46,14 @@ export const buildAnswerVars = (responseProps: IQuestionResponseProps): AnswerDi
 			type,
 		};
 	}
+	if (type === AnswerType.Rating) {
+		discriminator.answerRating = {
+			questionId: responseProps.questionId,
+			answeredAt: responseProps.answeredAt,
+			rate: responseProps.rate,
+			type,
+		};
+	}
 	return discriminator as AnswerDiscriminatorInput;
 };
 
@@ -66,9 +74,11 @@ export const buildRespondQuestionnaireGqlVars = (
 export const buildAnswerProps = (answer: AnswerTypes, correctOptionIds?: string[]) => {
 	const selectedOptionIds: string[] = [];
 	let text = '';
+	let rate = 0;
 	if ('option' in answer && answer.option) selectedOptionIds.push(answer.option);
 	if ('options' in answer && answer.options) selectedOptionIds.push(...answer.options);
 	if ('text' in answer && answer.text) text = answer.text;
+	if ('rate' in answer && answer.rate) rate = answer.rate;
 	return {
 		type: answer.type as unknown as QuestionType,
 		anweredAt: answer.answeredAt ? new Date(answer.answeredAt) : undefined,
@@ -77,6 +87,7 @@ export const buildAnswerProps = (answer: AnswerTypes, correctOptionIds?: string[
 		selectedOptionIds,
 		correctOptionIds,
 		text,
+		rate,
 	};
 };
 
