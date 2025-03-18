@@ -33,7 +33,7 @@ export interface IQuestionResponseProps {
 	answeredAt?: Date;
 	correct?: boolean;
 	questionId: string;
-	rate?: number;
+	rating?: number;
 	correctOptionIds?: string[];
 }
 
@@ -313,9 +313,9 @@ export default function QuestionResponseForm({
 					<Rating
 						ml={theme.spacing.md}
 						size={40}
-						value={state.rate}
+						value={state.rating}
 						readOnly={readMode}
-						onChange={(rate) => setState({ ...state, rate })}
+						onChange={(rating) => setState({ ...state, rating })}
 						styles={{ label: { marginRight: rem(12) } }}
 					/>
 				) : null}

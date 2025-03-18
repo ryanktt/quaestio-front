@@ -52,7 +52,7 @@ export const QUESTIONNAIRE_METRICS = gql(`
           _id
           answerCount
           unansweredCount
-          avgRate
+          avgRating
         }
       }
     }

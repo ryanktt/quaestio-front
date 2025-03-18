@@ -65,7 +65,7 @@ export const RESPOND_QUESTIONNAIRE = gql(`
                         answeredAt
                         question
                         answeredAt
-                        rate
+                        rating
                     }
                 }
             }
@@ -147,7 +147,7 @@ export const RESPONSE_FRAGMENT = gql(`
                 answeredAt
                 question
                 answeredAt
-                rate
+                rating
             }
         }
     }
