@@ -20,7 +20,7 @@ export default function Layout({ children }: PropsWithChildren) {
 		Badge: Badge.extend({ classNames: badgeStyles }),
 	};
 
-	const [backgroundColor, setBackgroundColor] = useState(theme.colors.gray[1]);
+	const [backgroundColor, setBackgroundColor] = useState(theme.colors.indigo[0]);
 
 	useEffect(() => {
 		const isResponseScreen = location.pathname.startsWith('/questionnaire/');

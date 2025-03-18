@@ -13,6 +13,7 @@ import {
 } from '@gened/graphql';
 import {
 	Box,
+	Center,
 	Flex,
 	Group,
 	Rating,
@@ -28,7 +29,7 @@ import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { createMarkup } from '@utils/html';
 import { getPercentage } from '@utils/number.ts';
 import _ from 'lodash';
-import { useMemo, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import OptionMetricsList from '../OptionMetrics/OptionMetrics.tsx';
 import { QuestionTypes } from '../Questionnaire.interface.ts';
 import DonutChart from './DonutChart.tsx';
@@ -55,9 +56,9 @@ function Ratings({ byRating, reviewCount }: { byRating: ByRatingMetrics[]; revie
 					p={`${rem(8)} ${theme.spacing.lg}`}
 					gap={10}
 				>
-					<Rating styles={{ label: { marginRight: rem(20) } }} value={rating} size={20} />
+					<Rating styles={{ label: { marginRight: rem(10) } }} value={rating} size={20} />
 					<Text c="gray.8" fw={500} size="sm" w={38}>
-						{getPercentage(selectedCount, 0, reviewCount)}%
+						{getPercentage(selectedCount, 0, reviewCount).toFixed(0)}%
 					</Text>
 					<Text c="gray.7" size="sm">
 						{selectedCount} selections
@@ -106,10 +107,36 @@ function MetricsAccordionItem({
 		return null;
 	};
 
-	const ratings =
-		'byRating' in questionMetrics && questionMetrics.byRating ? (
-			<Ratings byRating={questionMetrics.byRating} reviewCount={questionMetrics.answerCount} />
-		) : null;
+	let ratings: ReactNode | null = null;
+	let ratingHeading: ReactNode | null = null;
+
+	if (questionMetrics.__typename === 'QuestionRatingMetrics') {
+		ratings = (
+			<Ratings byRating={questionMetrics.byRating || []} reviewCount={questionMetrics.answerCount} />
+		);
+		ratingHeading = (
+			<Box
+				style={{
+					borderRadius: theme.radius.md,
+					border: `1px solid ${theme.colors.gray[3]}`,
+					background: getGradient({ from: 'gray.0', to: 'white', deg: 1 }, theme),
+				}}
+				p="xs"
+			>
+				<Center>
+					<Title size={38} c="gray.8" mr={10}>
+						{questionMetrics.avgRating?.toFixed(1)}
+					</Title>
+					<Center style={{ flexDirection: 'column' }}>
+						<Rating fractions={5 * 3} mt={5} value={questionMetrics.avgRating || 0} />
+						<Text fw={500} c="gray.7" size="sm">
+							Average Rating
+						</Text>
+					</Center>
+				</Center>
+			</Box>
+		);
+	}
 
 	return (
 		<Box className={styles.accordionItem}>
@@ -144,6 +171,7 @@ function MetricsAccordionItem({
 				<Box className={styles.analyticsWrapper}>
 					<Box className={styles.analytics}>
 						<Group preventGrowOverflow={false} grow>
+							{ratingHeading}
 							<DonutChart data={answeredChartData} />
 
 							{question.type !== QuestionType.Rating && question.type !== QuestionType.Text ? (

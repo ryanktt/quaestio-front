@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { DonutChartCell, DonutChart as MantineDonutChart } from '@mantine/charts';
-import { Box, rem, Text, useMantineTheme } from '@mantine/core';
+import { Box, getGradient, rem, Text, useMantineTheme } from '@mantine/core';
 import { IconCircleFilled } from '@tabler/icons-react';
 
 function Legend({ color, name, value }: DonutChartCell) {
@@ -32,11 +32,11 @@ export default function DonutChart({ data }: { data: DonutChartCell[] }) {
 			style={{
 				alignItems: 'center',
 				gap: theme.spacing.sm,
+				background: getGradient({ from: 'gray.0', to: 'white', deg: 1 }, theme),
 				borderRadius: theme.radius.md,
 				border: `1px solid${theme.colors.gray[4]}`,
 			}}
 			miw={250}
-			bg="gray.0"
 			p="xs"
 		>
 			{totalValue ? (
