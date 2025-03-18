@@ -54,7 +54,7 @@ function MetricsAccordionItem({
 
 	const getQuestionTextByType = () => {
 		const t = question.type;
-		if (t === QuestionType.StarRate) return 'Star Rating';
+		if (t === QuestionType.Rating) return 'Star Rating';
 		if (t === QuestionType.SingleChoice) return 'Single Choice';
 		if (t === QuestionType.MultipleChoice) return 'Multiple Choice';
 		if (t === QuestionType.TrueOrFalse) return 'True or False';

@@ -8,8 +8,8 @@ import {
 	OptionInput,
 	QuestionDiscriminatorInput,
 	QuestionMultipleChoiceInput,
+	QuestionRating,
 	QuestionSingleChoiceInput,
-	QuestionStarRate,
 	QuestionTextInput,
 	QuestionTrueOrFalseInput,
 	QuestionType,
@@ -75,11 +75,11 @@ export const buildQuestionDiscriminatorFromProps = (
 			'type',
 		]) as QuestionTextInput;
 	}
-	if (question.type === QuestionType.StarRate) {
-		discriminator.questionStarRate = getObjSelectedFields(question as QuestionTextInput, [
+	if (question.type === QuestionType.Rating) {
+		discriminator.questionRating = getObjSelectedFields(question as QuestionTextInput, [
 			...questionBaseInputKeys,
 			'type',
-		]) as QuestionStarRate;
+		]) as QuestionRating;
 	}
 
 	return discriminator;

@@ -7,7 +7,7 @@
 .mainSection {
 	background-color: $white;
 	padding: $spacingLg;
-	box-shadow: $shadowSm;
+	box-shadow: $shadowMd;
 	width: 100%;
 	border: 1px solid;
 	border-color: $gray4;
@@ -23,7 +23,6 @@
 	align-items: center;
 	text-wrap: nowrap;
 	gap: $spacingSm;
-	border: 1px solid $gray4;
 	border-radius: $radiusMd;
 	box-shadow: $shadowSm;
 	display: flex;

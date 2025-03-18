@@ -89,7 +89,7 @@ export default function QuestionAccordionForm({
 		if (val === 'Single Choice') return QuestionType.SingleChoice;
 		if (val === 'Multiple Choice') return QuestionType.MultipleChoice;
 		if (val === 'True or False') return QuestionType.TrueOrFalse;
-		if (val === 'Star Rating') return QuestionType.StarRate;
+		if (val === 'Star Rating') return QuestionType.Rating;
 		return QuestionType.Text;
 	};
 
@@ -99,7 +99,7 @@ export default function QuestionAccordionForm({
 		if (t === QuestionType.MultipleChoice) return 'Multiple Choice';
 		if (t === QuestionType.TrueOrFalse) return 'True or False';
 		if (t === QuestionType.Text) return 'Text';
-		if (t === QuestionType.StarRate) return 'Star Rating';
+		if (t === QuestionType.Rating) return 'Star Rating';
 		return null;
 	};
 

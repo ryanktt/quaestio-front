@@ -40,7 +40,7 @@ export function MetricsCard({
 		<Box
 			className={styles.metricsCard}
 			style={{
-				background: getGradient({ deg: 25, from: `${color}.8`, to: `${color}.5` }, theme),
+				background: getGradient({ deg: 50, from: `${color}.7`, to: `${color}.5` }, theme),
 			}}
 		>
 			<Icon size={35} color={theme.white} stroke={1.7} />

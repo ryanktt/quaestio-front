@@ -12,6 +12,7 @@ import {
 	Checkbox,
 	CheckboxProps,
 	Flex,
+	Rating,
 	rem,
 	Text,
 	Textarea,
@@ -32,6 +33,7 @@ export interface IQuestionResponseProps {
 	answeredAt?: Date;
 	correct?: boolean;
 	questionId: string;
+	rate?: number;
 	correctOptionIds?: string[];
 }
 
@@ -53,11 +55,11 @@ function Feedback({
 	let color = c;
 	let icon = <IconBulb size={18} stroke={1.6} color={theme.colors[color][8]} />;
 	if (type === 'wrong') {
-		color = 'pink';
+		color = 'red';
 		icon = <IconExclamationMark size={18} stroke={1.6} color={theme.colors[color][8]} />;
 	}
 	if (type === 'right') {
-		color = 'teal';
+		color = 'green';
 		icon = <IconCheck size={18} stroke={1.6} color={theme.colors[color][8]} />;
 	}
 
@@ -264,15 +266,15 @@ export default function QuestionResponseForm({
 			return null;
 		}
 
-		let color = 'teal';
-		let icon = <IconCheck size={20} color={theme.colors[color][6]} />;
+		let color = 'green';
+		let icon = <IconCheck size={18} color={theme.colors[color][6]} />;
 		if (questionResponseProps?.correct === false || correctedResponseProps?.correct === false) {
-			color = 'pink';
-			icon = <IconX size={20} color={theme.colors[color][6]} />;
+			color = 'red';
+			icon = <IconX size={18} color={theme.colors[color][6]} />;
 		}
 
 		return (
-			<Box display="flex" p={4} style={{ borderRadius: rem(100) }} bg={theme.colors[color][1]}>
+			<Box display="flex" p={3} style={{ borderRadius: rem(100) }} bg={theme.colors[color][1]}>
 				{icon}
 			</Box>
 		);
@@ -294,6 +296,7 @@ export default function QuestionResponseForm({
 					{getRightWrongIcon()}
 				</Flex>
 				<div dangerouslySetInnerHTML={createMarkup(question.description)} />
+
 				{question.type === QuestionType.Text ? (
 					<Textarea
 						color={theme.colors[primaryColor][7]}
@@ -305,6 +308,18 @@ export default function QuestionResponseForm({
 						minRows={3}
 					/>
 				) : null}
+
+				{question.type === QuestionType.Rating ? (
+					<Rating
+						ml={theme.spacing.md}
+						size={40}
+						value={state.rate}
+						readOnly={readMode}
+						onChange={(rate) => setState({ ...state, rate })}
+						styles={{ label: { marginRight: rem(12) } }}
+					/>
+				) : null}
+
 				<Box
 					className={styles.options}
 					style={question.type !== QuestionType.TrueOrFalse ? { flexDirection: 'column' } : {}}
