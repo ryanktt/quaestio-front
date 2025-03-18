@@ -48,6 +48,12 @@ export const QUESTIONNAIRE_METRICS = gql(`
           answerCount
           unansweredCount
         }
+        ... on QuestionStarRateMetrics {
+          _id
+          answerCount
+          unansweredCount
+          avgRate
+        }
       }
     }
 `);
@@ -121,7 +127,16 @@ export const QUESTION_FRAGMENT = gql(`
         description
         feedbackAfterSubmit
     }
-    
+    fragment QuestionStarRateFragment on QuestionStarRate {
+        _id
+        type
+        showCorrectAnswer
+        title
+        weight
+        required
+        description
+        feedbackAfterSubmit
+    }
 `);
 
 export const SURVEY_FRAGMENT = gql(`
@@ -152,6 +167,9 @@ export const SURVEY_FRAGMENT = gql(`
             }
             ... on QuestionText {
                 ...QuestionTextFragment
+            }
+            ... on QuestionStarRate {
+                ...QuestionStarRateFragment
             }
         }
         sharedCreatedAt
@@ -188,6 +206,9 @@ export const QUIZ_FRAGMENT = gql(`
             ... on QuestionText {
                 ...QuestionTextFragment
             }
+            ... on QuestionStarRate {
+                ...QuestionStarRateFragment
+            }
         }
         sharedCreatedAt
         createdAt
@@ -223,6 +244,9 @@ export const EXAM_FRAGMENT = gql(`
             }
             ... on QuestionText {
                 ...QuestionTextFragment
+            }
+            ... on QuestionStarRate {
+                ...QuestionStarRateFragment
             }
         }
         sharedCreatedAt
