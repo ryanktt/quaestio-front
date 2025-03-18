@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable react/prop-types */
 import AlertItem from '@components/Alert/Alert.tsx';
 import ColorSelect, { IColorOption } from '@components/ColorSelect/ColorSelect.tsx';
@@ -6,6 +7,7 @@ import DragDropItem from '@components/DragDropList/Draggable.tsx';
 import QuestionAccordionForm, {
 	IQuestionProps,
 } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
+import ResponseForm from '@components/Response/ResponseForm/ResponseForm.tsx';
 import RichTextInput from '@components/RichText/RichText.tsx';
 import { AlertContext } from '@contexts/Alert/Alert.context.tsx';
 import {
@@ -13,6 +15,7 @@ import {
 	Button,
 	Center,
 	Checkbox,
+	getGradient,
 	NumberInput,
 	rem,
 	Select,
@@ -23,7 +26,8 @@ import {
 } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { hasLength, useForm } from '@mantine/form';
-import { colorSchemes } from '@utils/color.ts';
+import { modals } from '@mantine/modals';
+import { colorSchemes, IColorSchemes } from '@utils/color.ts';
 import moment from 'moment';
 import { nanoid } from 'nanoid/non-secure';
 import { FormEvent, useContext, useMemo, useState } from 'react';
@@ -202,6 +206,32 @@ export default function QuestionnaireForm({
 		if (!form.validate().hasErrors) {
 			onSubmit(questionnaire);
 		}
+	};
+
+	const openPreviewModal = () => {
+		const questionnaireProps = getQuestionnaire();
+		const { bgColor, color } = questionnaireProps;
+		const [primaryColor, secondaryColor] = colorSchemes[(color || 'indigo') as IColorSchemes];
+
+		const gradient = getGradient(
+			{ deg: 30, from: theme.colors[primaryColor][7], to: theme.colors[secondaryColor][7] },
+			theme,
+		);
+
+		let background = gradient;
+		if (bgColor === 'black') background = theme.colors.dark[5];
+		else if (bgColor === 'white') background = theme.colors.indigo[1];
+
+		modals.open({
+			size: 'lg',
+			title: <Title size="lg">Questionnaire Preview</Title>,
+			centered: true,
+			radius: 'md',
+			overlayProps: { backgroundOpacity: 0.3, blur: 2 },
+			zIndex: 500,
+			styles: { content: { background }, body: { paddingTop: theme.spacing.md } },
+			children: <ResponseForm readMode questionnaireProps={questionnaireProps} />,
+		});
 	};
 
 	return (
@@ -396,8 +426,21 @@ export default function QuestionnaireForm({
 					onStartEdit={(opt) => setOnEditQuestionId(opt.id)}
 					onFinishEdit={() => setOnEditQuestionId(null)}
 				/>
-				<Center style={{ gap: '10px' }}>
-					<Button disabled={!type} w="80%" size="sm" mt="xl" type="submit" variant="gradient">
+				<Center style={{ gap: '10px' }} display="flex">
+					<Button
+						onClick={() => openPreviewModal()}
+						variant="light"
+						disabled={!type}
+						w="30%"
+						style={{ border: `1px solid ${theme.colors.indigo[2]}` }}
+						color="indigo.5"
+						c="indigo.8"
+						size="sm"
+						mt="xl"
+					>
+						Preview
+					</Button>
+					<Button disabled={!type} w="70%" size="sm" mt="xl" type="submit" variant="gradient">
 						Save {type ?? 'Questionnaire'}
 					</Button>
 				</Center>

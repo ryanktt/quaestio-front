@@ -13,6 +13,13 @@ button {
 			color: $dark6;
 		}
 	}
+	&[data-variant='light'] {
+		&:disabled {
+			background-color: $indigo0;
+			border: 1px solid $gray1 !important;
+			color: $dark6 !important;
+		}
+	}
 
 	&[data-variant='subtle-violet'] {
 		background-color: transparent;
