@@ -68,7 +68,7 @@ export default function QuestionAccordionForm({
 }: IQuestionAccordionFormProps) {
 	const theme = useMantineTheme();
 	const primaryColor = theme.colors.indigo[6];
-	const typeValues = ['Single Choice', 'Multiple Choice', 'True or False', 'Text'] as const;
+	const typeValues = ['Single Choice', 'Multiple Choice', 'True or False', 'Star Rating', 'Text'] as const;
 	const form = useForm<IQuestionProps>({
 		mode: 'controlled',
 		initialValues: questionProps,
@@ -89,6 +89,7 @@ export default function QuestionAccordionForm({
 		if (val === 'Single Choice') return QuestionType.SingleChoice;
 		if (val === 'Multiple Choice') return QuestionType.MultipleChoice;
 		if (val === 'True or False') return QuestionType.TrueOrFalse;
+		if (val === 'Star Rating') return QuestionType.StarRate;
 		return QuestionType.Text;
 	};
 
@@ -98,6 +99,7 @@ export default function QuestionAccordionForm({
 		if (t === QuestionType.MultipleChoice) return 'Multiple Choice';
 		if (t === QuestionType.TrueOrFalse) return 'True or False';
 		if (t === QuestionType.Text) return 'Text';
+		if (t === QuestionType.StarRate) return 'Star Rating';
 		return null;
 	};
 
