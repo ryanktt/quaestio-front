@@ -37,7 +37,7 @@ export default function QuestionnaireForm({
 	onToggleActive,
 }: {
 	onSubmit: (p: IQuestionnaireFormProps) => Promise<void>;
-	onToggleActive: (active: boolean) => Promise<void>;
+	onToggleActive?: (active: boolean) => Promise<void>;
 	formProps?: IQuestionnaireFormProps;
 	title: string;
 	method?: 'EDIT' | 'ADD';
@@ -244,7 +244,7 @@ export default function QuestionnaireForm({
 							onChange={(e) => {
 								const active = e.currentTarget.checked;
 								form.setFieldValue('active', active);
-								onToggleActive(active);
+								if (onToggleActive) onToggleActive(active);
 							}}
 							label={getQuestionnaire().active ? 'Active' : 'Inactive'}
 							maw={300}
