@@ -206,7 +206,10 @@ export default function QuestionResponseForm({
 	useEffect(() => {
 		const isAnswered =
 			(question.type === QuestionType.Text && !!state.text) ||
-			(question.type !== QuestionType.Text && !!state.selectedOptionIds.length);
+			(question.type === QuestionType.Rating && !!state.rating) ||
+			(question.type !== QuestionType.Text &&
+				question.type !== QuestionType.Rating &&
+				!!state.selectedOptionIds.length);
 		onChange({ ...state, answeredAt: isAnswered ? new Date() : undefined });
 	}, [state]);
 
