@@ -11,48 +11,52 @@ export const QUESTIONNAIRE_METRICS = gql(`
       byLocationMap
       questionMetrics {
         ... on QuestionSingleChoiceMetrics {
-          _id
-          answerCount
-          unansweredCount
-          rightAnswerCount
-          wrongAnswerCount
-          options {
             _id
-            selectedCount
-          }
+            answerCount
+            unansweredCount
+            rightAnswerCount
+            wrongAnswerCount
+            options {
+                _id
+                selectedCount
+            }
         }
         ... on QuestionMultipleChoiceMetrics {
-          _id
-          answerCount
-          unansweredCount
-          rightAnswerCount
-          wrongAnswerCount
-          options {
             _id
-            selectedCount
-          }
+            answerCount
+            unansweredCount
+            rightAnswerCount
+            wrongAnswerCount
+            options {
+                _id
+                selectedCount
+            }
         }
         ... on QuestionTrueOrFalseMetrics {
-          _id
-          answerCount
-          unansweredCount
-          rightAnswerCount
-          wrongAnswerCount
-          options {
             _id
-            selectedCount
-          }
+            answerCount
+            unansweredCount
+            rightAnswerCount
+            wrongAnswerCount
+            options {
+                _id
+                selectedCount
+            }
         }
         ... on QuestionTextMetrics {
-          _id
-          answerCount
-          unansweredCount
+            _id
+            answerCount
+            unansweredCount
         }
         ... on QuestionRatingMetrics {
-          _id
-          answerCount
-          unansweredCount
-          avgRating
+            _id
+            answerCount
+            unansweredCount
+            avgRating
+            byRating {
+                rating
+                selectedCount
+            }
         }
       }
     }
