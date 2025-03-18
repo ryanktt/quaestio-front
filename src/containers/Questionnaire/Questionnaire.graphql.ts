@@ -48,7 +48,7 @@ export const QUESTIONNAIRE_METRICS = gql(`
           answerCount
           unansweredCount
         }
-        ... on QuestionStarRateMetrics {
+        ... on QuestionRatingMetrics {
           _id
           answerCount
           unansweredCount
@@ -127,7 +127,7 @@ export const QUESTION_FRAGMENT = gql(`
         description
         feedbackAfterSubmit
     }
-    fragment QuestionStarRateFragment on QuestionStarRate {
+    fragment QuestionRatingFragment on QuestionRating {
         _id
         type
         showCorrectAnswer
@@ -168,8 +168,8 @@ export const SURVEY_FRAGMENT = gql(`
             ... on QuestionText {
                 ...QuestionTextFragment
             }
-            ... on QuestionStarRate {
-                ...QuestionStarRateFragment
+            ... on QuestionRating {
+                ...QuestionRatingFragment
             }
         }
         sharedCreatedAt
@@ -206,8 +206,8 @@ export const QUIZ_FRAGMENT = gql(`
             ... on QuestionText {
                 ...QuestionTextFragment
             }
-            ... on QuestionStarRate {
-                ...QuestionStarRateFragment
+            ... on QuestionRating {
+                ...QuestionRatingFragment
             }
         }
         sharedCreatedAt
@@ -245,8 +245,8 @@ export const EXAM_FRAGMENT = gql(`
             ... on QuestionText {
                 ...QuestionTextFragment
             }
-            ... on QuestionStarRate {
-                ...QuestionStarRateFragment
+            ... on QuestionRating {
+                ...QuestionRatingFragment
             }
         }
         sharedCreatedAt
