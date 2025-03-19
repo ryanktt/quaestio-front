@@ -10,7 +10,7 @@ function Legend({ color, name, value }: DonutChartCell) {
 		<Box display="flex" style={{ alignItems: 'center' }}>
 			<Box w={110} display="flex" style={{ alignItems: 'center' }}>
 				<IconCircleFilled width={12} height={12} color={theme.colors[color][5]} />
-				<Text ml={5} size="xs" fw={600} c="gray.7">
+				<Text ml={5} style={{ fontSize: rem(13) }} fw={500} c="gray.7">
 					{name}
 				</Text>
 			</Box>
@@ -32,7 +32,7 @@ export default function DonutChart({ data }: { data: DonutChartCell[] }) {
 			style={{
 				alignItems: 'center',
 				gap: theme.spacing.sm,
-				background: getGradient({ from: 'gray.0', to: 'white', deg: 1 }, theme),
+				background: getGradient({ from: 'gray.0', to: 'white', deg: 30 }, theme),
 				borderRadius: theme.radius.md,
 				border: `1px solid${theme.colors.gray[4]}`,
 			}}
