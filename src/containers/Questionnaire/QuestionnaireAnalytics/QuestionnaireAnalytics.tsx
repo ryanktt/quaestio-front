@@ -75,6 +75,8 @@ export default function QuestionnaireAnalytics() {
 		modals.openConfirmModal({
 			title: <Title size="lg">Delete Questionnaire</Title>,
 			centered: true,
+			overlayProps: { backgroundOpacity: 0.3, blur: 2 },
+			zIndex: 500,
 			children: (
 				<Text size="sm" fw={500}>
 					Are you sure? This action is will permanently delete the questionnaire along with its
