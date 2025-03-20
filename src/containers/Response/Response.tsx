@@ -60,7 +60,7 @@ export default function Response() {
 				borderRadius: theme.radius.lg,
 				boxShadow: theme.shadows.xs,
 				border: `1px solid${theme.colors.gray[4]}`,
-				background: getGradient({ from: 'indigo.6', to: 'violet.7', deg: 30 }, theme),
+				background: getGradient({ from: 'indigo.6', to: 'violet.6', deg: 30 }, theme),
 			}}
 			p={theme.spacing.md}
 			mb={theme.spacing.md}
@@ -74,22 +74,16 @@ export default function Response() {
 				mb={5}
 				style={{ margin: '0 auto' }}
 			>
-				<MetricsCard
-					color="orange"
-					icon={IconFileUnknown}
-					label="Unanswered"
-					stats={`${metrics.unasweredCount} Questions`}
-				/>
 				{questionnaire.type !== QuestionnaireType.QuestionnaireSurvey ? (
 					<MetricsCard
-						color="cyan"
+						color="orange"
 						icon={IconFileCheck}
 						label="Score"
 						stats={`${metrics.rightAnswerCount}/${metrics.questionCount}`}
 					/>
 				) : (
 					<MetricsCard
-						color="cyan"
+						color="orange"
 						icon={IconFiles}
 						label="Question Count"
 						stats={`${metrics.questionCount}`}
@@ -100,6 +94,12 @@ export default function Response() {
 					icon={IconClock}
 					label="Answer time"
 					stats={`${answerTimeInMin} min`}
+				/>
+				<MetricsCard
+					color="pink"
+					icon={IconFileUnknown}
+					label="Unanswered"
+					stats={`${metrics.unasweredCount} Questions`}
 				/>
 			</Group>
 			<Group

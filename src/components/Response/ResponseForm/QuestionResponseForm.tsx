@@ -5,6 +5,7 @@
 import AlertItem from '@components/Alert/Alert';
 import { IOptionProps } from '@components/Questionnaire/OptionAccordionForm/OptionAccordionForm';
 import { IQuestionProps } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
+import { EQuestionnaireType } from '@components/Questionnaire/Questionnaire.interface';
 import { QuestionType } from '@gened/graphql.ts';
 import {
 	Badge,
@@ -19,7 +20,14 @@ import {
 	useMantineTheme,
 } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { IconBulb, IconCheck, IconCircleFilled, IconExclamationMark, IconX } from '@tabler/icons-react';
+import {
+	IconBulb,
+	IconCheck,
+	IconCircleFilled,
+	IconExclamationMark,
+	IconQuestionMark,
+	IconX,
+} from '@tabler/icons-react';
 import { colorSchemes, IColorSchemes } from '@utils/color';
 import { createMarkup } from '@utils/html';
 import _ from 'lodash';
@@ -91,6 +99,7 @@ function OptionCheckbox({
 	correct,
 	showCorrect,
 	adminView = false,
+	questionnaireType,
 }: {
 	option: IOptionProps;
 	readMode: boolean;
@@ -99,6 +108,7 @@ function OptionCheckbox({
 	showFeedback: boolean;
 	feedbackColor: string;
 	showCorrect: boolean;
+	questionnaireType: EQuestionnaireType | null;
 	adminView?: boolean;
 	correct?: boolean;
 }) {
@@ -113,7 +123,8 @@ function OptionCheckbox({
 	const getCorrectionStyle = () => {
 		if (
 			((showCorrect && showFeedback) || adminView) &&
-			((typeof correct === 'boolean' && checked) || correct === true)
+			((typeof correct === 'boolean' && checked) || correct === true) &&
+			questionnaireType !== EQuestionnaireType.Survey
 		) {
 			return correct ? styles.right : styles.wrong;
 		}
@@ -156,6 +167,7 @@ export default function QuestionResponseForm({
 	questionIndex,
 	colorScheme,
 	readMode = false,
+	questionnaireType,
 	questionResponseProps,
 	correctedResponseProps,
 	onError,
@@ -171,6 +183,7 @@ export default function QuestionResponseForm({
 	correctedResponseProps?: IQuestionResponseProps;
 	showErrors: boolean;
 	adminView?: boolean;
+	questionnaireType: EQuestionnaireType | null;
 	onError: (elementId: string, error: boolean) => void;
 }) {
 	const theme = useMantineTheme();
@@ -245,6 +258,7 @@ export default function QuestionResponseForm({
 				showFeedback={!!correctedResponseProps}
 				checked={!!state.selectedOptionIds.find((id) => id === opt.id)}
 				showCorrect={question.showCorrectAnswer}
+				questionnaireType={questionnaireType}
 				correct={correct}
 				adminView={adminView}
 				onChange={(e) => {
@@ -259,21 +273,23 @@ export default function QuestionResponseForm({
 	});
 
 	const getRightWrongIcon = () => {
-		if (
-			!(
-				(typeof correctedResponseProps?.correct === 'boolean' ||
-					typeof questionResponseProps?.correct === 'boolean') &&
-				(question.showCorrectAnswer || adminView)
-			)
-		) {
+		if (!((question.showCorrectAnswer && !!correctedResponseProps) || adminView)) {
 			return null;
 		}
 
-		let color = 'green';
-		let icon = <IconCheck size={18} color={theme.colors[color][6]} />;
-		if (questionResponseProps?.correct === false || correctedResponseProps?.correct === false) {
-			color = 'red';
-			icon = <IconX size={18} color={theme.colors[color][6]} />;
+		let color = 'blue';
+		let icon = <IconQuestionMark size={14} color={theme.colors[color][6]} />;
+		if (questionnaireType !== EQuestionnaireType.Survey) {
+			if (questionResponseProps?.correct === false || correctedResponseProps?.correct === false) {
+				color = 'red';
+				icon = <IconX size={14} color={theme.colors[color][6]} />;
+			}
+			if (questionResponseProps?.correct === true || correctedResponseProps?.correct === true) {
+				color = 'green';
+				icon = <IconCheck size={14} color={theme.colors[color][6]} />;
+			}
+		} else if (questionResponseProps?.answeredAt || correctedResponseProps?.answeredAt) {
+			return null;
 		}
 
 		return (
@@ -305,6 +321,7 @@ export default function QuestionResponseForm({
 						color={theme.colors[primaryColor][7]}
 						c={theme.colors[primaryColor][7]}
 						required={question.required}
+						value={state.text}
 						onChange={(e) => setState({ ...state, text: e.target.value })}
 						autosize
 						readOnly={readMode}
@@ -353,7 +370,8 @@ export default function QuestionResponseForm({
 						<AlertItem
 							alert={{
 								type: 'ERROR',
-								title: 'Answer required',
+								title: 'Response required',
+								message: 'Please, provide a response for this question.',
 								id: 'required',
 								withCloseBtn: false,
 							}}

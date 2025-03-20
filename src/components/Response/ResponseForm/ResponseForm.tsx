@@ -88,6 +88,7 @@ export default function ResponseForm({
 
 		return (
 			<QuestionResponseForm
+				questionnaireType={questionnaireProps.type}
 				readMode={readMode}
 				questionResponseProps={props}
 				correctedResponseProps={correctedProps}
