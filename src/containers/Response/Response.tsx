@@ -7,6 +7,7 @@ import ResponseForm from '@components/Response/ResponseForm/ResponseForm.tsx';
 import { buildQuestionnaireFormProps } from '@containers/Questionnaire/EditQuestionnaire/EditQuestionnaire.aux.ts';
 import { MetricsCard } from '@containers/Questionnaire/QuestionnaireAnalytics/QuestionnaireAnalytics.tsx';
 import {
+	AnswerType,
 	QuestionnaireType,
 	Response as ResponseType,
 	useFetchResponseSuspenseQuery,
@@ -34,13 +35,17 @@ export default function Response() {
 		questionCount: 0,
 		rightAnswerCount: 0,
 		wrongAnswerCount: 0,
+		weightedQuestionCount: 0,
 		unasweredCount: 0,
 	});
 	useEffect(() => {
 		let rightAnswerCount = 0;
 		let wrongAnswerCount = 0;
+		let weightedQuestionCount = 0;
 		const questionCount = questionnaire.questions.length;
 		response.answers.forEach((answer) => {
+			if (answer.type === AnswerType.Rating || answer.type === AnswerType.Text) return;
+			weightedQuestionCount++;
 			if (!answer.correct && answer.answeredAt) wrongAnswerCount++;
 			else if (answer.correct && answer.answeredAt) rightAnswerCount++;
 		});
@@ -48,6 +53,7 @@ export default function Response() {
 			questionCount,
 			rightAnswerCount,
 			wrongAnswerCount,
+			weightedQuestionCount,
 			unasweredCount: questionCount - (rightAnswerCount + wrongAnswerCount),
 		});
 	}, []);
@@ -68,7 +74,7 @@ export default function Response() {
 			<Group
 				grow
 				preventGrowOverflow={false}
-				gap={10}
+				gap={15}
 				maw={700}
 				display="flex"
 				mb={5}
@@ -79,7 +85,7 @@ export default function Response() {
 						color="orange"
 						icon={IconFileCheck}
 						label="Score"
-						stats={`${metrics.rightAnswerCount}/${metrics.questionCount}`}
+						stats={`${metrics.rightAnswerCount}/${metrics.weightedQuestionCount}`}
 					/>
 				) : (
 					<MetricsCard
@@ -90,16 +96,16 @@ export default function Response() {
 					/>
 				)}
 				<MetricsCard
-					color="teal"
-					icon={IconClock}
-					label="Answer time"
-					stats={`${answerTimeInMin} min`}
-				/>
-				<MetricsCard
 					color="pink"
 					icon={IconFileUnknown}
 					label="Unanswered"
 					stats={`${metrics.unasweredCount} Questions`}
+				/>
+				<MetricsCard
+					color="teal"
+					icon={IconClock}
+					label="Answer time"
+					stats={`${answerTimeInMin} min`}
 				/>
 			</Group>
 			<Group

@@ -8,6 +8,7 @@ export const QUESTIONNAIRE_METRICS = gql(`
       totalAnswerTime
       avgAnswerTime
       avgAttemptCount
+      avgScore
       byLocationMap
       questionMetrics {
         ... on QuestionSingleChoiceMetrics {

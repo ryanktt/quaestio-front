@@ -279,7 +279,11 @@ export default function QuestionResponseForm({
 
 		let color = 'blue';
 		let icon = <IconQuestionMark size={14} color={theme.colors[color][6]} />;
-		if (questionnaireType !== EQuestionnaireType.Survey) {
+		if (
+			questionnaireType !== EQuestionnaireType.Survey &&
+			question.type !== QuestionType.Rating &&
+			question.type !== QuestionType.Text
+		) {
 			if (questionResponseProps?.correct === false || correctedResponseProps?.correct === false) {
 				color = 'red';
 				icon = <IconX size={14} color={theme.colors[color][6]} />;

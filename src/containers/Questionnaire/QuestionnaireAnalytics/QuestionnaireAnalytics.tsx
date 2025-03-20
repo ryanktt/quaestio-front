@@ -6,7 +6,12 @@ import QuestionMetricsAccordion from '@components/Questionnaire/QuestionMetrics/
 import { QuestionnaireTypes } from '@components/Questionnaire/Questionnaire.interface';
 import StatusBadge from '@components/StatusBadge/StatusBadge';
 import ResponseList from '@containers/Response/ResponseList/ResponseList';
-import { useDeleteQuestionnaireMutation, useFetchQuestionnaireSuspenseQuery } from '@gened/graphql';
+import {
+	QuestionnaireType,
+	QuestionType,
+	useDeleteQuestionnaireMutation,
+	useFetchQuestionnaireSuspenseQuery,
+} from '@gened/graphql';
 import '@mantine/charts/styles.css';
 import { Box, Button, getGradient, Group, rem, Text, Title, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
@@ -16,7 +21,7 @@ import {
 	IconEdit,
 	IconExternalLink,
 	IconFileArrowRight,
-	IconFiles,
+	IconFileCheck,
 	IconTrash,
 } from '@tabler/icons-react';
 import { createMarkup } from '@utils/html';
@@ -67,8 +72,18 @@ export default function QuestionnaireAnalytics() {
 
 	const [deleteMutation] = useDeleteQuestionnaireMutation();
 
-	const { _id, metrics, questions, title, active, description, sharedCreatedAt, updatedAt, sharedId } =
-		fetchQuestRes.adminFetchQuestionnaire as QuestionnaireTypes;
+	const {
+		_id,
+		type,
+		metrics,
+		questions,
+		title,
+		active,
+		description,
+		sharedCreatedAt,
+		updatedAt,
+		sharedId,
+	} = fetchQuestRes.adminFetchQuestionnaire as QuestionnaireTypes;
 	const avgAnswerTimeMin = moment.duration(metrics.avgAnswerTime, 'ms').asMinutes().toFixed(1);
 
 	const openModal = () => {
@@ -91,21 +106,37 @@ export default function QuestionnaireAnalytics() {
 			},
 		});
 	};
+
+	const weightedQuestionCount = questions.reduce((acc, question) => {
+		if (question.type === QuestionType.Rating || question.type === QuestionType.Text) return acc;
+		return acc + 1;
+	}, 0);
+
 	return (
 		<div className={styles.analytics}>
 			<div className={styles.mainSection}>
 				<Group grow preventGrowOverflow={false}>
+					{
+						type !== QuestionnaireType.QuestionnaireSurvey ? (
+							<MetricsCard
+								label="Avg Score"
+								stats={`${metrics.avgScore.toFixed(1)}/${weightedQuestionCount}`}
+								color="orange"
+								icon={IconFileCheck}
+							/>
+						) : null
+						// <MetricsCard
+						// 	label="Avg Re-entries"
+						// 	stats={((metrics.avgAttemptCount || 1) - 1).toFixed(1)}
+						// 	color="pink"
+						// 	icon={IconFiles}
+						// />
+					}
 					<MetricsCard
 						label="Responses"
 						stats={String(metrics.totalResponseCount)}
-						color="orange"
-						icon={IconFileArrowRight}
-					/>
-					<MetricsCard
-						label="Avg Re-entries"
-						stats={((metrics.avgAttemptCount || 1) - 1).toFixed(1)}
 						color="pink"
-						icon={IconFiles}
+						icon={IconFileArrowRight}
 					/>
 					<MetricsCard
 						label="Avg Answer Time"

@@ -105,12 +105,12 @@
 		}
 		input:focus,
 		input:checked {
-			border: 1px solid $green7;
+			border: 1px solid $green8;
 		}
 	}
 }
 .option.wrong {
-	background: $red7;
+	background: linear-gradient(40deg, $red9, $red7);
 	border: 1px solid $red3;
 	.checkbox {
 		input {
@@ -121,7 +121,7 @@
 		}
 		input:focus,
 		input:checked {
-			border: 1px solid $red7;
+			border: 1px solid $red8;
 		}
 	}
 }
