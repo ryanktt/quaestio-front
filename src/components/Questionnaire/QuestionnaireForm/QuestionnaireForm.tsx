@@ -210,8 +210,9 @@ export default function QuestionnaireForm({
 
 	const openPreviewModal = () => {
 		const questionnaireProps = getQuestionnaire();
-		const { bgColor, color } = questionnaireProps;
-		const [primaryColor, secondaryColor] = colorSchemes[(color || 'indigo') as IColorSchemes];
+		const { bgColor } = questionnaireProps;
+		const color = (questionnaireProps.color || 'indigo') as IColorSchemes;
+		const [primaryColor, secondaryColor] = colorSchemes[color];
 
 		const gradient = getGradient(
 			{ deg: 30, from: theme.colors[primaryColor][7], to: theme.colors[secondaryColor][7] },
@@ -224,16 +225,20 @@ export default function QuestionnaireForm({
 
 		modals.open({
 			size: 'lg',
-			title: <Title size="lg">Questionnaire Preview</Title>,
+			title: 'Questionnaire Preview',
 			centered: true,
 			radius: 'md',
 			overlayProps: { backgroundOpacity: 0.3, blur: 2 },
 			zIndex: 500,
-			styles: { content: { background }, body: { paddingTop: theme.spacing.md } },
+			styles: {
+				title: { fontWeight: 600, fontSize: rem(16) },
+				content: { background },
+				body: { paddingTop: theme.spacing.md },
+			},
 			children: (
 				<ResponseForm
-					questionnaireProps={questionnaireProps}
 					colorScheme={color as IColorSchemes}
+					questionnaireProps={questionnaireProps}
 					readMode
 				/>
 			),
