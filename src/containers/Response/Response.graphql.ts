@@ -58,6 +58,7 @@ export const RESPOND_QUESTIONNAIRE = gql(`
                         question
                         answeredAt
                         correct
+                        text
                     }
                     ... on AnswerRating {
                         __typename
@@ -140,6 +141,7 @@ export const RESPONSE_FRAGMENT = gql(`
                 question
                 answeredAt
                 correct
+                text
             }
             ... on AnswerRating {
                 __typename
