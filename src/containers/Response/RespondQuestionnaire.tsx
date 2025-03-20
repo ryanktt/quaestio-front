@@ -38,7 +38,7 @@ export default function RespondQuestionnaire() {
 	};
 
 	return (
-		<Container display="flex" mih={700} size="sm">
+		<Container display="flex" mih={700} pt="xl" size="sm">
 			<ResponseForm
 				colorScheme={color as IColorSchemes}
 				readMode={!!respondData}

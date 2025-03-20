@@ -1,14 +1,10 @@
 .header {
 	position: fixed;
+	z-index: 200;
 	width: 100%;
 	margin: 0 auto;
 	height: rem(60px);
 	align-content: center;
-	padding-left: $spacingMd;
-	padding-right: $spacingMd;
 	border-bottom: rem(1px) solid light-dark($gray3, $dark4);
-}
-
-.header.loggedIn {
-	position: relative;
+	background-color: $white;
 }
