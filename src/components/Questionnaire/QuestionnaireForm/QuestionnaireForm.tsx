@@ -230,7 +230,13 @@ export default function QuestionnaireForm({
 			overlayProps: { backgroundOpacity: 0.3, blur: 2 },
 			zIndex: 500,
 			styles: { content: { background }, body: { paddingTop: theme.spacing.md } },
-			children: <ResponseForm readMode questionnaireProps={questionnaireProps} />,
+			children: (
+				<ResponseForm
+					questionnaireProps={questionnaireProps}
+					colorScheme={color as IColorSchemes}
+					readMode
+				/>
+			),
 		});
 	};
 
