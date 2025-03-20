@@ -271,7 +271,7 @@ export default function QuestionnaireForm({
 						label="Questionnaire type"
 						required
 						placeholder="Select the questionnaire type"
-						data={[EQuestionnaireType.Exam, EQuestionnaireType.Quiz, EQuestionnaireType.Survey]}
+						data={[EQuestionnaireType.Quiz, EQuestionnaireType.Survey]}
 					/>
 				) : (
 					<>
