@@ -2,9 +2,12 @@
 /* eslint-disable react/prop-types */
 import { IQuestionProps } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import { IQuestionnaireFormProps } from '@components/Questionnaire/QuestionnaireForm/QuestionnaireForm.interface.ts';
-import { Box, Button, getGradient, TextInput, Title, useMantineTheme } from '@mantine/core';
+import { RespondQuestionnaireMutation } from '@gened/graphql.ts';
+import { Box, Button, Center, getGradient, TextInput, Title, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { useForm } from '@mantine/form';
+import { modals } from '@mantine/modals';
+import { IconCheck } from '@tabler/icons-react';
 import { colorSchemes, IColorSchemes } from '@utils/color.ts';
 import { createMarkup } from '@utils/html.ts';
 import _ from 'lodash';
@@ -22,7 +25,7 @@ export default function ResponseForm({
 	correctedResponses,
 	adminView = false,
 }: {
-	onSubmit?: (p: IResponseFormProps) => Promise<void>;
+	onSubmit?: (p: IResponseFormProps) => Promise<RespondQuestionnaireMutation | undefined | null>;
 	questionnaireProps: IQuestionnaireFormProps;
 	responseFormProps?: IResponseFormProps;
 	readMode?: boolean;
@@ -109,12 +112,41 @@ export default function ResponseForm({
 		else setQuestionProps(questions);
 	}, []);
 
-	const handleSubmit = (e?: FormEvent<HTMLFormElement>) => {
+	const [submitEnabled, setSubmitEnabled] = useState(true);
+
+	const handleSubmit = async (e?: FormEvent<HTMLFormElement>) => {
 		e?.preventDefault();
+		setSubmitEnabled(false);
 
 		if (!form.validate().hasErrors && !questionWErrorElId) {
 			form.setFieldValue('completedAt', new Date());
-			if (onSubmit) onSubmit(form.getValues());
+			if (onSubmit) {
+				const result = await onSubmit(form.getValues());
+				if (result) {
+					modals.openConfirmModal({
+						centered: true,
+						withCloseButton: false,
+						overlayProps: { backgroundOpacity: 0.3, blur: 2 },
+						radius: 'md',
+						title: (
+							<Center>
+								<Title c={theme.colors[primaryColor][7]} size="xl">
+									Responses succesfully submitted!
+								</Title>
+								<Center w={70} h={70}>
+									<IconCheck color={theme.colors[primaryColor][7]} size={28} />
+								</Center>
+							</Center>
+						),
+						cancelProps: { display: 'none' },
+						labels: { confirm: 'View Questionnaire', cancel: null },
+						confirmProps: { color: theme.colors[primaryColor][6] },
+						onConfirm() {
+							window.scrollTo(0, 0);
+						},
+					});
+				}
+			}
 		} else {
 			setShowErrors(true);
 			document
@@ -156,8 +188,13 @@ export default function ResponseForm({
 					readOnly={readMode}
 				/>
 
-				{!readMode ? (
-					<Button type="submit" mt={theme.spacing.md} style={{ background: gradient }}>
+				{!readMode && submitEnabled ? (
+					<Button
+						disabled={!submitEnabled}
+						type="submit"
+						mt={theme.spacing.md}
+						style={{ background: gradient }}
+					>
 						Submit
 					</Button>
 				) : null}

@@ -33,7 +33,7 @@ export default function RespondQuestionnaire() {
 
 	const handleRespondQuestionnaire = async (props: IResponseFormProps) => {
 		const variables = buildRespondQuestionnaireGqlVars(props, questionnaire._id);
-		await respondMutation({ variables });
+		return respondMutation({ variables });
 	};
 
 	return (
