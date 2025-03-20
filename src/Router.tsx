@@ -25,12 +25,12 @@ const NotFound = React.lazy(() => import('@containers/NotFound/NotFound'));
 function Router() {
 	const { isLoggedIn } = useContext(GlobalContext).state.auth;
 
-	const byAuthRoutes = isLoggedIn ? (
+	const adminPage = (
 		<HomeAdmin>
 			<React.Suspense fallback={<Loader />}>
 				<Routes>
 					<Route
-						path="/board/*"
+						path="/*"
 						element={
 							<Routes>
 								<Route path="/questionnaires" element={<QuestionnaireList />} />
@@ -45,18 +45,13 @@ function Router() {
 				</Routes>
 			</React.Suspense>
 		</HomeAdmin>
-	) : (
-		<React.Suspense>
-			<Routes>
-				<Route path="/" element={<HomePublic />} />
-				<Route path="*" element={<NotFound />} />
-			</Routes>
-		</React.Suspense>
 	);
 
 	return (
 		<Routes>
-			<Route element={byAuthRoutes} path="/*" />
+			{isLoggedIn ? <Route path="/board" element={adminPage} /> : null}
+			<Route path="/" element={<HomePublic />} />
+			<Route path="*" element={<NotFound />} />
 			<Route path="/questionnaire/:sharedId" element={<RespondQuestionnaire />} />
 		</Routes>
 	);
