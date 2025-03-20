@@ -10,7 +10,7 @@ import {
 	IconLogout,
 	IconSwitchHorizontal,
 } from '@tabler/icons-react';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { useCookies } from 'react-cookie';
 import { useLocation, useNavigate } from 'react-router-dom';
 import classes from './Navbar.module.scss';
@@ -43,27 +43,26 @@ const mockdata = [
 export default function Navbar() {
 	const globalContext = useContext(GlobalContext);
 	const authModalContext = useContext(AuthModalContext);
-	const [logoutMutation, { data: logoutData, reset: resetLogout }] = useSignOutMutation();
+	const [logoutMutation, { reset: resetLogout }] = useSignOutMutation();
 	const [, , removeCookies] = useCookies(['authData']);
 	const location = useLocation();
 	const navigate = useNavigate();
 
 	const onLogout = async () => {
-		await logoutMutation();
-		navigate('/');
+		const res = await logoutMutation();
+		if (res.data?.publicSignOut.status) {
+			removeCookies('authData');
+			globalContext.state.logout();
+			resetLogout();
+			navigate('/');
+			window.scrollTo(0, 0);
+		}
 	};
 
 	const onChangeAccount = () => {
 		authModalContext.state.setType('LOGIN');
 		authModalContext.state.setOpened();
 	};
-
-	useEffect(() => {
-		if (!logoutData) return;
-		removeCookies('authData');
-		globalContext.state.logout();
-		resetLogout();
-	}, [logoutData]);
 
 	const links = mockdata.map((link) => (
 		<NavbarLink
