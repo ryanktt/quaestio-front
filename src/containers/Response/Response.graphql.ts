@@ -64,6 +64,7 @@ export const RESPOND_QUESTIONNAIRE = gql(`
                         __typename
                         type
                         answeredAt
+                        correct
                         question
                         answeredAt
                         rating
@@ -147,6 +148,7 @@ export const RESPONSE_FRAGMENT = gql(`
                 __typename
                 type
                 answeredAt
+                correct
                 question
                 answeredAt
                 rating
