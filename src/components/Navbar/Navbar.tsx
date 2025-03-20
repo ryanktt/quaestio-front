@@ -37,7 +37,7 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 const mockdata = [
 	{ icon: IconFilePlus, label: 'Create questionnaire', path: '/board/questionnaire/create' },
 	{ icon: IconFiles, label: 'Questionnaires', path: '/board/questionnaires' },
-	{ icon: IconFileStack, label: 'Entries', path: '/board/responses' },
+	{ icon: IconFileStack, label: 'Responses', path: '/board/responses' },
 ];
 
 export default function Navbar() {

@@ -66,7 +66,7 @@ export default function Response() {
 				borderRadius: theme.radius.lg,
 				boxShadow: theme.shadows.xs,
 				border: `1px solid${theme.colors.gray[4]}`,
-				background: getGradient({ from: 'indigo.6', to: 'violet.6', deg: 30 }, theme),
+				background: getGradient({ from: 'indigo.7', to: 'violet.7', deg: 30 }, theme),
 			}}
 			p={theme.spacing.md}
 			mb={theme.spacing.md}
