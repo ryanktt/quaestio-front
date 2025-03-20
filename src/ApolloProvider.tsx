@@ -70,14 +70,19 @@ const headerLink = setContext((_, previousContext) => ({
 })) as unknown as ApolloLink;
 
 const client = new ApolloClient({
-	defaultOptions: { watchQuery: { fetchPolicy: 'cache-and-network' } },
+	defaultOptions: { watchQuery: { fetchPolicy: 'cache-and-network', errorPolicy: 'all' } },
 	cache: new InMemoryCache(),
 	link: from([
 		onError((error) => {
+			const errorCode = getGraphqlErrorCode(error);
+			if (errorCode === 'SESSION_IS_NOT_ACTIVE') {
+				new Cookies().remove('authData', { path: '/' });
+			}
+
 			const { requestId } = error.operation.getContext() as RequestContext;
 			if (!requestId) return;
 			const requestErrorCtx = {
-				errorCode: getGraphqlErrorCode(error),
+				errorCode,
 				loading: false,
 				requestId,
 			};

@@ -132,7 +132,7 @@ export default function QuestionnaireList() {
 		variables: { textFilter, pagination },
 	});
 
-	const { results, currentPage, totalPageCount } = data.adminFetchQuestionnaires;
+	const { results = [], currentPage = 1, totalPageCount = 1 } = data?.adminFetchQuestionnaires || {};
 
 	const handlePaginationUpdate = (page: number) => {
 		setPagination({ ...pagination, page });

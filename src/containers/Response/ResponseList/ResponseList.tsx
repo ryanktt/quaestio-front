@@ -147,7 +147,8 @@ export default function ResponseList({ questionnaireId }: { questionnaireId?: st
 		setPagination({ ...pagination, page });
 	};
 
-	const { results, currentPage, totalPageCount } = data.adminFetchResponses;
+	const { results = [], currentPage = 1, totalPageCount = 1 } = data?.adminFetchResponses || {};
+
 	const { answeredAts, emails, ids, titles, types } = results.reduce<ResponseListData>(
 		(state, response) => {
 			state.ids.push(response._id);

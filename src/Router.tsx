@@ -49,10 +49,10 @@ function Router() {
 
 	return (
 		<Routes>
-			{isLoggedIn ? <Route path="/board" element={adminPage} /> : null}
+			<Route path="/questionnaire/:sharedId" element={<RespondQuestionnaire />} />
+			{isLoggedIn ? <Route path="/board/*" element={adminPage} /> : null}
 			<Route path="/" element={<HomePublic />} />
 			<Route path="*" element={<NotFound />} />
-			<Route path="/questionnaire/:sharedId" element={<RespondQuestionnaire />} />
 		</Routes>
 	);
 }
