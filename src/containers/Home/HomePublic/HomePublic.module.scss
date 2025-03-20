@@ -1,2 +1,20 @@
-.HomePublic {
+.container {
+	margin-top: $spacingLg;
+	p {
+		font-size: rem(20px);
+	}
+}
+
+.platform {
+	background: linear-gradient(to right, $indigo8, $violet6);
+	background-clip: text;
+	color: transparent;
+}
+
+.heading {
+	flex-direction: column;
+	gap: $spacingXl;
+	p {
+		max-width: 80%;
+	}
 }
