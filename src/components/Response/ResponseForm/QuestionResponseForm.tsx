@@ -61,14 +61,15 @@ function Feedback({
 	const theme = useMantineTheme();
 
 	let color = c;
-	let icon = <IconBulb size={18} stroke={1.6} color={theme.colors[color][8]} />;
+	const iconStyle = { width: rem(18), height: rem(18) };
+	let icon = <IconBulb style={iconStyle} stroke={1.6} color={theme.colors[color][8]} />;
 	if (type === 'wrong') {
 		color = 'red';
-		icon = <IconExclamationMark size={18} stroke={1.6} color={theme.colors[color][8]} />;
+		icon = <IconExclamationMark style={iconStyle} stroke={1.6} color={theme.colors[color][8]} />;
 	}
 	if (type === 'right') {
 		color = 'green';
-		icon = <IconCheck size={18} stroke={1.6} color={theme.colors[color][8]} />;
+		icon = <IconCheck style={iconStyle} stroke={1.6} color={theme.colors[color][8]} />;
 	}
 
 	return (
@@ -278,7 +279,8 @@ export default function QuestionResponseForm({
 		}
 
 		let color = 'blue';
-		let icon = <IconQuestionMark size={14} color={theme.colors[color][6]} />;
+		const iconStyle = { width: rem(18), height: rem(18) };
+		let icon = <IconQuestionMark style={iconStyle} color={theme.colors[color][6]} />;
 		if (
 			questionnaireType !== EQuestionnaireType.Survey &&
 			question.type !== QuestionType.Rating &&
@@ -286,11 +288,11 @@ export default function QuestionResponseForm({
 		) {
 			if (questionResponseProps?.correct === false || correctedResponseProps?.correct === false) {
 				color = 'red';
-				icon = <IconX size={14} color={theme.colors[color][6]} />;
+				icon = <IconX style={iconStyle} color={theme.colors[color][6]} />;
 			}
 			if (questionResponseProps?.correct === true || correctedResponseProps?.correct === true) {
 				color = 'green';
-				icon = <IconCheck size={14} color={theme.colors[color][6]} />;
+				icon = <IconCheck style={iconStyle} color={theme.colors[color][6]} />;
 			}
 		} else if (questionResponseProps?.answeredAt || correctedResponseProps?.answeredAt) {
 			return null;

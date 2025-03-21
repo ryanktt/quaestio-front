@@ -10,7 +10,6 @@
 	box-shadow: $shadowMd;
 	width: 100%;
 	background: $white;
-	border: 1px solid $gray5;
 	border-radius: rem(12px);
 	p {
 		color: $dark8;
@@ -41,7 +40,6 @@
 }
 
 .box.option {
-	border: 1px solid $gray4;
 	background: var(--response-option-bg);
 	padding: $spacingXs;
 	p {
@@ -78,8 +76,7 @@
 		background-color: $white;
 	}
 	input:checked + svg {
-		width: rem(10);
-		height: rem(10);
+		border-radius: 100%;
 		color: var(--response-checked-icon);
 	}
 
@@ -95,7 +92,6 @@
 
 .option.right {
 	background: $green7;
-	border: 1px solid $green3;
 	.checkbox {
 		input {
 			background-color: $green0;
@@ -111,7 +107,6 @@
 }
 .option.wrong {
 	background: linear-gradient(40deg, $red9, $red7);
-	border: 1px solid $red3;
 	.checkbox {
 		input {
 			background-color: $red0;

@@ -31,12 +31,16 @@
 
 .markup {
 	border-radius: $radiusMd;
-	padding: rem(2px) rem(10px);
+	padding: rem(10px) rem(10px);
 	margin: 0;
+
 	background-color: $gray0;
-	font-weight: 600;
+	font-weight: 500;
 	font-size: rem(14px);
-	color: $dark7;
+	color: $dark6;
+	overflow: hidden;
+	max-height: rem(300);
+
 	p {
 		margin: 0;
 	}

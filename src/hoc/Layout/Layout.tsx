@@ -4,7 +4,7 @@ import Footer from '@components/Footer/Footer.tsx';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import { Badge, Box, Button, getGradient, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { colorSchemes, IColorSchemes } from '@utils/color';
+import { IColorSchemes, colorSchemes } from '@utils/color';
 import { PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import badgeStyles from './LayoutStyles/Badge.module.scss';
@@ -41,7 +41,7 @@ export default function Layout({ children }: PropsWithChildren) {
 	}, [responseBgColor, location.pathname]);
 
 	return (
-		<Box h="100%" style={{ background: backgroundColor }}>
+		<Box mih="100vh" style={{ background: backgroundColor }}>
 			<AlertStack />
 			<Box>{children}</Box>
 			<Footer />

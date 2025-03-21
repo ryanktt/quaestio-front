@@ -3,7 +3,7 @@
 import { IQuestionProps } from '@components/Questionnaire/QuestionAccordionForm/QuestionAccordionForm.tsx';
 import { IQuestionnaireFormProps } from '@components/Questionnaire/QuestionnaireForm/QuestionnaireForm.interface.ts';
 import { RespondQuestionnaireMutation } from '@gened/graphql.ts';
-import { Box, Button, Center, getGradient, TextInput, Title, useMantineTheme } from '@mantine/core';
+import { Box, Button, Center, getGradient, rem, TextInput, Title, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { useForm } from '@mantine/form';
 import { modals } from '@mantine/modals';
@@ -135,7 +135,10 @@ export default function ResponseForm({
 									Responses succesfully submitted!
 								</Title>
 								<Center w={70} h={70}>
-									<IconCheck color={theme.colors[primaryColor][7]} size={28} />
+									<IconCheck
+										color={theme.colors[primaryColor][7]}
+										style={{ width: rem(28), height: rem(28) }}
+									/>
 								</Center>
 							</Center>
 						),

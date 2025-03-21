@@ -1,7 +1,7 @@
 .navbar {
 	z-index: 100;
 	position: relative;
-	left: -100px;
+	left: rem(-100px);
 	height: rem(500px);
 	width: fit-content;
 	border-radius: $radiusMd;

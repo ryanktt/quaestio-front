@@ -1,5 +1,5 @@
 /* eslint-disable react/no-danger */
-import { Badge, Button, rem, Text, Tooltip, useMantineTheme } from '@mantine/core';
+import { Badge, Button, Text, Tooltip, rem, useMantineTheme } from '@mantine/core';
 import {
 	IconCheck,
 	IconChevronDown,
@@ -55,7 +55,7 @@ export default function AccordionFormItem({
 		variant: 'subtle',
 		size: 'md',
 		h: 45,
-		p: '0 15px',
+		p: `0 ${rem(15)}`,
 	};
 
 	const [isOpen, setOpen] = useState(setOpenProp() ?? false);

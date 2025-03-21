@@ -56,7 +56,7 @@ function InsertImageControl() {
 					aria-label="Insert Image"
 					title="Insert Image"
 				>
-					<IconImageInPicture stroke={1.5} style={{ width: rem(16) }} />
+					<IconImageInPicture stroke={1.5} style={{ width: rem(16), height: rem(16) }} />
 				</RichTextEditor.Control>
 			</Popover.Target>
 

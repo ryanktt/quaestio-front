@@ -12,9 +12,9 @@ import {
 	Response as ResponseType,
 	useFetchResponseSuspenseQuery,
 } from '@gened/graphql.ts';
-import { Box, Button, getGradient, Group, rem, Text, useMantineTheme } from '@mantine/core';
+import { Box, Button, Group, Text, getGradient, rem, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { IconClock, IconExternalLink, IconFileCheck, IconFiles, IconFileUnknown } from '@tabler/icons-react';
+import { IconClock, IconExternalLink, IconFileCheck, IconFileUnknown, IconFiles } from '@tabler/icons-react';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -126,7 +126,7 @@ export default function Response() {
 					bg="transparent"
 					onClick={() => navigate(`/board/questionnaire/${questionnaire.sharedId}`)}
 				>
-					<IconExternalLink size={20} />
+					<IconExternalLink style={{ height: rem(20), width: rem(20) }} />
 					<Text ml={5} fw={600} style={{ fontSize: rem(14) }}>
 						Questionnaire
 					</Text>

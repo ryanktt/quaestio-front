@@ -48,7 +48,7 @@ export function MetricsCard({
 				background: getGradient({ deg: 50, from: `${color}.7`, to: `${color}.5` }, theme),
 			}}
 		>
-			<Icon size={35} color={theme.white} stroke={1.7} />
+			<Icon style={{ width: rem(30), height: rem(30) }} color={theme.white} stroke={1.7} />
 			<div>
 				<Text size="xs" tt="uppercase" fw={700} c={theme.white}>
 					{label}
@@ -93,9 +93,9 @@ export default function QuestionnaireAnalytics() {
 			overlayProps: { backgroundOpacity: 0.3, blur: 2 },
 			zIndex: 500,
 			children: (
-				<Text size="sm" fw={500}>
-					Are you sure? This action is will permanently delete the questionnaire along with its
-					metrics and entries data
+				<Text size="md" fw={500}>
+					Are you sure? This action is will permanently delete the questionnaire along with metrics
+					and entries
 				</Text>
 			),
 			labels: { confirm: 'Delete', cancel: 'Cancel' },
@@ -112,6 +112,7 @@ export default function QuestionnaireAnalytics() {
 		return acc + 1;
 	}, 0);
 
+	const iconStyle = { width: rem(20), height: rem(20) };
 	return (
 		<div className={styles.analytics}>
 			<div className={styles.mainSection}>
@@ -165,7 +166,7 @@ export default function QuestionnaireAnalytics() {
 								variant="light"
 								size="sm"
 							>
-								<IconExternalLink size={20} stroke={1.6} /> Page
+								<IconExternalLink style={iconStyle} stroke={1.6} /> Page
 							</Button>
 							<Button
 								onClick={openModal}
@@ -175,7 +176,7 @@ export default function QuestionnaireAnalytics() {
 								c="pink.8"
 								color="pink.3"
 							>
-								<IconTrash size={20} /> Delete
+								<IconTrash style={iconStyle} /> Delete
 							</Button>
 							<Button
 								onClick={() => navigate(`/board/questionnaire/edit/${sharedId}`)}
@@ -184,7 +185,7 @@ export default function QuestionnaireAnalytics() {
 								c="blue.8"
 								color="blue.3"
 							>
-								<IconEdit size={20} />
+								<IconEdit style={iconStyle} />
 								Edit
 							</Button>
 						</Group>

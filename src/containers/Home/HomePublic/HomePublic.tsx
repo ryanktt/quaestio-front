@@ -31,7 +31,7 @@ export default function HomePublic() {
 	};
 
 	return (
-		<Box w="100%" bg={theme.white} mih={1000}>
+		<Box w="100%" mih="100vh" bg={theme.white}>
 			<Header />
 			<Container className={styles.container}>
 				<Flex className={styles.heading}>

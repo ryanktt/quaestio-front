@@ -160,9 +160,9 @@ function MetricsAccordionItem({
 				</Box>
 				<UnstyledButton onClick={() => setOpen(!open)}>
 					{open ? (
-						<IconChevronDown color={theme.white} size={20} />
+						<IconChevronDown color={theme.white} style={{ width: rem(20), height: rem(20) }} />
 					) : (
-						<IconChevronUp color={theme.white} size={20} />
+						<IconChevronUp color={theme.white} style={{ width: rem(20), height: rem(20) }} />
 					)}
 				</UnstyledButton>
 			</Box>

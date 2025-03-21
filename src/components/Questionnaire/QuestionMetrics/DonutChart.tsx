@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { DonutChartCell, DonutChart as MantineDonutChart } from '@mantine/charts';
-import { Box, getGradient, rem, Text, useMantineTheme } from '@mantine/core';
+import { Box, Text, getGradient, rem, useMantineTheme } from '@mantine/core';
 import { IconCircleFilled } from '@tabler/icons-react';
 
 function Legend({ color, name, value }: DonutChartCell) {
@@ -9,7 +9,10 @@ function Legend({ color, name, value }: DonutChartCell) {
 	return (
 		<Box display="flex" style={{ alignItems: 'center' }}>
 			<Box w={110} display="flex" style={{ alignItems: 'center' }}>
-				<IconCircleFilled width={12} height={12} color={theme.colors[color][5]} />
+				<IconCircleFilled
+					style={{ width: rem(12), height: rem(12) }}
+					color={theme.colors[color][5]}
+				/>
 				<Text ml={5} style={{ fontSize: rem(13) }} fw={500} c="gray.7">
 					{name}
 				</Text>
