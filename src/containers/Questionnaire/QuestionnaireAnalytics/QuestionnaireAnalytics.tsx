@@ -93,9 +93,9 @@ export default function QuestionnaireAnalytics() {
 			overlayProps: { backgroundOpacity: 0.3, blur: 2 },
 			zIndex: 500,
 			children: (
-				<Text size="md" fw={500}>
-					Are you sure? This action is will permanently delete the questionnaire along with metrics
-					and entries
+				<Text size="sm" fw={500}>
+					Are you sure? This action is will permanently delete the questionnaire along with its
+					metrics and entries
 				</Text>
 			),
 			labels: { confirm: 'Delete', cancel: 'Cancel' },
