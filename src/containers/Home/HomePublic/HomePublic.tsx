@@ -7,6 +7,7 @@ import {
 	QuestionMetricsTypes,
 	QuestionTypes,
 } from '@components/Questionnaire/Questionnaire.interface';
+import QuestionnaireForm from '@components/Questionnaire/QuestionnaireForm/QuestionnaireForm';
 import QuestionResponseForm from '@components/Response/ResponseForm/QuestionResponseForm';
 import ResponseForm from '@components/Response/ResponseForm/ResponseForm';
 import { buildQuestionFormProps } from '@containers/Questionnaire/EditQuestionnaire/EditQuestionnaire.aux';
@@ -438,10 +439,10 @@ export default function HomePublic() {
 	};
 
 	return (
-		<Box bg="white" pb={rem(100)}>
+		<Box bg="white">
 			<Header />
 			<Box w="100%" mih="100vh" className={styles.sections}>
-				<Box w="100%" className={styles.container}>
+				<Box w="100%" className={styles.container} mt={50}>
 					<Container style={{ display: 'flex', flexDirection: 'column' }}>
 						<Flex className={styles.heading}>
 							<Flex wrap="wrap">
@@ -502,7 +503,7 @@ export default function HomePublic() {
 							<Title size={30} c={theme.white}>
 								Question Types
 							</Title>
-							<Text color="gray.1">Customize your form with 5 different question types</Text>
+							<Text color="gray.0">Customize your form with 5 different question types</Text>
 						</Box>
 						<Group grow preventGrowOverflow={false}>
 							<QuestionResponseWrapper>{singleChoice}</QuestionResponseWrapper>
@@ -519,8 +520,8 @@ export default function HomePublic() {
 						bg="white"
 						style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing.md }}
 					>
-						<Box pt="xl" pb="md">
-							<Title size={30} c="dark.8">
+						<Box>
+							<Title size={30} c="dark.8" mb="xs">
 								Metrics
 							</Title>
 							<Text color="dark.6">Keep up with client responses in real time</Text>
@@ -559,8 +560,27 @@ export default function HomePublic() {
 						</Box>
 					</Container>
 				</Box>
+				<Box
+					className={styles.container}
+					bg={getGradient({ deg: 90, from: 'indigo.0', to: 'violet.0' }, theme)}
+				>
+					<Container
+						pb="md"
+						style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing.xl }}
+					>
+						<Box miw={300} w="70%">
+							<Title size={30} c="dark.8" mb="xs">
+								Complete Form Control
+							</Title>
+							<Text color="dark.7">
+								With an easy to use interface. Quaestio provides an array of settings that
+								allows for full form control
+							</Text>
+						</Box>
 
-				<Box />
+						<QuestionnaireForm readMode title="Form Creation" onSubmit={async () => {}} />
+					</Container>
+				</Box>
 			</Box>
 		</Box>
 	);

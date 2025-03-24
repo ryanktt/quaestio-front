@@ -39,12 +39,14 @@ export default function QuestionnaireForm({
 	title,
 	method = 'ADD',
 	onToggleActive,
+	readMode = false,
 }: {
 	onSubmit: (p: IQuestionnaireFormProps) => Promise<void>;
 	onToggleActive?: (active: boolean) => Promise<void>;
 	formProps?: IQuestionnaireFormProps;
 	title: string;
 	method?: 'EDIT' | 'ADD';
+	readMode?: boolean;
 }) {
 	const { setAlert } = useContext(AlertContext).state;
 	const theme = useMantineTheme();
@@ -442,7 +444,7 @@ export default function QuestionnaireForm({
 						onClick={() => openPreviewModal()}
 						variant="light"
 						disabled={!type}
-						w="30%"
+						w={readMode ? '100%' : '30%'}
 						style={{ border: `1px solid ${theme.colors.indigo[2]}` }}
 						color="indigo.5"
 						c="indigo.8"
@@ -451,9 +453,11 @@ export default function QuestionnaireForm({
 					>
 						Preview
 					</Button>
-					<Button disabled={!type} w="70%" size="sm" mt="xl" type="submit" variant="gradient">
-						Save {type ?? 'Questionnaire'}
-					</Button>
+					{!readMode ? (
+						<Button disabled={!type} w="70%" size="sm" mt="xl" type="submit" variant="gradient">
+							Save {type ?? 'Questionnaire'}
+						</Button>
+					) : null}
 				</Center>
 			</form>
 		</div>
