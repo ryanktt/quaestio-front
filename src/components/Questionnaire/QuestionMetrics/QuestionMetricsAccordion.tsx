@@ -110,10 +110,9 @@ function MetricsAccordionItem({
 	let ratings: ReactNode | null = null;
 	let ratingHeading: ReactNode | null = null;
 
-	if (questionMetrics.__typename === 'QuestionRatingMetrics') {
-		ratings = (
-			<Ratings byRating={questionMetrics.byRating || []} reviewCount={questionMetrics.answerCount} />
-		);
+	if (questionMetrics.type === QuestionType.Rating) {
+		const ratingMetrics = questionMetrics as QuestionRatingMetrics;
+		ratings = <Ratings byRating={ratingMetrics.byRating || []} reviewCount={ratingMetrics.answerCount} />;
 		ratingHeading = (
 			<Box
 				style={{
@@ -125,10 +124,10 @@ function MetricsAccordionItem({
 			>
 				<Center>
 					<Title size={38} c="gray.8" mr={10}>
-						{questionMetrics.avgRating?.toFixed(1)}
+						{ratingMetrics.avgRating?.toFixed(1)}
 					</Title>
 					<Center style={{ flexDirection: 'column' }}>
-						<Rating fractions={5 * 3} mt={5} value={questionMetrics.avgRating || 0} />
+						<Rating fractions={5 * 3} mt={5} value={ratingMetrics.avgRating || 0} />
 						<Text fw={500} c="gray.7" size="sm">
 							Average Rating
 						</Text>

@@ -1,12 +1,18 @@
 import {
 	QuestionMultipleChoice,
 	QuestionMultipleChoiceInput,
+	QuestionMultipleChoiceMetrics,
+	QuestionRating,
+	QuestionRatingMetrics,
 	QuestionSingleChoice,
 	QuestionSingleChoiceInput,
+	QuestionSingleChoiceMetrics,
 	QuestionText,
 	QuestionTextInput,
+	QuestionTextMetrics,
 	QuestionTrueOrFalse,
 	QuestionTrueOrFalseInput,
+	QuestionTrueOrFalseMetrics,
 	QuestionnaireExam,
 	QuestionnaireQuiz,
 	QuestionnaireSurvey,
@@ -18,7 +24,15 @@ export type QuestionTypes =
 	| QuestionMultipleChoice
 	| QuestionSingleChoice
 	| QuestionTrueOrFalse
-	| QuestionText;
+	| QuestionText
+	| QuestionRating;
+
+export type QuestionMetricsTypes =
+	| QuestionMultipleChoiceMetrics
+	| QuestionSingleChoiceMetrics
+	| QuestionTrueOrFalseMetrics
+	| QuestionTextMetrics
+	| QuestionRatingMetrics;
 
 export enum EQuestionnaireType {
 	Survey = 'Survey',

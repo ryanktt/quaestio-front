@@ -165,7 +165,7 @@ function OptionCheckbox({
 export default function QuestionResponseForm({
 	onChange,
 	question,
-	questionIndex,
+	badgeLabel,
 	colorScheme,
 	readMode = false,
 	questionnaireType,
@@ -177,7 +177,7 @@ export default function QuestionResponseForm({
 }: {
 	onChange: (p: IQuestionResponseProps) => void;
 	question: IQuestionProps;
-	questionIndex: number;
+	badgeLabel: string;
 	colorScheme: IColorSchemes;
 	readMode?: boolean;
 	questionResponseProps?: IQuestionResponseProps;
@@ -191,6 +191,13 @@ export default function QuestionResponseForm({
 	const [primaryColor] = colorSchemes[colorScheme];
 
 	const [option, setOptionProps] = useState<IOptionProps[]>([]);
+
+	useEffect(() => {
+		document.documentElement.style.setProperty('--response-option-bg', theme.colors[primaryColor][7]);
+		document.documentElement.style.setProperty('--response-checked-icon', theme.colors[primaryColor][7]);
+		document.documentElement.style.setProperty('--response-input-bg', theme.colors[primaryColor][0]);
+		document.documentElement.style.setProperty('--response-input-border', theme.colors[primaryColor][7]);
+	}, [colorScheme]);
 
 	useEffect(() => {
 		if (question.randomizeOptions) setOptionProps(_.shuffle(question.options));
@@ -316,7 +323,7 @@ export default function QuestionResponseForm({
 			<Box className={`${styles.box} ${styles.question}`}>
 				<Flex justify="space-between">
 					<Badge color={theme.colors[primaryColor][8]} size="md">
-						Q.{questionIndex + 1}
+						{badgeLabel}
 					</Badge>
 					{getRightWrongIcon()}
 				</Flex>

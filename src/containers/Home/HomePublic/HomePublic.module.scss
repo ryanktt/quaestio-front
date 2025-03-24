@@ -1,8 +1,13 @@
+.sections {
+	display: flex;
+	flex-direction: column;
+	gap: rem(50px);
+	margin-top: rem(50px);
+}
+
 .container {
-	margin-top: $spacingLg;
-	p {
-		font-size: rem(20px);
-	}
+	display: flex;
+	flex-direction: column;
 }
 
 .platform {

@@ -31,43 +31,45 @@ export const buildOptionsFormProps = (options: Option[]) => {
 	}));
 };
 
+export const buildQuestionFormProps = (question: QuestionTypes) => {
+	let randomizeOptions = false;
+	let feedbackAfterSubmit = '';
+	let rightAnswerFeedback = '';
+	let wrongAnswerFeedback = '';
+	let options: IOptionProps[] = [];
+
+	if ('randomizeOptions' in question) {
+		randomizeOptions = question.randomizeOptions;
+	}
+	if ('feedbackAfterSubmit' in question) {
+		feedbackAfterSubmit = question.feedbackAfterSubmit || '';
+	}
+	if ('rightAnswerFeedback' in question) {
+		rightAnswerFeedback = question.rightAnswerFeedback || '';
+	}
+	if ('wrongAnswerFeedback' in question) {
+		wrongAnswerFeedback = question.wrongAnswerFeedback || '';
+	}
+	if ('options' in question) {
+		options = buildOptionsFormProps(question.options) as IOptionProps[];
+	}
+
+	return {
+		required: question.required,
+		id: question._id,
+		feedbackAfterSubmit,
+		rightAnswerFeedback,
+		wrongAnswerFeedback,
+		randomizeOptions,
+		showCorrectAnswer: question.showCorrectAnswer,
+		description: question.description || '',
+		type: question.type,
+		options,
+	};
+};
+
 export const buildQuestionsFormProps = (questions: QuestionTypes[]): IQuestionProps[] => {
-	return questions.map((question: QuestionTypes) => {
-		let randomizeOptions = false;
-		let feedbackAfterSubmit = '';
-		let rightAnswerFeedback = '';
-		let wrongAnswerFeedback = '';
-		let options: IOptionProps[] = [];
-
-		if ('randomizeOptions' in question) {
-			randomizeOptions = question.randomizeOptions;
-		}
-		if ('feedbackAfterSubmit' in question) {
-			feedbackAfterSubmit = question.feedbackAfterSubmit || '';
-		}
-		if ('rightAnswerFeedback' in question) {
-			rightAnswerFeedback = question.rightAnswerFeedback || '';
-		}
-		if ('wrongAnswerFeedback' in question) {
-			wrongAnswerFeedback = question.wrongAnswerFeedback || '';
-		}
-		if ('options' in question) {
-			options = buildOptionsFormProps(question.options) as IOptionProps[];
-		}
-
-		return {
-			required: question.required,
-			id: question._id,
-			feedbackAfterSubmit,
-			rightAnswerFeedback,
-			wrongAnswerFeedback,
-			randomizeOptions,
-			showCorrectAnswer: question.showCorrectAnswer,
-			description: question.description || '',
-			type: question.type,
-			options,
-		};
-	});
+	return questions.map(buildQuestionFormProps);
 };
 
 export const buildQuestionnaireFormProps = (

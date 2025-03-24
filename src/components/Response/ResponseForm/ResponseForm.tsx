@@ -39,13 +39,6 @@ export default function ResponseForm({
 	const theme = useMantineTheme();
 	const [primaryColor, secondaryColor] = colorSchemes[colorScheme];
 
-	useEffect(() => {
-		document.documentElement.style.setProperty('--response-option-bg', theme.colors[primaryColor][7]);
-		document.documentElement.style.setProperty('--response-checked-icon', theme.colors[primaryColor][7]);
-		document.documentElement.style.setProperty('--response-input-bg', theme.colors[primaryColor][0]);
-		document.documentElement.style.setProperty('--response-input-border', theme.colors[primaryColor][7]);
-	}, [colorScheme]);
-
 	const gradient = getGradient(
 		{ deg: 30, from: theme.colors[primaryColor][7], to: theme.colors[secondaryColor][7] },
 		theme,
@@ -93,7 +86,7 @@ export default function ResponseForm({
 				questionResponseProps={props}
 				correctedResponseProps={correctedProps}
 				colorScheme={colorScheme}
-				questionIndex={i}
+				badgeLabel={`Q.${i + 1}`}
 				showErrors={showErrors}
 				onError={(id, error) => {
 					if (questionWErrorElId === id && !error) setQuestionWErrorElId(null);
