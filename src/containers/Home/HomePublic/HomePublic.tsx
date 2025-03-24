@@ -8,6 +8,7 @@ import {
 	QuestionTypes,
 } from '@components/Questionnaire/Questionnaire.interface';
 import QuestionResponseForm from '@components/Response/ResponseForm/QuestionResponseForm';
+import ResponseForm from '@components/Response/ResponseForm/ResponseForm';
 import { buildQuestionFormProps } from '@containers/Questionnaire/EditQuestionnaire/EditQuestionnaire.aux';
 import { MetricsCard } from '@containers/Questionnaire/QuestionnaireAnalytics/QuestionnaireAnalytics';
 import { AuthModalContext } from '@contexts/AuthModal.context';
@@ -44,7 +45,9 @@ import {
 } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { IconClock, IconFileArrowRight } from '@tabler/icons-react';
-import { PropsWithChildren, useContext } from 'react';
+import { colorSchemes, IColorSchemes } from '@utils/color';
+import { nanoid } from 'nanoid/non-secure';
+import { PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomePublic.module.scss';
 
@@ -56,7 +59,7 @@ type PartialQuestionMetrics<T extends QuestionMetricsTypes> = Omit<Partial<T>, '
 
 const questionSingleChoice: PartialQuestion<QuestionSingleChoice> = {
 	_id: '1',
-	description: '<p>Choose one option</p>',
+	description: '<p>Choose an option</p>',
 	type: QuestionType.SingleChoice,
 	showCorrectAnswer: true,
 	randomizeOptions: false,
@@ -115,7 +118,7 @@ const singleChoice = (
 
 const questionMultipleChoice: PartialQuestion<QuestionMultipleChoice> = {
 	_id: '2',
-	description: '<p>Choose the right option(s)</p>',
+	description: '<p>Choose from these options</p>',
 	type: QuestionType.MultipleChoice,
 	showCorrectAnswer: true,
 	randomizeOptions: false,
@@ -296,6 +299,113 @@ const text = (
 	/>
 );
 
+function Form({ color, index, mobile }: { color: IColorSchemes; index: number; mobile: boolean }) {
+	const theme = useMantineTheme();
+	const [primaryColor, secondaryColor] = colorSchemes[color];
+
+	return (
+		<Box
+			w={mobile ? 320 : 340}
+			mah={650 + index * 5}
+			p={theme.spacing.sm}
+			style={{
+				zIndex: index,
+				...(mobile
+					? {
+							top: `${index * 4}%`,
+							left: '50%',
+							transform: 'translate(-50%,0)',
+						}
+					: {
+							transform: `translate(${index * 5}%, 0)`,
+							top: rem(-index * 2),
+							right: `${index * 10}%`,
+							boxShadow: theme.shadows.xl,
+						}),
+				display: 'flex',
+				position: 'absolute',
+				overflow: 'hidden',
+				borderRadius: theme.radius.lg,
+			}}
+			bg={getGradient(
+				{
+					deg: 30,
+					from: theme.colors[primaryColor][6],
+					to: theme.colors[secondaryColor][6],
+				},
+				theme,
+			)}
+		>
+			<ResponseForm
+				readMode
+				colorScheme={color}
+				questionnaireProps={{
+					active: true,
+					color,
+					bgColor: null,
+					description:
+						'<p>Quaestio enables fully customizable forms that will fit your unique style needs</p>',
+					title: 'Seeking answers!?',
+					type: EQuestionnaireType.Survey,
+					maxRetryAmount: '',
+					randomizeQuestions: false,
+					requireEmail: false,
+					requireName: false,
+					timeLimit: '',
+					questions: [
+						{ ...questionSingleChoiceProps, id: nanoid() },
+						{ ...questionMultipleChoiceProps, id: nanoid() },
+						{ ...questionTrueOrFalseProps, id: nanoid() },
+						{ ...questionTextProps, id: nanoid() },
+						{ ...questionRatingProps, id: nanoid() },
+					],
+				}}
+			/>
+		</Box>
+	);
+}
+
+function Forms() {
+	const theme = useMantineTheme();
+	const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setViewportWidth(window.innerWidth);
+		};
+		window.addEventListener('resize', handleResize);
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
+	const mobile = viewportWidth < 600;
+
+	return (
+		<Container
+			p={`${theme.spacing.md} 0`}
+			display="flex"
+			h={mobile ? 1000 : 700}
+			style={{ justifyContent: 'left', borderRadius: theme.radius.lg }}
+		>
+			<Flex
+				pos="relative"
+				style={{ borderRadius: theme.radius.lg }}
+				bg="indigo.1"
+				h={mobile ? 950 : 650}
+				direction="row-reverse"
+				w="100vw"
+			>
+				<Form color="yellow" index={1} mobile={mobile} />
+				<Form color="green" index={2} mobile={mobile} />
+				<Form color="red" index={3} mobile={mobile} />
+				<Form color="pink" index={4} mobile={mobile} />
+				<Form color="blue" index={5} mobile={mobile} />
+				<Form color="indigo" index={6} mobile={mobile} />
+			</Flex>
+		</Container>
+	);
+}
+
 function Text({ children, size, color }: PropsWithChildren & { size?: MantineSize; color?: MantineColor }) {
 	return (
 		<MantineText size={size || 'xl'} c={color || 'dark.5'} fw={500}>
@@ -331,8 +441,8 @@ export default function HomePublic() {
 		<Box bg="white" pb={rem(100)}>
 			<Header />
 			<Box w="100%" mih="100vh" className={styles.sections}>
-				<Box w="100%">
-					<Container className={styles.container}>
+				<Box w="100%" className={styles.container}>
+					<Container style={{ display: 'flex', flexDirection: 'column' }}>
 						<Flex className={styles.heading}>
 							<Flex wrap="wrap">
 								<Title size={45} mr={10}>
@@ -367,19 +477,29 @@ export default function HomePublic() {
 					</Container>
 				</Box>
 
-				<Box>
+				<Box className={styles.container}>
+					<Container>
+						<Title mb="xl">Personalization</Title>
+						<Forms />
+					</Container>
+				</Box>
+
+				<Box
+					className={styles.container}
+					pt={rem(80)}
+					pb={rem(80)}
+					bg={getGradient({ deg: 30, from: 'indigo.6', to: 'violet.6' }, theme)}
+				>
 					<Container
 						p="lg"
 						display="flex"
 						style={{
-							borderRadius: theme.radius.md,
+							borderRadius: theme.radius.lg,
 							flexDirection: 'column',
-							gap: theme.spacing.xl,
 						}}
-						bg={getGradient({ deg: 30, from: 'indigo.6', to: 'violet.6' }, theme)}
 					>
 						<Box pb="md">
-							<Title size={28} c={theme.white}>
+							<Title size={30} c={theme.white}>
 								Question Types
 							</Title>
 							<Text color="gray.1">Customize your form with 5 different question types</Text>
@@ -391,54 +511,55 @@ export default function HomePublic() {
 							<QuestionResponseWrapper>{text}</QuestionResponseWrapper>
 							<QuestionResponseWrapper>{rating}</QuestionResponseWrapper>
 						</Group>
-						<Box pt="xl" pb="md">
-							<Title size={30} c="white">
-								Metrics
-							</Title>
-							<Text color="gray.1">Keep up with client response metrics in real time</Text>
-						</Box>
-						<Flex
-							bg="white"
-							direction="column"
-							gap="sm"
-							style={{ borderRadius: theme.radius.md, boxShadow: theme.shadows.md }}
-							p="xs"
-						>
-							<Group grow preventGrowOverflow={false}>
-								<MetricsCard
-									label="Responses"
-									stats="115"
-									color="pink"
-									icon={IconFileArrowRight}
-								/>
-								<MetricsCard
-									label="Avg Answer Time"
-									stats="1.3 min"
-									color="teal"
-									icon={IconClock}
-								/>
-							</Group>
-							<Box>
-								<QuestionMetricsAccordion
-									questions={[
-										questionSingleChoice as QuestionSingleChoice,
-										questionMultipleChoice as QuestionMultipleChoice,
-										questionTrueOrFalse as QuestionTrueOrFalse,
-										questionText as QuestionText,
-										questionRating as QuestionRating,
-									]}
-									questionMetrics={[
-										questionSingleChoiceMetrics as QuestionSingleChoiceMetrics,
-										questionMultipleChoiceMetrics as QuestionMultipleChoiceMetrics,
-										questionTrueOrFalseMetrics as QuestionTrueOrFalseMetrics,
-										questionTextMetrics as QuestionTextMetrics,
-										questionRatingMetrics as QuestionRatingMetrics,
-									]}
-								/>
-							</Box>
-						</Flex>
 					</Container>
 				</Box>
+
+				<Box className={styles.container}>
+					<Container
+						bg="white"
+						style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing.md }}
+					>
+						<Box pt="xl" pb="md">
+							<Title size={30} c="dark.8">
+								Metrics
+							</Title>
+							<Text color="dark.6">Keep up with client responses in real time</Text>
+						</Box>
+						<Group grow preventGrowOverflow={false}>
+							<MetricsCard
+								label="Responses"
+								stats="115"
+								color="pink"
+								icon={IconFileArrowRight}
+							/>
+							<MetricsCard
+								label="Avg Answer Time"
+								stats="1.3 min"
+								color="teal"
+								icon={IconClock}
+							/>
+						</Group>
+						<Box>
+							<QuestionMetricsAccordion
+								questions={[
+									questionSingleChoice as QuestionSingleChoice,
+									questionMultipleChoice as QuestionMultipleChoice,
+									questionTrueOrFalse as QuestionTrueOrFalse,
+									questionText as QuestionText,
+									questionRating as QuestionRating,
+								]}
+								questionMetrics={[
+									questionSingleChoiceMetrics as QuestionSingleChoiceMetrics,
+									questionMultipleChoiceMetrics as QuestionMultipleChoiceMetrics,
+									questionTrueOrFalseMetrics as QuestionTrueOrFalseMetrics,
+									questionTextMetrics as QuestionTextMetrics,
+									questionRatingMetrics as QuestionRatingMetrics,
+								]}
+							/>
+						</Box>
+					</Container>
+				</Box>
+
 				<Box />
 			</Box>
 		</Box>

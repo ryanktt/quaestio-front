@@ -1,13 +1,12 @@
 .sections {
 	display: flex;
 	flex-direction: column;
-	gap: rem(50px);
 	margin-top: rem(50px);
 }
 
 .container {
-	display: flex;
-	flex-direction: column;
+	padding-top: rem(100px);
+	padding-bottom: rem(100px);
 }
 
 .platform {

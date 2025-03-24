@@ -11,7 +11,7 @@ import { IconCheck } from '@tabler/icons-react';
 import { colorSchemes, IColorSchemes } from '@utils/color.ts';
 import { createMarkup } from '@utils/html.ts';
 import _ from 'lodash';
-import { FormEvent, useEffect, useState } from 'react';
+import { CSSProperties, FormEvent, useEffect, useState } from 'react';
 import QuestionResponseForm, { IQuestionResponseProps } from './QuestionResponseForm.tsx';
 import { IResponseFormProps } from './ResponseForm.interface.ts';
 import styles from './ResponseForm.module.scss';
@@ -155,12 +155,18 @@ export default function ResponseForm({
 	return (
 		<form
 			onSubmit={handleSubmit}
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: theme.spacing.md,
-				width: '100%',
-			}}
+			style={
+				{
+					display: 'flex',
+					flexDirection: 'column',
+					gap: theme.spacing.md,
+					width: '100%',
+					'--response-option-bg': theme.colors[primaryColor][7],
+					'--response-checked-icon': theme.colors[primaryColor][7],
+					'--response-input-bg': theme.colors[primaryColor][0],
+					'--response-input-border': theme.colors[primaryColor][7],
+				} as CSSProperties
+			}
 		>
 			<Box className={`${styles.box} ${styles.question}`}>
 				<Title className={styles.title}>{title}</Title>
