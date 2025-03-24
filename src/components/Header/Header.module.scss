@@ -1,8 +1,8 @@
 .header {
-	position: fixed;
 	z-index: 200;
 	width: 100%;
 	margin: 0 auto;
+	margin-bottom: rem(100px);
 	height: rem(60px);
 	align-content: center;
 	border-bottom: rem(1px) solid light-dark($gray3, $dark4);
