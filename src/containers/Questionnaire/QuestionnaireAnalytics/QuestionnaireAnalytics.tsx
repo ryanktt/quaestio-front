@@ -196,7 +196,7 @@ export default function QuestionnaireAnalytics() {
 							</Button>
 						</Group>
 					</Group>
-					<Title c="gray.8" size={24}>
+					<Title c="gray.8" size={20}>
 						{title}
 					</Title>
 				</Box>

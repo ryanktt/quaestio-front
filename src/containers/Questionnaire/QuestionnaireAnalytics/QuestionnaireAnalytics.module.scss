@@ -36,12 +36,8 @@
 	font-weight: 500;
 	font-size: rem(14px);
 	overflow: hidden;
-	max-height: rem(300);
-	* {
-		overflow: hidden;
-		color: $dark4;
-		text-overflow: ellipsis;
-		text-wrap: nowrap;
+
+	p {
 		margin: 0;
 	}
 }
