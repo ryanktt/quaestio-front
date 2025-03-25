@@ -1,11 +1,16 @@
 .sections {
 	display: flex;
 	flex-direction: column;
+
+	.container:first-child {
+		padding-top: rem(120px);
+		padding-bottom: rem(100px);
+	}
 }
 
 .container {
-	padding-top: rem(100px);
-	padding-bottom: rem(100px);
+	padding-top: rem(120px);
+	padding-bottom: rem(120px);
 }
 
 .platform {

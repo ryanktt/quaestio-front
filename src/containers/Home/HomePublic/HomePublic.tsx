@@ -20,6 +20,7 @@ import {
 	OptionMetrics,
 	QuestionMultipleChoice,
 	QuestionMultipleChoiceMetrics,
+	QuestionnaireType,
 	QuestionRating,
 	QuestionRatingMetrics,
 	QuestionSingleChoice,
@@ -45,7 +46,7 @@ import {
 	useMantineTheme,
 } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { IconClock, IconFileArrowRight } from '@tabler/icons-react';
+import { IconClock, IconFileArrowRight, IconFileCheck } from '@tabler/icons-react';
 import { colorSchemes, IColorSchemes } from '@utils/color';
 import { nanoid } from 'nanoid/non-secure';
 import { PropsWithChildren, useContext, useEffect, useState } from 'react';
@@ -300,6 +301,19 @@ const text = (
 	/>
 );
 
+const getAvgScore = () => {
+	const totalRightAnswerCount = [
+		questionSingleChoiceMetrics,
+		questionMultipleChoiceMetrics,
+		questionTrueOrFalseMetrics,
+	].reduce((acc, questionMetrics) => {
+		if ('rightAnswerCount' in questionMetrics) return acc + (questionMetrics.rightAnswerCount || 0);
+		return acc;
+	}, 0);
+
+	return totalRightAnswerCount / 115;
+};
+
 function Form({ color, index, mobile }: { color: IColorSchemes; index: number; mobile: boolean }) {
 	const theme = useMantineTheme();
 	const [primaryColor, secondaryColor] = colorSchemes[color];
@@ -499,8 +513,8 @@ export default function HomePublic() {
 							flexDirection: 'column',
 						}}
 					>
-						<Box pb="md">
-							<Title size={30} c={theme.white}>
+						<Box pb="xl">
+							<Title size={30} c={theme.white} mb="xs">
 								Question Types
 							</Title>
 							<Text color="gray.0">Customize your form with 5 different question types</Text>
@@ -518,9 +532,9 @@ export default function HomePublic() {
 				<Box className={styles.container}>
 					<Container
 						bg="white"
-						style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing.md }}
+						style={{ display: 'flex', flexDirection: 'column', gap: theme.spacing.sm }}
 					>
-						<Box>
+						<Box mb={theme.spacing.md}>
 							<Title size={30} c="dark.8" mb="xs">
 								Metrics
 							</Title>
@@ -534,6 +548,12 @@ export default function HomePublic() {
 								icon={IconFileArrowRight}
 							/>
 							<MetricsCard
+								label="Avg Score"
+								stats={`${getAvgScore().toFixed(1)}/3`}
+								color="orange"
+								icon={IconFileCheck}
+							/>
+							<MetricsCard
 								label="Avg Answer Time"
 								stats="1.3 min"
 								color="teal"
@@ -542,6 +562,7 @@ export default function HomePublic() {
 						</Group>
 						<Box>
 							<QuestionMetricsAccordion
+								questionnaireType={QuestionnaireType.QuestionnaireQuiz}
 								questions={[
 									questionSingleChoice as QuestionSingleChoice,
 									questionMultipleChoice as QuestionMultipleChoice,
@@ -573,12 +594,12 @@ export default function HomePublic() {
 								Complete Form Control
 							</Title>
 							<Text color="dark.7">
-								With an easy to use interface. Quaestio provides an array of settings that
-								allows for full form control
+								With a simple and easy to use interface. Quaestio provides an array of
+								settings that allows for full form control. Try it out!
 							</Text>
 						</Box>
 
-						<QuestionnaireForm readMode title="Form Creation" onSubmit={async () => {}} />
+						<QuestionnaireForm readMode title="Preview Form" onSubmit={async () => {}} />
 					</Container>
 				</Box>
 			</Box>
