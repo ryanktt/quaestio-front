@@ -103,7 +103,17 @@ export default function RichTextInput({
 			HardBreak.extend({
 				addKeyboardShortcuts() {
 					return {
-						Enter: () => this.editor.commands.setHardBreak(),
+						Enter: () => {
+							const { state } = this.editor;
+							const { selection } = state;
+							const parent = selection.$from.node(-1);
+
+							if (parent.type.name === 'listItem') {
+								return false;
+							}
+
+							return this.editor.commands.setHardBreak();
+						},
 					};
 				},
 			}),
