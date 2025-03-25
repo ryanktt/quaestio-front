@@ -17,6 +17,7 @@ import Code from '@tiptap/extension-code';
 import Document from '@tiptap/extension-document';
 import HardBreak from '@tiptap/extension-hard-break';
 import Highlight from '@tiptap/extension-highlight';
+import Image from '@tiptap/extension-image';
 import Italic from '@tiptap/extension-italic';
 import ListItem from '@tiptap/extension-list-item';
 import Paragraph from '@tiptap/extension-paragraph';
@@ -26,7 +27,6 @@ import TextAlign from '@tiptap/extension-text-align';
 import Underline from '@tiptap/extension-underline';
 import { useEditor } from '@tiptap/react';
 import { useEffect, useState } from 'react';
-import ImageExtension from './ImageExtension.ts';
 import styles from './RichText.module.scss';
 
 function InsertImageControl() {
@@ -96,7 +96,7 @@ export default function RichTextInput({
 			Underline,
 			Highlight,
 			Code,
-			ImageExtension,
+			Image,
 			TextAlign.configure({
 				types: ['heading', 'paragraph'],
 			}),
