@@ -1,0 +1,14 @@
+.link {
+	justify-content: space-between;
+	display: flex;
+	align-items: center;
+	height: 40;
+	background: linear-gradient(0deg, $indigo7, $indigo6);
+	cursor: pointer;
+	padding: $spacingXs $spacingMd;
+	border-radius: $radiusSm;
+
+	&:hover {
+		background: linear-gradient(0deg, $indigo8, $indigo7);
+	}
+}
