@@ -2,6 +2,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
+import LinkButton from '@components/LinkButton/LinkButton.tsx';
 import { QuestionnaireTypes } from '@components/Questionnaire/Questionnaire.interface';
 import ResponseForm from '@components/Response/ResponseForm/ResponseForm.tsx';
 import { buildQuestionnaireFormProps } from '@containers/Questionnaire/EditQuestionnaire/EditQuestionnaire.aux.ts';
@@ -12,18 +13,17 @@ import {
 	Response as ResponseType,
 	useFetchResponseSuspenseQuery,
 } from '@gened/graphql.ts';
-import { Box, Button, Group, Text, getGradient, rem, useMantineTheme } from '@mantine/core';
+import { Box, Group, getGradient, useMantineTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { IconClock, IconExternalLink, IconFileCheck, IconFileUnknown, IconFiles } from '@tabler/icons-react';
+import { IconClock, IconFileCheck, IconFileUnknown, IconFiles } from '@tabler/icons-react';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { buildResponseFormProps } from './Response.aux.ts';
 
 export default function Response() {
 	const params = useParams() as { id: string };
 	const theme = useMantineTheme();
-	const navigate = useNavigate();
 
 	const { data } = useFetchResponseSuspenseQuery({
 		variables: { responseId: params.id },
@@ -66,7 +66,7 @@ export default function Response() {
 				borderRadius: theme.radius.lg,
 				boxShadow: theme.shadows.xs,
 				border: `1px solid${theme.colors.gray[4]}`,
-				background: getGradient({ from: 'indigo.6', to: 'violet.6', deg: 30 }, theme),
+				background: getGradient({ from: 'indigo.2', to: 'violet.1', deg: 30 }, theme),
 			}}
 			p={theme.spacing.md}
 			mb={theme.spacing.md}
@@ -74,8 +74,7 @@ export default function Response() {
 			<Group
 				grow
 				preventGrowOverflow={false}
-				gap={15}
-				maw={700}
+				gap="sm"
 				display="flex"
 				mb={5}
 				style={{ margin: '0 auto' }}
@@ -108,47 +107,24 @@ export default function Response() {
 					stats={`${answerTimeInMin} min`}
 				/>
 			</Group>
-			<Group
-				maw={700}
-				justify="space-between"
-				style={{ margin: '0 auto' }}
-				mt={theme.spacing.xs}
-				mb={theme.spacing.sm}
-			>
-				<Box style={{ display: 'flex', alignItems: 'center' }}>
-					<Text size="sm" fw={500} c="white">
-						{response._id}
-					</Text>
-				</Box>
-				<Button
-					variant="white"
-					c="white"
-					bg="transparent"
-					onClick={() => navigate(`/board/questionnaire/${questionnaire.sharedId}`)}
-				>
-					<IconExternalLink style={{ height: rem(20), width: rem(20) }} />
-					<Text ml={5} fw={600} style={{ fontSize: rem(14) }}>
-						Questionnaire
-					</Text>
-				</Button>
-			</Group>
-			<Box>
-				<Box
-					maw={700}
-					style={{
-						margin: '0 auto',
-					}}
-				>
-					{response ? (
-						<ResponseForm
-							colorScheme="indigo"
-							readMode
-							adminView
-							questionnaireProps={buildQuestionnaireFormProps(questionnaire)}
-							responseFormProps={buildResponseFormProps(response)}
-						/>
-					) : null}
-				</Box>
+
+			<Box mt="sm">
+				<LinkButton
+					label="Open questionnaire page"
+					path={`/board/questionnaire/${questionnaire.sharedId}`}
+				/>
+			</Box>
+
+			<Box m={`${theme.spacing.md} auto`} maw={600}>
+				{response ? (
+					<ResponseForm
+						colorScheme="indigo"
+						readMode
+						adminView
+						questionnaireProps={buildQuestionnaireFormProps(questionnaire)}
+						responseFormProps={buildResponseFormProps(response)}
+					/>
+				) : null}
 			</Box>
 		</Box>
 	);

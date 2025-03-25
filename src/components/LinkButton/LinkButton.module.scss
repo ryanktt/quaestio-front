@@ -3,12 +3,14 @@
 	display: flex;
 	align-items: center;
 	height: 40;
-	background: linear-gradient(0deg, $indigo7, $indigo6);
+	background: $indigo6;
+	border-bottom: 1px solid;
+	border-color: $indigo8;
 	cursor: pointer;
 	padding: $spacingXs $spacingMd;
 	border-radius: $radiusSm;
 
 	&:hover {
-		background: linear-gradient(0deg, $indigo8, $indigo7);
+		background: $indigo7;
 	}
 }
