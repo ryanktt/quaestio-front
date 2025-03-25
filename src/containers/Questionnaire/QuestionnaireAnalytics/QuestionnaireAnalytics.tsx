@@ -203,7 +203,11 @@ export default function QuestionnaireAnalytics() {
 				</Box>
 				<div className={styles.markup} dangerouslySetInnerHTML={createMarkup(description)} />
 
-				<QuestionMetricsAccordion questions={questions} questionMetrics={metrics.questionMetrics} />
+				<QuestionMetricsAccordion
+					questionnaireType={type}
+					questions={questions}
+					questionMetrics={metrics.questionMetrics}
+				/>
 			</div>
 			<ResponseList questionnaireId={_id} />
 		</div>

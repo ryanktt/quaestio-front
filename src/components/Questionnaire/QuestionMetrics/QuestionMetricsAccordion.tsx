@@ -5,6 +5,7 @@ import {
 	ByRatingMetrics,
 	Question,
 	QuestionMultipleChoiceMetrics,
+	QuestionnaireType,
 	QuestionRatingMetrics,
 	QuestionSingleChoiceMetrics,
 	QuestionTextMetrics,
@@ -15,14 +16,14 @@ import {
 	Box,
 	Center,
 	Flex,
+	getGradient,
 	Group,
 	Rating,
+	rem,
 	Stack,
 	Text,
 	Title,
 	UnstyledButton,
-	getGradient,
-	rem,
 	useMantineTheme,
 } from '@mantine/core';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
@@ -70,11 +71,13 @@ function Ratings({ byRating, reviewCount }: { byRating: ByRatingMetrics[]; revie
 }
 
 function MetricsAccordionItem({
+	questionnaireType,
 	questionMetrics,
 	question,
 	index,
 }: {
 	questionMetrics: QuestionMetricsTypes;
+	questionnaireType: QuestionnaireType;
 	question: QuestionTypes;
 	index: number;
 }) {
@@ -173,7 +176,9 @@ function MetricsAccordionItem({
 							{ratingHeading}
 							<DonutChart data={answeredChartData} />
 
-							{question.type !== QuestionType.Rating && question.type !== QuestionType.Text ? (
+							{question.type !== QuestionType.Rating &&
+							question.type !== QuestionType.Text &&
+							questionnaireType !== QuestionnaireType.QuestionnaireSurvey ? (
 								<DonutChart data={correctChartData} />
 							) : null}
 						</Group>
@@ -201,9 +206,11 @@ function MetricsAccordionItem({
 export default function QuestionMetricsAccordion({
 	questions,
 	questionMetrics,
+	questionnaireType,
 }: {
 	questions: Question[];
 	questionMetrics: QuestionMetricsTypes[];
+	questionnaireType: QuestionnaireType;
 }) {
 	return (
 		<Box className={styles.accordion}>
@@ -213,6 +220,7 @@ export default function QuestionMetricsAccordion({
 					<MetricsAccordionItem
 						key={`metrics-accordion-item-${i}`}
 						index={i}
+						questionnaireType={questionnaireType}
 						questionMetrics={metrics as QuestionMetricsTypes}
 						question={question}
 					/>
