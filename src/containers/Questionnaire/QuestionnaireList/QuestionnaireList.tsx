@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import ListNoResults from '@components/ListNoResults/ListNoResults';
 import StatusBadge from '@components/StatusBadge/StatusBadge';
 import Search from '@components/Toolbar/Search';
 import { GlobalContext } from '@contexts/Global/Global.context';
@@ -7,6 +8,7 @@ import { QuestionnaireType, useFetchQuestionnairesSuspenseQuery } from '@gened/g
 import {
 	Badge,
 	Box,
+	Button,
 	Flex,
 	Text as MantineText,
 	Pagination,
@@ -17,7 +19,7 @@ import {
 	useMantineTheme,
 } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
-import { IconClipboard, IconExternalLink, IconHome2 } from '@tabler/icons-react';
+import { IconClipboard, IconExternalLink, IconHome2, IconPlus } from '@tabler/icons-react';
 import { PropsWithChildren, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './QuestionnaireList.module.scss';
@@ -125,6 +127,7 @@ export const DEBOUNCE_DELAY = 500;
 
 export default function QuestionnaireList() {
 	const { searchStr } = useContext(GlobalContext).state;
+	const navigate = useNavigate();
 	const [textFilter] = useDebouncedValue(searchStr, DEBOUNCE_DELAY);
 	const [pagination, setPagination] = useState({ page: 1, limit: 10 });
 
@@ -157,9 +160,32 @@ export default function QuestionnaireList() {
 		},
 	);
 
+	if (!results.length) {
+		return (
+			<div>
+				<Box mb="md">
+					<Search />
+				</Box>
+				<ListNoResults
+					title="No Questionnaires Found"
+					subTitle="Your account does not have any questionnaires yet"
+					btn={
+						<Button
+							variant="filled"
+							size="md"
+							onClick={() => navigate('/board/questionnaire/create')}
+						>
+							<IconPlus size={rem(18)} style={{ marginRight: rem(5) }} /> Create Questionnaire
+						</Button>
+					}
+				/>
+			</div>
+		);
+	}
+
 	return (
 		<div>
-			<Box mb={10}>
+			<Box mb="md">
 				<Search />
 			</Box>
 			<Box className={styles.list}>
@@ -203,17 +229,6 @@ export default function QuestionnaireList() {
 						</ColumnItem>
 					))}
 				</Column>
-
-				{/* <Column>
-					<ColumnItem>
-						<Header label="Views" />
-					</ColumnItem>
-					{views.map((vCount, i) => (
-						<ColumnItem key={sharedIds[i]}>
-							<Text key={sharedIds[i]}>{vCount}</Text>
-						</ColumnItem>
-					))}
-				</Column> */}
 				<Column>
 					<ColumnItem>
 						<Header label="Entries" />

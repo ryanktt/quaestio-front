@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import ListNoResults from '@components/ListNoResults/ListNoResults';
 import Search from '@components/Toolbar/Search';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import { QuestionnaireType, useFetchResponsesSuspenseQuery } from '@gened/graphql';
@@ -167,9 +168,23 @@ export default function ResponseList({ questionnaireId }: { questionnaireId?: st
 		},
 	);
 
+	if (!results.length) {
+		return (
+			<div>
+				<Box mb="md">
+					<Search />
+				</Box>
+				<ListNoResults
+					title="No Responses Found"
+					subTitle="Create and share questionnaires to get new entries"
+				/>
+			</div>
+		);
+	}
+
 	return (
 		<div>
-			<Box mb={10}>
+			<Box mb="md">
 				<Search />
 			</Box>
 			<Box className={styles.list}>
