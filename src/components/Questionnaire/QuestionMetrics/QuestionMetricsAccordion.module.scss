@@ -67,7 +67,11 @@
 	overflow: hidden;
 	display: flex;
 	gap: rem(5px);
-	p {
+	* {
+		overflow: hidden;
+		color: $dark4;
+		text-overflow: ellipsis;
+		text-wrap: nowrap;
 		margin: 0;
 	}
 }
@@ -80,9 +84,5 @@
 	overflow: hidden;
 	font-size: rem(14px);
 	color: $dark7;
-	p {
-		padding: 0;
-		margin: 3px;
-		font-size: rem(14px);
-	}
+	overflow: hidden;
 }

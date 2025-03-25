@@ -152,7 +152,7 @@ function MetricsAccordionItem({
 					<Title size={13} c="white">
 						Q{index + 1}
 					</Title>
-					<Title size={13} w={110} c="white">
+					<Title visibleFrom="sm" size={13} w={110} c="white">
 						{getQuestionTextByType()}
 					</Title>
 					<div

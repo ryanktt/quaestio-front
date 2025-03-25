@@ -517,7 +517,7 @@ export default function HomePublic() {
 							<Title size={30} c={theme.white} mb="xs">
 								Question Types
 							</Title>
-							<Text color="gray.0">Customize your form with 5 different question types</Text>
+							<Text color="gray.0">5 different question types to choose from</Text>
 						</Box>
 						<Group grow preventGrowOverflow={false}>
 							<QuestionResponseWrapper>{singleChoice}</QuestionResponseWrapper>

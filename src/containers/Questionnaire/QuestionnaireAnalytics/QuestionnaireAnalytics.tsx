@@ -147,7 +147,7 @@ export default function QuestionnaireAnalytics() {
 					/>
 				</Group>
 				<Box>
-					<Box
+					<Group
 						mb={theme.spacing.sm}
 						display="flex"
 						style={{
@@ -156,9 +156,15 @@ export default function QuestionnaireAnalytics() {
 							flexWrap: 'wrap',
 						}}
 					>
-						<Title c="gray.8" size={24} mb={theme.spacing.sm}>
-							{title}
-						</Title>
+						<Box display="flex" style={{ gap: theme.spacing.md }}>
+							<StatusBadge active={active} />
+							<Text fw={500} size="sm" c="gray.7">
+								<b>Created</b> {moment(new Date(sharedCreatedAt)).format('YYYY/MM/DD')}
+							</Text>
+							<Text fw={500} size="sm" c="gray.7">
+								<b>Updated</b> {moment(new Date(updatedAt)).format('YYYY/MM/DD')}
+							</Text>
+						</Box>
 						<Group gap={0}>
 							<Button
 								className={`${styles.btn} ${styles.id}`}
@@ -189,17 +195,10 @@ export default function QuestionnaireAnalytics() {
 								Edit
 							</Button>
 						</Group>
-					</Box>
-
-					<Box display="flex" style={{ gap: theme.spacing.md }}>
-						<StatusBadge active={active} />
-						<Text fw={500} size="xs" c="gray.7">
-							<b>Created</b> {moment(new Date(sharedCreatedAt)).format('YYYY/MM/DD')}
-						</Text>
-						<Text fw={500} size="xs" c="gray.7">
-							<b>Updated</b> {moment(new Date(updatedAt)).format('YYYY/MM/DD')}
-						</Text>
-					</Box>
+					</Group>
+					<Title c="gray.8" size={24}>
+						{title}
+					</Title>
 				</Box>
 				<div className={styles.markup} dangerouslySetInnerHTML={createMarkup(description)} />
 

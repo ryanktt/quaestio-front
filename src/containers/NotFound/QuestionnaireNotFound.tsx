@@ -1,4 +1,4 @@
-import { Box, Button, Container, Group, Text, Title } from '@mantine/core';
+import { Box, Button, Container, Group, rem, Text, Title } from '@mantine/core';
 import { IconDeviceDesktopQuestion } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import classes from './NotFound.module.scss';
@@ -8,7 +8,7 @@ export default function QuestionnaireNotFound({ reason }: { reason: 'inactive' |
 		<Box bg="white">
 			<Container mih="100vh" className={classes.root}>
 				<div className={classes.label}>
-					<IconDeviceDesktopQuestion size={60} />
+					<IconDeviceDesktopQuestion size={rem(60)} />
 				</div>
 				<Title className={classes.title}>
 					{reason === 'inactive' ? 'The questionnaire is inactive' : 'Questionnaire not found'}

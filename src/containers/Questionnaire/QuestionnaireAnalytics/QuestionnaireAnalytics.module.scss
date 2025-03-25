@@ -32,15 +32,12 @@
 .markup {
 	border-radius: $radiusMd;
 	padding: rem(10px) rem(10px);
-	margin: 0;
-
 	background-color: $gray0;
 	font-weight: 500;
 	font-size: rem(14px);
 	overflow: hidden;
 	max-height: rem(300);
-
-	p {
+	* {
 		overflow: hidden;
 		color: $dark4;
 		text-overflow: ellipsis;

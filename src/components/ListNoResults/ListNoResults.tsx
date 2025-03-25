@@ -13,7 +13,14 @@ export default function ListNoResults({
 }) {
 	const theme = useMantineTheme();
 	return (
-		<Flex justify="center" align="center" h={200} bg="indigo.1" style={{ borderRadius: theme.radius.lg }}>
+		<Flex
+			justify="center"
+			align="center"
+			h={200}
+			bg="white"
+			style={{ borderRadius: theme.radius.lg }}
+			p="md"
+		>
 			<Box>
 				<Flex align="self-end">
 					<IconFileSearch
