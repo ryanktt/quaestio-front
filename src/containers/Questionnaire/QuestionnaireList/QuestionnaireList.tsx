@@ -1,119 +1,25 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import ListNoResults from '@components/ListNoResults/ListNoResults';
+import {
+	LIST_DEBOUNCE_DELAY,
+	ListColumn,
+	ListColumnItem,
+	ListHeader,
+	ListID,
+	ListText,
+	ListType,
+} from '@components/ListTable/ListTable';
+import styles from '@components/ListTable/ListTable.module.scss';
 import StatusBadge from '@components/StatusBadge/StatusBadge';
 import Search from '@components/Toolbar/Search';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import { QuestionnaireType, useFetchQuestionnairesSuspenseQuery } from '@gened/graphql';
-import {
-	Badge,
-	Box,
-	Button,
-	Flex,
-	Text as MantineText,
-	Pagination,
-	Title,
-	Tooltip,
-	UnstyledButton,
-	rem,
-	useMantineTheme,
-} from '@mantine/core';
+import { Box, Button, Flex, Pagination, rem } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
-import { IconClipboard, IconExternalLink, IconHome2, IconPlus } from '@tabler/icons-react';
-import { PropsWithChildren, useContext, useState } from 'react';
+import { IconPlus } from '@tabler/icons-react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './QuestionnaireList.module.scss';
-
-function Column({ children, className }: PropsWithChildren & { className?: string }) {
-	return <Box className={`${styles.column} ${className}`}>{children}</Box>;
-}
-
-function ColumnItem({ children }: PropsWithChildren) {
-	return (
-		<Box className={`${styles.columnItem}`}>
-			<div className={styles.columnItemWrapper}>{children}</div>
-		</Box>
-	);
-}
-
-function Header({ label, icon: Icon }: { label: string; icon?: typeof IconHome2 }) {
-	return (
-		<Box display="flex" style={{ alignItems: 'center' }}>
-			<Title size="sm">{label}</Title>
-			{Icon ? <Icon style={{ marginLeft: rem(8), width: rem(10), height: rem(10) }} /> : null}
-		</Box>
-	);
-}
-
-function Type({ type }: { type: QuestionnaireType }) {
-	const theme = useMantineTheme();
-	const getTextFromQuestionnaireType = (qType: QuestionnaireType) => {
-		if (qType === QuestionnaireType.QuestionnaireSurvey) return 'Survey';
-		if (qType === QuestionnaireType.QuestionnaireExam) return 'Exam';
-		if (qType === QuestionnaireType.QuestionnaireQuiz) return 'Quiz';
-		return '';
-	};
-	const txtType = getTextFromQuestionnaireType(type);
-	let badgeVariant = 'filled-pink';
-	if (txtType === 'Quiz') badgeVariant = 'filled-violet';
-	if (txtType === 'Exam') badgeVariant = 'filled-cyan';
-	return (
-		<Badge variant={badgeVariant} radius={theme.radius.sm}>
-			{getTextFromQuestionnaireType(type)}
-		</Badge>
-	);
-}
-
-function Text({ children }: PropsWithChildren) {
-	return (
-		<MantineText size="sm" m="xs">
-			{children}
-		</MantineText>
-	);
-}
-
-function Copy({ id }: { id: string }) {
-	const [copied, setCopied] = useState(false);
-	const copyIdToClipboard = () => {
-		if ('clipboard' in navigator) {
-			navigator.clipboard.writeText(id);
-		}
-		setCopied(true);
-	};
-	return (
-		<Tooltip label={!copied ? 'Copy ID to clipboard' : 'Copied'}>
-			<UnstyledButton
-				type="button"
-				mr={8}
-				pb={1}
-				className={styles.btn}
-				onMouseLeave={() => setCopied(false)}
-				onClick={copyIdToClipboard}
-			>
-				<IconClipboard style={{ width: rem(14), height: rem(14) }} stroke={1.6} />
-			</UnstyledButton>
-		</Tooltip>
-	);
-}
-
-function ID({ id }: { id: string }) {
-	const navigate = useNavigate();
-
-	return (
-		<Box display="flex" style={{ alignItems: 'center' }}>
-			<Copy id={id} />
-			<Tooltip label="Go to questionnaire">
-				<UnstyledButton
-					className={`${styles.btn} ${styles.id}`}
-					onClick={() => navigate(`/board/questionnaire/${id}`)}
-				>
-					<IconExternalLink style={{ width: rem(14), height: rem(14) }} stroke={1.6} />
-					<p>{id}</p>
-				</UnstyledButton>
-			</Tooltip>
-		</Box>
-	);
-}
 
 interface QuestionnaireListData {
 	sharedIds: string[];
@@ -123,12 +29,11 @@ interface QuestionnaireListData {
 	views: number[];
 	entries: number[];
 }
-export const DEBOUNCE_DELAY = 500;
 
 export default function QuestionnaireList() {
 	const { searchStr } = useContext(GlobalContext).state;
 	const navigate = useNavigate();
-	const [textFilter] = useDebouncedValue(searchStr, DEBOUNCE_DELAY);
+	const [textFilter] = useDebouncedValue(searchStr, LIST_DEBOUNCE_DELAY);
 	const [pagination, setPagination] = useState({ page: 1, limit: 10 });
 
 	const { data } = useFetchQuestionnairesSuspenseQuery({
@@ -189,56 +94,61 @@ export default function QuestionnaireList() {
 				<Search />
 			</Box>
 			<Box className={styles.list}>
-				<Column>
-					<ColumnItem>
-						<Header label="Type" />
-					</ColumnItem>
+				<ListColumn>
+					<ListColumnItem>
+						<ListHeader label="Type" />
+					</ListColumnItem>
 					{types.map((type, i) => (
-						<ColumnItem key={sharedIds[i]}>
-							<Type type={type} key={sharedIds[i]} />
-						</ColumnItem>
+						<ListColumnItem key={sharedIds[i]}>
+							<ListType type={type} key={sharedIds[i]} />
+						</ListColumnItem>
 					))}
-				</Column>
-				<Column>
-					<ColumnItem>
-						<Header label="Title" />
-					</ColumnItem>
+				</ListColumn>
+				<ListColumn>
+					<ListColumnItem>
+						<ListHeader label="Title" />
+					</ListColumnItem>
 					{titles.map((title, i) => (
-						<ColumnItem key={sharedIds[i]}>
-							<Text key={sharedIds[i]}>{title}</Text>
-						</ColumnItem>
+						<ListColumnItem key={sharedIds[i]}>
+							<ListText key={sharedIds[i]}>{title}</ListText>
+						</ListColumnItem>
 					))}
-				</Column>
-				<Column>
-					<ColumnItem>
-						<Header label="Status" />
-					</ColumnItem>
+				</ListColumn>
+				<ListColumn>
+					<ListColumnItem>
+						<ListHeader label="Status" />
+					</ListColumnItem>
 					{statuses.map((status, i) => (
-						<ColumnItem key={sharedIds[i]}>
+						<ListColumnItem key={sharedIds[i]}>
 							<StatusBadge key={sharedIds[i]} active={status} />
-						</ColumnItem>
+						</ListColumnItem>
 					))}
-				</Column>
-				<Column>
-					<ColumnItem>
-						<Header label="ID" />
-					</ColumnItem>
+				</ListColumn>
+				<ListColumn>
+					<ListColumnItem>
+						<ListHeader label="ID" />
+					</ListColumnItem>
 					{sharedIds.map((id) => (
-						<ColumnItem key={id}>
-							<ID key={id} id={id} />
-						</ColumnItem>
+						<ListColumnItem key={id}>
+							<ListID
+								tooltipLabel="Go to questionnaire"
+								redirectPath={`/board/questionnaire/${id}`}
+								key={id}
+								id={id}
+							/>
+						</ListColumnItem>
 					))}
-				</Column>
-				<Column>
-					<ColumnItem>
-						<Header label="Entries" />
-					</ColumnItem>
+				</ListColumn>
+				<ListColumn>
+					<ListColumnItem>
+						<ListHeader label="Entries" />
+					</ListColumnItem>
 					{entries.map((eCount, i) => (
-						<ColumnItem key={sharedIds[i]}>
-							<Text key={sharedIds[i]}>{eCount}</Text>
-						</ColumnItem>
+						<ListColumnItem key={sharedIds[i]}>
+							<ListText key={sharedIds[i]}>{eCount}</ListText>
+						</ListColumnItem>
 					))}
-				</Column>
+				</ListColumn>
 			</Box>
 			{totalPageCount > 1 ? (
 				<Flex mt={10} justify="flex-end" pr={20}>

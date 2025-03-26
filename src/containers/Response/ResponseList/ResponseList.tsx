@@ -2,126 +2,23 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import ListNoResults from '@components/ListNoResults/ListNoResults';
+import {
+	LIST_DEBOUNCE_DELAY,
+	ListColumn,
+	ListColumnItem,
+	ListDate,
+	ListHeader,
+	ListID,
+	ListText,
+	ListType,
+} from '@components/ListTable/ListTable';
+import styles from '@components/ListTable/ListTable.module.scss';
 import Search from '@components/Toolbar/Search';
 import { GlobalContext } from '@contexts/Global/Global.context';
 import { QuestionnaireType, useFetchResponsesSuspenseQuery } from '@gened/graphql';
-import {
-	Badge,
-	Box,
-	Flex,
-	Text as MantineText,
-	Pagination,
-	Title,
-	Tooltip,
-	UnstyledButton,
-	rem,
-	useMantineTheme,
-} from '@mantine/core';
+import { Box, Flex, Pagination } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
-import { IconClipboard, IconExternalLink, IconHome2 } from '@tabler/icons-react';
-import moment from 'moment';
-import { PropsWithChildren, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from './ResponseList.module.scss';
-
-function Column({ children, className }: PropsWithChildren & { className?: string }) {
-	return <Box className={`${styles.column} ${className}`}>{children}</Box>;
-}
-
-function ColumnItem({ children }: PropsWithChildren) {
-	return (
-		<Box className={`${styles.columnItem}`}>
-			<div className={styles.columnItemWrapper}>{children}</div>
-		</Box>
-	);
-}
-
-function Header({ label, icon: Icon }: { label: string; icon?: typeof IconHome2 }) {
-	return (
-		<Box display="flex" style={{ alignItems: 'center' }}>
-			<Title size="sm">{label}</Title>
-			{Icon ? <Icon style={{ marginLeft: rem(8), width: rem(10), height: rem(10) }} /> : null}
-		</Box>
-	);
-}
-
-function Type({ type }: { type: QuestionnaireType }) {
-	const theme = useMantineTheme();
-	const getTextFromQuestionnaireType = (qType: QuestionnaireType) => {
-		if (qType === QuestionnaireType.QuestionnaireSurvey) return 'Survey';
-		if (qType === QuestionnaireType.QuestionnaireExam) return 'Exam';
-		if (qType === QuestionnaireType.QuestionnaireQuiz) return 'Quiz';
-		return '';
-	};
-	const txtType = getTextFromQuestionnaireType(type);
-	let badgeVariant = 'filled-pink';
-	if (txtType === 'Quiz') badgeVariant = 'filled-violet';
-	if (txtType === 'Exam') badgeVariant = 'filled-cyan';
-	return (
-		<Badge variant={badgeVariant} radius={theme.radius.sm}>
-			{getTextFromQuestionnaireType(type)}
-		</Badge>
-	);
-}
-
-function Text({ children }: PropsWithChildren) {
-	return (
-		<MantineText size="sm" m="xs">
-			{children}
-		</MantineText>
-	);
-}
-
-function Date({ date }: { date?: Date }) {
-	return (
-		<MantineText size="sm" m="xs">
-			{date ? moment(date).format('MM/DD/YYYY - HH:MM') : '-'}
-		</MantineText>
-	);
-}
-
-function Copy({ id }: { id: string }) {
-	const [copied, setCopied] = useState(false);
-	const copyIdToClipboard = () => {
-		if ('clipboard' in navigator) {
-			navigator.clipboard.writeText(id);
-		}
-		setCopied(true);
-	};
-	return (
-		<Tooltip label={!copied ? 'Copy ID to clipboard' : 'Copied'}>
-			<UnstyledButton
-				type="button"
-				mr={8}
-				pb={1}
-				className={styles.btn}
-				onMouseLeave={() => setCopied(false)}
-				onClick={copyIdToClipboard}
-			>
-				<IconClipboard style={{ width: rem(14), height: rem(14) }} stroke={1.6} />
-			</UnstyledButton>
-		</Tooltip>
-	);
-}
-
-function ID({ id }: { id: string }) {
-	const navigate = useNavigate();
-
-	return (
-		<Box display="flex" style={{ alignItems: 'center' }}>
-			<Copy id={id} />
-			<Tooltip label="Go to response">
-				<UnstyledButton
-					className={`${styles.btn} ${styles.id}`}
-					onClick={() => navigate(`/board/response/${id}`)}
-				>
-					<IconExternalLink style={{ width: rem(14), height: rem(14) }} stroke={1.6} />
-					<p>{id}</p>
-				</UnstyledButton>
-			</Tooltip>
-		</Box>
-	);
-}
+import { useContext, useState } from 'react';
 
 interface ResponseListData {
 	ids: string[];
@@ -130,11 +27,10 @@ interface ResponseListData {
 	emails: (string | undefined)[];
 	answeredAts: (Date | undefined)[];
 }
-export const DEBOUNCE_DELAY = 500;
 
 export default function ResponseList({ questionnaireId }: { questionnaireId?: string }) {
 	const { searchStr } = useContext(GlobalContext).state;
-	const [textFilter] = useDebouncedValue(searchStr, DEBOUNCE_DELAY);
+	const [textFilter] = useDebouncedValue(searchStr, LIST_DEBOUNCE_DELAY);
 	const [pagination, setPagination] = useState({ page: 1, limit: 10 });
 	const { data } = useFetchResponsesSuspenseQuery({
 		variables: {
@@ -187,57 +83,62 @@ export default function ResponseList({ questionnaireId }: { questionnaireId?: st
 			<Box mb="md">
 				<Search />
 			</Box>
-			<Box className={styles.list}>
-				<Column>
-					<ColumnItem>
-						<Header label="Questionnaire Type" />
-					</ColumnItem>
+			<Box className={`${styles.list} ${styles.responses}`}>
+				<ListColumn>
+					<ListColumnItem>
+						<ListHeader label="Quest Type" />
+					</ListColumnItem>
 					{types.map((type, i) => (
-						<ColumnItem key={ids[i]}>
-							<Type type={type} />
-						</ColumnItem>
+						<ListColumnItem key={ids[i]}>
+							<ListType type={type} />
+						</ListColumnItem>
 					))}
-				</Column>
-				<Column>
-					<ColumnItem>
-						<Header label="Questionnaire Title" />
-					</ColumnItem>
+				</ListColumn>
+				<ListColumn>
+					<ListColumnItem>
+						<ListHeader label="Quest Title" />
+					</ListColumnItem>
 					{titles.map((title, i) => (
-						<ColumnItem key={ids[i]}>
-							<Text key={ids[i]}>{title}</Text>
-						</ColumnItem>
+						<ListColumnItem key={ids[i]}>
+							<ListText key={ids[i]}>{title}</ListText>
+						</ListColumnItem>
 					))}
-				</Column>
-				<Column>
-					<ColumnItem>
-						<Header label="Email" />
-					</ColumnItem>
+				</ListColumn>
+				<ListColumn>
+					<ListColumnItem>
+						<ListHeader label="Email" />
+					</ListColumnItem>
 					{emails.map((email, i) => (
-						<ColumnItem key={ids[i]}>
-							<Text>{email || '-'}</Text>
-						</ColumnItem>
+						<ListColumnItem key={ids[i]}>
+							<ListText>{email || '-'}</ListText>
+						</ListColumnItem>
 					))}
-				</Column>
-				<Column>
-					<ColumnItem>
-						<Header label="ID" />
-					</ColumnItem>
+				</ListColumn>
+				<ListColumn>
+					<ListColumnItem>
+						<ListHeader label="ID" />
+					</ListColumnItem>
 					{ids.map((id) => (
-						<ColumnItem key={id}>
-							<ID key={id} id={id} />
-						</ColumnItem>
+						<ListColumnItem key={id}>
+							<ListID
+								tooltipLabel="Go to response"
+								redirectPath={`/board/response/${id}`}
+								key={id}
+								id={id}
+							/>
+						</ListColumnItem>
 					))}
-				</Column>
-				<Column>
-					<ColumnItem>
-						<Header label="Answered At" />
-					</ColumnItem>
+				</ListColumn>
+				<ListColumn>
+					<ListColumnItem>
+						<ListHeader label="Answered At" />
+					</ListColumnItem>
 					{answeredAts.map((answeredAt, i) => (
-						<ColumnItem key={ids[i]}>
-							<Date key={ids[i]} date={answeredAt} />
-						</ColumnItem>
+						<ListColumnItem key={ids[i]}>
+							<ListDate key={ids[i]} date={answeredAt} />
+						</ListColumnItem>
 					))}
-				</Column>
+				</ListColumn>
 			</Box>
 			{totalPageCount > 1 ? (
 				<Flex mt={10} justify="flex-end" pr={20}>
