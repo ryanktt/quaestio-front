@@ -250,7 +250,7 @@ export default function QuestionnaireForm({
 	return (
 		<div
 			style={{
-				padding: theme.spacing.lg,
+				padding: theme.spacing.md,
 				boxShadow: theme.shadows.md,
 				width: '100%',
 				backgroundColor: theme.white,
