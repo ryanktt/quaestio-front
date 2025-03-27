@@ -8,7 +8,7 @@ export default function QuestionnaireNotFound({ reason }: { reason: 'inactive' |
 		<Box bg="white">
 			<Container mih="100vh" className={classes.root}>
 				<div className={classes.label}>
-					<IconDeviceDesktopQuestion size={rem(60)} />
+					<IconDeviceDesktopQuestion style={{ height: rem(60), width: rem(60) }} />
 				</div>
 				<Title className={classes.title}>
 					{reason === 'inactive' ? 'The questionnaire is inactive' : 'Questionnaire not found'}

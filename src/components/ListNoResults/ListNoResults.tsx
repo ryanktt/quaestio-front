@@ -25,9 +25,8 @@ export default function ListNoResults({
 				<Flex align="self-end">
 					<IconFileSearch
 						color={theme.colors.dark[7]}
-						size={rem(38)}
 						stroke={1.8}
-						style={{ marginRight: rem(5) }}
+						style={{ marginRight: rem(5), height: rem(38), width: rem(38) }}
 					/>
 					<Title c="dark.7" size={25} fw={500}>
 						{title}

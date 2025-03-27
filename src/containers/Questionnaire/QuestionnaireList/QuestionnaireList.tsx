@@ -80,7 +80,8 @@ export default function QuestionnaireList() {
 							size="md"
 							onClick={() => navigate('/board/questionnaire/create')}
 						>
-							<IconPlus size={rem(18)} style={{ marginRight: rem(5) }} /> Create Questionnaire
+							<IconPlus style={{ marginRight: rem(5), height: rem(18), width: rem(18) }} />{' '}
+							Create Questionnaire
 						</Button>
 					}
 				/>
