@@ -1,16 +1,16 @@
-import { Plugin, defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react-swc';
+import chalk from 'chalk';
 import { exec } from 'child_process';
 import Joi from 'joi';
-import chalk from 'chalk';
 import path from 'path';
+import { Plugin, defineConfig, loadEnv } from 'vite';
 
 Joi.attempt(
 	loadEnv('all', process.cwd()),
 	Joi.object()
 		.keys({
 			VITE_GRAPHQL_ENDPOINT: Joi.string().required(),
-			VITE_HOST: Joi.string().required(),
+			VITE_HOST: Joi.string(),
 			VITE_MODE: Joi.string().valid('development', 'production'),
 			VITE_PORT: Joi.number(),
 		})
