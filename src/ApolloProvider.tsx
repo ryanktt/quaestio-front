@@ -25,8 +25,10 @@ interface RequestContext {
 const apolloRequestCtxState = createState<RequestContext | null>(null);
 
 const middleware = new ApolloLink((operation, forward) => {
-	const operationType = operation.query.definitions.find(
-		(definition) => definition.kind === 'OperationDefinition',
+	const operationType = (
+		operation.query.definitions.find((definition) => definition.kind === 'OperationDefinition') as {
+			operation?: string;
+		}
 	)?.operation;
 	if (operationType !== 'mutation') return forward(operation);
 
