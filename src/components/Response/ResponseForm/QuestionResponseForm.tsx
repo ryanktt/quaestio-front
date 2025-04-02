@@ -217,9 +217,12 @@ export default function QuestionResponseForm({
 	let missingCompletion = false;
 	if (question.type === QuestionType.Text) {
 		missingCompletion = question.required && !state.text.length;
+	} else if (question.type === QuestionType.Rating) {
+		missingCompletion = question.required && !state.rating;
 	} else {
 		missingCompletion = question.required && !state.selectedOptionIds.length;
 	}
+
 	const showError = missingCompletion && showErrorsProp;
 
 	onError(elementId, missingCompletion);

@@ -150,6 +150,7 @@ export default function ResponseForm({
 				.getElementById(questionWErrorElId || '')
 				?.scrollIntoView({ behavior: 'instant', block: 'center' });
 		}
+		setSubmitEnabled(true);
 	};
 
 	return (
