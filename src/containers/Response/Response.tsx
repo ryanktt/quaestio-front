@@ -54,7 +54,7 @@ export default function Response() {
 			rightAnswerCount,
 			wrongAnswerCount,
 			weightedQuestionCount,
-			unasweredCount: questionCount - (rightAnswerCount + wrongAnswerCount),
+			unasweredCount: weightedQuestionCount - (rightAnswerCount + wrongAnswerCount),
 		});
 	}, []);
 

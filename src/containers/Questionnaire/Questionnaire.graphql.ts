@@ -13,6 +13,7 @@ export const QUESTIONNAIRE_METRICS = gql(`
       questionMetrics {
         ... on QuestionSingleChoiceMetrics {
             _id
+            type
             answerCount
             unansweredCount
             rightAnswerCount
@@ -24,6 +25,7 @@ export const QUESTIONNAIRE_METRICS = gql(`
         }
         ... on QuestionMultipleChoiceMetrics {
             _id
+            type
             answerCount
             unansweredCount
             rightAnswerCount
@@ -35,6 +37,7 @@ export const QUESTIONNAIRE_METRICS = gql(`
         }
         ... on QuestionTrueOrFalseMetrics {
             _id
+            type
             answerCount
             unansweredCount
             rightAnswerCount
@@ -46,11 +49,13 @@ export const QUESTIONNAIRE_METRICS = gql(`
         }
         ... on QuestionTextMetrics {
             _id
+            type
             answerCount
             unansweredCount
         }
         ... on QuestionRatingMetrics {
             _id
+            type
             answerCount
             unansweredCount
             avgRating
