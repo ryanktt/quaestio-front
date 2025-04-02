@@ -4,6 +4,7 @@ import { exec } from 'child_process';
 import Joi from 'joi';
 import path from 'path';
 import { Plugin, defineConfig, loadEnv } from 'vite';
+import vercel from 'vite-plugin-vercel';
 
 Joi.attempt(
 	loadEnv('all', process.cwd()),
@@ -14,6 +15,7 @@ Joi.attempt(
 			VITE_MODE: Joi.string().valid('development', 'production'),
 			VITE_PORT: Joi.number(),
 		})
+		.unknown()
 		.required(),
 );
 
@@ -36,7 +38,7 @@ export default defineConfig({
 		port: Number(env.VITE_PORT),
 		host: env.VITE_HOST,
 	},
-	plugins: [react(), MadgeLogger()],
+	plugins: [react(), MadgeLogger(), vercel()],
 	resolve: {
 		alias: {
 			'@components': path.resolve(__dirname, './src/components/'),
