@@ -73,6 +73,7 @@
 		border-radius: 200px;
 	}
 	input:checked {
+		border-color: $gray4;
 		background-color: $white;
 	}
 	input:checked + svg {
